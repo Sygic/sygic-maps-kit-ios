@@ -1,0 +1,14 @@
+Example/Pods
+Example/Podfile.lock
+Example/SygicMapsKit.xcworkspace
+Example/SygicMapsKit.xcodeproj/xcuserdata
+Example/SygicMapsKit.xcodeproj/project.xcworkspace/xcuserdata
+Example/Build/test-reports/unit/cobertura.xml
+Example/Build/test-reports/unit/report.html
+Example/Build/test-reports/unit/report.junit
+Example/.scannerwork
+fastlane/README.md
+fastlane/report.xml
+.scannerwork/
+sonar-reports/
+*.bak
