@@ -1,0 +1,1 @@
+# sygic-maps-kit-ios
