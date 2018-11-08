@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D47E4D6E2B27D32DAACA5E7 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B6290BD746390A78F7254E6 /* Pods_SygicMapsKit_Tests.framework */; };
+		5CB22CC42194F916009B5E48 /* SygicMapsAPIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB22CC32194F916009B5E48 /* SygicMapsAPIConfig.swift */; };
 		5FAC00A459225A83DFA07DDC /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA883A2C80FE26766E9651B /* Pods_SygicMapsKit_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		020FF17A00A285E3FD548659 /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		5CB22CC32194F916009B5E48 /* SygicMapsAPIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SygicMapsAPIConfig.swift; sourceTree = "<group>"; };
 		5DA883A2C80FE26766E9651B /* Pods_SygicMapsKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				5CB22CC32194F916009B5E48 /* SygicMapsAPIConfig.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -365,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CB22CC42194F916009B5E48 /* SygicMapsAPIConfig.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);

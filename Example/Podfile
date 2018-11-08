@@ -6,16 +6,18 @@ use_frameworks!
 
 target 'SygicMapsKit_Example' do
     
-  pod 'SygicMaps', '3.2.2', :inhibit_warnings => false
+  pod 'SygicMaps', '3.2.2'
   pod 'SygicUIKit', :git => 'https://github.com/Sygic/sygic-ui-kit-ios.git', :branch => 'develop', :commit => 'HEAD'
   pod 'SygicMapsKit', :path => '../'
 
   target 'SygicMapsKit_Tests' do
     inherit! :search_paths
 
-    pod 'Quick', '~> 1.2.0'
-    pod 'Nimble', '~> 7.0.2'
+    pod 'Quick', '~> 1.2.0', :inhibit_warnings => true
+    pod 'Nimble', '~> 7.0.2', :inhibit_warnings => true
+    
   end
+  
 end
 
 post_install do |installer|
