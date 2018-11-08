@@ -1,6 +1,8 @@
+platform :ios, '10.0'
 use_frameworks!
 
 target 'SygicMapsKit_Example' do
+  pod 'SygicUIKit', :git => 'https://github.com/Sygic/sygic-ui-kit-ios.git', :branch => 'develop', :commit => 'HEAD'
   pod 'SygicMapsKit', :path => '../'
 
   target 'SygicMapsKit_Tests' do

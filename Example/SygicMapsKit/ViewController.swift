@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  SygicMapsKit
-//
-//  Created by Jakub Cali­k on 11/07/2018.
-//  Copyright (c) 2018 Jakub Cali­k. All rights reserved.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
