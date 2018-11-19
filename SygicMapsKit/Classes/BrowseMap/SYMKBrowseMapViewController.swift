@@ -55,9 +55,9 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
     }
     
     public func mapView(_ mapView: SYMapView, didSelect objects: [SYViewObject]) {
+        let hadPin = !pinManager.markers.isEmpty
         if !pinManager.markers.isEmpty {
             self.pinManager.removeAllMarkers()
-            return
         }
         
         var viewObj: SYViewObject?
@@ -65,13 +65,18 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         for obj in objects {
             if let poi = obj as? SYPoiObject, poi.type == .poi {
                 SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
-                    let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: SygicIcon.stationPetrol, color: .darkGray, selected: true, animated: false))
+                    let category = SYMKPoiCategory.with(syPoiCategory: place.category)
+                    let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false))
                     self.pinManager.addMapMarker(pin)
                 }
                 return
             } else {
                 viewObj = obj
             }
+        }
+        
+        if hadPin {
+            return
         }
         
         if let coord = viewObj?.coordinate {
