@@ -15,7 +15,7 @@ public protocol SYMKMapObjectsManager: class {
  */
 public protocol SYMKMapMarker: Equatable{
     var mapMarker: SYMapMarker { get }
-    func highlight(_ highlight: Bool)
+    var highlighted: Bool {get set }
 }
 
 /*
@@ -43,12 +43,8 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
         }
     }
         
-    private weak var mapObjectsManager: SYMKMapObjectsManager!
+    public weak var mapObjectsManager: SYMKMapObjectsManager!
     private var highlighted: T?
-    
-    public init(with mapObjectsManager: SYMKMapObjectsManager) {
-        self.mapObjectsManager = mapObjectsManager
-    }
     
     public func addMapMarker(_ marker: T, at index: Int? = nil) {
         if markers.contains(marker) {
@@ -65,6 +61,10 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
         
         if let cluster = clusterLayer {
             cluster.addMapMarker(marker.mapMarker)
+        }
+        
+        if marker.highlighted {
+            highlightMarker(marker)
         }
     }
 
@@ -96,12 +96,12 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
             return
         }
         
-        if let old = highlighted {
-            old.highlight(false)
+        if var old = highlighted {
+            old.highlighted = false
         }
         
-        if let new = marker {
-            new.highlight(true)
+        if var new = marker {
+            new.highlighted = true
         }
         
         highlighted = marker
