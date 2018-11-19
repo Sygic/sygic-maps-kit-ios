@@ -6,25 +6,18 @@ public class SYMKMapPin: SYMKMapMarker {
     public var pinProperties: SYUIPinViewProperties!
     public private(set) var mapMarker: SYMapMarker
     
-    public init?(coordinate: SYGeoCoordinate, properties: SYUIPinViewProperties) {
-        let view = SYUIPinView()
-        view.viewModel = properties
-        
-        if let image = view.imageFromView() {
-            mapMarker = SYMapMarker(coordinate: coordinate, image: image)
-            pinProperties = properties
-            //            if pinViewModel.isSelected {
-            //                pinView.anchorPosition = CGPoint(x: 0.5, y: 0.9)
-            //            }
-        } else {
-            return nil
-        }
+    public init(coordinate: SYGeoCoordinate, properties: SYUIPinViewProperties) {
+        mapMarker = SYMapMarker(coordinate: coordinate, image: UIImage())
+        updateProperties(properties)
     }
     
-    public func updateProperties(_ properties: SYUIPinViewProperties){
-        let view = SYUIPinView()
-        view.viewModel = properties
+    public func updateProperties(_ properties: SYUIPinViewProperties) {
         pinProperties = properties
+        let view = SYUIPinView()
+        view.viewModel = pinProperties
+        
+        mapMarker.anchorPosition = pinProperties.isSelected ? CGPoint(x: 0.5, y: 0.9) : CGPoint(x: 0.5, y: 0.5)
+        mapMarker.zIndex = pinProperties.isSelected ? 1 : 0
         
         if let image = view.imageFromView() {
             mapMarker.image = image

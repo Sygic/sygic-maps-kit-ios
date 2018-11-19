@@ -45,9 +45,8 @@ class ViewController: UIViewController {
             
             for lat in 1...10 {
                 for lon in 1...10 {
-                    if let pin = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: symapView.geoCenter.latitude + Double(lat)*0.003, longitude:symapView.geoCenter.longitude + Double(lon)*0.003)!, properties: SYUIPinViewViewModel(icon: SygicIcon.stationPetrol, color: .darkGray, selected: false, animated: false)) {
-                        self.favoritePinManager.addMapMarker(pin)
-                    }
+                    let pin = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: symapView.geoCenter.latitude + Double(lat)*0.003, longitude:symapView.geoCenter.longitude + Double(lon)*0.003)!, properties: SYUIPinViewViewModel(icon: SygicIcon.stationPetrol, color: .darkGray, selected: false, animated: false))
+                    self.favoritePinManager.addMapMarker(pin)
                 }
             }
         }
@@ -69,8 +68,11 @@ extension ViewController: SYMapViewDelegate {
         for obj in objects {
             if let mapMarker = obj as? SYMapMarker, let pin = favoritePinManager.findMarker(for: mapMarker) {
                 favoritePinManager.highlightMarker(pin)
+                return
             }
         }
+        
+        favoritePinManager.highlightMarker(nil)
     }
 }
 

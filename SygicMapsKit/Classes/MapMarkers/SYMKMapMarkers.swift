@@ -92,14 +92,19 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
     }
 
     public func highlightMarker(_ marker: T?) {
+        if highlighted == marker {
+            return
+        }
+        
         if let old = highlighted {
             old.highlight(false)
         }
         
         if let new = marker {
             new.highlight(true)
-            highlighted = new
         }
+        
+        highlighted = marker
     }
     
 // MARK: - MarkersVisibilityManager
