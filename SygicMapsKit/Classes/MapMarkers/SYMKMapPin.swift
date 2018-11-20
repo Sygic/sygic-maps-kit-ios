@@ -2,6 +2,9 @@ import Foundation
 import SygicMaps
 import SygicUIKit
 
+/*
+ Implementation of SYMKMapMarker protocol, to display SYUIPinView as markers on map.
+ */
 public class SYMKMapPin: SYMKMapMarker {
     public var pinProperties: SYUIPinViewProperties!
     public private(set) var mapMarker: SYMapMarker
@@ -19,23 +22,29 @@ public class SYMKMapPin: SYMKMapMarker {
         }
     }
     
-    public init(coordinate: SYGeoCoordinate, properties: SYUIPinViewProperties) {
-        mapMarker = SYMapMarker(coordinate: coordinate, image: UIImage())
+    public init?(coordinate: SYGeoCoordinate, properties: SYUIPinViewProperties) {
+        guard let image = SYMKMapPin.generateImage(properties) else {
+            return nil
+        }
+        
+        mapMarker = SYMapMarker(coordinate: coordinate, image: image)
         highlighted = properties.isSelected
         updateProperties(properties)
     }
     
     public func updateProperties(_ properties: SYUIPinViewProperties) {
         pinProperties = properties
-        let view = SYUIPinView()
-        view.viewModel = pinProperties
-        
         mapMarker.anchorPosition = pinProperties.isSelected ? CGPoint(x: 0.5, y: 0.9) : CGPoint(x: 0.5, y: 0.5)
-        mapMarker.zIndex = pinProperties.isSelected ? 1 : 0
         
-        if let image = view.imageFromView() {
+        if let image = SYMKMapPin.generateImage(properties) {
             mapMarker.image = image
         }
+    }
+    
+    private class func generateImage(_ properties: SYUIPinViewProperties) -> UIImage? {
+        let view = SYUIPinView()
+        view.viewModel = properties
+        return view.imageFromView()
     }
     
     public static func ==(lhs: SYMKMapPin, rhs: SYMKMapPin) -> Bool {

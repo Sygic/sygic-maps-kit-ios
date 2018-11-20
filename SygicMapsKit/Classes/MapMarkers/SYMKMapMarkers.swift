@@ -3,7 +3,8 @@ import SygicMaps
 import SygicUIKit
 
 /*
- SYMKMapObjectsManager is a protocol used by SYMKMapMarkersManager to add/remove SYMapObject to/from SYMapView.
+ SYMKMapObjectsManager is a protocol used by SYMKMapMarkersManager to display SYMapObject in SYMapView.
+ Implementing class is responsible for adding and removing SYMapObject to/from SYMapView.
  */
 public protocol SYMKMapObjectsManager: class {
     func addMapObject(_ mapObject: SYMapObject)
@@ -11,40 +12,53 @@ public protocol SYMKMapObjectsManager: class {
 }
 
 /*
- Protocol for map markers classes
+ Protocol for map marker class, which is used to define look of SYMapMarker displayed on map
  */
-public protocol SYMKMapMarker: Equatable{
+public protocol SYMKMapMarker: Equatable {
     var mapMarker: SYMapMarker { get }
     var highlighted: Bool {get set }
 }
 
 /*
- 
+ Class responsible for managment of displayed SYMKMapMarker instances. It includes adding, removing,
+ hiding, clustering and highlighting SYMKMapMarkers.
  */
 public class SYMKMapMarkersManager<T: SYMKMapMarker> {
     public private(set) var markers = [T]()
+    public weak var mapObjectsManager: SYMKMapObjectsManager!
     public var clusterLayer: SYMapMarkersCluster? {
         willSet {
-            guard let old = clusterLayer else {
+            guard let currentCluster = clusterLayer else {
                 return
             }
             
             for marker in markers {
-                old.removeMapMarker(marker.mapMarker)
+                currentCluster.removeMapMarker(marker.mapMarker)
             }
         }
         
         didSet {
-            if let new = clusterLayer {
+            if let newCluster = clusterLayer {
                 for marker in markers {
-                    new.addMapMarker(marker.mapMarker)
+                    newCluster.addMapMarker(marker.mapMarker)
                 }
             }
         }
     }
+    
+    public var highlightedMarker: T? {
+        willSet {
+            if var currentHighlighted = highlightedMarker, highlightedMarker != newValue {
+                currentHighlighted.highlighted = false
+            }
+        }
         
-    public weak var mapObjectsManager: SYMKMapObjectsManager!
-    private var highlighted: T?
+        didSet {
+            if var newHighlighted = highlightedMarker, newHighlighted != oldValue {
+                newHighlighted.highlighted = true
+            }
+        }
+    }
     
     public func addMapMarker(_ marker: T, at index: Int? = nil) {
         if markers.contains(marker) {
@@ -80,31 +94,21 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
     public func removeAllMarkers() {
         markers.forEach { removeMapMarker($0) }
     }
-    
-    public func findMarker(for mapMarker: SYMapMarker) -> T? {
-        for marker in markers {
-            if marker.mapMarker === mapMarker {
-                return marker
-            }
-        }
-        
-        return nil
-    }
 
     public func highlightMarker(_ marker: T?) {
-        if highlighted == marker {
+        if highlightedMarker == marker {
             return
         }
         
-        if var old = highlighted {
-            old.highlighted = false
+        if var currentHighlighted = highlightedMarker {
+            currentHighlighted.highlighted = false
         }
         
-        if var new = marker {
-            new.highlighted = true
+        if var newHighlighted = marker {
+            newHighlighted.highlighted = true
         }
         
-        highlighted = marker
+        highlightedMarker = marker
     }
     
 // MARK: - MarkersVisibilityManager

@@ -66,11 +66,12 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
             if let poi = obj as? SYPoiObject, poi.type == .poi {
                 SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
-                    let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false))
-                    self.pinManager.addMapMarker(pin)
+                    if let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false)) {
+                        self.pinManager.addMapMarker(pin)
+                    }
                 }
                 return
-            } else {
+            } else if viewObj == nil {
                 viewObj = obj
             }
         }
@@ -80,8 +81,9 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         }
         
         if let coord = viewObj?.coordinate {
-            let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false))
-            self.pinManager.addMapMarker(pin)
+            if let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false)) {
+                self.pinManager.addMapMarker(pin)
+            }
         }
     }
 

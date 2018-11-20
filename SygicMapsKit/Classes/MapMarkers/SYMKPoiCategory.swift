@@ -2,6 +2,9 @@ import Foundation
 import SygicUIKit
 import SygicMaps
 
+/*
+ Helper class responsible for mapping SYPoiCategory to icon and color identical to icons and colors used in SYMapView engine.
+ */
 public class SYMKPoiCategory: NSObject, NSCoding {
 
     public let icon: String
