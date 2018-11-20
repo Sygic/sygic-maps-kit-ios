@@ -2,11 +2,11 @@ import UIKit
 import SygicMaps
 import SygicUIKit
 
-
 class SYMKBrowserMapView: UIView {
     
     var mapView: SYMapView?
     let compass = SYUICompass()
+    let recenter = SYUIActionButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +41,7 @@ class SYMKBrowserMapView: UIView {
     
     private func setupMapControls() {
         setupCompass()
+        setupRecenter()
     }
     
     private func setupCompass() {
@@ -50,4 +51,11 @@ class SYMKBrowserMapView: UIView {
         compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: 16).isActive = true
     }
     
+    private func setupRecenter() {
+        addSubview(recenter)
+        bringSubview(toFront: recenter)
+        recenter.translatesAutoresizingMaskIntoConstraints = false
+        recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: 32).isActive = true
+        recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -16).isActive = true
+    }
 }

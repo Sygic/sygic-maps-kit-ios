@@ -17,6 +17,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         
         if let view = (view as? SYMKBrowserMapView) {
             view.compass.isHidden = !useCompass
+            view.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
         }
     }
     
@@ -24,6 +25,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     private func sygicSDKInitialized() {
         SYOnlineSession.shared().onlineMapsEnabled = true
+        SYPositioning.shared().startUpdatingPosition()
         (view as! SYMKBrowserMapView).setupMapView()
         setupDelegates()
         setupPinManager()
@@ -33,6 +35,8 @@ public class SYMKBrowseMapViewController: UIViewController {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
         view.compass.delegate = self
         mapView.delegate = self
+        
+        view.recenter.addTarget(self, action: #selector(SYMKBrowseMapViewController.didTapRecenterButton), for: .touchUpInside)
     }
     
     private func setupPinManager() {
@@ -52,6 +56,11 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
             view.compass.isHidden = (rotation == 0)
             view.compass.viewModel = SYUICompassViewModel(course: Double(rotation), autoHide: false)
         }
+    }
+    
+    public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
+        guard let view = view as? SYMKBrowserMapView else { return }
+        view.recenter.isHidden = (mode != SYCameraMovement.free)
     }
     
     public func mapView(_ mapView: SYMapView, didSelect objects: [SYViewObject]) {
@@ -90,7 +99,6 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
 }
 
 extension SYMKBrowseMapViewController: SYUICompassDelegate {
-    
     public func compassDidTap(_ compass: SYUICompass) {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
         
@@ -98,11 +106,9 @@ extension SYMKBrowseMapViewController: SYUICompassDelegate {
         mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
         compass.isHidden = true
     }
-    
 }
 
 extension SYMKBrowseMapViewController {
-    
     private func initSygicMapsSDK() {
         SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret) { initResult in
             if initResult == .success {
@@ -111,6 +117,10 @@ extension SYMKBrowseMapViewController {
         }
     }
     
+    @objc func didTapRecenterButton() {
+        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        mapView.cameraMovementMode = .followGpsPositionWithAutozoom
+    }
 }
 
 extension SYMKBrowseMapViewController : SYMKMapObjectsManager {
