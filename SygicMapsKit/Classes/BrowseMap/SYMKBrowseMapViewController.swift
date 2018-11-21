@@ -15,6 +15,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         initSygicMapsSDK()
         
         if let view = (view as? SYMKBrowserMapView) {
+            view.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
             view.compass.isHidden = !useCompass
         }
     }
@@ -27,26 +28,37 @@ public class SYMKBrowseMapViewController: UIViewController {
         setupViewDelegates()
     }
     
+    private func sygicSDKFailure() {
+        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
+    }
+    
     private func setupViewDelegates() {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
-        view.compass.delegate = self
         mapView.delegate = self
+        view.compass.delegate = self
     }
     
 }
+
+// MARK: - Map delegate
 
 extension SYMKBrowseMapViewController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraPosition geoCenter: SYGeoCoordinate, zoom: CGFloat, rotation: CGFloat, tilt: CGFloat) {
         guard let view = view as? SYMKBrowserMapView else { return }
         
-        if useCompass {
-            view.compass.isHidden = (rotation == 0)
-            view.compass.viewModel = SYUICompassViewModel(course: Double(rotation), autoHide: false)
+        if useCompass, let compassViewModel = view.compass.viewModel {
+            var newViewModel = SYUICompassViewModel(with: compassViewModel)
+            newViewModel.compassCourse = Double(rotation)
+            view.compass.viewModel = newViewModel
         }
     }
     
 }
+
+// MARK: - Compass Delegate
 
 extension SYMKBrowseMapViewController: SYUICompassDelegate {
     
@@ -55,10 +67,11 @@ extension SYMKBrowseMapViewController: SYUICompassDelegate {
         
         let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
         mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
-        compass.isHidden = true
     }
     
 }
+
+// MARK: - SDK handling
 
 extension SYMKBrowseMapViewController {
     
@@ -66,6 +79,8 @@ extension SYMKBrowseMapViewController {
         SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret) { initResult in
             if initResult == .success {
                 self.sygicSDKInitialized()
+            } else {
+                self.sygicSDKFailure()
             }
         }
     }

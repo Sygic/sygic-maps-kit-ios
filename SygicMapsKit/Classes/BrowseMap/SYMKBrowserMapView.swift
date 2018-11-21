@@ -5,8 +5,10 @@ import SygicUIKit
 
 class SYMKBrowserMapView: UIView {
     
-    var mapView: SYMapView?
-    let compass = SYUICompass()
+    public var mapView: SYMapView?
+    public let compass = SYUICompass()
+    
+    private let sideMargin: CGFloat = 16
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,10 +26,8 @@ class SYMKBrowserMapView: UIView {
     // MARK: - Public Methods
     
     public func setupMapView() {
-        mapView = SYMapView()
+        mapView = SYMapView(frame: bounds, geoCenter: SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!, rotation: 0, zoom: 16, tilt: 0)
         guard let mapView = mapView else { return }
-        mapView.frame = bounds
-        mapView.geoCenter = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)! //todo: set some default
         addSubview(mapView)
         sendSubview(toBack: mapView)
     }
@@ -46,8 +46,8 @@ class SYMKBrowserMapView: UIView {
     private func setupCompass() {
         addSubview(compass)
         bringSubview(toFront: compass)
-        compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -16).isActive = true
-        compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: 16).isActive = true
+        compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
+        compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
     }
     
 }
