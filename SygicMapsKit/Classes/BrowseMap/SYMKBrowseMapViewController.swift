@@ -120,7 +120,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         var viewObj: SYViewObject?
         
         for obj in objects {
-            if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all || mapSelectionMode == .all {
+            if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
                 SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false)) {
