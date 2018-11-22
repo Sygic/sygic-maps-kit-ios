@@ -141,7 +141,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         
         if let coord = viewObj?.coordinate {
             if let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false)) {
-                self.mapSelectionManager.addMapMarker(pin)
+                mapSelectionManager.addMapMarker(pin)
             }
         }
     }
