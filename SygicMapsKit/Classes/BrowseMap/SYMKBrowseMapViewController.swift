@@ -72,7 +72,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
         mapSelectionManager.mapObjectsManager = self
         mapSelectionManager.clusterLayer = SYMapMarkersCluster()
-        mapView.addMapMarkersCluster(self.mapSelectionManager.clusterLayer!)
+        mapView.addMapMarkersCluster(mapSelectionManager.clusterLayer!)
     }
     
     // MARK: - Actions
