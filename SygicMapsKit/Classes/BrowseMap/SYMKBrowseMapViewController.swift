@@ -114,7 +114,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         
         let hadPin = !mapSelectionManager.markers.isEmpty
         if !mapSelectionManager.markers.isEmpty {
-            self.mapSelectionManager.removeAllMarkers()
+            mapSelectionManager.removeAllMarkers()
         }
         
         var viewObj: SYViewObject?
