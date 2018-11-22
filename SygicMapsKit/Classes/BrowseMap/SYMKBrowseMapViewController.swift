@@ -30,20 +30,17 @@ public class SYMKBrowseMapViewController: UIViewController {
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
     
     override public func loadView() {
-        view = SYMKBrowserMapView()
+        let browseView = SYMKBrowseMapView()
+        browseView.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
+        browseView.compass.isHidden = !useCompass
+        browseView.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
+        browseView.recenter.isHidden = !useRecenterButton
+        view = browseView
     }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
         initSygicMapsSDK()
-        
-        let browseView = SYMKBrowserMapView()
-        browseView.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
-        browseView.compass.isHidden = !useCompass
-        browseView.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
-        browseView.recenter.isHidden = !useRecenterButton
-        
-        view = browseView
     }
     
     // MARK: - Private Methods
@@ -51,7 +48,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     private func sygicSDKInitialized() {
         SYOnlineSession.shared().onlineMapsEnabled = true
         SYPositioning.shared().startUpdatingPosition()
-        (view as! SYMKBrowserMapView).setupMapView()
+        (view as! SYMKBrowseMapView).setupMapView()
         setupViewDelegates()
         setupMapSelectionManager()
     }
@@ -63,14 +60,14 @@ public class SYMKBrowseMapViewController: UIViewController {
     }
     
     private func setupViewDelegates() {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapView.delegate = self
         view.recenter.addTarget(self, action: #selector(SYMKBrowseMapViewController.didTapRecenterButton), for: .touchUpInside)
         view.compass.delegate = self
     }
     
     private func setupMapSelectionManager() {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapSelectionManager.mapObjectsManager = self
         mapSelectionManager.clusterLayer = SYMapMarkersCluster()
         mapView.addMapMarkersCluster(mapSelectionManager.clusterLayer!)
@@ -79,7 +76,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     // MARK: - Actions
     
     @objc func didTapRecenterButton() {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapView.cameraMovementMode = .followGpsPositionWithAutozoom
         mapView.cameraRotationMode = .vehicle
     }
@@ -90,7 +87,7 @@ public class SYMKBrowseMapViewController: UIViewController {
 extension SYMKBrowseMapViewController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraPosition geoCenter: SYGeoCoordinate, zoom: CGFloat, rotation: CGFloat, tilt: CGFloat) {
-        guard let view = view as? SYMKBrowserMapView else { return }
+        guard let view = view as? SYMKBrowseMapView else { return }
         
         if useCompass, let compassViewModel = view.compass.viewModel {
             var newViewModel = SYUICompassViewModel(with: compassViewModel)
@@ -100,7 +97,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
     }
     
     public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
-        guard let view = view as? SYMKBrowserMapView else { return }
+        guard let view = view as? SYMKBrowseMapView else { return }
         view.recenter.isHidden = !useRecenterButton || (mode != SYCameraMovement.free)
         
         if mode == .free {
@@ -151,7 +148,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
 
 extension SYMKBrowseMapViewController: SYUICompassDelegate {
     public func compassDidTap(_ compass: SYUICompass) {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         
         if mapView.cameraMovementMode != .free {
             mapView.cameraRotationMode = .northUp
@@ -178,12 +175,12 @@ extension SYMKBrowseMapViewController {
 
 extension SYMKBrowseMapViewController : SYMKMapObjectsManager {
     public func addMapObject(_ mapObject: SYMapObject) {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapView.add(mapObject)
     }
 
     public func removeMapObject(_ mapObject: SYMapObject) {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapView.remove(mapObject)
     }
 }

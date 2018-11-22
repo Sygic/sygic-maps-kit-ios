@@ -2,7 +2,7 @@ import UIKit
 import SygicMaps
 import SygicUIKit
 
-class SYMKBrowserMapView: UIView {
+class SYMKBrowseMapView: UIView {
     public var mapView: SYMapView?
     public let compass = SYUICompass()
     public var recenter = SYUIActionButton()
