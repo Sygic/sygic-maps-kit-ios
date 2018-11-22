@@ -2,7 +2,7 @@ import Foundation
 import SygicMaps
 import SygicUIKit
 
-/*
+/**
  SYMKMapObjectsManager is a protocol used by SYMKMapMarkersManager to display SYMapObject in SYMapView.
  Implementing class is responsible for adding and removing SYMapObject to/from SYMapView.
  */
@@ -11,7 +11,7 @@ public protocol SYMKMapObjectsManager: class {
     func removeMapObject(_ mapObject: SYMapObject)
 }
 
-/*
+/**
  Protocol for map marker class, which is used to define look of SYMapMarker displayed on map
  */
 public protocol SYMKMapMarker: Equatable {
@@ -19,7 +19,7 @@ public protocol SYMKMapMarker: Equatable {
     var highlighted: Bool {get set }
 }
 
-/*
+/**
  Class responsible for managment of displayed SYMKMapMarker instances. It includes adding, removing,
  hiding, clustering and highlighting SYMKMapMarkers.
  */

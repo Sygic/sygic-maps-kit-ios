@@ -3,9 +3,31 @@ import SygicUIKit
 
 
 public class SYMKBrowseMapViewController: UIViewController {
-    
+    /// Map selection mode
+    public enum MapSelectionMode {
+        /// No selection
+        case none
+        /// Allows to select map markers
+        case markers
+        /// Allows to select anything on map
+        case all
+    }
+
     public var useCompass = true
-    private var pinManager = SYMKMapMarkersManager<SYMKMapPin>()
+
+    /**
+        Enables recenter button functionality.
+        Button is automatically shown if map camera isn't centered to current position. After tapping recenter button, camera is automatically recentered and button disappears.
+    */
+    public var useRecenterButton = true
+    
+    /**
+        Current map selection mode.
+        Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
+     */
+    public var mapSelectionMode = MapSelectionMode.all
+    
+    private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
     
     override public func loadView() {
         view = SYMKBrowserMapView()
@@ -16,8 +38,10 @@ public class SYMKBrowseMapViewController: UIViewController {
         initSygicMapsSDK()
         
         if let view = (view as? SYMKBrowserMapView) {
+            view.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
             view.compass.isHidden = !useCompass
             view.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
+            view.recenter.isHidden = !useRecenterButton
         }
     }
     
@@ -27,60 +51,86 @@ public class SYMKBrowseMapViewController: UIViewController {
         SYOnlineSession.shared().onlineMapsEnabled = true
         SYPositioning.shared().startUpdatingPosition()
         (view as! SYMKBrowserMapView).setupMapView()
-        setupDelegates()
-        setupPinManager()
+        setupViewDelegates()
+        setupMapSelectionManager()
     }
     
-    private func setupDelegates() {
+    private func sygicSDKFailure() {
+        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
+    }
+    
+    private func setupViewDelegates() {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
-        view.compass.delegate = self
         mapView.delegate = self
-        
         view.recenter.addTarget(self, action: #selector(SYMKBrowseMapViewController.didTapRecenterButton), for: .touchUpInside)
+        view.compass.delegate = self
     }
     
-    private func setupPinManager() {
+    private func setupMapSelectionManager() {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
-        pinManager.mapObjectsManager = self
-        pinManager.clusterLayer = SYMapMarkersCluster()
-        mapView.addMapMarkersCluster(self.pinManager.clusterLayer!)
+        mapSelectionManager.mapObjectsManager = self
+        mapSelectionManager.clusterLayer = SYMapMarkersCluster()
+        mapView.addMapMarkersCluster(self.mapSelectionManager.clusterLayer!)
+    }
+    
+    // MARK: - Actions
+    
+    @objc func didTapRecenterButton() {
+        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
+        mapView.cameraMovementMode = .followGpsPositionWithAutozoom
+        mapView.cameraRotationMode = .vehicle
     }
 }
+
+// MARK: - Map delegate
 
 extension SYMKBrowseMapViewController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraPosition geoCenter: SYGeoCoordinate, zoom: CGFloat, rotation: CGFloat, tilt: CGFloat) {
         guard let view = view as? SYMKBrowserMapView else { return }
         
-        if useCompass {
-            view.compass.isHidden = (rotation == 0)
-            view.compass.viewModel = SYUICompassViewModel(course: Double(rotation), autoHide: false)
+        if useCompass, let compassViewModel = view.compass.viewModel {
+            var newViewModel = SYUICompassViewModel(with: compassViewModel)
+            newViewModel.compassCourse = Double(rotation)
+            view.compass.viewModel = newViewModel
         }
     }
     
     public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
         guard let view = view as? SYMKBrowserMapView else { return }
-        view.recenter.isHidden = (mode != SYCameraMovement.free)
+        view.recenter.isHidden = !useRecenterButton || (mode != SYCameraMovement.free)
+        
+        if mode == .free {
+            view.mapView?.cameraRotationMode = .free
+        }
     }
     
     public func mapView(_ mapView: SYMapView, didSelect objects: [SYViewObject]) {
-        let hadPin = !pinManager.markers.isEmpty
-        if !pinManager.markers.isEmpty {
-            self.pinManager.removeAllMarkers()
+        if mapSelectionMode == .none {
+            return
+        }
+        
+        let hadPin = !mapSelectionManager.markers.isEmpty
+        if !mapSelectionManager.markers.isEmpty {
+            self.mapSelectionManager.removeAllMarkers()
         }
         
         var viewObj: SYViewObject?
         
         for obj in objects {
-            if let poi = obj as? SYPoiObject, poi.type == .poi {
+            if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all || mapSelectionMode == .all {
                 SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false)) {
-                        self.pinManager.addMapMarker(pin)
+                        self.mapSelectionManager.addMapMarker(pin)
                     }
                 }
                 return
-            } else if viewObj == nil {
+            } else if let marker = viewObj as? SYMapMarker, mapSelectionMode == .markers {
+                viewObj = marker
+            } else if mapSelectionMode == .all && viewObj == nil {
                 viewObj = obj
             }
         }
@@ -91,35 +141,39 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         
         if let coord = viewObj?.coordinate {
             if let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false)) {
-                self.pinManager.addMapMarker(pin)
+                self.mapSelectionManager.addMapMarker(pin)
             }
         }
     }
 
 }
 
+// MARK: - Compass Delegate
+
 extension SYMKBrowseMapViewController: SYUICompassDelegate {
     public func compassDidTap(_ compass: SYUICompass) {
         guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
         
-        let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
-        mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
-        compass.isHidden = true
+        if mapView.cameraMovementMode != .free {
+            mapView.cameraRotationMode = .northUp
+        } else {
+            let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
+            mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
+        }
     }
 }
+
+// MARK: - SDK handling
 
 extension SYMKBrowseMapViewController {
     private func initSygicMapsSDK() {
         SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret) { initResult in
             if initResult == .success {
                 self.sygicSDKInitialized()
+            } else {
+                self.sygicSDKFailure()
             }
         }
-    }
-    
-    @objc func didTapRecenterButton() {
-        guard let view = view as? SYMKBrowserMapView, let mapView = view.mapView else { return }
-        mapView.cameraMovementMode = .followGpsPositionWithAutozoom
     }
 }
 
@@ -134,4 +188,3 @@ extension SYMKBrowseMapViewController : SYMKMapObjectsManager {
         mapView.remove(mapObject)
     }
 }
-

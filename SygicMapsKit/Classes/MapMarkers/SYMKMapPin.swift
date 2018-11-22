@@ -2,7 +2,7 @@ import Foundation
 import SygicMaps
 import SygicUIKit
 
-/*
+/**
  Implementation of SYMKMapMarker protocol, to display SYUIPinView as markers on map.
  */
 public class SYMKMapPin: SYMKMapMarker {
