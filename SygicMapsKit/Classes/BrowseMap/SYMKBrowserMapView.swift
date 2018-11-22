@@ -54,7 +54,7 @@ class SYMKBrowserMapView: UIView {
         addSubview(recenter)
         bringSubview(toFront: recenter)
         recenter.translatesAutoresizingMaskIntoConstraints = false
-        recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: 32).isActive = true
-        recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -16).isActive = true
+        recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
+        recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
     }
 }

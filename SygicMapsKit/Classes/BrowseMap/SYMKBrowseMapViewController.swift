@@ -37,12 +37,13 @@ public class SYMKBrowseMapViewController: UIViewController {
         super.viewDidLoad()
         initSygicMapsSDK()
         
-        if let view = (view as? SYMKBrowserMapView) {
-            view.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
-            view.compass.isHidden = !useCompass
-            view.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
-            view.recenter.isHidden = !useRecenterButton
-        }
+        let browseView = SYMKBrowserMapView()
+        browseView.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
+        browseView.compass.isHidden = !useCompass
+        browseView.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
+        browseView.recenter.isHidden = !useRecenterButton
+        
+        view = browseView
     }
     
     // MARK: - Private Methods
@@ -108,9 +109,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
     }
     
     public func mapView(_ mapView: SYMapView, didSelect objects: [SYViewObject]) {
-        if mapSelectionMode == .none {
-            return
-        }
+        guard mapSelectionMode != .none else { return }
         
         let hadPin = !mapSelectionManager.markers.isEmpty
         if !mapSelectionManager.markers.isEmpty {
