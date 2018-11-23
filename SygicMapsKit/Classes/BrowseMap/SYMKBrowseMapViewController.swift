@@ -33,7 +33,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         let browseView = SYMKBrowseMapView()
         browseView.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
         browseView.compass.isHidden = !useCompass
-        browseView.recenter.setup(with: ActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
+        browseView.recenter.setup(with: SYUIActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
         browseView.recenter.isHidden = !useRecenterButton
         view = browseView
     }
