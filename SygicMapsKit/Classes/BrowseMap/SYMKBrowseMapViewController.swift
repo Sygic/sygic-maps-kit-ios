@@ -28,6 +28,8 @@ public class SYMKBrowseMapViewController: UIViewController {
     public var mapSelectionMode = MapSelectionMode.all
     
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
+    private var poiDetailDataSource: SYMKPoiDetailDataSource?
+    private var poiDetailViewController: SYUIPoiDetailViewController?
     
     override public func loadView() {
         let browseView = SYMKBrowseMapView()
@@ -73,6 +75,24 @@ public class SYMKBrowseMapViewController: UIViewController {
         mapView.addMapMarkersCluster(mapSelectionManager.clusterLayer!)
     }
     
+    // MARK: - PoiDetail
+    
+    private func showPoiDetail(with poiDetailViewModel: SYMKPoiDetailDataSource) {
+        poiDetailDataSource = poiDetailViewModel
+        poiDetailViewController = SYUIPoiDetailViewController()
+        poiDetailViewController?.dataSource = poiDetailViewModel
+        poiDetailViewController?.presentPoiDetail(to: self, completion: nil)
+    }
+    
+    private func hidePoiDetail() {
+        guard let poiDetail = poiDetailViewController else { return }
+        poiDetail.dismissPoiDetail(completion: { [weak self] _ in
+            guard poiDetail == self?.poiDetailViewController else { return }
+            self?.poiDetailViewController = nil
+            self?.poiDetailDataSource = nil
+        })
+    }
+    
     // MARK: - Actions
     
     @objc func didTapRecenterButton() {
@@ -111,6 +131,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         let hadPin = !mapSelectionManager.markers.isEmpty
         if !mapSelectionManager.markers.isEmpty {
             mapSelectionManager.removeAllMarkers()
+            hidePoiDetail()
         }
         
         var viewObj: SYViewObject?
@@ -121,6 +142,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false)) {
                         self.mapSelectionManager.addMapMarker(pin)
+                        self.showPoiDetail(with: SYMKPoiDetailDataSource(with: place))
                     }
                 }
                 return
@@ -138,6 +160,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         if let coord = viewObj?.coordinate {
             if let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false)) {
                 mapSelectionManager.addMapMarker(pin)
+                showPoiDetail(with: SYMKPoiDetailDataSource(with: coord))
             }
         }
     }
