@@ -2,18 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-Black.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-BlackItalic.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-Bold.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-BoldItalic.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-Italic.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-Medium.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-MediumItalic.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/Inter-UI-Regular.ttf</string>
-		<string>Frameworks/SygicUIKit.framework/SygicIcons.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
