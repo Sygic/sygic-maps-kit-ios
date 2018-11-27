@@ -81,7 +81,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         poiDetailDataSource = poiDetailViewModel
         poiDetailViewController = SYUIPoiDetailViewController()
         poiDetailViewController?.dataSource = poiDetailViewModel
-        poiDetailViewController?.presentPoiDetail(to: self, completion: nil)
+        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, completion: nil)
     }
     
     private func hidePoiDetail() {

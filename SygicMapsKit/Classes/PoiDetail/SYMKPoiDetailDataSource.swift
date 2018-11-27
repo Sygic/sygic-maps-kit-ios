@@ -13,13 +13,13 @@ class SYMKPoiDetailDataSource {
         var contacts = [SYUIPoiDetailCellDataSource]()
         guard let place = place else { return contacts }
         if let phone = place.phone {
-            contacts.append(SYUIPoiDetailCellViewModel(title: "Phone", subtitle: phone, icon: SygicIcon.call))
+            contacts.append(SYUIPoiDetailCellData(title: "Phone", subtitle: phone, icon: SygicIcon.call))
         }
         if let email = place.email {
-            contacts.append(SYUIPoiDetailCellViewModel(title: "Email", subtitle: email, icon: SygicIcon.email))
+            contacts.append(SYUIPoiDetailCellData(title: "Email", subtitle: email, icon: SygicIcon.email))
         }
         if let website = place.website {
-            contacts.append(SYUIPoiDetailCellViewModel(title: "URL", subtitle: website, icon: SygicIcon.website))
+            contacts.append(SYUIPoiDetailCellData(title: "URL", subtitle: website, icon: SygicIcon.website))
         }
         return contacts
     }()
@@ -72,25 +72,15 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
         }
     }
     
-    public func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
-        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellViewModel(title: "") }
+    public func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
+        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellData(title: "") }
         switch section {
         case .actions:
-            return SYUIPoiDetailCellViewModel(title: "GPS", subtitle: coordinates.string, icon: SygicIcon.streetView, stringToCopy: coordinates.string)
+            return SYUIPoiDetailCellData(title: "GPS", subtitle: coordinates.string, icon: SygicIcon.streetView, stringToCopy: coordinates.string)
         case .contactInfo:
             return contacts[indexPath.row]
         default:
-            return SYUIPoiDetailCellViewModel(title: "")
+            return SYUIPoiDetailCellData(title: "")
         }
     }
 }
-
-//extension SYMKPoiDetailDataSource: SYUIPoiDetailDelegate {
-//    public func poiDetailDidPressActionButton(at index: Int) {
-//        print("action button pressed \(index)")
-//    }
-//
-//    public func poiDetailDidSelectCell(at indexPath: IndexPath) {
-//        print("poi detail cell \(indexPath)")
-//    }
-//}
