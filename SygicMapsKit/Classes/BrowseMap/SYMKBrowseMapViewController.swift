@@ -111,7 +111,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
                 SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
-                    if let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false)) {
+                    if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
                         self.mapSelectionManager.addMapMarker(pin)
                     }
                 }
@@ -128,7 +128,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         }
         
         if let coord = viewObj?.coordinate {
-            if let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false)) {
+            if let pin = SYMKMapPin(coordinate: coord, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
                 mapSelectionManager.addMapMarker(pin)
             }
         }
