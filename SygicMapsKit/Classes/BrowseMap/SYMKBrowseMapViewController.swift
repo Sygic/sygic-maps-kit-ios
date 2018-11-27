@@ -28,14 +28,11 @@ public class SYMKBrowseMapViewController: UIViewController {
     public var mapSelectionMode = MapSelectionMode.all
     
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
-//    private var compassController = SYUICompassController(course: 0, autoHide: <#T##Bool#>)
+    private var compassController = SYUICompassController(course: 0, autoHide: true)
     
     override public func loadView() {
         let browseView = SYMKBrowseMapView()
-//        browseView.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
-//        browseView.compass.isHidden = !useCompass
-//        browseView.recenter.setup(with: SYUIActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
-//        browseView.recenter.isHidden = !useRecenterButton
+        browseView.setupCompass(compassController.compass)
         view = browseView
     }
     
@@ -64,7 +61,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapView.delegate = self
         view.recenter.addTarget(self, action: #selector(SYMKBrowseMapViewController.didTapRecenterButton), for: .touchUpInside)
-//        view.compass.delegate = self
+        compassController.delegate = self
     }
     
     private func setupMapSelectionManager() {
@@ -88,13 +85,7 @@ public class SYMKBrowseMapViewController: UIViewController {
 extension SYMKBrowseMapViewController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraPosition geoCenter: SYGeoCoordinate, zoom: CGFloat, rotation: CGFloat, tilt: CGFloat) {
-        guard let view = view as? SYMKBrowseMapView else { return }
-        
-//        if useCompass, let compassViewModel = view.compass.viewModel {
-//            var newViewModel = SYUICompassViewModel(with: compassViewModel)
-//            newViewModel.compassCourse = Double(rotation)
-//            view.compass.viewModel = newViewModel
-//        }
+        compassController.course = Double(rotation)
     }
     
     public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
