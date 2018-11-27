@@ -28,15 +28,13 @@ public class SYMKBrowseMapViewController: UIViewController {
     public var mapSelectionMode = MapSelectionMode.all
     
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
+    private var compassController = SYUICompassController(course: 0, autoHide: true)
     private var poiDetailDataSource: SYMKPoiDetailDataSource?
     private var poiDetailViewController: SYUIPoiDetailViewController?
     
     override public func loadView() {
         let browseView = SYMKBrowseMapView()
-        browseView.compass.viewModel = SYUICompassViewModel(course: 0, autoHide: true)
-        browseView.compass.isHidden = !useCompass
-        browseView.recenter.setup(with: SYUIActionButtonViewModel(title: "", icon: SygicIcon.positionLockIos, style: .secondary))
-        browseView.recenter.isHidden = !useRecenterButton
+        browseView.setupCompass(compassController.compass)
         view = browseView
     }
     
@@ -65,7 +63,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         mapView.delegate = self
         view.recenter.addTarget(self, action: #selector(SYMKBrowseMapViewController.didTapRecenterButton), for: .touchUpInside)
-        view.compass.delegate = self
+        compassController.delegate = self
     }
     
     private func setupMapSelectionManager() {
@@ -107,13 +105,7 @@ public class SYMKBrowseMapViewController: UIViewController {
 extension SYMKBrowseMapViewController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraPosition geoCenter: SYGeoCoordinate, zoom: CGFloat, rotation: CGFloat, tilt: CGFloat) {
-        guard let view = view as? SYMKBrowseMapView else { return }
-        
-        if useCompass, let compassViewModel = view.compass.viewModel {
-            var newViewModel = SYUICompassViewModel(with: compassViewModel)
-            newViewModel.compassCourse = Double(rotation)
-            view.compass.viewModel = newViewModel
-        }
+        compassController.course = Double(rotation)
     }
     
     public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
@@ -140,7 +132,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
                 SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
-                    if let pin = SYMKMapPin(coordinate: place.coordinate, properties: SYUIPinViewViewModel(icon: category.icon, color: category.color, selected: true, animated: false)) {
+                    if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
                         self.mapSelectionManager.addMapMarker(pin)
                         self.showPoiDetail(with: SYMKPoiDetailDataSource(with: place))
                     }
@@ -158,7 +150,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         }
         
         if let coord = viewObj?.coordinate {
-            if let pin = SYMKMapPin(coordinate: coord, properties: SYUIPinViewViewModel(icon: SygicIcon.POIPoi, color: .darkGray, selected: true, animated: false)) {
+            if let pin = SYMKMapPin(coordinate: coord, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
                 mapSelectionManager.addMapMarker(pin)
                 showPoiDetail(with: SYMKPoiDetailDataSource(with: coord))
             }
