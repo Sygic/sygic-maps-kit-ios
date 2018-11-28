@@ -75,10 +75,10 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     // MARK: - PoiDetail
     
-    private func showPoiDetail(with poiDetailViewModel: SYMKPoiDetailDataSource) {
-        poiDetailDataSource = poiDetailViewModel
+    private func showPoiDetail(with poiDetailData: SYMKPoiDetailDataSource) {
+        poiDetailDataSource = poiDetailData
         poiDetailViewController = SYUIPoiDetailViewController()
-        poiDetailViewController?.dataSource = poiDetailViewModel
+        poiDetailViewController?.dataSource = poiDetailData
         poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, completion: nil)
     }
     
