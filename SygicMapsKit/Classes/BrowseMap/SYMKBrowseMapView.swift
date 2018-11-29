@@ -31,6 +31,13 @@ class SYMKBrowseMapView: UIView {
         sendSubview(toBack: mapView)
     }
     
+    public func setupCompass(_ compass: SYUICompass) {
+        addSubview(compass)
+        bringSubview(toFront: compass)
+        compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
+        compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
+    }
+    
     // MARK: - Private Methods
     
     private func setupUI() {
@@ -39,15 +46,7 @@ class SYMKBrowseMapView: UIView {
     }
     
     private func setupMapControls() {
-        setupCompass()
         setupRecenter()
-    }
-    
-    private func setupCompass() {
-        addSubview(compass)
-        bringSubview(toFront: compass)
-        compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
-        compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
     }
     
     private func setupRecenter() {

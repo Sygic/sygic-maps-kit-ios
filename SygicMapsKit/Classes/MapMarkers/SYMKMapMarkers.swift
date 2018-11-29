@@ -48,7 +48,7 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
     
     public var highlightedMarker: T? {
         willSet {
-            if var currentHighlighted = highlightedMarker, highlightedMarker != newValue {
+            if var currentHighlighted = highlightedMarker, highlightedMarker != newValue, markers.contains(currentHighlighted) {
                 currentHighlighted.highlighted = false
             }
         }
@@ -89,6 +89,9 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
         mapObjectsManager.removeMapObject(markerToRemove.mapMarker)
 
         markers = markers.filter { $0 != markerItem }
+        if markerItem == highlightedMarker {
+            highlightedMarker = nil
+        }
     }
 
     public func removeAllMarkers() {
