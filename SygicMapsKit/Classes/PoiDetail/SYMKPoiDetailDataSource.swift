@@ -35,6 +35,7 @@ class SYMKPoiDetailDataSource {
 }
 
 extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
+    
     public var poiDetailMaxTopOffset: CGFloat {
         return topOffset
     }
@@ -57,8 +58,11 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
         return 1
     }
     
-    public func poiDetailActionButtonProperties(at index: Int) -> SYUIActionButtonProperties? {
-        return SYUIActionButtonViewModel(title: "Primary action", icon: SygicIcon.routeStart)
+    public func poiDetailActionButton(for index: Int) -> SYUIActionButton {
+        let button = SYUIActionButton()
+        button.title = "Primary action"
+        button.icon = SygicIcon.routeStart
+        return button
     }
     
     public func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
