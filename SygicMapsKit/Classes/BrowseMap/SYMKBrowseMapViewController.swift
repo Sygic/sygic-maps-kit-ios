@@ -77,6 +77,12 @@ public class SYMKBrowseMapViewController: UIViewController {
         mapView.addMapMarkersCluster(mapSelectionManager.clusterLayer!)
     }
     
+    private func rotateMapNorth() {
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
+        let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
+        mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
+    }
+    
     // MARK: - PoiDetail
     
     private func showPoiDetail(with poiDetailData: SYMKPoiDetailDataSource) {
@@ -152,12 +158,6 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
                 showPoiDetail(with: SYMKPoiDetailDataSource(with: coord))
             }
         }
-    }
-
-    private func rotateMapNorth() {
-        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
-        let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
-        mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
     }
 }
 
