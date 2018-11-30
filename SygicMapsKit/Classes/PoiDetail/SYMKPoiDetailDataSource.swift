@@ -54,17 +54,6 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
         return nil
     }
     
-    public var poiDetailNumberOfActionButtons: Int {
-        return 1
-    }
-    
-    public func poiDetailActionButton(for index: Int) -> SYUIActionButton {
-        let button = SYUIActionButton()
-        button.title = "Primary action"
-        button.icon = SygicIcon.routeStart
-        return button
-    }
-    
     public func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
         switch section {
         case .actions:
