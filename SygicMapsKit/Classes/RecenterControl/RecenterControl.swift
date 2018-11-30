@@ -14,7 +14,7 @@ public class SYMKMapRecenterController: NSObject {
     }
     
     public var button = SYUIActionButton()
-    public var allowedStates = [state.free, state.locked, state.lockedCompass]
+    public var allowedStates: [state] = [.free, .locked, .lockedCompass]
     
     public var currentState: state = .free {
         didSet {
