@@ -16,7 +16,7 @@ public class SYMKMapRecenterController: NSObject {
     public var button = SYUIActionButton()
     public var allowedStates = [state.free, state.locked, state.lockedCompass]
     
-    public var currentState = state.free {
+    public var currentState: state = .free {
         didSet {
             refreshIcon()
             if let delegate = delegate, oldValue != currentState {
