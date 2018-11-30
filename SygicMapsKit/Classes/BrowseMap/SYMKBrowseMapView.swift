@@ -4,8 +4,6 @@ import SygicUIKit
 
 class SYMKBrowseMapView: UIView {
     public var mapView: SYMapView?
-    public let compass = SYUICompass()
-    public var recenter = SYUIActionButton()
 
     private let sideMargin: CGFloat = 16
     
@@ -38,22 +36,17 @@ class SYMKBrowseMapView: UIView {
         compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
     }
     
-    // MARK: - Private Methods
-    
-    private func setupUI() {
-        backgroundColor = UIColor.gray
-        setupMapControls()
-    }
-    
-    private func setupMapControls() {
-        setupRecenter()
-    }
-    
-    private func setupRecenter() {
+    public func setupRecenter(_ recenter: SYUIActionButton) {
         addSubview(recenter)
         bringSubview(toFront: recenter)
         recenter.translatesAutoresizingMaskIntoConstraints = false
         recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
         recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
+    }
+
+    // MARK: - Private Methods
+    
+    private func setupUI() {
+        backgroundColor = UIColor.gray
     }
 }
