@@ -3,6 +3,9 @@ import SygicUIKit
 
 
 public class SYMKBrowseMapViewController: UIViewController {
+    
+    // MARK: - Public Properties
+    
     /// Map selection mode
     public enum MapSelectionMode {
         /// No selection
@@ -27,11 +30,15 @@ public class SYMKBrowseMapViewController: UIViewController {
      */
     public var mapSelectionMode = MapSelectionMode.all
     
+    // MARK: - Private Properties
+    
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
     private var compassController = SYUICompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
     private var poiDetailDataSource: SYMKPoiDetailDataSource?
     private var poiDetailViewController: SYUIPoiDetailViewController?
+    
+    // MARK: - Public Methods
     
     override public func loadView() {
         let browseView = SYMKBrowseMapView()
@@ -83,7 +90,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
     }
     
-    // MARK: - PoiDetail
+    // MARK: PoiDetail
     
     private func showPoiDetail(with poiDetailData: SYMKPoiDetailDataSource) {
         poiDetailDataSource = poiDetailData
@@ -190,6 +197,8 @@ extension SYMKBrowseMapViewController {
     }
 }
 
+// MARK: - Map Objecrts Manager
+
 extension SYMKBrowseMapViewController: SYMKMapObjectsManager {
     public func addMapObject(_ mapObject: SYMapObject) {
         guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
@@ -201,6 +210,8 @@ extension SYMKBrowseMapViewController: SYMKMapObjectsManager {
         mapView.remove(mapObject)
     }
 }
+
+// MARK: - Map Recenter delegate
 
 extension SYMKBrowseMapViewController: SYMKMapRecenterDelegate {
     public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state) {
