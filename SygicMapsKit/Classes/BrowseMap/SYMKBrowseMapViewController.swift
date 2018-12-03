@@ -15,8 +15,26 @@ public class SYMKBrowseMapViewController: UIViewController {
         /// Allows to select anything on map
         case all
     }
+    
+    public enum ZoomActionType: CGFloat {
+        case zoomIn = 1
+        case zoomOut = -1
+    }
+    
+    public enum Tilt: CGFloat {
+        case _2D = 0.0
+        case _3D = 80.0
+    }
 
+    /**
+        Enables compass functionality.
+    */
     public var useCompass = true
+    
+    /**
+        Enables zoom control functionality.
+     */
+    public var useZoomControl = true
 
     /**
         Enables recenter button functionality.
@@ -35,6 +53,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
     private var compassController = SYUICompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
+    private var zoomController = SYUIZoomController()
     private var poiDetailDataSource: SYMKPoiDetailDataSource?
     private var poiDetailViewController: SYUIPoiDetailViewController?
     
@@ -44,6 +63,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         let browseView = SYMKBrowseMapView()
         browseView.setupCompass(compassController.compass)
         browseView.setupRecenter(recenterController.button)
+        browseView.setupZoomControl(zoomController.expandableButtonsView)
         recenterController.button.isHidden = !useRecenterButton
         view = browseView
     }
@@ -75,6 +95,7 @@ public class SYMKBrowseMapViewController: UIViewController {
 
         compassController.delegate = self
         recenterController.delegate = self
+        zoomController.delegate = self
     }
     
     private func setupMapSelectionManager() {
@@ -88,6 +109,26 @@ public class SYMKBrowseMapViewController: UIViewController {
         guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
         let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
         mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
+    }
+    
+    private func zoomMap(_ zoomAction: ZoomActionType) {
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
+        mapView.animate({
+            mapView.zoom += zoomAction.rawValue
+        }, withDuration: 0.3, curve: .linear, completion: nil)
+    }
+    
+    // TODO: Refactor to MapController
+    private func handleTilt() {
+        guard let view = view as? SYMKBrowseMapView, let mapView = view.mapView else { return }
+        
+        let isActual3D = mapView.tilt >= 0.01
+        let newTilt = isActual3D ? Tilt._2D : Tilt._3D
+        zoomController.is3D = !isActual3D
+        
+        mapView.animate({
+            mapView.tilt = newTilt.rawValue
+        }, withDuration: 0.2, curve: .decelerate, completion: nil)
     }
     
     // MARK: PoiDetail
@@ -107,6 +148,7 @@ public class SYMKBrowseMapViewController: UIViewController {
             self?.poiDetailDataSource = nil
         })
     }
+    
 }
 
 // MARK: - Map delegate
@@ -197,7 +239,7 @@ extension SYMKBrowseMapViewController {
     }
 }
 
-// MARK: - Map Objecrts Manager
+// MARK: - Map Objects Manager
 
 extension SYMKBrowseMapViewController: SYMKMapObjectsManager {
     public func addMapObject(_ mapObject: SYMapObject) {
@@ -230,6 +272,21 @@ extension SYMKBrowseMapViewController: SYMKMapRecenterDelegate {
             mapView.cameraRotationMode = .attitude
         default:
             ()
+        }
+    }
+}
+
+extension SYMKBrowseMapViewController: SYUIZoomControllerDelegate {
+    public func zoomController(wants activity: SYUIZoomActivity) {
+        switch activity {
+        case .zoomIn, .zoomingIn:
+            zoomMap(.zoomIn)
+        case .zoomOut, .zoomingOut:
+            zoomMap(.zoomOut)
+        case .toggle3D:
+            handleTilt()
+        default:
+            break
         }
     }
 }
