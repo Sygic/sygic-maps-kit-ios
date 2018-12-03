@@ -44,6 +44,7 @@ class SYMKBrowseMapView: UIView {
         self.compass = compass
         addSubview(compass)
         bringSubview(toFront: compass)
+        compass.translatesAutoresizingMaskIntoConstraints = false
         compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
         compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
     }
@@ -55,7 +56,9 @@ class SYMKBrowseMapView: UIView {
         zoomControl.translatesAutoresizingMaskIntoConstraints = false
         zoomControl.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
         if let recenterButton = recenterButton {
-            zoomControl.bottomAnchor.constraint(equalTo: recenterButton.topAnchor, constant: -16).isActive = true
+            zoomControl.bottomAnchor.constraint(equalTo: recenterButton.topAnchor, constant: -sideMargin).isActive = true
+        } else {
+            zoomControl.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
         }
     }
     
