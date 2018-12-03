@@ -30,7 +30,6 @@ public class SYMKBrowseMapViewController: UIViewController {
     private var mapSelectionManager = SYMKMapMarkersManager<SYMKMapPin>()
     private var compassController = SYUICompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
-    private var poiDetailDataSource: SYMKPoiDetailDataSource?
     private var poiDetailViewController: SYUIPoiDetailViewController?
     
     override public func loadView() {
@@ -85,10 +84,8 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     // MARK: - PoiDetail
     
-    private func showPoiDetail(with poiDetailData: SYMKPoiDetailDataSource) {
-        poiDetailDataSource = poiDetailData
-        poiDetailViewController = SYUIPoiDetailViewController()
-        poiDetailViewController?.dataSource = poiDetailData
+    private func showPoiDetail(with data: SYMKPoiDetailModel) {
+        poiDetailViewController = SYMKPoiDetailViewController(with: data)
         poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, completion: nil)
     }
     
@@ -97,7 +94,6 @@ public class SYMKBrowseMapViewController: UIViewController {
         poiDetail.dismissPoiDetail(completion: { [weak self] _ in
             guard poiDetail == self?.poiDetailViewController else { return }
             self?.poiDetailViewController = nil
-            self?.poiDetailDataSource = nil
         })
     }
 }
@@ -137,7 +133,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
                         self.mapSelectionManager.addMapMarker(pin)
-                        self.showPoiDetail(with: SYMKPoiDetailDataSource(with: place))
+                        self.showPoiDetail(with: place)
                     }
                 }
                 return
@@ -155,7 +151,7 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         if let coord = viewObj?.coordinate {
             if let pin = SYMKMapPin(coordinate: coord, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
                 mapSelectionManager.addMapMarker(pin)
-                showPoiDetail(with: SYMKPoiDetailDataSource(with: coord))
+//                showPoiDetail(with: coord)
             }
         }
     }
