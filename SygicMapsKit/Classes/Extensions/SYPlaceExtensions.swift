@@ -1,7 +1,7 @@
 import Foundation
 import SygicMaps
 
-extension SYPlace {
+public extension SYPlace {
     var streetAndHouseNumber: String? {
         var address = ""
         if let street = street {
@@ -45,29 +45,6 @@ extension SYPlace {
         }
         return nil
     }
-}
-
-extension SYPlace: SYMKPoiDetailModel {    
-    var title: String {
-        if name.isEmpty {
-            if let street = streetAndHouseNumber {
-                return street
-            } else if let city = city {
-                return city
-            }
-        } else {
-            return name
-        }
-        return coordinate.string
-    }
-    
-    var subtitle: String? {
-        if name.isEmpty {
-            return city
-        } else {
-            return fullAddress
-        }
-    }
     
     // MARK: Address
     
@@ -75,21 +52,4 @@ extension SYPlace: SYMKPoiDetailModel {
     var houseNumber: String? { return unemptyLocationInfo(for: .houseNum) }
     var city: String? { return unemptyLocationInfo(for: .city) }
     var postal: String? { return unemptyLocationInfo(for: .postal) }
-    
-    // MARK: Contacts
-    
-    var phone: String? {
-        guard let locationInfo = locationInfo else { return nil }
-        return locationInfo.values(for: .phone)?.first
-    }
-    
-    var email: String? {
-        guard let locationInfo = locationInfo else { return nil }
-        return locationInfo.values(for: .mail)?.first
-    }
-    
-    var website: String? {
-        guard let locationInfo = locationInfo else { return nil }
-        return locationInfo.values(for: .url)?.first
-    }
 }

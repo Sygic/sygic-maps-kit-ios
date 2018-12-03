@@ -56,6 +56,8 @@ public class SYMKBrowseMapViewController: UIViewController {
     private var zoomController = SYUIZoomController()
     private var poiDetailViewController: SYUIPoiDetailViewController?
     
+    private var reverseSearch: SYReverseSearch!
+    
     // MARK: - Public Methods
     
     override public func loadView() {
@@ -80,6 +82,8 @@ public class SYMKBrowseMapViewController: UIViewController {
         (view as! SYMKBrowseMapView).setupMapView()
         setupViewDelegates()
         setupMapSelectionManager()
+        
+        reverseSearch = SYReverseSearch()
     }
     
     private func sygicSDKFailure() {
@@ -178,11 +182,11 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         
         for obj in objects {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
-                SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
+                SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
-                        self.mapSelectionManager.addMapMarker(pin)
-                        self.showPoiDetail(with: place)
+                        self?.mapSelectionManager.addMapMarker(pin)
+                        self?.showPoiDetail(with: place)
                     }
                 }
                 return
@@ -197,10 +201,13 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
             return
         }
         
-        if let coord = viewObj?.coordinate {
-            if let pin = SYMKMapPin(coordinate: coord, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
+        if let coordinate = viewObj?.coordinate {
+            if let pin = SYMKMapPin(coordinate: coordinate, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
                 mapSelectionManager.addMapMarker(pin)
-//                showPoiDetail(with: coord)
+                reverseSearch.reverseSearch(with: coordinate) { [weak self] results in
+                    guard let result = results.first else { return }
+                    self?.showPoiDetail(with: result)
+                }
             }
         }
     }
