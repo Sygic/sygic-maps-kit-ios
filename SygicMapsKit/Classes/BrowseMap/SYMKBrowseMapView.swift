@@ -3,18 +3,12 @@ import SygicMaps
 import SygicUIKit
 
 class SYMKBrowseMapView: UIView {
-    
-    // MARK: - Public Properties
-    
-    public var mapView: SYMapView?
-    
-    // MARK: - Private Properties
-
     private let sideMargin: CGFloat = 16
     
-    private weak var compass: UIView?
-    private weak var recenterButton: UIView?
-    private weak var zoomControl: UIView?
+    public private(set) weak var mapView: UIView?
+    public private(set) weak var compass: UIView?
+    public private(set) weak var recenterButton: UIView?
+    public private(set) weak var zoomControl: UIView?
     
     // MARK: - Public Methods
     
@@ -31,9 +25,8 @@ class SYMKBrowseMapView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setupMapView() {
-        mapView = SYMapView(frame: bounds, geoCenter: SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!, rotation: 0, zoom: 16, tilt: 0)
-        guard let mapView = mapView else { return }
+    public func setupMapView(_ mapView: UIView) {
+        self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mapView)
         sendSubview(toBack: mapView)

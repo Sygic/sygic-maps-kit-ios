@@ -1,7 +1,7 @@
 import Foundation
 import SygicMaps
 
-protocol SYMKPoiDetailModel {
+public protocol SYMKPoiDetailModel {
     var coordinate: SYGeoCoordinate { get }
     var street: String? { get }
     var houseNumber: String? { get }
@@ -34,7 +34,7 @@ extension SYMKPoiDetailModel {
 // MARK: - SYPlace
 
 extension SYPlace: SYMKPoiDetailModel {
-    var title: String {
+    public var title: String {
         if name.isEmpty {
             if let street = streetAndHouseNumber {
                 return street
@@ -47,7 +47,7 @@ extension SYPlace: SYMKPoiDetailModel {
         return coordinate.string
     }
     
-    var subtitle: String? {
+    public var subtitle: String? {
         if name.isEmpty {
             return city
         } else {
@@ -57,17 +57,17 @@ extension SYPlace: SYMKPoiDetailModel {
     
     // MARK: Contacts
     
-    var phone: String? {
+    public var phone: String? {
         guard let locationInfo = locationInfo else { return nil }
         return locationInfo.values(for: .phone)?.first
     }
     
-    var email: String? {
+    public var email: String? {
         guard let locationInfo = locationInfo else { return nil }
         return locationInfo.values(for: .mail)?.first
     }
     
-    var website: String? {
+    public var website: String? {
         guard let locationInfo = locationInfo else { return nil }
         return locationInfo.values(for: .url)?.first
     }
@@ -76,44 +76,44 @@ extension SYPlace: SYMKPoiDetailModel {
 // MARK: - SYReverseSearchResult
 
 extension SYReverseSearchResult: SYMKPoiDetailModel {
-    var street: String? {
+    public var street: String? {
         if let street = resultDescription.street, !street.isEmpty {
             return street
         }
         return nil
     }
     
-    var houseNumber: String? {
+    public var houseNumber: String? {
         if let houseNumber = resultDescription.houseNumber, !houseNumber.isEmpty {
             return houseNumber
         }
         return nil
     }
     
-    var city: String? {
+    public var city: String? {
         if let city = resultDescription.city, !city.isEmpty {
             return city
         }
         return nil
     }
     
-    var postal: String? {
+    public var postal: String? {
         return nil
     }
     
-    var phone: String? {
+    public var phone: String? {
         return nil
     }
     
-    var email: String? {
+    public var email: String? {
         return nil
     }
     
-    var website: String? {
+    public var website: String? {
         return nil
     }
     
-    var title: String {
+    public var title: String {
         if let street = street {
             if let houseNumber = houseNumber {
                 return "\(street) \(houseNumber)"
@@ -125,7 +125,7 @@ extension SYReverseSearchResult: SYMKPoiDetailModel {
         return coordinate.string
     }
     
-    var subtitle: String? {
+    public var subtitle: String? {
         guard city != title else { return nil }
         return city
     }
