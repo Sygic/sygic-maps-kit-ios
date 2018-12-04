@@ -271,7 +271,7 @@ extension SYMKBrowseMapViewController: SYMKMapRecenterDelegate {
             mapView.cameraMovementMode = .followGpsPositionWithAutozoom
             mapView.cameraRotationMode = .attitude
         default:
-            ()
+            break
         }
     }
 }
