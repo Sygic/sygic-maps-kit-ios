@@ -13,7 +13,7 @@ public protocol SYMKPoiDataProtocol {
     var website: String? { get }
 }
 
-public protocol SYMKPoiDetailModel {
+public protocol SYMKPoiDetailModel: SYMKPoiDataProtocol {
     var title: String { get }
     var subtitle: String? { get }
     var contacts: [SYMKPoiDetailContact] { get }
@@ -30,8 +30,12 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
     public var email: String? = nil
     public var website: String? = nil
     
+    public init(with coordinate: SYGeoCoordinate) {
+        self.coordinate = coordinate
+    }
+    
     public init(with place: SYPlace) {
-        coordinate = place.coordinate
+        self.init(with: place.coordinate)
         
         street = place.street
         houseNumber = place.houseNumber
@@ -48,7 +52,7 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
     }
     
     public init(with reverseResult: SYReverseSearchResult) {
-        coordinate = reverseResult.coordinate
+        self.init(with: reverseResult.coordinate)
         
         if let resultStreet = reverseResult.resultDescription.street, !resultStreet.isEmpty {
             street = resultStreet
