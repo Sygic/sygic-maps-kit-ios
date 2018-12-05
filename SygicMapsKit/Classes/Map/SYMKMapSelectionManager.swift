@@ -8,6 +8,9 @@ public protocol SYMKMapSelectionDelegate: class {
 }
 
 public class SYMKMapSelectionManager {
+    
+    // MARK: - Public Properties
+    
     /// Map selection mode
     public enum MapSelectionMode {
         /// No selection
@@ -24,11 +27,14 @@ public class SYMKMapSelectionManager {
             mapView?.addMapMarkersCluster(mapMarkersManager.clusterLayer!)
         }
     }
-    
     public var mapSelectionMode = MapSelectionMode.all
+    
     // MARK: - Private Properties
+    
     private var mapMarkersManager = SYMKMapMarkersManager<SYMKMapPin>()
     private var reverseSearch = SYReverseSearch()
+    
+    // MARK: - Public Methods
     
     public init(with mode: MapSelectionMode) {
         mapSelectionMode = mode
@@ -46,17 +52,9 @@ public class SYMKMapSelectionManager {
         }
         
         var viewObj: SYViewObject?
-        
         for obj in objects {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
-                SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
-                    guard let weakSelf = self else { return }
-                    let category = SYMKPoiCategory.with(syPoiCategory: place.category)
-                    if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
-                        weakSelf.mapMarkersManager.addMapMarker(pin)
-                        weakSelf.delegate?.mapController(didSelect: SYMKPoiData(with: place))
-                    }
-                }
+                selectMapPoi(poi)
                 return
             } else if let marker = viewObj as? SYMapMarker, mapSelectionMode == .markers {
                 viewObj = marker
@@ -65,18 +63,31 @@ public class SYMKMapSelectionManager {
             }
         }
         
-        if hadPin {
-            return
-        }
-        
+        guard !hadPin else { return }
         if let coordinate = viewObj?.coordinate {
-            if let pin = SYMKMapPin(coordinate: coordinate, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
-                mapMarkersManager.addMapMarker(pin)
-                reverseSearch.reverseSearch(with: coordinate) { [weak self] results in
-                    guard let result = results.first else { return }
-                    self?.delegate?.mapController(didSelect: SYMKPoiData(with: result))
-                }
-            }
+            selectCoordinate(coordinate)
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func selectMapPoi(_ poi: SYPoiObject) {
+        SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
+            self?.selectPlace(with: SYMKPoiData(with: place), category: SYMKPoiCategory.with(syPoiCategory: place.category))
+        }
+    }
+    
+    private func selectCoordinate(_ coordinate: SYGeoCoordinate) {
+        reverseSearch.reverseSearch(with: coordinate) { [weak self] results in
+            guard let result = results.first else { return }
+            self?.selectPlace(with: SYMKPoiData(with: result))
+        }
+    }
+    
+    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SygicIcon.POIPoi, color: .darkGray), highlighted: Bool = true) {
+        if let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) {
+            mapMarkersManager.addMapMarker(pin)
+            self.delegate?.mapController(didSelect: poiData)
         }
     }
 }
