@@ -110,7 +110,7 @@ public class SYMKBrowseMapViewController: UIViewController {
 
 extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
     public func mapController(_ controller: SYMKMapViewController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
-        zoomController.is3D = mapState.isTilt3D
+        zoomController.is3D = !mapState.isTilt3D
         compassController.course = Double(mapState.rotation)
         recenterController.allowedStates = mapState.recenterStates
         recenterController.currentState = mapState.recenterCurrentState
@@ -118,7 +118,8 @@ extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
 }
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
-    public func mapController(didSelect poiData: SYMKPoiDetailModel) {
+    public func mapController(didSelect poiData: SYMKPoiDataProtocol) {
+        guard let poiData = poiData as? SYMKPoiData else { return }
         showPoiDetail(with: poiData)
     }
     

@@ -3,7 +3,7 @@ import SygicMaps
 import SygicUIKit
 
 public protocol SYMKMapSelectionDelegate: class {
-    func mapController(didSelect poiData: SYMKPoiDetailModel)
+    func mapController(didSelect poiData: SYMKPoiDataProtocol)
     func mapControllerDeselectAll()
 }
 
@@ -54,7 +54,7 @@ public class SYMKMapSelectionManager {
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
                         weakSelf.mapMarkersManager.addMapMarker(pin)
-                        weakSelf.delegate?.mapController(didSelect: place)
+                        weakSelf.delegate?.mapController(didSelect: SYMKPoiData(with: place))
                     }
                 }
                 return
@@ -74,7 +74,7 @@ public class SYMKMapSelectionManager {
                 mapMarkersManager.addMapMarker(pin)
                 reverseSearch.reverseSearch(with: coordinate) { [weak self] results in
                     guard let result = results.first else { return }
-                    self?.delegate?.mapController(didSelect: result)
+                    self?.delegate?.mapController(didSelect: SYMKPoiData(with: result))
                 }
             }
         }
