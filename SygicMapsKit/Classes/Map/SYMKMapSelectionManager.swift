@@ -85,10 +85,9 @@ public class SYMKMapSelectionManager {
     }
     
     private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SygicIcon.POIPoi, color: .darkGray), highlighted: Bool = true) {
-        if let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) {
-            mapMarkersManager.addMapMarker(pin)
-            self.delegate?.mapController(didSelect: poiData)
-        }
+        guard let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) else { return }
+        mapMarkersManager.addMapMarker(pin)
+        self.delegate?.mapController(didSelect: poiData)
     }
 }
 
