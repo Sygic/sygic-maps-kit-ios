@@ -54,8 +54,9 @@ public class SYMKBrowseMapViewController: UIViewController {
     private var compassController = SYUICompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
     private var zoomController = SYUIZoomController()
-    private var poiDetailDataSource: SYMKPoiDetailDataSource?
     private var poiDetailViewController: SYUIPoiDetailViewController?
+    
+    private var reverseSearch: SYReverseSearch!
     
     // MARK: - Public Methods
     
@@ -70,7 +71,13 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        initSygicMapsSDK()
+        SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
+            if success {
+                self?.sygicSDKInitialized()
+            } else {
+                self?.sygicSDKFailure()
+            }
+        }
     }
     
     // MARK: - Private Methods
@@ -81,6 +88,8 @@ public class SYMKBrowseMapViewController: UIViewController {
         (view as! SYMKBrowseMapView).setupMapView()
         setupViewDelegates()
         setupMapSelectionManager()
+        
+        reverseSearch = SYReverseSearch()
     }
     
     private func sygicSDKFailure() {
@@ -133,10 +142,8 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     // MARK: PoiDetail
     
-    private func showPoiDetail(with poiDetailData: SYMKPoiDetailDataSource) {
-        poiDetailDataSource = poiDetailData
-        poiDetailViewController = SYUIPoiDetailViewController()
-        poiDetailViewController?.dataSource = poiDetailData
+    private func showPoiDetail(with data: SYMKPoiDetailModel) {
+        poiDetailViewController = SYMKPoiDetailViewController(with: data)
         poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, completion: nil)
     }
     
@@ -145,10 +152,8 @@ public class SYMKBrowseMapViewController: UIViewController {
         poiDetail.dismissPoiDetail(completion: { [weak self] _ in
             guard poiDetail == self?.poiDetailViewController else { return }
             self?.poiDetailViewController = nil
-            self?.poiDetailDataSource = nil
         })
     }
-    
 }
 
 // MARK: - Map delegate
@@ -182,11 +187,11 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
         
         for obj in objects {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
-                SYPlaces.shared().loadPoiObjectPlace(poi) { (place: SYPlace) in
+                SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
                     let category = SYMKPoiCategory.with(syPoiCategory: place.category)
                     if let pin = SYMKMapPin(coordinate: place.coordinate, icon: category.icon, color: category.color, highlighted: true) {
-                        self.mapSelectionManager.addMapMarker(pin)
-                        self.showPoiDetail(with: SYMKPoiDetailDataSource(with: place))
+                        self?.mapSelectionManager.addMapMarker(pin)
+                        self?.showPoiDetail(with: place)
                     }
                 }
                 return
@@ -201,10 +206,13 @@ extension SYMKBrowseMapViewController: SYMapViewDelegate {
             return
         }
         
-        if let coord = viewObj?.coordinate {
-            if let pin = SYMKMapPin(coordinate: coord, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
+        if let coordinate = viewObj?.coordinate {
+            if let pin = SYMKMapPin(coordinate: coordinate, icon: SygicIcon.POIPoi, color: .darkGray, highlighted: true) {
                 mapSelectionManager.addMapMarker(pin)
-                showPoiDetail(with: SYMKPoiDetailDataSource(with: coord))
+                reverseSearch.reverseSearch(with: coordinate) { [weak self] results in
+                    guard let result = results.first else { return }
+                    self?.showPoiDetail(with: result)
+                }
             }
         }
     }
@@ -222,20 +230,6 @@ extension SYMKBrowseMapViewController: SYUICompassDelegate {
         }
         
         rotateMapNorth()
-    }
-}
-
-// MARK: - SDK handling
-
-extension SYMKBrowseMapViewController {
-    private func initSygicMapsSDK() {
-        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret) { initResult in
-            if initResult == .success {
-                self.sygicSDKInitialized()
-            } else {
-                self.sygicSDKFailure()
-            }
-        }
     }
 }
 
