@@ -52,7 +52,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        SYMKSdkManager.shared.initailizeIfNeeded { [weak self] success in
+        SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
             if success {
                 self?.sygicSDKInitialized()
             } else {
