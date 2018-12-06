@@ -10,8 +10,12 @@ class ViewController: UIViewController {
         let browseMap = SYMKBrowseMapViewController()
         browseMap.useCompass = true
         browseMap.useRecenterButton = true
+        browseMap.useZoomControl = true
         browseMap.mapSelectionMode = .all
         present(browseMap, animated: false)
     }
     
+    private func customPoiData() {
+        
+    }
 }

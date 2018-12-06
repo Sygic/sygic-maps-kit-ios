@@ -1,5 +1,4 @@
 import Foundation
-import SygicMaps
 import SygicUIKit
 
 public protocol SYMKMapRecenterDelegate: class {

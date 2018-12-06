@@ -52,4 +52,9 @@ public extension SYPlace {
     var houseNumber: String? { return unemptyLocationInfo(for: .houseNum) }
     var city: String? { return unemptyLocationInfo(for: .city) }
     var postal: String? { return unemptyLocationInfo(for: .postal) }
+    
+    // MARK: Contacts
+    var phone: String? { return unemptyLocationInfo(for: .phone) }
+    var email: String? { return unemptyLocationInfo(for: .mail) }
+    var website: String? { return unemptyLocationInfo(for: .url) }
 }
