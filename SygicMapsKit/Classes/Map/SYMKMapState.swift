@@ -1,20 +1,20 @@
 import Foundation
 import SygicMaps
 
-public struct SYMKMapState {
-    var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
-    var zoom: CGFloat = 16
-    var rotation: CGFloat = 0
-    var tilt: CGFloat = 0
+public class SYMKMapState {
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
+    public var zoom: CGFloat = 16
+    public var rotation: CGFloat = 0
+    public var tilt: CGFloat = 0
     
-    var cameraMovementMode: SYCameraMovement = .free
-    var cameraRotationMode: SYCameraRotation = .free
+    public var cameraMovementMode: SYCameraMovement = .free
+    public var cameraRotationMode: SYCameraRotation = .free
     
-    var isTilt3D: Bool {
+    public var isTilt3D: Bool {
         return tilt >= 0.01
     }
     
-    var recenterCurrentState: SYMKMapRecenterController.state {
+    public var recenterCurrentState: SYMKMapRecenterController.state {
         if cameraMovementMode == .free {
             return .free
         } else {
@@ -26,7 +26,7 @@ public struct SYMKMapState {
         }
     }
     
-    var recenterStates: [SYMKMapRecenterController.state] {
+    public var recenterStates: [SYMKMapRecenterController.state] {
         switch recenterCurrentState {
         case .free:
             return [.free, .locked]
@@ -35,4 +35,6 @@ public struct SYMKMapState {
             return [.locked, .lockedCompass]
         }
     }
+    
+    public init() {}
 }
