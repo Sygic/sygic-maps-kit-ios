@@ -71,7 +71,13 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        initSygicMapsSDK()
+        SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
+            if success {
+                self?.sygicSDKInitialized()
+            } else {
+                self?.sygicSDKFailure()
+            }
+        }
     }
     
     // MARK: - Private Methods
@@ -148,7 +154,6 @@ public class SYMKBrowseMapViewController: UIViewController {
             self?.poiDetailViewController = nil
         })
     }
-    
 }
 
 // MARK: - Map delegate
@@ -225,20 +230,6 @@ extension SYMKBrowseMapViewController: SYUICompassDelegate {
         }
         
         rotateMapNorth()
-    }
-}
-
-// MARK: - SDK handling
-
-extension SYMKBrowseMapViewController {
-    private func initSygicMapsSDK() {
-        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret) { initResult in
-            if initResult == .success {
-                self.sygicSDKInitialized()
-            } else {
-                self.sygicSDKFailure()
-            }
-        }
     }
 }
 
