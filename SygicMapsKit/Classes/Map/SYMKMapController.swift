@@ -2,10 +2,10 @@ import SygicMaps
 import SygicUIKit
 
 public protocol SYMKMapViewControllerDelegate: class {
-    func mapController(_ controller: SYMKMapViewController, didUpdate mapState: SYMKMapState, on mapView: SYMapView)
+    func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView)
 }
 
-public class SYMKMapViewController: NSObject {
+public class SYMKMapController: NSObject {
     
     public weak var delegate: SYMKMapViewControllerDelegate?
     public var selectionManager: SYMKMapSelectionManager? {
@@ -65,7 +65,7 @@ public class SYMKMapViewController: NSObject {
 
 // MARK: - Map delegate
 
-extension SYMKMapViewController: SYMapViewDelegate {
+extension SYMKMapController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraPosition geoCenter: SYGeoCoordinate, zoom: CGFloat, rotation: CGFloat, tilt: CGFloat) {
         mapState.geoCenter = geoCenter
@@ -96,7 +96,7 @@ extension SYMKMapViewController: SYMapViewDelegate {
 
 // MARK: - Compass Delegate
 
-extension SYMKMapViewController: SYUICompassDelegate {
+extension SYMKMapController: SYUICompassDelegate {
     public func compassDidTap(_ compass: SYUICompass) {
         if mapView.cameraMovementMode != .free {
             mapView.cameraRotationMode = .free
@@ -107,7 +107,7 @@ extension SYMKMapViewController: SYUICompassDelegate {
 
 // MARK: - Map Recenter delegate
 
-extension SYMKMapViewController: SYMKMapRecenterDelegate {
+extension SYMKMapController: SYMKMapRecenterDelegate {
     public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state) {
         switch state {
         case .locked:
@@ -127,7 +127,7 @@ extension SYMKMapViewController: SYMKMapRecenterDelegate {
 
 // MARK: - Zoom buttons Delegate
 
-extension SYMKMapViewController: SYUIZoomControllerDelegate {
+extension SYMKMapController: SYUIZoomControllerDelegate {
     public func zoomController(wants activity: SYUIZoomActivity) {
         switch activity {
         case .zoomIn, .zoomingIn:

@@ -33,7 +33,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     // MARK: - Private Properties
     
-    private var mapController: SYMKMapViewController?
+    private var mapController: SYMKMapController?
     private var compassController = SYUICompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
     private var zoomController = SYUIZoomController()
@@ -78,7 +78,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     }
     
     private func setupMapController() {
-        let mapController = SYMKMapViewController(with: view.bounds, mapState: nil)
+        let mapController = SYMKMapController(with: view.bounds, mapState: nil)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
@@ -109,7 +109,7 @@ public class SYMKBrowseMapViewController: UIViewController {
 }
 
 extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
-    public func mapController(_ controller: SYMKMapViewController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
+    public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
         zoomController.is3D = !mapState.isTilt3D
         compassController.course = Double(mapState.rotation)
         recenterController.allowedStates = mapState.recenterStates
@@ -118,12 +118,12 @@ extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
 }
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
-    public func mapController(didSelect poiData: SYMKPoiDataProtocol) {
+    public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
         showPoiDetail(with: poiData)
     }
     
-    public func mapControllerDeselectAll() {
+    public func mapSelectionDeselectAll() {
         hidePoiDetail()
     }
 }

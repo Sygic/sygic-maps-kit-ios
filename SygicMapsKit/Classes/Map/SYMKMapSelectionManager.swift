@@ -3,8 +3,8 @@ import SygicMaps
 import SygicUIKit
 
 public protocol SYMKMapSelectionDelegate: class {
-    func mapController(didSelect poiData: SYMKPoiDataProtocol)
-    func mapControllerDeselectAll()
+    func mapSelection(didSelect poiData: SYMKPoiDataProtocol)
+    func mapSelectionDeselectAll()
 }
 
 public class SYMKMapSelectionManager {
@@ -48,7 +48,7 @@ public class SYMKMapSelectionManager {
         let hadPin = !mapMarkersManager.markers.isEmpty
         if hadPin {
             mapMarkersManager.removeAllMarkers()
-            delegate?.mapControllerDeselectAll()
+            delegate?.mapSelectionDeselectAll()
         }
         
         var viewObj: SYViewObject?
@@ -87,7 +87,7 @@ public class SYMKMapSelectionManager {
     private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SygicIcon.POIPoi, color: .darkGray), highlighted: Bool = true) {
         guard let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) else { return }
         mapMarkersManager.addMapMarker(pin)
-        self.delegate?.mapController(didSelect: poiData)
+        self.delegate?.mapSelection(didSelect: poiData)
     }
 }
 
