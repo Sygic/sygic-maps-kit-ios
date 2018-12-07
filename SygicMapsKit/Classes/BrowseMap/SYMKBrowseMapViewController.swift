@@ -43,10 +43,15 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     override public func loadView() {
         let browseView = SYMKBrowseMapView()
-        browseView.setupCompass(compassController.compass)
-        browseView.setupRecenter(recenterController.button)
-        browseView.setupZoomControl(zoomController.expandableButtonsView)
-        recenterController.button.isHidden = !useRecenterButton
+        if useCompass {
+            browseView.setupCompass(compassController.compass)
+        }
+        if useRecenterButton {
+            browseView.setupRecenter(recenterController.button)
+        }
+        if useZoomControl {
+            browseView.setupZoomControl(zoomController.expandableButtonsView)
+        }
         view = browseView
     }
     
@@ -78,7 +83,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     }
     
     private func setupMapController() {
-        let mapController = SYMKMapController(with: view.bounds, mapState: nil)
+        let mapController = SYMKMapController(with: nil)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)

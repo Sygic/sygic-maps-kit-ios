@@ -26,7 +26,7 @@ public class SYMKMapController: NSObject {
         case _3D = 80.0
     }
     
-    public init(with mapFrame: CGRect, mapState: SYMKMapState?) {
+    public init(with mapState: SYMKMapState?, mapFrame: CGRect = .zero) {
         if let state = mapState {
             self.mapState = state
         } else {
