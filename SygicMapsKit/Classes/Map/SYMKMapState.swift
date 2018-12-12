@@ -1,6 +1,11 @@
 import Foundation
 import SygicMaps
 
+
+internal protocol MapControl {
+    func update(with mapState: SYMKMapState)
+}
+
 public class SYMKMapState {
     var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
     var zoom: CGFloat = 16

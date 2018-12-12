@@ -1,9 +1,6 @@
 import SygicMaps
 import SygicUIKit
 
-protocol MapControl {
-    func update(with mapState: SYMKMapState)
-}
 
 public class SYMKBrowseMapViewController: UIViewController {
     
