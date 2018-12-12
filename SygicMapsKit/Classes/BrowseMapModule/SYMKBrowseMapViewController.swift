@@ -1,6 +1,7 @@
 import SygicMaps
 import SygicUIKit
 
+
 public protocol SYMKBrowseMapViewControllerDelegate: class {
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelectData: SYMKPoiDataProtocol)
 }
@@ -53,19 +54,26 @@ public class SYMKBrowseMapViewController: UIViewController {
     // MARK: - Private Properties
     
     private var mapController: SYMKMapController?
-    private var compassController = SYUICompassController(course: 0, autoHide: true)
+    private var compassController = SYMKCompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
-    private var zoomController = SYUIZoomController()
+    private var zoomController = SYMKZoomController()
     private var poiDetailViewController: SYUIPoiDetailViewController?
+    
+    private var mapControls = [MapControl]()
     
     // MARK: - Public Methods
     
     override public func loadView() {
         let browseView = SYMKBrowseMapView()
-        browseView.setupCompass(compassController.compass)
-        browseView.setupRecenter(recenterController.button)
-        browseView.setupZoomControl(zoomController.expandableButtonsView)
-        recenterController.button.isHidden = !useRecenterButton
+        if useCompass {
+            browseView.setupCompass(compassController.compass)
+        }
+        if useRecenterButton {
+            browseView.setupRecenter(recenterController.button)
+        }
+        if useZoomControl {
+            browseView.setupZoomControl(zoomController.expandableButtonsView)
+        }
         view = browseView
     }
     
@@ -88,6 +96,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         
         setupMapController()
         setupViewDelegates()
+        mapControls = [compassController, zoomController, recenterController]
     }
     
     private func sygicSDKFailure() {
@@ -97,7 +106,7 @@ public class SYMKBrowseMapViewController: UIViewController {
     }
     
     private func setupMapController() {
-        let mapController = SYMKMapController(with: view.bounds, mapState: nil)
+        let mapController = SYMKMapController(with: nil)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
@@ -137,15 +146,15 @@ public class SYMKBrowseMapViewController: UIViewController {
 }
 
 extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
+    
     public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
-        zoomController.is3D = !mapState.isTilt3D
-        compassController.course = Double(mapState.rotation)
-        recenterController.allowedStates = mapState.recenterStates
-        recenterController.currentState = mapState.recenterCurrentState
+        mapControls.forEach { $0.update(with: mapState) }
     }
+    
 }
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
+    
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
         if let delegate = delegate {
@@ -158,4 +167,5 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     public func mapSelectionDeselectAll() {
         hidePoiDetail()
     }
+    
 }

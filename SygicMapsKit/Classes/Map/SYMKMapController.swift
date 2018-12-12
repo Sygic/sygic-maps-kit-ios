@@ -26,7 +26,7 @@ public class SYMKMapController: NSObject {
         case _3D = 80.0
     }
     
-    public init(with mapFrame: CGRect, mapState: SYMKMapState?) {
+    public init(with mapState: SYMKMapState?, mapFrame: CGRect = .zero) {
         if let state = mapState {
             self.mapState = state
         } else {
@@ -107,7 +107,7 @@ extension SYMKMapController: SYUICompassDelegate {
 
 // MARK: - Map Recenter delegate
 
-extension SYMKMapController: SYMKMapRecenterDelegate {
+extension SYMKMapController: SYUIMapRecenterDelegate {
     public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state) {
         switch state {
         case .locked:

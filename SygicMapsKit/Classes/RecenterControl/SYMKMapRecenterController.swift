@@ -1,57 +1,37 @@
-import Foundation
 import SygicUIKit
 
-public protocol SYMKMapRecenterDelegate: class {
-    func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state)
-}
 
-public class SYMKMapRecenterController: NSObject {
-    public enum state {
-        case free
-        case locked
-        case lockedCompass
+public class SYMKMapRecenterController: SYUIMapRecenterController, MapControl {
+    
+    func update(with mapState: SYMKMapState) {
+        allowedStates = mapState.recenterStates
+        currentState = mapState.recenterCurrentState
     }
     
-    public var button = SYUIActionButton()
-    public var allowedStates: [state] = [.free, .locked, .lockedCompass]
+}
+
+extension SYMKMapState {
     
-    public var currentState: state = .free {
-        didSet {
-            refreshIcon()
-            if let delegate = delegate, oldValue != currentState {
-                delegate.didChangeRecenterButtonState(button: button, state: currentState)
+    var recenterCurrentState: SYMKMapRecenterController.state {
+        if cameraMovementMode == .free {
+            return .free
+        } else {
+            if cameraRotationMode == .attitude {
+                return .lockedCompass
+            } else {
+                return .locked
             }
         }
     }
-    public weak var delegate: SYMKMapRecenterDelegate?
     
-    public override init() {
-        super.init()
-        button.style = .secondary
-        button.addTarget(self, action: #selector(SYMKMapRecenterController.didTapButton), for: .touchUpInside)
-        refreshIcon()
-    }
-    
-    @objc func didTapButton() {
-        if allowedStates.count == 0 { return }
-        guard var stateIndex = allowedStates.firstIndex(of: currentState) else { return }
-        stateIndex += 1
-        
-        if stateIndex >= allowedStates.count {
-            stateIndex = 0
-        }
-
-        currentState = allowedStates[stateIndex]
-    }
-    
-    private func refreshIcon() {
-        switch currentState {
+    var recenterStates: [SYMKMapRecenterController.state] {
+        switch recenterCurrentState {
         case .free:
-            button.icon = SygicIcon.positionIos
-        case .locked:
-            button.icon = SygicIcon.positionLockIos
-        case .lockedCompass:
-            button.icon = SygicIcon.positionLockCompassIos
+            return [.free, .locked]
+        case .locked,
+             .lockedCompass:
+            return [.locked, .lockedCompass]
         }
     }
+    
 }
