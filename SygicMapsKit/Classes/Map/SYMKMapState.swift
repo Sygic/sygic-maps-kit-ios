@@ -1,7 +1,7 @@
 import Foundation
 import SygicMaps
 
-public struct SYMKMapState {
+public class SYMKMapState {
     var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
     var zoom: CGFloat = 16
     var rotation: CGFloat = 0

@@ -107,7 +107,7 @@ extension SYMKMapController: SYUICompassDelegate {
 
 // MARK: - Map Recenter delegate
 
-extension SYMKMapController: SYMKMapRecenterDelegate {
+extension SYMKMapController: SYUIMapRecenterDelegate {
     public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state) {
         switch state {
         case .locked:
