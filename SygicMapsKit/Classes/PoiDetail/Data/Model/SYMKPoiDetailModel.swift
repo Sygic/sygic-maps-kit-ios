@@ -1,5 +1,7 @@
 import Foundation
+import UIKit
 import SygicMaps
+import SygicUIKit
 
 public protocol SYMKPoiDataProtocol {
     var coordinate: SYGeoCoordinate { get }
@@ -19,7 +21,23 @@ public protocol SYMKPoiDetailModel: SYMKPoiDataProtocol {
     var contacts: [SYMKPoiDetailContact] { get }
 }
 
-public struct SYMKPoiData: SYMKPoiDataProtocol {
+public protocol SYMKPoiMarkerData {
+    var coordinate: SYGeoCoordinate { get }
+    var icon: String { get }
+    var color: UIColor { get }
+    var highlighted: Bool { get }
+}
+
+public class SYMKPoiDataPin: SYMKMapPin {
+    public let data: SYMKPoiData
+    
+    public init?(data: SYMKPoiData) {
+        self.data = data
+        super.init(coordinate: data.coordinate, icon: data.icon, color: data.color, highlighted: data.highlighted)
+    }
+}
+
+public struct SYMKPoiData: SYMKPoiDataProtocol, SYMKPoiMarkerData {
     public var coordinate: SYGeoCoordinate
     public var name: String? = nil
     public var street: String? = nil
@@ -29,6 +47,10 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
     public var phone: String? = nil
     public var email: String? = nil
     public var website: String? = nil
+    
+    public var icon: String = SygicIcon.POIPoi
+    public var color: UIColor = .darkGray
+    public var highlighted: Bool = false
     
     public init(with coordinate: SYGeoCoordinate) {
         self.coordinate = coordinate

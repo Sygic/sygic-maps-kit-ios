@@ -32,22 +32,34 @@ public class SYMKMapSelectionManager {
     // MARK: - Private Properties
     
     private var mapMarkersManager = SYMKMapMarkersManager<SYMKMapPin>()
+    private var customMarkersManager = SYMKMapMarkersManager<SYMKPoiDataPin>()
     private var reverseSearch = SYReverseSearch()
     
     // MARK: - Public Methods
     
-    public init(with mode: MapSelectionMode) {
+    public init(with mode: MapSelectionMode, customDataMarkers: [SYMKPoiDataPin]? = nil) {
         mapSelectionMode = mode
+        
+        let defaultMarkersCluster = SYMapMarkersCluster()
+        
         mapMarkersManager.mapObjectsManager = self
-        mapMarkersManager.clusterLayer = SYMapMarkersCluster()
+        mapMarkersManager.clusterLayer = defaultMarkersCluster
+        
+        customMarkersManager.mapObjectsManager = self
+        customMarkersManager.clusterLayer = defaultMarkersCluster
+        
+        customDataMarkers?.forEach {
+            addCustomPin($0)
+        }
     }
     
     public func selectMapObjects(_ objects: [SYViewObject]) {
         guard mapSelectionMode != .none else { return }
         
-        let hadPin = !mapMarkersManager.markers.isEmpty
-        if hadPin {
+        let hadPinSelected = !mapMarkersManager.markers.isEmpty || customMarkersManager.highlightedMarker != nil
+        if hadPinSelected {
             mapMarkersManager.removeAllMarkers()
+            customMarkersManager.highlightedMarker = nil
             delegate?.mapSelectionDeselectAll()
         }
         
@@ -56,17 +68,22 @@ public class SYMKMapSelectionManager {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
                 selectMapPoi(poi)
                 return
-            } else if let marker = viewObj as? SYMapMarker, mapSelectionMode == .markers {
-                viewObj = marker
+            } else if let marker = obj as? SYMapMarker {
+                selectCustomMarker(marker)
+                return
             } else if mapSelectionMode == .all && viewObj == nil {
                 viewObj = obj
             }
         }
         
-        guard !hadPin else { return }
+        guard !hadPinSelected else { return }
         if let coordinate = viewObj?.coordinate {
             selectCoordinate(coordinate)
         }
+    }
+    
+    public func addCustomPin(_ pin: SYMKPoiDataPin) {
+        customMarkersManager.addMapMarker(pin)
     }
     
     // MARK: - Private Methods
@@ -87,7 +104,13 @@ public class SYMKMapSelectionManager {
     private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SygicIcon.POIPoi, color: .darkGray), highlighted: Bool = true) {
         guard let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) else { return }
         mapMarkersManager.addMapMarker(pin)
-        self.delegate?.mapSelection(didSelect: poiData)
+        delegate?.mapSelection(didSelect: poiData)
+    }
+    
+    private func selectCustomMarker(_ mapMarker: SYMapMarker) {
+        guard let dataMarker = customMarkersManager.markers.first(where: { $0.mapMarker == mapMarker }) else { return }
+        customMarkersManager.highlightedMarker = dataMarker
+        delegate?.mapSelection(didSelect: dataMarker.data)
     }
 }
 
