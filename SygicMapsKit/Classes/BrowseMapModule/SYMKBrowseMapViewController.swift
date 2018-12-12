@@ -1,6 +1,7 @@
 import SygicMaps
 import SygicUIKit
 
+
 public class SYMKBrowseMapViewController: UIViewController {
     
     // MARK: - Public Properties
@@ -34,10 +35,12 @@ public class SYMKBrowseMapViewController: UIViewController {
     // MARK: - Private Properties
     
     private var mapController: SYMKMapController?
-    private var compassController = SYUICompassController(course: 0, autoHide: true)
+    private var compassController = SYMKCompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
-    private var zoomController = SYUIZoomController()
+    private var zoomController = SYMKZoomController()
     private var poiDetailViewController: SYUIPoiDetailViewController?
+    
+    private var mapControls = [MapControl]()
     
     // MARK: - Public Methods
     
@@ -74,6 +77,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         
         setupMapController()
         setupViewDelegates()
+        mapControls = [compassController, zoomController, recenterController]
     }
     
     private func sygicSDKFailure() {
@@ -114,15 +118,15 @@ public class SYMKBrowseMapViewController: UIViewController {
 }
 
 extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
+    
     public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
-        zoomController.is3D = !mapState.isTilt3D
-        compassController.course = Double(mapState.rotation)
-        recenterController.allowedStates = mapState.recenterStates
-        recenterController.currentState = mapState.recenterCurrentState
+        mapControls.forEach { $0.update(with: mapState) }
     }
+    
 }
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
+    
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
         showPoiDetail(with: poiData)
@@ -131,4 +135,5 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     public func mapSelectionDeselectAll() {
         hidePoiDetail()
     }
+    
 }
