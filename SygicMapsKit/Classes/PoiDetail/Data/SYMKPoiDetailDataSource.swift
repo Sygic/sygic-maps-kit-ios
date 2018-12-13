@@ -19,11 +19,11 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
     }
     
     public var poiDetailTitle: String {
-        return model.title
+        return model.poiDetailTitle
     }
     
     public var poiDetailSubtitle: String? {
-        return model.subtitle
+        return model.poiDetailSubtitle
     }
     
     public func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
@@ -31,7 +31,7 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
         case .actions:
             return 1
         case .contactInfo:
-            return model.contacts.count
+            return model.poiDetailContacts.count
         default:
             return 0
         }
@@ -43,7 +43,7 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
         case .actions:
             return SYUIPoiDetailCellData(title: "GPS", subtitle: model.coordinate.string, icon: SygicIcon.pinPlace, stringToCopy: model.coordinate.string)
         case .contactInfo:
-            return model.contacts[indexPath.row].cellDataSourece()
+            return model.poiDetailContacts[indexPath.row].cellDataSourece()
         default:
             return SYUIPoiDetailCellData(title: "")
         }

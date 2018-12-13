@@ -16,9 +16,9 @@ public protocol SYMKPoiDataProtocol {
 }
 
 public protocol SYMKPoiDetailModel: SYMKPoiDataProtocol {
-    var title: String { get }
-    var subtitle: String? { get }
-    var contacts: [SYMKPoiDetailContact] { get }
+    var poiDetailTitle: String { get }
+    var poiDetailSubtitle: String? { get }
+    var poiDetailContacts: [SYMKPoiDetailContact] { get }
 }
 
 public struct SYMKPoiData: SYMKPoiDataProtocol {
@@ -108,7 +108,7 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
 
 extension SYMKPoiData: SYMKPoiDetailModel {
     
-    public var title: String {
+    public var poiDetailTitle: String {
         if let name = name {
             return name
         } else if let streetAndHouseNumber = formattedAddress(from: street, houseNumber: houseNumber) {
@@ -119,16 +119,16 @@ extension SYMKPoiData: SYMKPoiDetailModel {
         return coordinate.string
     }
     
-    public var subtitle: String? {
+    public var poiDetailSubtitle: String? {
         if name != nil {
             return formattedAddress(from: street, houseNumber: houseNumber, city: city, postal: postal)
-        } else if let postalAndCity = formattedAddress(city: city, postal: postal), postalAndCity != title {
+        } else if let postalAndCity = formattedAddress(city: city, postal: postal), postalAndCity != poiDetailTitle {
             return postalAndCity
         }
         return nil
     }
     
-    public var contacts: [SYMKPoiDetailContact] {
+    public var poiDetailContacts: [SYMKPoiDetailContact] {
         var contacts = [SYMKPoiDetailContact]()
         if let phone = phone {
             contacts.append(SYMKPoiDetailContact.phone(phone))
