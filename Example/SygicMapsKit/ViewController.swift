@@ -19,23 +19,23 @@ class ViewController: UIViewController {
     }
     
     private func customMarkers() -> [SYMKMapPin] {
-        let poi1 = markerWithEverything()
-        let poi2 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!, icon: SygicIcon.android, color: .green)!
-        let poi3 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!, icon: SygicIcon.sygic, color: .red)!
-        return [poi1, poi2, poi3]
+        let pin1 = pinWithEverything()
+        let pin2 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!, icon: SygicIcon.android, color: .green)!
+        let pin3 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!, icon: SygicIcon.sygic, color: .red)!
+        return [pin1, pin2, pin3]
     }
     
-    private func markerWithEverything() -> SYMKMapPin {
-        var poi = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!)
-        poi.name = "Super custom POI"
-        poi.street = "Mlynske Nivy"
-        poi.houseNumber = "16"
-        poi.city = "Bratislava"
-        poi.postal = "831 09"
-        poi.website = "www.sygic.com"
+    private func pinWithEverything() -> SYMKMapPin {
+        var data = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!)
+        data.name = "Super custom POI"
+        data.street = "Mlynske Nivy"
+        data.houseNumber = "16"
+        data.city = "Bratislava"
+        data.postal = "831 09"
+        data.website = "www.sygic.com"
         
-        let marker = SYMKMapPin(coordinate: poi.coordinate, icon: SygicIcon.apple, color: .gray, highlighted: true)!
-        marker.data = poi
+        let marker = SYMKMapPin(coordinate: data.coordinate, icon: SygicIcon.apple, color: .gray, highlighted: true)!
+        marker.data = data
         return marker
     }
 }
