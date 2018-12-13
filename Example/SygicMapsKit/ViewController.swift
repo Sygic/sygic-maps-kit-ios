@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         data.postal = "831 09"
         data.website = "www.sygic.com"
         
-        let marker = SYMKMapPin(coordinate: data.coordinate, icon: SygicIcon.apple, color: .gray, highlighted: true)!
+        let marker = SYMKMapPin(coordinate: data.coordinate, icon: SygicIcon.apple, color: .gray, highlighted: false)!
         marker.data = data
         return marker
     }
