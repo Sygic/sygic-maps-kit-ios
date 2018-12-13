@@ -41,7 +41,7 @@ extension SYMKPoiDetailDataSource: SYUIPoiDetailDataSource {
         guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellData(title: "") }
         switch section {
         case .actions:
-            return SYUIPoiDetailCellData(title: "GPS", subtitle: model.coordinate.string, icon: SygicIcon.pinPlace, stringToCopy: model.coordinate.string)
+            return SYUIPoiDetailCellData(title: "GPS", subtitle: model.coordinate.string, icon: SYUIIcon.pinPlace, stringToCopy: model.coordinate.string)
         case .contactInfo:
             return model.poiDetailContacts[indexPath.row].cellDataSourece()
         default:
