@@ -8,15 +8,15 @@ internal protocol MapControl {
 
 public class SYMKMapState {
     
-    var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
-    var zoom: CGFloat = 16
-    var rotation: CGFloat = 0
-    var tilt: CGFloat = 0
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
+    public var zoom: CGFloat = 16
+    public var rotation: CGFloat = 0
+    public var tilt: CGFloat = 0
     
-    var cameraMovementMode: SYCameraMovement = .free
-    var cameraRotationMode: SYCameraRotation = .free
+    public var cameraMovementMode: SYCameraMovement = .free
+    public var cameraRotationMode: SYCameraRotation = .free
     
-    var isTilt3D: Bool {
+    public var isTilt3D: Bool {
         return tilt >= 0.01
     }
 

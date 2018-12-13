@@ -2,9 +2,18 @@ import SygicMaps
 import SygicUIKit
 
 
+public protocol SYMKBrowseMapViewControllerDelegate: class {
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelectData: SYMKPoiDataProtocol)
+}
+
 public class SYMKBrowseMapViewController: UIViewController {
     
     // MARK: - Public Properties
+    
+    /**
+        Delegate output for browse map controller
+     */
+    public weak var delegate: SYMKBrowseMapViewControllerDelegate?
     
     /**
         Enables compass functionality.
@@ -25,10 +34,20 @@ public class SYMKBrowseMapViewController: UIViewController {
     /**
         Current map selection mode.
         Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
+        - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
      */
     public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .all {
         didSet {
             mapController?.selectionManager?.mapSelectionMode = mapSelectionMode
+        }
+    }
+    
+    /**
+        Custom pois presented by markers in map.
+     */
+    public var customMarkers: [SYMKMapPin]? {
+        didSet {
+            addCustomMarkersToMap()
         }
     }
     
@@ -92,6 +111,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
+        addCustomMarkersToMap()
     }
     
     private func setupViewDelegates() {
@@ -99,6 +119,13 @@ public class SYMKBrowseMapViewController: UIViewController {
         recenterController.delegate = mapController
         zoomController.delegate = mapController
         mapController?.delegate = self
+    }
+    
+    private func addCustomMarkersToMap() {
+        guard let markers = customMarkers, let mapController = mapController else { return }
+        for marker in markers {
+            mapController.selectionManager?.addCustomPin(marker)
+        }
     }
     
     // MARK: PoiDetail
@@ -129,7 +156,11 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
-        showPoiDetail(with: poiData)
+        if let delegate = delegate {
+            delegate.browseMapController(self, didSelectData: poiData)
+        } else {
+            showPoiDetail(with: poiData)
+        }
     }
     
     public func mapSelectionDeselectAll() {

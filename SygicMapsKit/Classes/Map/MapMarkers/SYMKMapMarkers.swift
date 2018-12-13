@@ -28,20 +28,16 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
     public weak var mapObjectsManager: SYMKMapObjectsManager!
     public var clusterLayer: SYMapMarkersCluster? {
         willSet {
-            guard let currentCluster = clusterLayer else {
-                return
-            }
-            
+            guard let currentCluster = clusterLayer else { return }
             for marker in markers {
                 currentCluster.removeMapMarker(marker.mapMarker)
             }
         }
         
         didSet {
-            if let newCluster = clusterLayer {
-                for marker in markers {
-                    newCluster.addMapMarker(marker.mapMarker)
-                }
+            guard let newCluster = clusterLayer else { return }
+            for marker in markers {
+                newCluster.addMapMarker(marker.mapMarker)
             }
         }
     }

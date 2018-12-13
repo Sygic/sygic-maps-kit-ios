@@ -22,7 +22,7 @@ public class SYMKPoiDetailDelegate: SYUIPoiDetailDelegate {
         guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return }
         switch section {
         case .contactInfo:
-            let contact = model.contacts[indexPath.row]
+            let contact = model.poiDetailContacts[indexPath.row]
             switch contact {
             case .phone:
                 call()
@@ -51,7 +51,7 @@ public class SYMKPoiDetailDelegate: SYUIPoiDetailDelegate {
     private func sendMail() {
         guard let mail = model.email, let controller = controller, MFMailComposeViewController.canSendMail() else { return }
         mailComposer = SYUIMailComposer()
-        mailComposer?.present(from: controller, recipient: mail, subject: model.title, body: "", completion: { [weak self] _ in
+        mailComposer?.present(from: controller, recipient: mail, subject: model.poiDetailTitle, body: "", completion: { [weak self] _ in
             self?.mailComposer?.dismiss(animated: true, completion: nil)
             self?.mailComposer = nil
         })
