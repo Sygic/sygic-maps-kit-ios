@@ -31,11 +31,11 @@ public enum SYMKPoiDetailContact {
     var icon: String {
         switch self {
         case .phone:
-            return SygicIcon.call
+            return SYUIIcon.call
         case .email:
-            return SygicIcon.email
+            return SYUIIcon.email
         case .website:
-            return SygicIcon.website
+            return SYUIIcon.website
         }
     }
     

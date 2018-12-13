@@ -24,7 +24,7 @@ public class SYMKMapPin: SYMKMapMarker {
         }
     }
     
-    public init?(coordinate: SYGeoCoordinate, icon: String = SygicIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
+    public init?(coordinate: SYGeoCoordinate, icon: String = SYUIIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
         pin = SYUIPinView(icon: icon, color: color, highlighted: highlighted, animatedHighlight: false)
         self.highlighted = highlighted
         
