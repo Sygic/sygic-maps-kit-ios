@@ -20,7 +20,6 @@ public class SYMKMapPin: SYMKMapMarker {
                 return
             }
             pin.isHighlighted = highlighted
-            
             if let image = pin.imageFromView() {
                 updateMarkerImage(image)
             }
