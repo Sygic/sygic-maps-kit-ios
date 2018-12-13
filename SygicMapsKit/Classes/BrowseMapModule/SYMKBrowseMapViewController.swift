@@ -45,9 +45,9 @@ public class SYMKBrowseMapViewController: UIViewController {
     /**
         Custom pois presented by markers in map.
      */
-    public var customPois: [SYMKPoiData]? {
+    public var customMarkers: [SYMKMapPin]? {
         didSet {
-            addCustomPoisToMap()
+            addCustomMarkersToMap()
         }
     }
     
@@ -111,7 +111,7 @@ public class SYMKBrowseMapViewController: UIViewController {
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
-        addCustomPoisToMap()
+        addCustomMarkersToMap()
     }
     
     private func setupViewDelegates() {
@@ -121,10 +121,9 @@ public class SYMKBrowseMapViewController: UIViewController {
         mapController?.delegate = self
     }
     
-    private func addCustomPoisToMap() {
-        guard let pois = customPois, let mapController = mapController else { return }
-        for poiData in pois {
-            guard let marker = SYMKPoiDataPin(data: poiData) else { continue }
+    private func addCustomMarkersToMap() {
+        guard let markers = customMarkers, let mapController = mapController else { return }
+        for marker in markers {
             mapController.selectionManager?.addCustomPin(marker)
         }
     }

@@ -7,6 +7,7 @@ import SygicUIKit
  */
 public class SYMKMapPin: SYMKMapMarker {
     public var pin: SYUIPinView
+    public var data: SYMKPoiDataProtocol?
     public private(set) var mapMarker: SYMapMarker
     
     public var highlighted: Bool {
@@ -23,7 +24,7 @@ public class SYMKMapPin: SYMKMapMarker {
         }
     }
     
-    public init?(coordinate: SYGeoCoordinate, icon: String, color: UIColor, highlighted: Bool) {
+    public init?(coordinate: SYGeoCoordinate, icon: String = SygicIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
         pin = SYUIPinView(icon: icon, color: color, highlighted: highlighted, animatedHighlight: false)
         self.highlighted = highlighted
         

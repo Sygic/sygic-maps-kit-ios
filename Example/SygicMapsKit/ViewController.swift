@@ -14,22 +14,18 @@ class ViewController: UIViewController {
         browseMap.useRecenterButton = true
         browseMap.useZoomControl = true
         browseMap.mapSelectionMode = .all
-        browseMap.customPois = customPoiData()
+        browseMap.customMarkers = customMarkers()
         present(browseMap, animated: false)
     }
     
-    private func customPoiData() -> [SYMKPoiData] {
-        let poi1 = poiWithEverything()
-        var poi2 = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!)
-        poi2.color = .green
-        poi2.icon = SygicIcon.android
-        var poi3 = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!)
-        poi3.color = .red
-        poi3.icon = SygicIcon.sygic
+    private func customMarkers() -> [SYMKMapPin] {
+        let poi1 = markerWithEverything()
+        let poi2 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!, icon: SygicIcon.android, color: .green)!
+        let poi3 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!, icon: SygicIcon.sygic, color: .red)!
         return [poi1, poi2, poi3]
     }
     
-    private func poiWithEverything() -> SYMKPoiData {
+    private func markerWithEverything() -> SYMKMapPin {
         var poi = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!)
         poi.name = "Super custom POI"
         poi.street = "Mlynske Nivy"
@@ -37,8 +33,9 @@ class ViewController: UIViewController {
         poi.city = "Bratislava"
         poi.postal = "831 09"
         poi.website = "www.sygic.com"
-        poi.icon = SygicIcon.apple
-        poi.color = .gray
-        return poi
+        
+        let marker = SYMKMapPin(coordinate: poi.coordinate, icon: SygicIcon.apple, color: .gray, highlighted: true)!
+        marker.data = poi
+        return marker
     }
 }

@@ -32,12 +32,12 @@ public class SYMKMapSelectionManager {
     // MARK: - Private Properties
     
     private var mapMarkersManager = SYMKMapMarkersManager<SYMKMapPin>()
-    private var customMarkersManager = SYMKMapMarkersManager<SYMKPoiDataPin>()
+    private var customMarkersManager = SYMKMapMarkersManager<SYMKMapPin>()
     private var reverseSearch = SYReverseSearch()
     
     // MARK: - Public Methods
     
-    public init(with mode: MapSelectionMode, customDataMarkers: [SYMKPoiDataPin]? = nil) {
+    public init(with mode: MapSelectionMode, customMarkers: [SYMKMapPin]? = nil) {
         mapSelectionMode = mode
         
         let defaultMarkersCluster = SYMapMarkersCluster()
@@ -48,7 +48,7 @@ public class SYMKMapSelectionManager {
         customMarkersManager.mapObjectsManager = self
         customMarkersManager.clusterLayer = defaultMarkersCluster
         
-        customDataMarkers?.forEach {
+        customMarkers?.forEach {
             addCustomPin($0)
         }
     }
@@ -82,7 +82,7 @@ public class SYMKMapSelectionManager {
         }
     }
     
-    public func addCustomPin(_ pin: SYMKPoiDataPin) {
+    public func addCustomPin(_ pin: SYMKMapPin) {
         customMarkersManager.addMapMarker(pin)
     }
     
@@ -108,9 +108,11 @@ public class SYMKMapSelectionManager {
     }
     
     private func selectCustomMarker(_ mapMarker: SYMapMarker) {
-        guard let dataMarker = customMarkersManager.markers.first(where: { $0.mapMarker == mapMarker }) else { return }
-        customMarkersManager.highlightedMarker = dataMarker
-        delegate?.mapSelection(didSelect: dataMarker.data)
+        guard let customMarker = customMarkersManager.markers.first(where: { $0.mapMarker == mapMarker }) else { return }
+        customMarkersManager.highlightedMarker = customMarker
+        if let dataPayload = customMarker.data {
+            delegate?.mapSelection(didSelect: dataPayload)
+        }
     }
 }
 
