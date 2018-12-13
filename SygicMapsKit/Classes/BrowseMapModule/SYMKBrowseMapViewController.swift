@@ -128,11 +128,20 @@ public class SYMKBrowseMapViewController: UIViewController {
         }
     }
     
+    private func shouldBouncePoiDetail() -> Bool {
+        let firstBouncePlayedKey = "com.sygicMapsKit.firstBounceBrowseMapPoiDetailPlayed"
+        if !UserDefaults.standard.bool(forKey: firstBouncePlayedKey) {
+            UserDefaults.standard.set(true, forKey: firstBouncePlayedKey)
+            return true
+        }
+        return false
+    }
+    
     // MARK: PoiDetail
     
     private func showPoiDetail(with data: SYMKPoiDetailModel) {
         poiDetailViewController = SYMKPoiDetailViewController(with: data)
-        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, completion: nil)
+        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, bounce: shouldBouncePoiDetail(), completion: nil)
     }
     
     private func hidePoiDetail() {
