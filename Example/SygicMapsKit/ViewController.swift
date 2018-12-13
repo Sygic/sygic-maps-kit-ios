@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         browseMap.useRecenterButton = true
         browseMap.useZoomControl = true
         browseMap.mapSelectionMode = .all
+        browseMap.bounceDefaultPoiDetailFirstTime = shouldBouncePoiDetail()
         browseMap.customMarkers = customMarkers()
         present(browseMap, animated: false)
     }
@@ -37,5 +38,14 @@ class ViewController: UIViewController {
         let marker = SYMKMapPin(coordinate: data.coordinate, icon: SygicIcon.apple, color: .gray, highlighted: false)!
         marker.data = data
         return marker
+    }
+    
+    private func shouldBouncePoiDetail() -> Bool {
+        let firstBouncePlayedKey = "com.sygicMapsKit.firstBounceBrowseMapPoiDetailPlayed"
+        if !UserDefaults.standard.bool(forKey: firstBouncePlayedKey) {
+            UserDefaults.standard.set(true, forKey: firstBouncePlayedKey)
+            return true
+        }
+        return false
     }
 }
