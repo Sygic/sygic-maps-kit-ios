@@ -112,6 +112,8 @@ public class SYMKMapSelectionManager {
         customMarkersManager.highlightedMarker = customMarker
         if let dataPayload = customMarker.data {
             delegate?.mapSelection(didSelect: dataPayload)
+        } else {
+            delegate?.mapSelection(didSelect: SYMKPoiData(with: customMarker.coordinate))
         }
     }
 }

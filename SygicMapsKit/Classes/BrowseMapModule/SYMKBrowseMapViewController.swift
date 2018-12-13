@@ -32,6 +32,11 @@ public class SYMKBrowseMapViewController: UIViewController {
     public var useRecenterButton = true
     
     /**
+        Enables bounce in animation on first appearance of default poi detail bottom sheet
+     */
+    public var bounceDefaultPoiDetailFirstTime = false
+    
+    /**
         Current map selection mode.
         Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
         - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
@@ -132,7 +137,8 @@ public class SYMKBrowseMapViewController: UIViewController {
     
     private func showPoiDetail(with data: SYMKPoiDetailModel) {
         poiDetailViewController = SYMKPoiDetailViewController(with: data)
-        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, completion: nil)
+        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, bounce: bounceDefaultPoiDetailFirstTime, completion: nil)
+        bounceDefaultPoiDetailFirstTime = false
     }
     
     private func hidePoiDetail() {

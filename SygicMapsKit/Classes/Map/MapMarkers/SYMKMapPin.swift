@@ -10,14 +10,16 @@ public class SYMKMapPin: SYMKMapMarker {
     public var data: SYMKPoiDataProtocol?
     public private(set) var mapMarker: SYMapMarker
     
+    public var coordinate: SYGeoCoordinate {
+        return mapMarker.coordinate!
+    }
+    
     public var highlighted: Bool {
         didSet {
             if oldValue == highlighted {
                 return
             }
-        
             pin.isHighlighted = highlighted
-
             if let image = pin.imageFromView() {
                 updateMarkerImage(image)
             }
