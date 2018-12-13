@@ -19,7 +19,6 @@ public class SYMKMapPin: SYMKMapMarker {
             if oldValue == highlighted {
                 return
             }
-            
             pin.isHighlighted = highlighted
             
             if let image = pin.imageFromView() {
