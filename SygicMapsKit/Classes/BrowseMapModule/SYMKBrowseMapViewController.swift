@@ -3,10 +3,10 @@ import SygicUIKit
 
 
 public protocol SYMKBrowseMapViewControllerDelegate: class {
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelectData: SYMKPoiDataProtocol)
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
 }
 
-public class SYMKBrowseMapViewController: UIViewController {
+public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
@@ -72,46 +72,45 @@ public class SYMKBrowseMapViewController: UIViewController {
         let browseView = SYMKBrowseMapView()
         if useCompass {
             browseView.setupCompass(compassController.compass)
+            mapControls.append(compassController)
         }
         if useRecenterButton {
             browseView.setupRecenter(recenterController.button)
+            mapControls.append(recenterController)
         }
         if useZoomControl {
             browseView.setupZoomControl(zoomController.expandableButtonsView)
+            mapControls.append(zoomController)
         }
         view = browseView
     }
     
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
-            if success {
-                self?.sygicSDKInitialized()
-            } else {
-                self?.sygicSDKFailure()
-            }
+    public override func viewDidAppear(_ animated: Bool) {
+        if let map = mapState.map {
+            (view as! SYMKBrowseMapView).setupMapView(map)
+            map.delegate = mapController
+            map.setup(with: mapState)
         }
     }
-    
+        
     // MARK: - Private Methods
     
-    private func sygicSDKInitialized() {
+    internal override func sygicSDKInitialized() {
         SYOnlineSession.shared().onlineMapsEnabled = true
         SYPositioning.shared().startUpdatingPosition()
         
         setupMapController()
         setupViewDelegates()
-        mapControls = [compassController, zoomController, recenterController]
     }
     
-    private func sygicSDKFailure() {
+    internal override func sygicSDKFailure() {
         let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
     }
     
     private func setupMapController() {
-        let mapController = SYMKMapController(with: nil)
+        let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
@@ -163,7 +162,7 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
         if let delegate = delegate {
-            delegate.browseMapController(self, didSelectData: poiData)
+            delegate.browseMapController(self, didSelect: poiData)
         } else {
             showPoiDetail(with: poiData)
         }

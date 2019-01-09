@@ -26,14 +26,11 @@ public class SYMKMapController: NSObject {
         case _3D = 80.0
     }
     
-    public init(with mapState: SYMKMapState?, mapFrame: CGRect = .zero) {
-        if let state = mapState {
-            self.mapState = state
-        } else {
-            self.mapState = SYMKMapState()
-        }
-        
-        mapView = SYMapView(frame: mapFrame, geoCenter: SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!, rotation: 0, zoom: 16, tilt: 0)
+    public init(with mapState: SYMKMapState, mapFrame: CGRect = .zero) {
+        mapView = mapState.loadMap(with: mapFrame)
+        mapView.cameraRotationMode = mapState.cameraRotationMode
+        mapView.cameraMovementMode = mapState.cameraMovementMode
+        self.mapState = mapState
         
         super.init()
         
