@@ -1,5 +1,3 @@
-import SygicMaps
-
 
 public class SYMKModuleViewController: UIViewController {
     
