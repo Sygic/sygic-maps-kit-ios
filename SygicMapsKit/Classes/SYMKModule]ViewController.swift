@@ -1,7 +1,9 @@
 import SygicMaps
 
 
-public class ModuleUIViewController: UIViewController {
+public class SYMKModuleViewController: UIViewController {
+    
+    public var mapState: SYMKMapState = SYMKMapState()
     
     override public func viewDidLoad() {
         super.viewDidLoad()

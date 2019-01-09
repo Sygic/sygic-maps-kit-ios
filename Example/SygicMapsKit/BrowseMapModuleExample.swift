@@ -6,7 +6,7 @@ import SygicMaps
 
 class BrowseMapModuleExample: UIViewController {
     
-    private var presentedModules = [ModuleUIViewController]()
+    private var presentedModules = [SYMKModuleViewController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ class BrowseMapModuleExample: UIViewController {
         return false
     }
     
-    private func presentModule(_ viewController: ModuleUIViewController) {
+    private func presentModule(_ viewController: SYMKModuleViewController) {
         removeLastModuleFromSuperview()
         presentedModules.append(viewController)
         addModuleAsSubview(viewController)
@@ -68,7 +68,7 @@ class BrowseMapModuleExample: UIViewController {
         }
     }
     
-    private func addModuleAsSubview(_ module: ModuleUIViewController) {
+    private func addModuleAsSubview(_ module: SYMKModuleViewController) {
         addChildViewController(module)
         view.addSubview(module.view)
         module.view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +87,7 @@ extension BrowseMapModuleExample: SYMKBrowseMapViewControllerDelegate {
     
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
         let routeComputeModule = SYMKRouteComputeController()
-        routeComputeModule.mapState = browseController.mapState
+        routeComputeModule.mapState = browseController.mapState.copy() as! SYMKMapState
         routeComputeModule.delegate = self
         
         presentModule(routeComputeModule)

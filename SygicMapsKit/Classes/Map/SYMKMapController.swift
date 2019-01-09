@@ -27,7 +27,7 @@ public class SYMKMapController: NSObject {
     }
     
     public init(with mapState: SYMKMapState, mapFrame: CGRect = .zero) {
-        mapView = mapState.loadMap()
+        mapView = mapState.loadMap(with: mapFrame)
         mapView.cameraRotationMode = mapState.cameraRotationMode
         mapView.cameraMovementMode = mapState.cameraMovementMode
         self.mapState = mapState

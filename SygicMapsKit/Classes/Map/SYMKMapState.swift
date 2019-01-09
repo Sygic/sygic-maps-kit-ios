@@ -21,11 +21,11 @@ public class SYMKMapState: NSCopying {
         return tilt >= 0.01
     }
     
-    public func loadMap() -> SYMapView {
+    public func loadMap(with frame: CGRect = .zero) -> SYMapView {
         if let initializedMap = map {
             return initializedMap
         } else {
-            map = SYMapView(frame: .zero, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
+            map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
             return map!
         }
     }

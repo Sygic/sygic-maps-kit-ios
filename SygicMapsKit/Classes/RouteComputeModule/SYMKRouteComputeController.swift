@@ -5,7 +5,7 @@ public protocol SYMKRouteComputeControllerProtocol: class {
     func routeComputeControllerGoBack()
 }
 
-public class SYMKRouteComputeController: ModuleUIViewController {
+public class SYMKRouteComputeController: SYMKModuleViewController {
     
     public var useTraffic = true
     public var computeMultipleRoutes = true
@@ -13,12 +13,6 @@ public class SYMKRouteComputeController: ModuleUIViewController {
     public weak var delegate: SYMKRouteComputeControllerProtocol?
     
     private var mapController: SYMKMapController?
-    
-    public var mapState: SYMKMapState = SYMKMapState() {
-        didSet {
-            mapState = mapState.copy() as! SYMKMapState
-        }
-    }
     
     public override func loadView() {
         let routeComputeView = SYMKRouteComputeView()

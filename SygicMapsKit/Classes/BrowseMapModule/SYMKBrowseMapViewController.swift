@@ -6,7 +6,7 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
 }
 
-public class SYMKBrowseMapViewController: ModuleUIViewController {
+public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
@@ -55,8 +55,6 @@ public class SYMKBrowseMapViewController: ModuleUIViewController {
             addCustomMarkersToMap()
         }
     }
-
-    public var mapState: SYMKMapState = SYMKMapState()
     
     // MARK: - Private Properties
     
@@ -112,7 +110,7 @@ public class SYMKBrowseMapViewController: ModuleUIViewController {
     }
     
     private func setupMapController() {
-        let mapController = SYMKMapController(with: mapState)
+        let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
