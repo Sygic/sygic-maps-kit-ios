@@ -33,14 +33,16 @@ public class SYMKSdkManager {
         guard !initializing else { return }
         initializing = true
         SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret, onlineRoutingKey: "") { initResult in
-            self.lock.wait()
-            let success = initResult == .success
-            self.initializing = false
-            self.completions.forEach { block in
-                block(success)
+            DispatchQueue.main.async {
+                self.lock.wait()
+                let success = initResult == .success
+                self.initializing = false
+                self.completions.forEach { block in
+                    block(success)
+                }
+                self.completions.removeAll()
+                self.lock.signal()
             }
-            self.completions.removeAll()
-            self.lock.signal()
         }
     }
     
