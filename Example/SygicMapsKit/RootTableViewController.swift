@@ -39,6 +39,7 @@ class RootTableViewController: UITableViewController {
     
     private func sampleBrowseMapWithCustomPois() -> UIViewController {
         let browseMapModule = SYMKBrowseMapViewController()
+        browseMapModule.mapSelectionMode = .markers
         browseMapModule.customMarkers = customMarkers()
         return browseMapModule
     }

@@ -91,6 +91,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
             map.delegate = mapController
             map.setup(with: mapState)
         }
+        super.viewDidAppear(animated)
     }
         
     // MARK: - Private Methods
