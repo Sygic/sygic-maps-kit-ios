@@ -43,4 +43,9 @@ public class SYMKSdkManager {
             self.lock.signal()
         }
     }
+    
+    public func terminate() {
+        guard isSdkInitialized else { return }
+        SYContext.terminate()
+    }
 }

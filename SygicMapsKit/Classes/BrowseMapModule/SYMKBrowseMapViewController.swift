@@ -159,6 +159,10 @@ extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
+    public func mapSelectionShouldAddPoiPin() -> Bool {
+        return delegate == nil
+    }
+    
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
         if let delegate = delegate {
