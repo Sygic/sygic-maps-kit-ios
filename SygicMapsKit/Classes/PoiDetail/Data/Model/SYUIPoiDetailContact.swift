@@ -9,11 +9,11 @@ public enum SYMKPoiDetailContact {
     var title: String {
         switch self {
         case .phone:
-            return "Phone"
+            return LS("detail.contact.phone")
         case .email:
-            return "Email"
+            return LS("detail.contact.mail")
         case .website:
-            return "URL"
+            return LS("detail.contact.url")
         }
     }
     

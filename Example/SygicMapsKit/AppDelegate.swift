@@ -11,5 +11,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SYMKApiKeys.set(appKey: "", appSecret: "")
         return true
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        SYMKSdkManager.shared.terminate()
+    }
 
 }
