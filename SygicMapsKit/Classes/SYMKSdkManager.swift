@@ -32,7 +32,7 @@ public class SYMKSdkManager {
         }
         guard !initializing else { return }
         initializing = true
-        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret) { initResult in
+        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret, onlineRoutingKey: "") { initResult in
             self.lock.wait()
             let success = initResult == .success
             self.initializing = false
