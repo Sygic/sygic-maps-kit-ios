@@ -4,12 +4,14 @@ import SygicUIKit
 import SygicMaps
 
 
-class BrowseMapModuleExample: UIViewController {
+class BrowseModuleExampleViewController: UIViewController, SYMKModulePresenter {
     
-    private var presentedModules = [SYMKModuleViewController]()
+    var presentedModules = [SYMKModuleViewController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Transition demo"
         
         let browseMap = SYMKBrowseMapViewController()
         browseMap.delegate = self
@@ -30,38 +32,9 @@ class BrowseMapModuleExample: UIViewController {
         }
         return false
     }
-    
-    private func presentModule(_ viewController: SYMKModuleViewController) {
-        removeLastModuleFromSuperview()
-        presentedModules.append(viewController)
-        addModuleAsSubview(viewController)
-    }
-    
-    private func dismissModule() {
-        removeLastModuleFromSuperview()
-        _ = presentedModules.popLast()
-        
-        if let lastModule = presentedModules.last {
-            addModuleAsSubview(lastModule)
-        }
-    }
-    
-    private func addModuleAsSubview(_ module: SYMKModuleViewController) {
-        addChildViewController(module)
-        view.addSubview(module.view)
-        module.view.translatesAutoresizingMaskIntoConstraints = false
-        module.view.coverWholeSuperview()
-    }
-    
-    private func removeLastModuleFromSuperview() {
-        guard let lastModule = presentedModules.last else { return }
-        lastModule.view.removeFromSuperview()
-        lastModule.removeFromParentViewController()
-    }
-    
 }
 
-extension BrowseMapModuleExample: SYMKBrowseMapViewControllerDelegate {
+extension BrowseModuleExampleViewController: SYMKBrowseMapViewControllerDelegate {
     
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
         let routeComputeModule = SYMKRouteComputeController()
@@ -73,7 +46,7 @@ extension BrowseMapModuleExample: SYMKBrowseMapViewControllerDelegate {
     
 }
 
-extension BrowseMapModuleExample: SYMKRouteComputeControllerProtocol {
+extension BrowseModuleExampleViewController: SYMKRouteComputeControllerProtocol {
     
     func routeComputeControllerGoBack() {
         dismissModule()
