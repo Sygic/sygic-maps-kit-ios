@@ -13,6 +13,9 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
         title = "Custom markers"
 
         let browseMapModule = SYMKBrowseMapViewController()
+        browseMapModule.useRecenterButton = true
+        browseMapModule.useZoomControl = true
+        browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .markers
         browseMapModule.customMarkers = customMarkers()
         

@@ -102,7 +102,7 @@ public class SYMKMapSelectionManager {
         }
     }
     
-    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SYUIIcon.POIPoi, color: .darkGray), highlighted: Bool = true) {
+    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
         if let delegate = delegate, delegate.mapSelectionShouldAddPoiPin(), let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) {
             mapMarkersManager.addMapMarker(pin)
         }
