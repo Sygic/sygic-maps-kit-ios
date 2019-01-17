@@ -25,7 +25,7 @@ public protocol SYMKMapMarker: Equatable {
  */
 public class SYMKMapMarkersManager<T: SYMKMapMarker> {
     public private(set) var markers = [T]()
-    public weak var mapObjectsManager: SYMKMapObjectsManager!
+    public weak var mapObjectsManager: SYMKMapObjectsManager?
     public var clusterLayer: SYMapMarkersCluster? {
         willSet {
             guard let currentCluster = clusterLayer else { return }
@@ -67,10 +67,12 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
             markers.append(marker)
         }
         
-        mapObjectsManager.addMapObject(marker.mapMarker)
-        
-        if let cluster = clusterLayer {
-            cluster.addMapMarker(marker.mapMarker)
+        if let mapObjectsManager = mapObjectsManager {
+            mapObjectsManager.addMapObject(marker.mapMarker)
+            
+            if let cluster = clusterLayer {
+                cluster.addMapMarker(marker.mapMarker)
+            }
         }
         
         if marker.highlighted {
@@ -82,7 +84,7 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
         guard let markerToRemove = markers.first(where: { $0 == markerItem }) else { return }
 
         clusterLayer?.removeMapMarker(markerToRemove.mapMarker)
-        mapObjectsManager.removeMapObject(markerToRemove.mapMarker)
+        mapObjectsManager?.removeMapObject(markerToRemove.mapMarker)
 
         markers = markers.filter { $0 != markerItem }
         if markerItem == highlightedMarker {

@@ -11,6 +11,8 @@
 		1E80D6389CCFFEB76F5A5682 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */; };
 		589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */; };
 		589CB07C21EE16890082F7C4 /* CustomSkinExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */; };
+		589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07D21EF96F30082F7C4 /* ZZZTest.swift */; };
+		589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */; };
 		58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */; };
 		58D3D33A21E8E23100E11D1D /* MapSelectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33921E8E23100E11D1D /* MapSelectionTests.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
@@ -36,6 +38,8 @@
 		4011C16C1F93D5BA196B8B0B /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseExamplesTableViewController.swift; sourceTree = "<group>"; };
 		589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSkinExampleViewController.swift; sourceTree = "<group>"; };
+		589CB07D21EF96F30082F7C4 /* ZZZTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZZTest.swift; sourceTree = "<group>"; };
+		589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMKSDKInitializationTests.swift; sourceTree = "<group>"; };
 		58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkersExampleViewController.swift; sourceTree = "<group>"; };
 		58D3D33921E8E23100E11D1D /* MapSelectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSelectionTests.swift; sourceTree = "<group>"; };
 		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 			children = (
 				58D3D33921E8E23100E11D1D /* MapSelectionTests.swift */,
 				607FACEB1AFB9204008FA782 /* TestsTemplate.swift */,
+				589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */,
+				589CB07D21EF96F30082F7C4 /* ZZZTest.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -386,6 +392,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */,
+				589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */,
 				58D3D33A21E8E23100E11D1D /* MapSelectionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
