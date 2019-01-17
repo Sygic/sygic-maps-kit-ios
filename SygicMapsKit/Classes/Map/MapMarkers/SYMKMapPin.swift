@@ -37,6 +37,11 @@ public class SYMKMapPin: SYMKMapMarker {
         mapMarker = SYMapMarker(coordinate: coordinate, image: image)
         updateMarkerImage(image)
     }
+    
+    public convenience init?(data: SYMKPoiData, icon: String = SYUIIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
+        self.init(coordinate: data.coordinate, icon: icon, color: color, highlighted: highlighted)
+        self.data = data
+    }
 
     public static func ==(lhs: SYMKMapPin, rhs: SYMKMapPin) -> Bool {
         return lhs === rhs

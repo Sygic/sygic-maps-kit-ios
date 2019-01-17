@@ -123,8 +123,10 @@ public class SYMKMapSelectionManager {
 // MARK: - Map Objects Manager
 
 extension SYMKMapSelectionManager: SYMKMapObjectsManager {
-    public func addMapObject(_ mapObject: SYMapObject) {
-        mapView?.add(mapObject)
+    public func addMapObject(_ mapObject: SYMapObject) -> Bool {
+        guard let mapView = mapView else { return false }
+        mapView.add(mapObject)
+        return true
     }
     
     public func removeMapObject(_ mapObject: SYMapObject) {

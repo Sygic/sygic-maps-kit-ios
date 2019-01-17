@@ -7,7 +7,9 @@ import SygicUIKit
  Implementing class is responsible for adding and removing SYMapObject to/from SYMapView.
  */
 public protocol SYMKMapObjectsManager: class {
-    func addMapObject(_ mapObject: SYMapObject)
+    /// responsible for adding mapObject to SYMapView. Returns true if succeeded
+    func addMapObject(_ mapObject: SYMapObject) -> Bool
+    ///responsible for removing mapObject from SYMapView
     func removeMapObject(_ mapObject: SYMapObject)
 }
 
@@ -67,9 +69,7 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
             markers.append(marker)
         }
         
-        if let mapObjectsManager = mapObjectsManager {
-            mapObjectsManager.addMapObject(marker.mapMarker)
-            
+        if let mapObjectsManager = mapObjectsManager, mapObjectsManager.addMapObject(marker.mapMarker) {
             if let cluster = clusterLayer {
                 cluster.addMapMarker(marker.mapMarker)
             }
