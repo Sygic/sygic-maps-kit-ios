@@ -3,7 +3,7 @@ import Nimble
 import SygicMaps
 import SygicMapsKit
 
-class MapSelectionTests: QuickSpec {
+class SYMKMapSelectionManagerTests: QuickSpec {
     
     var selectionManager = SYMKMapSelectionManager(with: .markers)
     var selectedData: SYMKPoiDataProtocol?
@@ -35,7 +35,7 @@ class MapSelectionTests: QuickSpec {
     }
 }
 
-extension MapSelectionTests: SYMKMapSelectionDelegate {
+extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
     func mapSelectionShouldAddPoiPin() -> Bool {
         return false
     }
