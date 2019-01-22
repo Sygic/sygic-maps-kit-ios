@@ -25,7 +25,10 @@ public class SYMKMapSelectionManager {
     public weak var delegate: SYMKMapSelectionDelegate?
     public weak var mapView: SYMapView? {
         didSet {
-            mapView?.addMapMarkersCluster(mapMarkersManager.clusterLayer!)
+            let defaultMarkersCluster = SYMapMarkersCluster()
+            mapMarkersManager.clusterLayer = defaultMarkersCluster
+            customMarkersManager.clusterLayer = defaultMarkersCluster
+            mapView?.addMapMarkersCluster(defaultMarkersCluster)
         }
     }
     public var mapSelectionMode = MapSelectionMode.all
@@ -41,13 +44,8 @@ public class SYMKMapSelectionManager {
     public init(with mode: MapSelectionMode, customMarkers: [SYMKMapPin]? = nil) {
         mapSelectionMode = mode
         
-        let defaultMarkersCluster = SYMapMarkersCluster()
-        
         mapMarkersManager.mapObjectsManager = self
-        mapMarkersManager.clusterLayer = defaultMarkersCluster
-        
         customMarkersManager.mapObjectsManager = self
-        customMarkersManager.clusterLayer = defaultMarkersCluster
         
         customMarkers?.forEach {
             addCustomPin($0)
