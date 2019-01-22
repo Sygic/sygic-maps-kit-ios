@@ -47,6 +47,7 @@ class BrowseExamplesTableViewController: UITableViewController {
             navigationController?.pushViewController(SYMKBrowseMapViewController(), animated: true)
         case 1:
             let browseMapVC = SYMKBrowseMapViewController()
+            browseMapVC.showUserLocation = true
             browseMapVC.useCompass = true
             browseMapVC.useZoomControl = true
             browseMapVC.useRecenterButton = true
