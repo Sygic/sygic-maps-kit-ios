@@ -25,10 +25,7 @@ public class SYMKMapSelectionManager {
     public weak var delegate: SYMKMapSelectionDelegate?
     public weak var mapView: SYMapView? {
         didSet {
-            let defaultMarkersCluster = SYMapMarkersCluster()
-            mapMarkersManager.clusterLayer = defaultMarkersCluster
-            customMarkersManager.clusterLayer = defaultMarkersCluster
-            mapView?.addMapMarkersCluster(defaultMarkersCluster)
+            setupMarkersClusterIfNeeded()
         }
     }
     public var mapSelectionMode = MapSelectionMode.all
@@ -50,6 +47,10 @@ public class SYMKMapSelectionManager {
         customMarkers?.forEach {
             addCustomPin($0)
         }
+    }
+    
+    deinit {
+        removeMarkersCluster()
     }
     
     public func selectMapObjects(_ objects: [SYViewObject]) {
@@ -86,6 +87,23 @@ public class SYMKMapSelectionManager {
     }
     
     // MARK: - Private Methods
+    
+    // MARK: - Marker Cluster
+    
+    private func setupMarkersClusterIfNeeded() {
+        guard let mapView = mapView, mapMarkersManager.clusterLayer == nil else { return }
+        let markersCluster = SYMapMarkersCluster()
+        mapMarkersManager.clusterLayer = markersCluster
+        customMarkersManager.clusterLayer = markersCluster
+        mapView.addMapMarkersCluster(markersCluster)
+    }
+    
+    private func removeMarkersCluster() {
+        guard let markersCluster = mapMarkersManager.clusterLayer else { return }
+        mapView?.removeMapMarkersCluster(markersCluster)
+    }
+    
+    // MARK: - Selection
     
     private func selectMapPoi(_ poi: SYPoiObject) {
         SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
