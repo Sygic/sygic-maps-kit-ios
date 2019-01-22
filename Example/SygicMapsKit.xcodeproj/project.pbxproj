@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		13A4E196EF292EE7610C1814 /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE61E007A142F5B070913F5E /* Pods_SygicMapsKit_Example.framework */; };
 		1E80D6389CCFFEB76F5A5682 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */; };
+		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
+		589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */; };
+		589CB07C21EE16890082F7C4 /* CustomSkinExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */; };
+		589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07D21EF96F30082F7C4 /* ZZZTest.swift */; };
+		589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */; };
 		58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -16,7 +21,6 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +36,11 @@
 /* Begin PBXFileReference section */
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4011C16C1F93D5BA196B8B0B /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
+		589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseExamplesTableViewController.swift; sourceTree = "<group>"; };
+		589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSkinExampleViewController.swift; sourceTree = "<group>"; };
+		589CB07D21EF96F30082F7C4 /* ZZZTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZZTest.swift; sourceTree = "<group>"; };
+		589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMKSDKInitializationTests.swift; sourceTree = "<group>"; };
 		58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkersExampleViewController.swift; sourceTree = "<group>"; };
 		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,7 +52,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* SygicMapsKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		607FACEB1AFB9204008FA782 /* TestsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsTemplate.swift; sourceTree = "<group>"; };
 		7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0E4291962D94C7CDB4E07B /* Pods-SygicMapsKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		B1B67491D7814E41620173C5 /* Pods-SygicMapsKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,6 +93,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		589CB07A21EE08C40082F7C4 /* Browse examples */ = {
+			isa = PBXGroup;
+			children = (
+				5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */,
+				58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */,
+				589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */,
+			);
+			path = "Browse examples";
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -108,10 +127,10 @@
 		607FACD21AFB9204008FA782 /* Example for SygicMapsKit */ = {
 			isa = PBXGroup;
 			children = (
+				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
-				5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */,
-				58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */,
+				589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -132,7 +151,10 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				607FACEB1AFB9204008FA782 /* TestsTemplate.swift */,
+				5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */,
+				589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */,
+				589CB07D21EF96F30082F7C4 /* ZZZTest.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -358,8 +380,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
+				589CB07C21EE16890082F7C4 /* CustomSkinExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
+				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,7 +392,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */,
+				5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */,
+				589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

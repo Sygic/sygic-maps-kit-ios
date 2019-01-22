@@ -18,18 +18,18 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /**
         Enables compass functionality.
     */
-    public var useCompass = true
+    public var useCompass = false
     
     /**
         Enables zoom control functionality.
      */
-    public var useZoomControl = true
+    public var useZoomControl = false
 
     /**
         Enables recenter button functionality.
         Button is automatically shown if map camera isn't centered to current position. After tapping recenter button, camera is automatically recentered and button disappears.
     */
-    public var useRecenterButton = true
+    public var useRecenterButton = false
     
     /**
         Enables bounce in animation on first appearance of default poi detail bottom sheet
@@ -41,7 +41,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
         - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
      */
-    public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .all {
+    public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .markers {
         didSet {
             mapController?.selectionManager?.mapSelectionMode = mapSelectionMode
         }
