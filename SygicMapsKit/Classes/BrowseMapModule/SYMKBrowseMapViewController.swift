@@ -145,7 +145,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     private func triggerUserLocation(_ show: Bool) {
         guard SYMKSdkManager.shared.isSdkInitialized else { return }
-        if showUserLocation {
+        if show {
             SYPositioning.shared().startUpdatingPosition()
         } else {
             SYPositioning.shared().stopUpdatingPosition()
