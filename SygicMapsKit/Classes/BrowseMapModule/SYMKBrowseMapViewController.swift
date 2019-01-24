@@ -23,18 +23,18 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /**
         Enables compass functionality.
     */
-    public var useCompass = true
+    public var useCompass = false
     
     /**
         Enables zoom control functionality.
      */
-    public var useZoomControl = true
+    public var useZoomControl = false
 
     /**
         Enables recenter button functionality.
         Button is automatically shown if map camera isn't centered to current position. After tapping recenter button, camera is automatically recentered and button disappears.
     */
-    public var useRecenterButton = true
+    public var useRecenterButton = false
     
     /**
         Enables bounce in animation on first appearance of default poi detail bottom sheet
@@ -42,11 +42,20 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public var bounceDefaultPoiDetailFirstTime = false
     
     /**
+     Displays user's location on map. When set to true, permission to device GPS location dialog is presented and access is required.
+     */
+    public var showUserLocation = false {
+        didSet {
+            triggerUserLocation(showUserLocation)
+        }
+    }
+    
+    /**
         Current map selection mode.
         Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
         - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
      */
-    public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .all {
+    public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .markers {
         didSet {
             mapController?.selectionManager?.mapSelectionMode = mapSelectionMode
         }
@@ -119,8 +128,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     internal override func sygicSDKInitialized() {
         SYOnlineSession.shared().onlineMapsEnabled = true
-        SYPositioning.shared().startUpdatingPosition()
-        
+        triggerUserLocation(showUserLocation)
         setupMapController()
         setupViewDelegates()
     }
@@ -155,6 +163,17 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
+    // MARK: User Location
+    
+    private func triggerUserLocation(_ show: Bool) {
+        guard SYMKSdkManager.shared.isSdkInitialized else { return }
+        if show {
+            SYPositioning.shared().startUpdatingPosition()
+        } else {
+            SYPositioning.shared().stopUpdatingPosition()
+        }
+    }
+    
     // MARK: PoiDetail
     
     private func showPoiDetail(with data: SYMKPoiDetailModel) {
@@ -175,6 +194,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
 extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
     
     public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
+        if mapState.cameraMovementMode != .free && !showUserLocation {
+            showUserLocation = true
+        }
         mapControls.forEach { $0.update(with: mapState) }
     }
     

@@ -79,6 +79,8 @@ class DataAnnotationView: SYAnnotationView {
         frame = CGRect(x: 0, y: 0, width: 160, height: 80)
         backgroundColor = .clear
         
+        anchorPoint = CGPoint(x: 0.5, y: 1)
+        
         firstLabel.textAlignment = .center
         secondLabel.textAlignment = .center
         firstLabel.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)

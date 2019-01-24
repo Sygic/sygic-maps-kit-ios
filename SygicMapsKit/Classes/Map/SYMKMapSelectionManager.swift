@@ -25,7 +25,7 @@ public class SYMKMapSelectionManager {
     public weak var delegate: SYMKMapSelectionDelegate?
     public weak var mapView: SYMapView? {
         didSet {
-            mapView?.addMapMarkersCluster(mapMarkersManager.clusterLayer!)
+            setupMarkersClusterIfNeeded()
         }
     }
     public var mapSelectionMode = MapSelectionMode.all
@@ -41,17 +41,16 @@ public class SYMKMapSelectionManager {
     public init(with mode: MapSelectionMode, customMarkers: [SYMKMapPin]? = nil) {
         mapSelectionMode = mode
         
-        let defaultMarkersCluster = SYMapMarkersCluster()
-        
         mapMarkersManager.mapObjectsManager = self
-        mapMarkersManager.clusterLayer = defaultMarkersCluster
-        
         customMarkersManager.mapObjectsManager = self
-        customMarkersManager.clusterLayer = defaultMarkersCluster
         
         customMarkers?.forEach {
             addCustomPin($0)
         }
+    }
+    
+    deinit {
+        removeMarkersCluster()
     }
     
     public func selectMapObjects(_ objects: [SYViewObject]) {
@@ -89,6 +88,23 @@ public class SYMKMapSelectionManager {
     
     // MARK: - Private Methods
     
+    // MARK: - Marker Cluster
+    
+    private func setupMarkersClusterIfNeeded() {
+        guard let mapView = mapView, mapMarkersManager.clusterLayer == nil else { return }
+        let markersCluster = SYMapMarkersCluster()
+        mapMarkersManager.clusterLayer = markersCluster
+        customMarkersManager.clusterLayer = markersCluster
+        mapView.addMapMarkersCluster(markersCluster)
+    }
+    
+    private func removeMarkersCluster() {
+        guard let markersCluster = mapMarkersManager.clusterLayer else { return }
+        mapView?.removeMapMarkersCluster(markersCluster)
+    }
+    
+    // MARK: - Selection
+    
     private func selectMapPoi(_ poi: SYPoiObject) {
         SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
             self?.selectPlace(with: SYMKPoiData(with: place), category: SYMKPoiCategory.with(syPoiCategory: place.category))
@@ -102,7 +118,7 @@ public class SYMKMapSelectionManager {
         }
     }
     
-    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SYUIIcon.POIPoi, color: .darkGray), highlighted: Bool = true) {
+    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
         if let delegate = delegate, delegate.mapSelectionShouldAddPoiPin(), let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) {
             mapMarkersManager.addMapMarker(pin)
         }
@@ -123,8 +139,10 @@ public class SYMKMapSelectionManager {
 // MARK: - Map Objects Manager
 
 extension SYMKMapSelectionManager: SYMKMapObjectsManager {
-    public func addMapObject(_ mapObject: SYMapObject) {
-        mapView?.add(mapObject)
+    public func addMapObject(_ mapObject: SYMapObject) -> Bool {
+        guard let mapView = mapView else { return false }
+        mapView.add(mapObject)
+        return true
     }
     
     public func removeMapObject(_ mapObject: SYMapObject) {
