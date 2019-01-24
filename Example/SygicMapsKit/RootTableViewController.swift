@@ -7,7 +7,7 @@ import SygicMapsKit
 class RootTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -17,6 +17,10 @@ class RootTableViewController: UITableViewController {
             cell.textLabel?.text = "Browse Map Module"
         case 1:
             cell.textLabel?.text = "Custom Pois"
+        case 2:
+            cell.textLabel?.text = "Custom Marker Info"
+        case 3:
+            cell.textLabel?.text = "Custom Data handling"
         default:
             break
         }
@@ -29,6 +33,10 @@ class RootTableViewController: UITableViewController {
             navigationController?.pushViewController(BrowseModuleExampleViewController(), animated: true)
         case 1:
             navigationController?.pushViewController(CustomMarkersExampleViewController(), animated: true)
+        case 2:
+            navigationController?.pushViewController(CustomMarkerInfoExampleViewController(), animated: true)
+        case 3:
+            navigationController?.pushViewController(CustomDataHandlingViewController(), animated: true)
         default:
             break
         }

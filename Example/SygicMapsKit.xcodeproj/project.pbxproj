@@ -10,6 +10,9 @@
 		13A4E196EF292EE7610C1814 /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE61E007A142F5B070913F5E /* Pods_SygicMapsKit_Example.framework */; };
 		1E80D6389CCFFEB76F5A5682 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */; };
 		58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */; };
+		5C7E439621ECC13A0046AEA2 /* CustomMarkerInfoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E439521ECC13A0046AEA2 /* CustomMarkerInfoExampleViewController.swift */; };
+		5C7E439821EF965B0046AEA2 /* CustomDataHandlingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E439721EF965B0046AEA2 /* CustomDataHandlingViewController.swift */; };
+		5CC30C3621F0B475005F2D61 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC30C3521F0B475005F2D61 /* DataAnnotation.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* RootTableViewController.swift */; };
@@ -33,6 +36,9 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4011C16C1F93D5BA196B8B0B /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkersExampleViewController.swift; sourceTree = "<group>"; };
+		5C7E439521ECC13A0046AEA2 /* CustomMarkerInfoExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerInfoExampleViewController.swift; sourceTree = "<group>"; };
+		5C7E439721EF965B0046AEA2 /* CustomDataHandlingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDataHandlingViewController.swift; sourceTree = "<group>"; };
+		5CC30C3521F0B475005F2D61 /* DataAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
 		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,6 +118,9 @@
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
 				5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */,
 				58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */,
+				5C7E439521ECC13A0046AEA2 /* CustomMarkerInfoExampleViewController.swift */,
+				5CC30C3521F0B475005F2D61 /* DataAnnotation.swift */,
+				5C7E439721EF965B0046AEA2 /* CustomDataHandlingViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -357,10 +366,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C7E439821EF965B0046AEA2 /* CustomDataHandlingViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
+				5C7E439621ECC13A0046AEA2 /* CustomMarkerInfoExampleViewController.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */,
+				5CC30C3621F0B475005F2D61 /* DataAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,7 +15,9 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
         let browseMapModule = SYMKBrowseMapViewController()
         browseMapModule.mapSelectionMode = .markers
         browseMapModule.customMarkers = customMarkers()
-        
+        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapModule.mapState.zoom = 16
+    
         presentModule(browseMapModule)
     }
     

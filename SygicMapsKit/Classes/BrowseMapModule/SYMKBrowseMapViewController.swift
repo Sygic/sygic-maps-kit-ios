@@ -6,6 +6,10 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
 }
 
+public protocol SYMKBrowserMapViewControllerAnnotationDelegate: class {
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, wantsViewFor annotation: SYAnnotation) -> SYAnnotationView
+}
+
 public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
@@ -14,6 +18,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         Delegate output for browse map controller
      */
     public weak var delegate: SYMKBrowseMapViewControllerDelegate?
+    public weak var annotationDelegate: SYMKBrowserMapViewControllerAnnotationDelegate?
     
     /**
         Enables compass functionality.
@@ -93,6 +98,22 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
         super.viewDidAppear(animated)
     }
+    
+    public func addAnnotation(_ annotation: SYAnnotation) {
+        mapController?.mapView.addAnnotation(annotation)
+    }
+    
+    public func addAnnotations(_ annotations: [SYAnnotation]) {
+        mapController?.mapView.addAnnotations(annotations)
+    }
+    
+    public func dequeueReusableAnnotation(for reuseIdentifier: String) -> SYAnnotationView? {
+        return mapController?.mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
+    }
+    
+    public func removeAnnotation(_ annotation: SYAnnotation) {
+        mapController?.mapView.removeAnnotation(annotation)
+    }
         
     // MARK: - Private Methods
     
@@ -124,6 +145,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         recenterController.delegate = mapController
         zoomController.delegate = mapController
         mapController?.delegate = self
+        
     }
     
     private func addCustomMarkersToMap() {
@@ -154,6 +176,11 @@ extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
     
     public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
         mapControls.forEach { $0.update(with: mapState) }
+    }
+    
+    public func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView {
+        guard let customAnnotationDelegate = annotationDelegate else { return SYAnnotationView(frame: .zero) }
+        return customAnnotationDelegate.browseMapController(self, wantsViewFor: annotation)
     }
     
 }
