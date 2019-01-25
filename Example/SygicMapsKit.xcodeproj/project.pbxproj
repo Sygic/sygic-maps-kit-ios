@@ -16,11 +16,8 @@
 		589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */; };
 		58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */; };
 		5C3B212721FA05D300F21AD4 /* CustomMarkerInfoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomMarkerInfoExampleViewController.swift */; };
-		5C3B212821FA05D300F21AD4 /* CustomMarkerInfoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomMarkerInfoExampleViewController.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
-		5C3B212A21FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
 		5C3B212B21FA05D300F21AD4 /* CustomDataHandlingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* CustomDataHandlingViewController.swift */; };
-		5C3B212C21FA05D300F21AD4 /* CustomDataHandlingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* CustomDataHandlingViewController.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* RootTableViewController.swift */; };

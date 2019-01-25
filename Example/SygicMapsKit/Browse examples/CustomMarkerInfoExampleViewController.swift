@@ -48,7 +48,7 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowseMapViewControllerDele
 extension CustomMarkerInfoExampleViewController: SYMKBrowserMapViewControllerAnnotationDelegate {
     
     func browseMapController(_ browseController: SYMKBrowseMapViewController, wantsViewFor annotation: SYAnnotation) -> SYAnnotationView {
-        let annotationView: DataAnnotationView?
+        let annotationView: DataAnnotationView
         
         if let dequeueView = browseController.dequeueReusableAnnotation(for: reuseIdentifier), let dataAnnotationView = dequeueView as? DataAnnotationView {
             annotationView = dataAnnotationView
@@ -56,13 +56,11 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowserMapViewControllerAnn
             annotationView = DataAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
         }
         
-        guard let dataAnnotation = annotation as? DataAnnotation, let view = annotationView else { return SYAnnotationView(frame: CGRect.zero) }
-        
-        view.firstText = "\(dataAnnotation.coordinate.latitude)"
-        view.secondText = "\(dataAnnotation.coordinate.longitude)"
+        annotationView.firstText = "\(annotation.coordinate.latitude)"
+        annotationView.secondText = "\(annotation.coordinate.longitude)"
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(customViewTapped)))
         
-        return view
+        return annotationView
     }
     
     @objc func customViewTapped() {

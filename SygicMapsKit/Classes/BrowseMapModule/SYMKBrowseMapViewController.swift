@@ -123,6 +123,10 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public func removeAnnotation(_ annotation: SYAnnotation) {
         mapController?.mapView.removeAnnotation(annotation)
     }
+    
+    public func removeAnnotations(_ annotations: [SYAnnotation]) {
+        mapController?.mapView.removeAnnotations(annotations)
+    }
         
     // MARK: - Private Methods
     

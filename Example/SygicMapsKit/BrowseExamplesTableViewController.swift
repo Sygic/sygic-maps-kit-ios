@@ -1,4 +1,5 @@
 import UIKit
+import SygicMaps
 import SygicMapsKit
 
 class BrowseExamplesTableViewController: UITableViewController {
@@ -46,14 +47,7 @@ class BrowseExamplesTableViewController: UITableViewController {
         case 0:
             navigationController?.pushViewController(SYMKBrowseMapViewController(), animated: true)
         case 1:
-            let browseMapVC = SYMKBrowseMapViewController()
-            browseMapVC.showUserLocation = true
-            browseMapVC.useCompass = true
-            browseMapVC.useZoomControl = true
-            browseMapVC.useRecenterButton = true
-            browseMapVC.mapSelectionMode = .all
-            browseMapVC.bounceDefaultPoiDetailFirstTime = true
-            navigationController?.pushViewController(browseMapVC, animated: true)
+            navigationController?.pushViewController(browseMapWithAllControls(), animated: true)
         case 2:
             navigationController?.pushViewController(CustomDataHandlingViewController(), animated: true)
         case 3:
@@ -67,6 +61,19 @@ class BrowseExamplesTableViewController: UITableViewController {
         default:
             break
         }
+    }
+    
+    private func browseMapWithAllControls() -> SYMKBrowseMapViewController {
+        let browseMapVC = SYMKBrowseMapViewController()
+        browseMapVC.showUserLocation = true
+        browseMapVC.useCompass = true
+        browseMapVC.useZoomControl = true
+        browseMapVC.useRecenterButton = true
+        browseMapVC.mapSelectionMode = .all
+        browseMapVC.bounceDefaultPoiDetailFirstTime = true
+        browseMapVC.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapVC.mapState.zoom = 16
+        return browseMapVC
     }
 
 }
