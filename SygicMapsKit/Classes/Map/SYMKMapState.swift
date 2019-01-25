@@ -9,8 +9,8 @@ internal protocol MapControl {
 public class SYMKMapState: NSCopying {
     
     public var map: SYMapView?
-    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 48.147, longitude: 17.101878)!
-    public var zoom: CGFloat = 16
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)!
+    public var zoom: CGFloat = 0
     public var rotation: CGFloat = 0
     public var tilt: CGFloat = 0
     

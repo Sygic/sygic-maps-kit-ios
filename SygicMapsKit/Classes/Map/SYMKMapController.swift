@@ -3,6 +3,7 @@ import SygicUIKit
 
 public protocol SYMKMapViewControllerDelegate: class {
     func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView)
+    func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView
 }
 
 public class SYMKMapController: NSObject {
@@ -89,6 +90,12 @@ extension SYMKMapController: SYMapViewDelegate {
     public func mapView(_ mapView: SYMapView, didSelect objects: [SYViewObject]) {
         selectionManager?.selectMapObjects(objects)
     }
+    
+    public func mapView(_ mapView: SYMapView, viewFor annotation: SYAnnotation) -> SYAnnotationView {
+        guard let delegate = delegate else { return SYAnnotationView(frame: .zero) }
+        return delegate.mapControllerWantsView(for: annotation)
+    }
+    
 }
 
 // MARK: - Compass Delegate
