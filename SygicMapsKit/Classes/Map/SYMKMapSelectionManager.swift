@@ -22,12 +22,17 @@ public class SYMKMapSelectionManager {
         case all
     }
     
+    /// Map selection manager delegate.
     public weak var delegate: SYMKMapSelectionDelegate?
+    
+    
     public weak var mapView: SYMapView? {
         didSet {
             setupMarkersClusterIfNeeded()
         }
     }
+    
+    /// Map selection mode. Default is `.all`.
     public var mapSelectionMode = MapSelectionMode.all
     
     // MARK: - Private Properties
@@ -139,6 +144,7 @@ public class SYMKMapSelectionManager {
 // MARK: - Map Objects Manager
 
 extension SYMKMapSelectionManager: SYMKMapObjectsManager {
+    
     public func addMapObject(_ mapObject: SYMapObject) -> Bool {
         guard let mapView = mapView else { return false }
         mapView.add(mapObject)
@@ -148,4 +154,5 @@ extension SYMKMapSelectionManager: SYMKMapObjectsManager {
     public func removeMapObject(_ mapObject: SYMapObject) {
         mapView?.remove(mapObject)
     }
+    
 }

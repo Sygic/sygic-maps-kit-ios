@@ -2,10 +2,9 @@ import Foundation
 import SygicMaps
 import SygicUIKit
 
-/**
- SYMKMapObjectsManager is a protocol used by SYMKMapMarkersManager to display SYMapObject in SYMapView.
- Implementing class is responsible for adding and removing SYMapObject to/from SYMapView.
- */
+
+/// SYMKMapObjectsManager is a protocol used by SYMKMapMarkersManager to display SYMapObject in SYMapView.
+/// Implementing class is responsible for adding and removing SYMapObject to/from SYMapView.
 public protocol SYMKMapObjectsManager: class {
     /// responsible for adding mapObject to SYMapView. Returns true if succeeded
     func addMapObject(_ mapObject: SYMapObject) -> Bool
@@ -13,19 +12,19 @@ public protocol SYMKMapObjectsManager: class {
     func removeMapObject(_ mapObject: SYMapObject)
 }
 
-/**
- Protocol for map marker class, which is used to define look of SYMapMarker displayed on map
- */
+
+/// Protocol for map marker class, which is used to define look of SYMapMarker displayed on map
 public protocol SYMKMapMarker: Equatable {
     var mapMarker: SYMapMarker { get }
     var highlighted: Bool {get set }
 }
 
-/**
- Class responsible for managment of displayed SYMKMapMarker instances. It includes adding, removing,
- hiding, clustering and highlighting SYMKMapMarkers.
- */
+/// Class responsible for management of displayed SYMKMapMarker instances. It includes
+/// adding, removing, hiding, clustering and highlighting SYMKMapMarkers.
 public class SYMKMapMarkersManager<T: SYMKMapMarker> {
+    
+    // MARK: - Public Properties
+    
     public private(set) var markers = [T]()
     public weak var mapObjectsManager: SYMKMapObjectsManager?
     public var clusterLayer: SYMapMarkersCluster? {
@@ -57,6 +56,8 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
             }
         }
     }
+    
+    // MARK: - Public Methods
     
     public func addMapMarker(_ marker: T, at index: Int? = nil) {
         if markers.contains(marker) {
@@ -112,7 +113,8 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
         highlightedMarker = marker
     }
     
-// MARK: - MarkersVisibilityManager
+    // MARK: MarkersVisibilityManager
+    
     public func showAllMarkers() {
         for markerItem in markers {
             markerItem.mapMarker.visibility = true
@@ -124,4 +126,5 @@ public class SYMKMapMarkersManager<T: SYMKMapMarker> {
             markerItem.mapMarker.visibility = false
         }
     }
+    
 }

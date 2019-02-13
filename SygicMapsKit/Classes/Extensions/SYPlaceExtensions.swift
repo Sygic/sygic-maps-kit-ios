@@ -1,7 +1,9 @@
 import Foundation
 import SygicMaps
 
+
 public extension SYPlace {
+    
     var streetAndHouseNumber: String? {
         var address = ""
         if let street = street {
@@ -57,4 +59,5 @@ public extension SYPlace {
     var phone: String? { return unemptyLocationInfo(for: .phone) }
     var email: String? { return unemptyLocationInfo(for: .mail) }
     var website: String? { return unemptyLocationInfo(for: .url) }
+    
 }

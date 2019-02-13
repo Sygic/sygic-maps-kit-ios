@@ -1,7 +1,13 @@
 import SygicUIKit
 
 
-public class SYMKMapRecenterController: SYUIMapRecenterController, MapControl {
+/// Recenter controller manage recenter button.
+///
+/// This is subclass of `SYUIMapRecenterController` in MapsKit framework, so it can conforms to `MapControl` protocol
+/// and implement `update(with SYMKMapState)` method for updating recenter button based on map interaction.
+public class SYMKMapRecenterController: SYUIMapRecenterController { }
+
+extension SYMKMapRecenterController: MapControl {
     
     func update(with mapState: SYMKMapState) {
         allowedStates = mapState.recenterStates
@@ -12,7 +18,7 @@ public class SYMKMapRecenterController: SYUIMapRecenterController, MapControl {
 
 extension SYMKMapState {
     
-    var recenterCurrentState: SYMKMapRecenterController.state {
+    public var recenterCurrentState: SYMKMapRecenterController.state {
         if cameraMovementMode == .free {
             return .free
         } else {
@@ -24,7 +30,7 @@ extension SYMKMapState {
         }
     }
     
-    var recenterStates: [SYMKMapRecenterController.state] {
+    public var recenterStates: [SYMKMapRecenterController.state] {
         switch recenterCurrentState {
         case .free:
             return [.free, .locked]
