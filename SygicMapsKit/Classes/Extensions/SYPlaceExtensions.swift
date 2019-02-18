@@ -4,6 +4,7 @@ import SygicMaps
 
 public extension SYPlace {
     
+    /// Formatted string containing street and house number from place address
     var streetAndHouseNumber: String? {
         var address = ""
         if let street = street {
@@ -21,6 +22,7 @@ public extension SYPlace {
         return address
     }
     
+    /// Formatted string containing all available address segments.
     var fullAddress: String? {
         var address = ""
         if let streetHouse = streetAndHouseNumber {
@@ -41,6 +43,10 @@ public extension SYPlace {
         return address
     }
     
+    /// Location info for provided Location info field
+    ///
+    /// - Parameter field: desired location info type
+    /// - Returns: Location info value string. If empty, returns nil.
     func unemptyLocationInfo(for field: SYLocationInfoField) -> String? {
         if let info = locationInfo?.values(for: field)?.first, !info.isEmpty {
             return info

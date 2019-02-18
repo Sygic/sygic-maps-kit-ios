@@ -140,7 +140,7 @@ extension SYMKMapController: SYUICompassDelegate {
 
 extension SYMKMapController: SYUIMapRecenterDelegate {
     
-    public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state) {
+    public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYUIRecenterState) {
         switch state {
         case .locked:
             mapView.cameraMovementMode = .followGpsPositionWithAutozoom

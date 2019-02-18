@@ -1,7 +1,7 @@
 import SygicUIKit
 
 
-/// Compass controller manage compass view.
+/// Compass controller manages compass view.
 ///
 /// This is subclass of `SYUICompassController` in MapsKit framework, so it can conforms to `MapControl` protocol
 /// and implement `update(with SYMKMapState)` method for updating compass based on map interaction.

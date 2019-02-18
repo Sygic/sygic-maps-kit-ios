@@ -1,7 +1,7 @@
 import SygicUIKit
 
 
-/// Zoom controller manage zoom control view.
+/// Zoom controller manages zoom control view.
 ///
 /// This is subclass of `SYUIZoomController` in MapsKit framework, so it can conforms to `MapControl` protocol
 /// and implement `update(with SYMKMapState)` method for updating zoom controls based on map interaction.
