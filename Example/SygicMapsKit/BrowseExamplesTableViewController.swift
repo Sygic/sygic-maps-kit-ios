@@ -2,43 +2,44 @@ import UIKit
 import SygicMaps
 import SygicMapsKit
 
+struct ModuleData {
+    let title: String
+    let subtitle: String
+    let image: String
+}
+
 class BrowseExamplesTableViewController: UITableViewController {
+    
+    let modulesData = [
+        ModuleData(title: "Browse Map - Default", subtitle: "Browse Map module with no configuration", image: "preview-browsemap-default"),
+        ModuleData(title: "Browse Map - Full", subtitle: "Browse Map module with full configuration", image: "preview-browsemap-full"),
+        ModuleData(title: "Browse Map - Tap handling", subtitle: "Browse Map module with own tap handling", image: "preview-browsemap-data"),
+        ModuleData(title: "Custom annotation view", subtitle: "", image: ""),
+        ModuleData(title: "Browse Map - Themes", subtitle: "Browse Map module with custom themes", image: ""),
+        ModuleData(title: "Custom Pois", subtitle: "", image: ""),
+        ModuleData(title: "Transition between modules", subtitle: "", image: "")
+    ]
+    
+    private let cellHeight: CGFloat = 330
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Browse map examples"
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        title = "Browse Map Examples"
+        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: "reuseIdentifier")
+        tableView.separatorStyle = .none
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return modulesData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        switch indexPath.row {
-        case 0:
-            cell.textLabel?.text = "Default Browse Map"
-        case 1:
-            cell.textLabel?.text = "Browse Map with all default controls"
-        case 2:
-            cell.textLabel?.text = "Custom callback"
-        case 3:
-            cell.textLabel?.text = "Custom annotation view"
-        case 4:
-            cell.textLabel?.text = "Custom Skin"
-        case 5:
-            cell.textLabel?.text = "Custom Pois"
-        case 6:
-            cell.textLabel?.text = "Transition between modules"
-        default:
-            break
-        }
-        
-        cell.accessoryType = .disclosureIndicator
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ModuleExampleTableViewCell
+        let data = modulesData[indexPath.row]
+        cell.title = data.title
+        cell.subtitle = data.subtitle
+        cell.imageName = data.image
         return cell
     }
     
@@ -61,6 +62,10 @@ class BrowseExamplesTableViewController: UITableViewController {
         default:
             break
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight
     }
     
     private func browseMapWithAllControls() -> SYMKBrowseMapViewController {
