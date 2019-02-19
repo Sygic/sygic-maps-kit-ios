@@ -1,4 +1,5 @@
 import UIKit
+import SygicMaps
 import SygicUIKit
 import SygicMapsKit
 
@@ -20,25 +21,36 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Custom skin"
+        title = "Themes Example"
         
         // set color pallete with overrided colors
         SYUIColorSchemeManager.shared.currentColorPalette = CustomColorPallete()
         
         // set font family with your defined font names
-//        SYUIFontManager.shared.currentFontFamily = CustomFont()
+        // SYUIFontManager.shared.currentFontFamily = CustomFont()
         
         let browseMapModule = SYMKBrowseMapViewController()
         browseMapModule.useRecenterButton = true
         browseMapModule.useZoomControl = true
         browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .all
+        browseMapModule.customMarkers = customMarkers()
+        browseMapModule.mapSkin = .night
+        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapModule.mapState.zoom = 16
         presentModule(browseMapModule)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         SYUIColorSchemeManager.shared.currentColorPalette = SYUIDefaultColorPalette()
         super.viewDidDisappear(animated)
+    }
+    
+    private func customMarkers() -> [SYMKMapPin] {
+        let pin1 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!, color: .red)!
+        let pin2 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!, color: .red)!
+        pin2.highlighted = true
+        return [pin1, pin2]
     }
     
 }

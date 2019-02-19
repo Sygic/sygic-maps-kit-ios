@@ -10,7 +10,7 @@ class CustomDataHandlingViewController: UIViewController, SYMKModulePresenter {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Custom data handling"
+        title = "Custom Tap Handling Example"
         
         let browseMap = SYMKBrowseMapViewController()
         browseMap.delegate = self

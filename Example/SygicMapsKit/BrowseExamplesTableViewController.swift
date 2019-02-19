@@ -2,6 +2,7 @@ import UIKit
 import SygicMaps
 import SygicMapsKit
 
+
 struct ModuleData {
     let title: String
     let subtitle: String
@@ -14,10 +15,10 @@ class BrowseExamplesTableViewController: UITableViewController {
         ModuleData(title: "Browse Map - Default", subtitle: "Browse Map module with no configuration", image: "preview-browsemap-default"),
         ModuleData(title: "Browse Map - Full", subtitle: "Browse Map module with full configuration", image: "preview-browsemap-full"),
         ModuleData(title: "Browse Map - Tap handling", subtitle: "Browse Map module with own tap handling", image: "preview-browsemap-data"),
-        ModuleData(title: "Custom annotation view", subtitle: "", image: ""),
-        ModuleData(title: "Browse Map - Themes", subtitle: "Browse Map module with custom themes", image: ""),
-        ModuleData(title: "Custom Pois", subtitle: "", image: ""),
-        ModuleData(title: "Transition between modules", subtitle: "", image: "")
+        ModuleData(title: "Browse Map - Custom Annotation View", subtitle: "Browes Map module with custom view for map points", image: "preview-browsemap-annotation"),
+        ModuleData(title: "Browse Map - Skins", subtitle: "Browse Map module with custom skins", image: "preview-browsemap-skins"),
+        ModuleData(title: "Browse Map - Markers", subtitle: "Browse Map module with own custom map markers", image: "preview-browsemap-markers"),
+        ModuleData(title: "Browse Map - Selection Modes", subtitle: "Browse Map module with all available selection modes", image: "preview-browsemap-selectionmodes")
     ]
     
     private let cellHeight: CGFloat = 330
@@ -58,7 +59,7 @@ class BrowseExamplesTableViewController: UITableViewController {
         case 5:
             navigationController?.pushViewController(CustomMarkersExampleViewController(), animated: true)
         case 6:
-            navigationController?.pushViewController(BrowseModuleExampleViewController(), animated: true)
+            navigationController?.pushViewController(BrowseMapSelectionModesExampleViewController(), animated: true)
         default:
             break
         }

@@ -11,15 +11,16 @@
 		1E80D6389CCFFEB76F5A5682 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
 		589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */; };
-		589CB07C21EE16890082F7C4 /* CustomSkinExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */; };
+		589CB07C21EE16890082F7C4 /* Skins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* Skins.swift */; };
 		589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07D21EF96F30082F7C4 /* ZZZTest.swift */; };
 		589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */; };
-		58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */; };
-		5C3B212721FA05D300F21AD4 /* CustomMarkerInfoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomMarkerInfoExampleViewController.swift */; };
+		58D3D33821E7A65500E11D1D /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* Markers.swift */; };
+		5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
-		5C3B212B21FA05D300F21AD4 /* CustomDataHandlingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* CustomDataHandlingViewController.swift */; };
+		5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* TapHandling.swift */; };
 		5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */; };
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
+		5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* RootTableViewController.swift */; };
@@ -43,15 +44,16 @@
 		4011C16C1F93D5BA196B8B0B /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseExamplesTableViewController.swift; sourceTree = "<group>"; };
-		589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSkinExampleViewController.swift; sourceTree = "<group>"; };
+		589CB07B21EE16890082F7C4 /* Skins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skins.swift; sourceTree = "<group>"; };
 		589CB07D21EF96F30082F7C4 /* ZZZTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZZTest.swift; sourceTree = "<group>"; };
 		589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMKSDKInitializationTests.swift; sourceTree = "<group>"; };
-		58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkersExampleViewController.swift; sourceTree = "<group>"; };
-		5C3B212421FA05D200F21AD4 /* CustomMarkerInfoExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMarkerInfoExampleViewController.swift; sourceTree = "<group>"; };
+		58D3D33721E7A65500E11D1D /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
+		5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
-		5C3B212621FA05D300F21AD4 /* CustomDataHandlingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomDataHandlingViewController.swift; sourceTree = "<group>"; };
+		5C3B212621FA05D300F21AD4 /* TapHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapHandling.swift; sourceTree = "<group>"; };
 		5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleExampleTableViewCell.swift; sourceTree = "<group>"; };
 		5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModuleExampleTableViewCell.xib; sourceTree = "<group>"; };
+		5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModes.swift; sourceTree = "<group>"; };
 		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -106,12 +108,13 @@
 		589CB07A21EE08C40082F7C4 /* Browse examples */ = {
 			isa = PBXGroup;
 			children = (
-				5C3B212621FA05D300F21AD4 /* CustomDataHandlingViewController.swift */,
-				5C3B212421FA05D200F21AD4 /* CustomMarkerInfoExampleViewController.swift */,
+				5C3B212621FA05D300F21AD4 /* TapHandling.swift */,
+				5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */,
 				5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */,
 				5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */,
-				58D3D33721E7A65500E11D1D /* CustomMarkersExampleViewController.swift */,
-				589CB07B21EE16890082F7C4 /* CustomSkinExampleViewController.swift */,
+				58D3D33721E7A65500E11D1D /* Markers.swift */,
+				589CB07B21EE16890082F7C4 /* Skins.swift */,
+				5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */,
 			);
 			path = "Browse examples";
 			sourceTree = "<group>";
@@ -395,16 +398,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C3B212B21FA05D300F21AD4 /* CustomDataHandlingViewController.swift in Sources */,
+				5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */,
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
-				5C3B212721FA05D300F21AD4 /* CustomMarkerInfoExampleViewController.swift in Sources */,
-				589CB07C21EE16890082F7C4 /* CustomSkinExampleViewController.swift in Sources */,
+				5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */,
+				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
 				5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */,
-				58D3D33821E7A65500E11D1D /* CustomMarkersExampleViewController.swift in Sources */,
+				58D3D33821E7A65500E11D1D /* Markers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

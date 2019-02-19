@@ -10,7 +10,7 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Custom markers"
+        title = "Custom Markers Example"
 
         let browseMapModule = SYMKBrowseMapViewController()
         browseMapModule.useRecenterButton = true

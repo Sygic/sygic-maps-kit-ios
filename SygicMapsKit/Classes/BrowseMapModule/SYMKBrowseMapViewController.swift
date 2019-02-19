@@ -14,6 +14,16 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
+    public enum MapSkins: String {
+        case day
+        case night
+    }
+    
+    public enum UsersLocationSkins: String {
+        case pedestrian
+        case car
+    }
+    
     /**
         Delegate output for browse map controller
      */
@@ -67,6 +77,18 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public var customMarkers: [SYMKMapPin]? {
         didSet {
             addCustomMarkersToMap()
+        }
+    }
+    
+    public var mapSkin: MapSkins = .day {
+        didSet {
+            mapController?.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+        }
+    }
+    
+    public var userLocationSkin: UsersLocationSkins = .car {
+        didSet {
+            mapController?.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
         }
     }
     
@@ -147,6 +169,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
+        mapController.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap()
