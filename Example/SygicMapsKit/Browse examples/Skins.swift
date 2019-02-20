@@ -21,7 +21,7 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Themes Example"
+        title = "Skins Example"
         
         // set color pallete with overrided colors
         SYUIColorSchemeManager.shared.currentColorPalette = CustomColorPallete()

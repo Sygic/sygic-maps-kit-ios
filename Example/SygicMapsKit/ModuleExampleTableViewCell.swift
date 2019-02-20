@@ -31,6 +31,8 @@ class ModuleExampleTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        selectionStyle = .none
+        
         mainCellView.layer.cornerRadius = 6
         mainCellView.layer.masksToBounds = true
         
@@ -43,8 +45,14 @@ class ModuleExampleTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+        
+        mainCellView.backgroundColor = selected ? .lightGray : .white
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        
+        mainCellView.backgroundColor = highlighted ? .lightGray : .white
     }
 
-    
 }
