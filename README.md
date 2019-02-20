@@ -8,7 +8,7 @@ A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can
 
 To get familiar with all the features available, you can first try out our sample application. To run the application, clone the repo, and run `pod install` from the `Example` directory first. Open `SygicMapsKit.xcworkspace` and build.
 
-![Example1][Example1Thumbnail][Example1]![Example2][Example2Thumbnail][Example2]![Example3][Example3Thumbnail][Example3]![Example4][Example4Thumbnail][Example4]
+[![Example1][Example1Thumbnail]][Example1][![Example2][Example2Thumbnail]][Example2][![Example3][Example3Thumbnail]][Example3][![Example4][Example4Thumbnail]][Example4]
 
 ## Requirements
 
