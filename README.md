@@ -58,7 +58,7 @@ limitations under the License.
 
 [SygicMapsSDK]: <https://www.sygic.com/enterprise/maps-navigation-sdk-api-developers>
 [AndroidMapsKit]: <https://github.com/Sygic/sygic-maps-kit-android>
-[SygicLogo]: <https://github.com/Sygic/sygic-maps-kit-android/raw/develop/assets/images/sygic_logo.png>
+[SygicLogo]: <Assets/sygic_logo.png>
 [CocoaPods]: <https://cocoapods.org>
 [MapsKitWiki]: <https://github.com/Sygic/sygic-maps-kit-ios/wiki>
 [SygicMobileSDKiOS]: <https://stackoverflow.com/questions/tagged/ios+sygic-mobile-sdk>
