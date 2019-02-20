@@ -2,6 +2,8 @@ import Foundation
 import SygicUIKit
 import MessageUI
 
+
+/// Provides implementation of SYUIPoiDetailDelegate
 public class SYMKPoiDetailDelegate: SYUIPoiDetailDelegate {
     
     let model: SYMKPoiDetailModel
@@ -36,7 +38,7 @@ public class SYMKPoiDetailDelegate: SYUIPoiDetailDelegate {
         }
     }
     
-    // MARK: - private
+    // MARK: - Private methods
     
     private func call() {
         guard var urlString = model.phone else { return }

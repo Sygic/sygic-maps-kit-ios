@@ -2,13 +2,24 @@ import UIKit
 import SygicMaps
 import SygicUIKit
 
+
+/// Browse Map Module's view.
 class SYMKBrowseMapView: UIView {
-    private let sideMargin: CGFloat = 16
     
+    // MARK: - Public Properties
+    
+    /// Map view.
     public private(set) weak var mapView: UIView?
+    /// Compass view.
     public private(set) weak var compass: UIView?
+    /// Recenter button view.
     public private(set) weak var recenterButton: UIView?
+    /// Zoom control view.
     public private(set) weak var zoomControl: UIView?
+    
+    // MARK: - Private Properties
+    
+    private let sideMargin: CGFloat = 16
     
     // MARK: - Public Methods
     
@@ -25,6 +36,9 @@ class SYMKBrowseMapView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Setup map view on whole scene.
+    ///
+    /// - Parameter mapView: Map view to set up.
     public func setupMapView(_ mapView: UIView) {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,6 +47,9 @@ class SYMKBrowseMapView: UIView {
         mapView.coverWholeSuperview()
     }
     
+    /// Setup compass on scene.
+    ///
+    /// - Parameter compass: Compass to set up.
     public func setupCompass(_ compass: UIView) {
         self.compass = compass
         addSubview(compass)
@@ -42,6 +59,9 @@ class SYMKBrowseMapView: UIView {
         compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
     }
     
+    /// Setup zoom control on scene.
+    ///
+    /// - Parameter zoomControl: Zoom Control to set up.
     public func setupZoomControl(_ zoomControl: UIView) {
         self.zoomControl = zoomControl
         addSubview(zoomControl)
@@ -55,6 +75,9 @@ class SYMKBrowseMapView: UIView {
         }
     }
     
+    /// Setup recenter button on scene.
+    ///
+    /// - Parameter recenter: Recenter button to set up.
     public func setupRecenter(_ recenter: UIView) {
         recenterButton = recenter
         addSubview(recenter)
