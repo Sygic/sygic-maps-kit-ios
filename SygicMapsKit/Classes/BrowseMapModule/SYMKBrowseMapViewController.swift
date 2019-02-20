@@ -125,14 +125,14 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         super.viewDidAppear(animated)
     }
     
-    /// Add annotation on map.
+    /// Add annotation to map.
     ///
     /// - Parameter annotation: Annotation added on a map.
     public func addAnnotation(_ annotation: SYAnnotation) {
         mapController?.mapView.addAnnotation(annotation)
     }
     
-    /// Add annotations on map.
+    /// Add annotations to map.
     ///
     /// - Parameter annotations: Array of annotations added on a map.
     public func addAnnotations(_ annotations: [SYAnnotation]) {
