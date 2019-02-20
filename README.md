@@ -2,18 +2,19 @@
 
 A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can be used to display rich map content and interact with it. (if you are looking for an android version, you can find it [here][AndroidMapsKit]) 
 
-![Sygic](https://github.com/Sygic/sygic-maps-kit-android/raw/develop/assets/images/sygic_logo.png)
+![Sygic][SygicLogo]
 
 ## Sample Application
 
 To get familiar with all the features available, you can first try out our sample application. To run the application, clone the repo, and run `pod install` from the `Example` directory first. Open `SygicMapsKit.xcworkspace` and build.
 
+![Example1][Example1Thumbnail][Example1]![Example2][Example2Thumbnail][Example2]![Example3][Example3Thumbnail][Example3]![Example4][Example4Thumbnail][Example4]
 
 ## Requirements
 
 ## Installation
 
-SygicMapsKit is available through [CocoaPods](https://cocoapods.org). To install
+SygicMapsKit is available through [CocoaPods][CocoaPods]. To install
 it, simply add the following line to your Podfile:
 
 ```ruby
@@ -57,7 +58,17 @@ limitations under the License.
 
 [SygicMapsSDK]: <https://www.sygic.com/enterprise/maps-navigation-sdk-api-developers>
 [AndroidMapsKit]: <https://github.com/Sygic/sygic-maps-kit-android>
-[SygicLogo]: <https://github.com/Sygic/sygic-maps-kit-android/blob/develop/assets/images/sygic_logo.png>
+[SygicLogo]: <https://github.com/Sygic/sygic-maps-kit-android/raw/develop/assets/images/sygic_logo.png>
+[CocoaPods]: <https://cocoapods.org>
 [MapsKitWiki]: <https://github.com/Sygic/sygic-maps-kit-ios/wiki>
 [SygicMobileSDKiOS]: <https://stackoverflow.com/questions/tagged/ios+sygic-mobile-sdk>
 [MapsKitIssues]: <https://github.com/Sygic/sygic-maps-kit-ios/issues>
+
+[Example1]: <Assets/example1.png>
+[Example2]: <Assets/example2.png>
+[Example3]: <Assets/example3.png>
+[Example4]: <Assets/example4.png>
+[Example1Thumbnail]: <Assets/example1_thumbnail.png>
+[Example2Thumbnail]: <Assets/example2_thumbnail.png>
+[Example3Thumbnail]: <Assets/example3_thumbnail.png>
+[Example4Thumbnail]: <Assets/example4_thumbnail.png>
