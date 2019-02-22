@@ -1,31 +1,56 @@
 import SygicMaps
 import SygicUIKit
 
-public protocol SYMKMapViewControllerDelegate: class {
-    func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView)
+
+/// Map controller delegate.
+public protocol SYMKMapControllerDelegate: class {
+    
+    /// Informs delegate that map has updated with new state.
+    ///
+    /// - Parameters:
+    ///   - controller: Map controller.
+    ///   - mapState: New state of map.
+    func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState)
+    
+    /// Map controller needs `SYAnnotationView` from its delegate, so it
+    /// can draw view on map for an annotation.
+    ///
+    /// - Parameter annotation: Annotation that needs `SYAnnotationView`.
+    /// - Returns: `SYAnnotationView` to be drawn on map.
     func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView
 }
 
+/// Controller that managing map view.
 public class SYMKMapController: NSObject {
     
-    public weak var delegate: SYMKMapViewControllerDelegate?
+    // MARK: - Public Properties
+    
+    /// Map controller delegate.
+    public weak var delegate: SYMKMapControllerDelegate?
+    /// Selection manager for map.
     public var selectionManager: SYMKMapSelectionManager? {
         didSet {
             selectionManager?.mapView = mapView
         }
     }
+    /// State of map.
     public private(set) var mapState: SYMKMapState
+    /// View with map.
     public private(set) var mapView: SYMapView
     
-    public enum ZoomActionType: CGFloat {
+    // MARK: - Private Properties
+    
+    private enum ZoomActionType: CGFloat {
         case zoomIn = 1
         case zoomOut = -1
     }
     
-    public enum Tilt: CGFloat {
+    private enum Tilt: CGFloat {
         case _2D = 0.0
         case _3D = 80.0
     }
+    
+    // MARK: - Public Methods
     
     public init(with mapState: SYMKMapState, mapFrame: CGRect = .zero) {
         mapView = mapState.loadMap(with: mapFrame)
@@ -71,7 +96,7 @@ extension SYMKMapController: SYMapViewDelegate {
         mapState.rotation = rotation
         mapState.tilt = tilt
         
-        delegate?.mapController(self, didUpdate: mapState, on: mapView)
+        delegate?.mapController(self, didUpdate: mapState)
     }
     
     public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
@@ -79,12 +104,12 @@ extension SYMKMapController: SYMapViewDelegate {
             mapView.cameraRotationMode = .free
         }
         mapState.cameraMovementMode = mode
-        delegate?.mapController(self, didUpdate: mapState, on: mapView)
+        delegate?.mapController(self, didUpdate: mapState)
     }
     
     public func mapView(_ mapView: SYMapView, didChangeCameraRotationMode mode: SYCameraRotation) {
         mapState.cameraRotationMode = mode
-        delegate?.mapController(self, didUpdate: mapState, on: mapView)
+        delegate?.mapController(self, didUpdate: mapState)
     }
     
     public func mapView(_ mapView: SYMapView, didSelect objects: [SYViewObject]) {
@@ -101,18 +126,21 @@ extension SYMKMapController: SYMapViewDelegate {
 // MARK: - Compass Delegate
 
 extension SYMKMapController: SYUICompassDelegate {
+    
     public func compassDidTap(_ compass: SYUICompass) {
         if mapView.cameraMovementMode != .free {
             mapView.cameraRotationMode = .free
         }
         rotateMapNorth()
     }
+    
 }
 
 // MARK: - Map Recenter delegate
 
 extension SYMKMapController: SYUIMapRecenterDelegate {
-    public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYMKMapRecenterController.state) {
+    
+    public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYUIRecenterState) {
         switch state {
         case .locked:
             mapView.cameraMovementMode = .followGpsPositionWithAutozoom
@@ -127,11 +155,13 @@ extension SYMKMapController: SYUIMapRecenterDelegate {
             break
         }
     }
+    
 }
 
 // MARK: - Zoom buttons Delegate
 
 extension SYMKMapController: SYUIZoomControllerDelegate {
+    
     public func zoomController(wants activity: SYUIZoomActivity) {
         switch activity {
         case .zoomIn, .zoomingIn:
@@ -144,4 +174,5 @@ extension SYMKMapController: SYUIZoomControllerDelegate {
             break
         }
     }
+    
 }

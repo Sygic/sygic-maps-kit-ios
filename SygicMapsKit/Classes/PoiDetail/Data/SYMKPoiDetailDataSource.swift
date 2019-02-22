@@ -2,6 +2,8 @@ import Foundation
 import SygicMaps
 import SygicUIKit
 
+
+/// Provides implementation of SYUIPoiDetailDataSource procotol based on SYMKPoiDetailModel protocol
 class SYMKPoiDetailDataSource {
     
     private var model: SYMKPoiDetailModel

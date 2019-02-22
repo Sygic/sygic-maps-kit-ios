@@ -1,11 +1,17 @@
 import Foundation
 import SygicUIKit
 
+/// Supported contact types for poi detail
+///
+/// - phone: phone contact
+/// - email: email contact
+/// - website: website url
 public enum SYMKPoiDetailContact {
     case phone(_ value: String)
     case email(_ value: String)
     case website(_ value: String)
     
+    /// Title for contact detail
     var title: String {
         switch self {
         case .phone:
@@ -17,6 +23,7 @@ public enum SYMKPoiDetailContact {
         }
     }
     
+    /// Value for contact detail
     var value: String {
         switch self {
         case .phone(let value):
@@ -28,6 +35,7 @@ public enum SYMKPoiDetailContact {
         }
     }
     
+    /// Icon for contact detail
     var icon: String {
         switch self {
         case .phone:
@@ -39,6 +47,9 @@ public enum SYMKPoiDetailContact {
         }
     }
     
+    /// Contact data source for cell in poi detail
+    ///
+    /// - Returns: cell data source
     func cellDataSourece() -> SYUIPoiDetailCellDataSource {
         return SYUIPoiDetailCellData(title: self.title, subtitle: self.value, icon: self.icon)
     }
