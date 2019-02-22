@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -9,28 +9,14 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "SygicMapsKit_Example.app"
-               BlueprintName = "SygicMapsKit_Example"
-               ReferencedContainer = "container:SygicMapsKit.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SygicMapsKit_Tests.xctest"
-               BlueprintName = "SygicMapsKit_Tests"
+               BlueprintIdentifier = "585E80F2221D9A5B00B7D6C7"
+               BuildableName = "SygicMapsKit_ExampleUITests.xctest"
+               BlueprintName = "SygicMapsKit_ExampleUITests"
                ReferencedContainer = "container:SygicMapsKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,16 +32,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SygicMapsKit_Tests.xctest"
-               BlueprintName = "SygicMapsKit_Tests"
-               ReferencedContainer = "container:SygicMapsKit.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "585E80F2221D9A5B00B7D6C7"
                BuildableName = "SygicMapsKit_ExampleUITests.xctest"
                BlueprintName = "SygicMapsKit_ExampleUITests"
@@ -66,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "SygicMapsKit_Example.app"
-            BlueprintName = "SygicMapsKit_Example"
+            BlueprintIdentifier = "585E80F2221D9A5B00B7D6C7"
+            BuildableName = "SygicMapsKit_ExampleUITests.xctest"
+            BlueprintName = "SygicMapsKit_ExampleUITests"
             ReferencedContainer = "container:SygicMapsKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -85,16 +61,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "SygicMapsKit_Example.app"
-            BlueprintName = "SygicMapsKit_Example"
+            BlueprintIdentifier = "585E80F2221D9A5B00B7D6C7"
+            BuildableName = "SygicMapsKit_ExampleUITests.xctest"
+            BlueprintName = "SygicMapsKit_ExampleUITests"
             ReferencedContainer = "container:SygicMapsKit.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -104,16 +79,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "SygicMapsKit_Example.app"
-            BlueprintName = "SygicMapsKit_Example"
+            BlueprintIdentifier = "585E80F2221D9A5B00B7D6C7"
+            BuildableName = "SygicMapsKit_ExampleUITests.xctest"
+            BlueprintName = "SygicMapsKit_ExampleUITests"
             ReferencedContainer = "container:SygicMapsKit.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

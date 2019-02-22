@@ -126,8 +126,14 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
             (view as! SYMKBrowseMapView).setupMapView(map)
             map.delegate = mapController
             map.setup(with: mapState)
+            map.renderEnabled = true
         }
         super.viewDidAppear(animated)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        mapController?.mapView.renderEnabled = false
+        super.viewWillDisappear(animated)
     }
     
     public func addAnnotation(_ annotation: SYAnnotation) {

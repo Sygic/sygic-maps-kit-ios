@@ -57,6 +57,7 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowserMapViewControllerAnn
             annotationView = dataAnnotationView
         } else {
             annotationView = DataAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+            annotationView.accessibilityIdentifier = "DataAnnotation"
         }
         
         annotationView.anchorPoint = CGPoint(x: 0.5, y: 2)

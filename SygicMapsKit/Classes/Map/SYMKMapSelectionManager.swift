@@ -100,6 +100,9 @@ public class SYMKMapSelectionManager {
     
     private func removeMarkersCluster() {
         guard let markersCluster = mapMarkersManager.clusterLayer else { return }
+        if let clusterMarkers = markersCluster.mapMarkers {
+            mapView?.remove(clusterMarkers)
+        }
         mapView?.removeMapMarkersCluster(markersCluster)
     }
     

@@ -38,6 +38,7 @@ class BrowseMapSelectionModesExampleViewController: UIViewController, SYMKModule
         let modeSelectButton = SYUIActionButton()
         modeSelectButton.style = .secondary
         modeSelectButton.title = "Selection mode"
+        modeSelectButton.accessibilityIdentifier = "Selection mode"
         modeSelectButton.height = 44
         modeSelectButton.titleSize = 15
         modeSelectButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
