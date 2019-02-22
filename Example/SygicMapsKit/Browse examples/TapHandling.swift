@@ -10,7 +10,7 @@ class CustomDataHandlingViewController: UIViewController, SYMKModulePresenter {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Custom data handling"
+        title = "Custom Tap Handling Example"
         
         let browseMap = SYMKBrowseMapViewController()
         browseMap.delegate = self
@@ -23,7 +23,7 @@ class CustomDataHandlingViewController: UIViewController, SYMKModulePresenter {
 extension CustomDataHandlingViewController: SYMKBrowseMapViewControllerDelegate {
     
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
-        let alert = UIAlertController(title: data.city, message: data.street, preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "\(data)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }

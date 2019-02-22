@@ -27,9 +27,9 @@ First read the [Wiki][MapsKitWiki] page, then try to search on [Stackoverflow][S
 
 ## Authors
 
-* **Jakub Cali­k** - *Primary contributor* - [jcaliksygic][jcalikGithub]
-* **Jakub Kracina** - *Primary contributor* - [Kraci][KraciGithub]
-* **Marek Dovjak** - *Primary contributor* - [marekdovjak][marekdovjakGithub]
+  * **Jakub Cali­k** - *Primary contributor* - [jcaliksygic][jcalikGithub]
+  * **Jakub Kracina** - *Primary contributor* - [Kraci][KraciGithub]
+  * **Marek Dovjak** - *Primary contributor* - [marekdovjak][marekdovjakGithub]
 
 ## License
 

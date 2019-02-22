@@ -22,6 +22,8 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
         browseMap.delegate = self
         browseMap.annotationDelegate = self
         browseMap.mapSelectionMode = .all
+        browseMap.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMap.mapState.zoom = 16
         browseMapModule = browseMap
         
         presentModule(browseMap)
@@ -41,6 +43,7 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowseMapViewControllerDele
         let customAnnotation = DataAnnotation(data: data)
         customAnnotations.append(customAnnotation)
         browseController.addAnnotation(customAnnotation)
+        browseController.customMarkers = [SYMKMapPin(coordinate: data.coordinate, highlighted: true)!]
     }
     
 }
@@ -56,6 +59,7 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowserMapViewControllerAnn
             annotationView = DataAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
         }
         
+        annotationView.anchorPoint = CGPoint(x: 0.5, y: 2)
         annotationView.firstText = "\(annotation.coordinate.latitude)"
         annotationView.secondText = "\(annotation.coordinate.longitude)"
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(customViewTapped)))
