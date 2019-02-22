@@ -2,25 +2,45 @@ import Foundation
 import SygicMaps
 
 
+/// Implement MapControl protocol for update components with new state based on map changes.
 internal protocol MapControl {
     func update(with mapState: SYMKMapState)
 }
 
+/// Map state class holds state of map.
 public class SYMKMapState: NSCopying {
     
+    // MARK: - Public Properties
+    
+    /// Map to which a state belongs.
+    ///
+    /// When you pass map state between multiple modules, you can pass `SYMapView` as
+    /// well, so you don't need to allocate new `SYMapView` object. You will prevent
+    /// black screen, the moment while `SYMapView` is allocated.
     public var map: SYMapView?
+    /// Center of a map
     public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)!
+    /// Zoom of a map.
     public var zoom: CGFloat = 0
+    /// Rotation of a map.
     public var rotation: CGFloat = 0
+    /// Tilt of a map.
     public var tilt: CGFloat = 0
     
+    /// Camera movement mode. Default is `.free`.
     public var cameraMovementMode: SYCameraMovement = .free
+    /// Camera rotation mode. Default is `.free`.
     public var cameraRotationMode: SYCameraRotation = .free
     
+    /// Returns, whether tilt is 3D or not.
     public var isTilt3D: Bool {
         return tilt >= 0.01
     }
     
+    /// Initializes and returns map. If map isn't already initialized, returns new map instance with defined state values.
+    ///
+    /// - Parameter frame: Initial frame of a map. Default is `CGRect.zero`.
+    /// - Returns: Loaded `SYMapView` object.
     public func loadMap(with frame: CGRect = .zero) -> SYMapView {
         if let initializedMap = map {
             return initializedMap
@@ -47,7 +67,10 @@ public class SYMKMapState: NSCopying {
 
 extension SYMapView {
     
-    func setup(with mapState: SYMKMapState) {
+    /// Set up map with new state.
+    ///
+    /// - Parameter mapState: State for map.
+    public func setup(with mapState: SYMKMapState) {
         geoCenter = mapState.geoCenter
         zoom = mapState.zoom
         rotation = mapState.rotation

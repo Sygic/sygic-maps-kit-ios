@@ -2,10 +2,12 @@ import Foundation
 import SygicMaps
 import SygicUIKit
 
-/**
- Implementation of SYMKMapMarker protocol, to display SYUIPinView as markers on map.
- */
+
+/// Implementation of SYMKMapMarker protocol, to display SYUIPinView as markers on map.
 public class SYMKMapPin: SYMKMapMarker {
+    
+    // MARK: - Public Properties
+    
     public var pin: SYUIPinView
     public var data: SYMKPoiDataProtocol?
     public private(set) var mapMarker: SYMapMarker
@@ -25,6 +27,8 @@ public class SYMKMapPin: SYMKMapMarker {
             }
         }
     }
+    
+    // MARK: - Public Methods
     
     public init?(coordinate: SYGeoCoordinate, icon: String = SYUIIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
         pin = SYUIPinView(icon: icon, color: color, highlighted: highlighted, animatedHighlight: false)

@@ -2,14 +2,44 @@ import SygicMaps
 import SygicUIKit
 
 
+/// Browse map module output protocol.
+///
+/// Adopting of this protocol overrides default behaviour, which means, bottom sheet
+/// is no longer showed after tap on map. Delegate receives raw data instead.
 public protocol SYMKBrowseMapViewControllerDelegate: class {
+    
+    /// Delegate receives data about (point of interest) that was selected on map.
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module controller.
+    ///   - data: Data about selected point of interest.
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
 }
 
+/// Browse map module annotation protocol.
+///
+/// In case you want draw custom `UIView` object on map, you must conform to this protocol.
+/// Add annotation object (object with coordinates) with `addAnnotation(SYAnnotation)` method
+///
 public protocol SYMKBrowserMapViewControllerAnnotationDelegate: class {
+    
+    /// When map reaches some annotation, this method is called. It needs `SYAnnotationView` object
+    /// to draw at annotations coordinates on map.
+    /// - Parameters:
+    ///   - browseController: Browse map module controller.
+    ///   - annotation: Annotation for that view is needed.
+    /// - Returns: View drawn on map.
     func browseMapController(_ browseController: SYMKBrowseMapViewController, wantsViewFor annotation: SYAnnotation) -> SYAnnotationView
 }
 
+/// Browse Map module.
+///
+/// Browse Map module contains map on whole screen. You can use map controls:
+/// - compass
+/// - zoom controls
+/// - recenter button
+/// - markers
+/// - poi detail (bottom sheet with marker information)
 public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
@@ -24,56 +54,43 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         case car
     }
     
-    /**
-        Delegate output for browse map controller
-     */
+    /// Delegate output for browse map controller.
     public weak var delegate: SYMKBrowseMapViewControllerDelegate?
+    /// Annotation delegate for browse map controller.
     public weak var annotationDelegate: SYMKBrowserMapViewControllerAnnotationDelegate?
     
-    /**
-        Enables compass functionality.
-    */
+    /// Enables compass functionality.
     public var useCompass = false
     
-    /**
-        Enables zoom control functionality.
-     */
+    /// Enables zoom control functionality.
     public var useZoomControl = false
 
-    /**
-        Enables recenter button functionality.
-        Button is automatically shown if map camera isn't centered to current position. After tapping recenter button, camera is automatically recentered and button disappears.
-    */
+    /// Enables recenter button functionality.
+    /// Button is automatically shown if map camera isn't centered to current position.
+    /// After tapping recenter button, camera is automatically recentered and button disappears.
     public var useRecenterButton = false
     
-    /**
-        Enables bounce in animation on first appearance of default poi detail bottom sheet
-     */
+    /// Enables bounce in animation on first appearance of default poi detail bottom sheet
     public var bounceDefaultPoiDetailFirstTime = false
     
-    /**
-     Displays user's location on map. When set to true, permission to device GPS location dialog is presented and access is required.
-     */
+    /// Displays user's location on map. When set to true, permission to device GPS location dialog is presented and access is required.
     public var showUserLocation = false {
         didSet {
             triggerUserLocation(showUserLocation)
         }
     }
     
-    /**
-        Current map selection mode.
-        Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
-        - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
-     */
+    /// Current map selection mode.
+    /// Map interaction allows user to tap certain objects on map. Place pin and place detail are displayed for selected object.
+    ///
+    /// - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
     public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .markers {
         didSet {
             mapController?.selectionManager?.mapSelectionMode = mapSelectionMode
         }
     }
     
-    /**
-        Custom pois presented by markers in map.
-     */
+    /// Custom pois presented by markers in map.
     public var customMarkers: [SYMKMapPin]? {
         didSet {
             addCustomMarkersToMap()
@@ -104,7 +121,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Methods
     
-    override public func loadView() {
+    public override func loadView() {
         let browseView = SYMKBrowseMapView()
         if useCompass {
             browseView.setupCompass(compassController.compass)
@@ -136,22 +153,38 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         super.viewWillDisappear(animated)
     }
     
+    /// Add annotation to map.
+    ///
+    /// - Parameter annotation: Annotation added on a map.
     public func addAnnotation(_ annotation: SYAnnotation) {
         mapController?.mapView.addAnnotation(annotation)
     }
     
+    /// Add annotations to map.
+    ///
+    /// - Parameter annotations: Array of annotations added on a map.
     public func addAnnotations(_ annotations: [SYAnnotation]) {
         mapController?.mapView.addAnnotations(annotations)
     }
     
+    /// Returns a reusable annotation view object located by its identifier.
+    ///
+    /// - Parameter reuseIdentifier: A string identifying the view object to be reused. This parameter must not be nil.
+    /// - Returns: A `SYAnnotationView` object with the associated identifier or nil if no such object exists in the reusable-view queue.
     public func dequeueReusableAnnotation(for reuseIdentifier: String) -> SYAnnotationView? {
         return mapController?.mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
     }
-    
+
+    /// Remove annotation from map.
+    ///
+    /// - Parameter annotation: Annotation removed from a map.
     public func removeAnnotation(_ annotation: SYAnnotation) {
         mapController?.mapView.removeAnnotation(annotation)
     }
     
+    /// Remove annotations from map.
+    ///
+    /// - Parameter annotations: Annotations removed from a map.
     public func removeAnnotations(_ annotations: [SYAnnotation]) {
         mapController?.mapView.removeAnnotations(annotations)
     }
@@ -224,9 +257,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     }
 }
 
-extension SYMKBrowseMapViewController: SYMKMapViewControllerDelegate {
+extension SYMKBrowseMapViewController: SYMKMapControllerDelegate {
     
-    public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState, on mapView: SYMapView) {
+    public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState) {
         if mapState.cameraMovementMode != .free && !showUserLocation {
             showUserLocation = true
         }

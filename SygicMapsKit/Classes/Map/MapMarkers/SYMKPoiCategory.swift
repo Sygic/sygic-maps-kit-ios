@@ -2,13 +2,18 @@ import Foundation
 import SygicUIKit
 import SygicMaps
 
-/**
- Helper class responsible for mapping SYPoiCategory to icon and color identical to icons and colors used in SYMapView engine.
- */
+
+/// Helper class responsible for mapping SYPoiCategory to icon and color identical to icons and colors used in SYMapView engine.
 public class SYMKPoiCategory: NSObject, NSCoding {
 
+    // MARK: - Public Properties
+    
+    /// Icon of a point of interest category.
     public let icon: String
+    /// Color of a point of interest category.
     public let color: UIColor
+    
+    // MARK: - Public Methods
     
     public init(icon: String, color: UIColor?) {
         self.icon = icon
@@ -29,6 +34,10 @@ public class SYMKPoiCategory: NSObject, NSCoding {
         aCoder.encode(color, forKey: "color")
     }
     
+    /// Returns specific category icon and color for `SYPoiCategory`.
+    ///
+    /// - Parameter syPoiCategory: Point of interest category defined by SDK.
+    /// - Returns: `SYMKPoiCategory` object with specific icon and color for a `SYPoiCategory`.
     public class func with(syPoiCategory: SYPoiCategory) -> SYMKPoiCategory {
         switch syPoiCategory {
         case .unknown: return SYMKPoiCategory(icon: SYUIIcon.pinPlace, color: .textBody)
@@ -229,4 +238,5 @@ public class SYMKPoiCategory: NSObject, NSCoding {
             return SYMKPoiCategory(icon: SYUIIcon.hospital, color: .poiGroupEmergency)
         }
     }
+    
 }
