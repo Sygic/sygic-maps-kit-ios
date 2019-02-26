@@ -33,6 +33,7 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
         customAnnotations.forEach { annotation in
             browseMapModule?.removeAnnotation(annotation)
         }
+        browseMapModule?.customMarkers = nil
     }
     
 }
@@ -43,7 +44,10 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowseMapViewControllerDele
         let customAnnotation = DataAnnotation(data: data)
         customAnnotations.append(customAnnotation)
         browseController.addAnnotation(customAnnotation)
-        browseController.customMarkers = [SYMKMapPin(coordinate: data.coordinate, highlighted: true)!]
+        let pin = SYMKMapPin(coordinate: data.coordinate, highlighted: true)!
+        var pins = browseController.customMarkers ?? [SYMKMapPin]()
+        pins.append(pin)
+        browseController.customMarkers = pins
     }
     
 }
