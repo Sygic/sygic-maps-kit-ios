@@ -30,6 +30,7 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
     }
     
     @objc private func removeAnnotationsTapped(_ sender: UIButton) {
+        browseMapModule?.customMarkers = []
         customAnnotations.forEach { annotation in
             browseMapModule?.removeAnnotation(annotation)
         }
