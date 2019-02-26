@@ -6,11 +6,14 @@ A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can
 
 ## Sample Application
 
-To get familiar with all the features available, you can first try out our sample application. To run the application, clone the repo, and run `pod install` from the `Example` directory first. Open `SygicMapsKit.xcworkspace` and build.
+To get familiar with all the features available, you can first try out our sample application. To run the application, clone the repo, and run `pod install` from the `Example` directory first. Open `SygicMapsKit.xcworkspace` and build. Read about samples and how to use them at our [wiki][MapsKitWiki]
 
 [![Example1][Example1Thumbnail]][Example1][![Example2][Example2Thumbnail]][Example2][![Example3][Example3Thumbnail]][Example3][![Example4][Example4Thumbnail]][Example4]
 
 ## Requirements
+
+* **Request the Sygic API key**. To start developing with Sygic Maps SDK, please [fill this form][SygicAPIKey] and get your API key.
+* Swift 4.2
 
 ## Installation
 
@@ -56,6 +59,7 @@ limitations under the License.
 [jcalikGithub]: <https://github.com/jcaliksygic>
 [marekdovjakGithub]: <https://github.com/marekdovjak>
 
+[SygicAPIKey]: <https://www.sygic.com/enterprise/get-api-key/>
 [SygicMapsSDK]: <https://www.sygic.com/enterprise/maps-navigation-sdk-api-developers>
 [AndroidMapsKit]: <https://github.com/Sygic/sygic-maps-kit-android>
 [SygicLogo]: <Assets/sygic_logo.png>
