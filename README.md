@@ -1,6 +1,6 @@
 # SygicMapsKit - iOS
 
-A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can be used to display rich map content and interact with it. It is using UI components from (if you are looking for an android version, you can find it [here][AndroidMapsKit]) 
+A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can be used to display rich map content and interact with it. It is using UI components from [Sygic UI Kit][SygicUIKit] (if you are looking for an android version, you can find it [here][AndroidMapsKit]) 
 
 ![Sygic][SygicLogo]
 
@@ -62,6 +62,7 @@ limitations under the License.
 
 [SygicAPIKey]: <https://www.sygic.com/enterprise/get-api-key/>
 [SygicMapsSDK]: <https://www.sygic.com/enterprise/maps-navigation-sdk-api-developers>
+[SygicUIKit]: <https://github.com/Sygic/sygic-ui-kit-ios>
 [AndroidMapsKit]: <https://github.com/Sygic/sygic-maps-kit-android>
 [SygicLogo]: <Assets/sygic_logo.png>
 [CocoaPods]: <https://cocoapods.org>
