@@ -46,6 +46,7 @@ public class SYMKMapState: NSCopying {
             return initializedMap
         } else {
             map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
+            map?.accessibilityLabel = "Map"
             return map!
         }
     }

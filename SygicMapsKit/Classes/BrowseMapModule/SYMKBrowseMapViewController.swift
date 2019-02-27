@@ -93,7 +93,16 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /// Custom pois presented by markers in map.
     public var customMarkers: [SYMKMapPin]? {
         didSet {
-            addCustomMarkersToMap()
+            if let allMarkers = customMarkers {
+                if let oldMarkers = oldValue {
+                    removeCustomMarkersFromMap(oldMarkers.filter{ !allMarkers.contains($0) })
+                    addCustomMarkersToMap(allMarkers.filter{ !oldMarkers.contains($0) })
+                } else {
+                    addCustomMarkersToMap(allMarkers)
+                }
+            } else if let oldMarkers = oldValue {
+                removeCustomMarkersFromMap(oldMarkers)
+            }
         }
     }
     
@@ -143,8 +152,14 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
             (view as! SYMKBrowseMapView).setupMapView(map)
             map.delegate = mapController
             map.setup(with: mapState)
+            map.renderEnabled = true
         }
         super.viewDidAppear(animated)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        mapController?.mapView.renderEnabled = false
+        super.viewWillDisappear(animated)
     }
     
     /// Add annotation to map.
@@ -205,7 +220,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         mapController.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
-        addCustomMarkersToMap()
+        addCustomMarkersToMap(customMarkers)
     }
     
     private func setupViewDelegates() {
@@ -216,10 +231,17 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         
     }
     
-    private func addCustomMarkersToMap() {
-        guard let markers = customMarkers, let mapController = mapController else { return }
+    private func addCustomMarkersToMap(_ markers: [SYMKMapPin]?) {
+        guard let markers = markers, markers.count > 0, let mapController = mapController else { return }
         for marker in markers {
             mapController.selectionManager?.addCustomPin(marker)
+        }
+    }
+    
+    private func removeCustomMarkersFromMap(_ markers: [SYMKMapPin]?) {
+        guard let markers = markers, markers.count > 0, let mapController = mapController else { return }
+        for marker in markers {
+            mapController.selectionManager?.removeCustomPin(marker)
         }
     }
     

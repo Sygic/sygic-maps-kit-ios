@@ -10,6 +10,7 @@
 		13A4E196EF292EE7610C1814 /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE61E007A142F5B070913F5E /* Pods_SygicMapsKit_Example.framework */; };
 		1E80D6389CCFFEB76F5A5682 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
+		585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */; };
 		589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */; };
 		589CB07C21EE16890082F7C4 /* Skins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* Skins.swift */; };
 		589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07D21EF96F30082F7C4 /* ZZZTest.swift */; };
@@ -27,9 +28,17 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		B22A1CB0B02E43C440049C9E /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF3B47FB6859DF6B538BCA6 /* Pods_SygicMapsKit_ExampleUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		585E80F8221D9A5C00B7D6C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
+			remoteInfo = SygicMapsKit_Example;
+		};
 		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -41,8 +50,13 @@
 
 /* Begin PBXFileReference section */
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		3DF3B47FB6859DF6B538BCA6 /* Pods_SygicMapsKit_ExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_ExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4011C16C1F93D5BA196B8B0B /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		527701DD3DEE3B046994BF8C /* Pods-SygicMapsKit_ExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
+		585E80F3221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SygicMapsKit_ExampleUITests.swift; sourceTree = "<group>"; };
+		585E80F7221D9A5C00B7D6C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseExamplesTableViewController.swift; sourceTree = "<group>"; };
 		589CB07B21EE16890082F7C4 /* Skins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skins.swift; sourceTree = "<group>"; };
 		589CB07D21EF96F30082F7C4 /* ZZZTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZZTest.swift; sourceTree = "<group>"; };
@@ -66,6 +80,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* TestsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsTemplate.swift; sourceTree = "<group>"; };
 		7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94D85F9E015DF08FF5784DA7 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		AA0E4291962D94C7CDB4E07B /* Pods-SygicMapsKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		B1B67491D7814E41620173C5 /* Pods-SygicMapsKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B23239AC5C389ADB6478D9BC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -75,6 +90,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		585E80F0221D9A5B00B7D6C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B22A1CB0B02E43C440049C9E /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCD1AFB9204008FA782 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,8 +124,19 @@
 				AA0E4291962D94C7CDB4E07B /* Pods-SygicMapsKit_Example.release.xcconfig */,
 				B1B67491D7814E41620173C5 /* Pods-SygicMapsKit_Tests.debug.xcconfig */,
 				4011C16C1F93D5BA196B8B0B /* Pods-SygicMapsKit_Tests.release.xcconfig */,
+				527701DD3DEE3B046994BF8C /* Pods-SygicMapsKit_ExampleUITests.debug.xcconfig */,
+				94D85F9E015DF08FF5784DA7 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		585E80F4221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */,
+				585E80F7221D9A5C00B7D6C7 /* Info.plist */,
+			);
+			path = SygicMapsKit_ExampleUITests;
 			sourceTree = "<group>";
 		};
 		589CB07A21EE08C40082F7C4 /* Browse examples */ = {
@@ -125,6 +159,7 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for SygicMapsKit */,
 				607FACE81AFB9204008FA782 /* Tests */,
+				585E80F4221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				04FC1A41C4FE6772BAD90C37 /* Pods */,
 				D4408105CB015156601F0E9A /* Frameworks */,
@@ -136,6 +171,7 @@
 			children = (
 				607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */,
 				607FACE51AFB9204008FA782 /* SygicMapsKit_Tests.xctest */,
+				585E80F3221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,6 +237,7 @@
 			children = (
 				FE61E007A142F5B070913F5E /* Pods_SygicMapsKit_Example.framework */,
 				7430BD6A2D3B575C22638770 /* Pods_SygicMapsKit_Tests.framework */,
+				3DF3B47FB6859DF6B538BCA6 /* Pods_SygicMapsKit_ExampleUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -208,6 +245,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		585E80F2221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 585E80FC221D9A5C00B7D6C7 /* Build configuration list for PBXNativeTarget "SygicMapsKit_ExampleUITests" */;
+			buildPhases = (
+				8581A8F05118396595023B35 /* [CP] Check Pods Manifest.lock */,
+				585E80EF221D9A5B00B7D6C7 /* Sources */,
+				585E80F0221D9A5B00B7D6C7 /* Frameworks */,
+				585E80F1221D9A5B00B7D6C7 /* Resources */,
+				6086AB073DDFE6BD64811784 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				585E80F9221D9A5C00B7D6C7 /* PBXTargetDependency */,
+			);
+			name = SygicMapsKit_ExampleUITests;
+			productName = SygicMapsKit_ExampleUITests;
+			productReference = 585E80F3221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		607FACCF1AFB9204008FA782 /* SygicMapsKit_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SygicMapsKit_Example" */;
@@ -253,10 +310,17 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
+					585E80F2221D9A5B00B7D6C7 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = LHXY425M9Z;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 607FACCF1AFB9204008FA782;
+					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = LHXY425M9Z;
@@ -285,11 +349,19 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* SygicMapsKit_Example */,
 				607FACE41AFB9204008FA782 /* SygicMapsKit_Tests */,
+				585E80F2221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		585E80F1221D9A5B00B7D6C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCE1AFB9204008FA782 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -311,6 +383,56 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6086AB073DDFE6BD64811784 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
+				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
+				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8581A8F05118396595023B35 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SygicMapsKit_ExampleUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		98F34DEC63F57F079BA5F57C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -360,11 +482,19 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
+				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
+				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 			);
@@ -394,6 +524,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		585E80EF221D9A5B00B7D6C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCC1AFB9204008FA782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -425,6 +563,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		585E80F9221D9A5C00B7D6C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 607FACCF1AFB9204008FA782 /* SygicMapsKit_Example */;
+			targetProxy = 585E80F8221D9A5C00B7D6C7 /* PBXContainerItemProxy */;
+		};
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* SygicMapsKit_Example */;
@@ -452,6 +595,65 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		585E80FA221D9A5C00B7D6C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 527701DD3DEE3B046994BF8C /* Pods-SygicMapsKit_ExampleUITests.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = LHXY425M9Z;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SygicMapsKit_ExampleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sygic.SygicMapsKit-ExampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SygicMapsKit_Example;
+			};
+			name = Debug;
+		};
+		585E80FB221D9A5C00B7D6C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94D85F9E015DF08FF5784DA7 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LHXY425M9Z;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SygicMapsKit_ExampleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sygic.SygicMapsKit-ExampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SygicMapsKit_Example;
+			};
+			name = Release;
+		};
 		607FACED1AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -634,6 +836,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		585E80FC221D9A5C00B7D6C7 /* Build configuration list for PBXNativeTarget "SygicMapsKit_ExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				585E80FA221D9A5C00B7D6C7 /* Debug */,
+				585E80FB221D9A5C00B7D6C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "SygicMapsKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

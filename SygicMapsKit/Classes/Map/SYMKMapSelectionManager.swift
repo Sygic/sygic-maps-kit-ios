@@ -110,6 +110,13 @@ public class SYMKMapSelectionManager {
         customMarkersManager.addMapMarker(pin)
     }
     
+    /// Removes provided pin from mapView
+    ///
+    /// - Parameter pin: pin to remove
+    public func removeCustomPin(_ pin: SYMKMapPin) {
+        customMarkersManager.removeMapMarker(pin)
+    }
+    
     // MARK: - Private Methods
     
     // MARK: - Marker Cluster
@@ -124,6 +131,9 @@ public class SYMKMapSelectionManager {
     
     private func removeMarkersCluster() {
         guard let markersCluster = mapMarkersManager.clusterLayer else { return }
+        if let clusterMarkers = markersCluster.mapMarkers {
+            mapView?.remove(clusterMarkers)
+        }
         mapView?.removeMapMarkersCluster(markersCluster)
     }
     
