@@ -1,6 +1,6 @@
 # SygicMapsKit - iOS
 
-A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can be used to display rich map content and interact with it. (if you are looking for an android version, you can find it [here][AndroidMapsKit]) 
+A powerful open-source library based on [Sygic Maps SDK][SygicMapsSDK] which can be used to display rich map content and interact with it. It is using UI components from (if you are looking for an android version, you can find it [here][AndroidMapsKit]) 
 
 ![Sygic][SygicLogo]
 
@@ -13,6 +13,7 @@ To get familiar with all the features available, you can first try out our sampl
 ## Requirements
 
 * **Request the Sygic API key**. To start developing with Sygic Maps SDK, please [fill this form][SygicAPIKey] and get your API key.
+* Call `SYMKApiKeys.set(appKey: String, appSecret: String)` before using MapsKit.
 * Swift 4.2
 
 ## Installation
