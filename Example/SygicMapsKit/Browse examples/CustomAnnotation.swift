@@ -34,6 +34,7 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
         customAnnotations.forEach { annotation in
             browseMapModule?.removeAnnotation(annotation)
         }
+        browseMapModule?.customMarkers = nil
     }
     
 }
@@ -44,7 +45,10 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowseMapViewControllerDele
         let customAnnotation = DataAnnotation(data: data)
         customAnnotations.append(customAnnotation)
         browseController.addAnnotation(customAnnotation)
-        browseController.customMarkers = [SYMKMapPin(coordinate: data.coordinate, highlighted: true)!]
+        let pin = SYMKMapPin(coordinate: data.coordinate, highlighted: true)!
+        var pins = browseController.customMarkers ?? [SYMKMapPin]()
+        pins.append(pin)
+        browseController.customMarkers = pins
     }
     
 }
@@ -58,6 +62,7 @@ extension CustomMarkerInfoExampleViewController: SYMKBrowserMapViewControllerAnn
             annotationView = dataAnnotationView
         } else {
             annotationView = DataAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+            annotationView.accessibilityIdentifier = "DataAnnotation"
         }
         
         annotationView.anchorPoint = CGPoint(x: 0.5, y: 2)
