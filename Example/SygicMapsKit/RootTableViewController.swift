@@ -36,7 +36,7 @@ class RootTableViewController: UITableViewController {
         }
         
         if indexPath.section == 0 && indexPath.row == 1 {
-            navigationController?.pushViewController(BrowseMapWithSearchViewController(), animated: true)
+            navigationController?.pushViewController(SearchExamplesTableViewController(), animated: true)
         }
         
         if indexPath.section == 1 {

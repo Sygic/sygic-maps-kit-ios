@@ -10,6 +10,10 @@ public protocol SYMKSearchViewControllerDelegate {
 
 public class SYMKSearchViewController: SYMKModuleViewController {
     
+    // MARK: - Public properties
+    
+    // MARK: - Public methods
+    
     /// input
     public func prefillSearch(with text: String) {
         
@@ -25,4 +29,5 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         view = searchView
     }
     
+    // MARK: - Private methods
 }
