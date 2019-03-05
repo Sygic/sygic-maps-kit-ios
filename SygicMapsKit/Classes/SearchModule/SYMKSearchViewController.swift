@@ -12,6 +12,8 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     
     // MARK: - Public properties
     
+    var resultsViewController: SYUISearchResultsViewController<SYSearchResult> = SYUISearchResultsTableViewController<SYSearchResult>()
+    
     // MARK: - Public methods
     
     /// input
@@ -27,6 +29,9 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     public override func loadView() {
         let searchView = SYMKSearchView()
         view = searchView
+        
+        addChildViewController(resultsViewController)
+        searchView.setupResultsView(resultsViewController.view)
     }
     
     // MARK: - Private methods
