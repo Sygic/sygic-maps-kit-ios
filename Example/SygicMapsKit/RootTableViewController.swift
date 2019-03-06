@@ -35,6 +35,10 @@ class RootTableViewController: UITableViewController {
             navigationController?.pushViewController(BrowseExamplesTableViewController(), animated: true)
         }
         
+        if indexPath.section == 0 && indexPath.row == 1 {
+            navigationController?.pushViewController(SearchExamplesTableViewController(), animated: true)
+        }
+        
         if indexPath.section == 1 {
             let url = indexPath.row == 0 ? mapsKitGithub : mapsKitWiki
             guard let safariUrl = URL(string: url) else { return }
