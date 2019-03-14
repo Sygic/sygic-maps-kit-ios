@@ -1,4 +1,4 @@
-source "ssh://git@git.sygic.com:7999/navi/cocoapods.git"
+#source "ssh://git@git.sygic.com:7999/navi/cocoapods.git"
 source "https://github.com/CocoaPods/Specs.git"
 
 platform :ios, '10.0'
