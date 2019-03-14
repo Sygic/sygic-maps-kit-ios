@@ -35,6 +35,10 @@ class SDKInitializationTest: QuickSpec {
                 // correct test key
                 let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
                 let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
+                
+                print("_________________________________\n\(appKey)")
+                print("\(appSecret)\n________________________")
+                
                 SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
                 SYMKSdkManager.shared.initializeIfNeeded({ (result) in
                     initializationResult = result
