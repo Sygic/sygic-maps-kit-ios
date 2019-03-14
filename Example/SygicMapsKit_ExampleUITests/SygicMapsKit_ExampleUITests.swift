@@ -56,8 +56,10 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         
         app.tables["PoiDetailView.tableView"]/*@START_MENU_TOKEN@*/.cells.staticTexts["GPS"].press(forDuration: 1.0);/*[[".cells.staticTexts[\"GPS\"]",".tap()",".press(forDuration: 1.0);",".staticTexts[\"GPS\"]"],[[[-1,3,1],[-1,0,1]],[[-1,2],[-1,1]]],[1,0]]@END_MENU_TOKEN@*/
         app/*@START_MENU_TOKEN@*/.menuItems["Copy"]/*[[".menus.menuItems[\"Copy\"]",".menuItems[\"Copy\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        XCTAssertTrue(poiDetailHeaderTitle.waitForExistence(timeout: 2))
         poiDetailHeaderTitle.tap()
         
+        XCTAssertTrue(map.waitForExistence(timeout: 1))
         map.tap()
         
         app.buttons["actionButton"].tap()
