@@ -37,6 +37,9 @@ jobs:
           tags: true
           all_branches: true
 
+after_success:
+  - sleep 5
+
 #script:
 #- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO SDK_APP_KEY=$SDK_APP_KEY SDK_APP_SECRET=$SDK_APP_SECRET | xcpretty
 #- pod lib lint --allow-warnings
