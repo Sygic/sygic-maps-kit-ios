@@ -98,12 +98,12 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "SDK_APP_KEY"
-            value = ""
+            value = "$(SDK_APP_KEY)"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "SDK_APP_SECRET"
-            value = ""
+            value = "$(SDK_APP_SECRET)"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
