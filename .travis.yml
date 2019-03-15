@@ -1,18 +1,39 @@
-# references:
-# * https://www.objc.io/issues/6-build-tools/travis-ci/
-# * https://github.com/supermarin/xcpretty#usage
-
 osx_image: xcode10.1
 language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
 
-if: type == pull_request OR (type == push AND branch = develop)
+if: type == pull_request OR tag IS present OR (type == push AND branch = develop)
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example --repo-update
 
-script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO SDK_APP_KEY=$SDK_APP_KEY SDK_APP_SECRET=$SDK_APP_SECRET | xcpretty
-- pod lib lint --allow-warnings
+stages:
+- name: test
+- name: deploy cocoapod
+  if: tag =~ ^\d+\.\d+\.\d+$
+
+jobs:
+  include:
+    - stage: test
+      name: unit tests
+      script: set -o pipefail && xcodebuild test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
+    - stage: test
+      name: UI tests
+      script: set -o pipefail && xcodebuild test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
+    - stage: test
+      name: pod test
+      script: pod lib lint
+    - stage: deploy cocoapod
+      script: pod spec lint
+      deploy:
+        provider: script
+        script: pod trunk push --verbose # | ruby -e 'ARGF.each{ print "." }'
+        on:
+          tags: true
+          all_branches: true
+
+#script:
+#- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO SDK_APP_KEY=$SDK_APP_KEY SDK_APP_SECRET=$SDK_APP_SECRET | xcpretty
+#- pod lib lint --allow-warnings
