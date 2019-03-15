@@ -17,11 +17,14 @@ stages:
 jobs:
   include:
     - stage: test
-      name: unit tests
+      name: Unit tests
       script: set -o pipefail && xcodebuild test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
     - stage: test
-      name: UI tests
-      script: set -o pipefail && xcodebuild test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
+      name: UI tests - Browse map
+      script: set -o pipefail && xcodebuild test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testBrowseMapExamples | xcpretty
+    - stage: test
+      name: UI tests - Search
+      script: set -o pipefail && xcodebuild test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testSearchExamples | xcpretty
     - stage: test
       name: pod test
       script: pod lib lint
