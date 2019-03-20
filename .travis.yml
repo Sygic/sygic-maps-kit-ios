@@ -3,7 +3,7 @@ language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
 
-if: type == pull_request OR tag IS present OR (type == push AND branch = develop)
+if: type == pull_request OR tag IS present
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
@@ -19,12 +19,12 @@ jobs:
     - stage: test
       name: Unit tests
       script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
-    - stage: test
-      name: UI tests - Browse map
-      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testBrowseMapExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
-    - stage: test
-      name: UI tests - Search
-      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testSearchExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+#    - stage: test
+#      name: UI tests - Browse map
+#      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testBrowseMapExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+#    - stage: test
+#      name: UI tests - Search
+#      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testSearchExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
     - stage: test
       name: pod test
       script: pod lib lint
@@ -36,10 +36,3 @@ jobs:
         on:
           tags: true
           all_branches: true
-
-after_success:
-  - sleep 5
-
-#script:
-#- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO SDK_APP_KEY=$SDK_APP_KEY SDK_APP_SECRET=$SDK_APP_SECRET | xcpretty
-#- pod lib lint --allow-warnings
