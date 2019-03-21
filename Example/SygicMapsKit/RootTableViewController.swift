@@ -31,7 +31,7 @@ class RootTableViewController: UITableViewController {
     let mapsKitGithub = "https://github.com/Sygic/sygic-maps-kit-ios"
     let mapsKitWiki = "https://github.com/Sygic/sygic-maps-kit-ios/wiki"
     let sectionsData = ["Modules", "Getting started!"]
-    let rowsData = [["Browse Map", "Search", "Navigation"],
+    let rowsData = [["Browse Map", "Search", "Double map"],
                     ["Source code", "Wiki"]]
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,6 +55,9 @@ class RootTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
             navigationController?.pushViewController(BrowseExamplesTableViewController(), animated: true)
+        }
+        if indexPath.section == 0 && indexPath.row == 2 {
+            navigationController?.pushViewController(DoubleMapViewController(), animated: true)
         }
         
         if indexPath.section == 1 {

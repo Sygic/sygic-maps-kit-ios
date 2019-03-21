@@ -10,6 +10,7 @@
 		0F102E90EFA983EDCE590834 /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCFE85BE719DD8C9300B562 /* Pods_SygicMapsKit_Example.framework */; };
 		24E241F51E7B861D85846FC5 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F940F90C871F0E1973F94A /* Pods_SygicMapsKit_ExampleUITests.framework */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
+		5852283C22438B91000385ED /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852283B22438B91000385ED /* DoubleMapViewController.swift */; };
 		585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */; };
 		589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */; };
 		589CB07C21EE16890082F7C4 /* Skins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* Skins.swift */; };
@@ -52,6 +53,7 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
+		5852283B22438B91000385ED /* DoubleMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
 		585E80F3221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SygicMapsKit_ExampleUITests.swift; sourceTree = "<group>"; };
 		585E80F7221D9A5C00B7D6C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		607FACD21AFB9204008FA782 /* Example for SygicMapsKit */ = {
 			isa = PBXGroup;
 			children = (
+				5852283B22438B91000385ED /* DoubleMapViewController.swift */,
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
@@ -239,7 +242,6 @@
 				96A095915A281E1656A5D9DF /* Pods-SygicMapsKit_Tests.debug.xcconfig */,
 				7E6667ECA597D03AF5908DE4 /* Pods-SygicMapsKit_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -561,6 +563,7 @@
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
+				5852283C22438B91000385ED /* DoubleMapViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
 				5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* Markers.swift in Sources */,
