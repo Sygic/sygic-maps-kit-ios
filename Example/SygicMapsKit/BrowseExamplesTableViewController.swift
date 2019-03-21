@@ -49,6 +49,7 @@ class BrowseExamplesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "Browse Map Examples"
+        tableView.accessibilityLabel = "tableView.browseSamples"
         tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: "reuseIdentifier")
         tableView.separatorStyle = .none
     }
