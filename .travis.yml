@@ -3,7 +3,7 @@ language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
 
-if: type == pull_request OR tag IS present
+if: type == pull_request OR tag IS present OR true
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
