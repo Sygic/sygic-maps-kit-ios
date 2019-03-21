@@ -19,6 +19,9 @@ jobs:
     - stage: test
       name: Unit tests
       script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
+    - stage: test
+      name: UI KIF tests
+      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_UITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
 #    - stage: test
 #      name: UI tests - Browse map
 #      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testBrowseMapExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
