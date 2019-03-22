@@ -67,7 +67,7 @@ class SYMKSearchView: UIView {
     // MARK: - Private methods
     
     private func setupUI() {
-        backgroundColor = .white
+        backgroundColor = .background
     }
     
 }
