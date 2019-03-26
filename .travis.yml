@@ -1,6 +1,6 @@
 osx_image: xcode10.1
 language: objective-c
-# cache: cocoapods
+cache: cocoapods
 podfile: Example/Podfile
 
 if: type == pull_request OR tag IS present OR type == cron
