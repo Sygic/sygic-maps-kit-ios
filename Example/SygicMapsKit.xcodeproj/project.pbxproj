@@ -11,13 +11,14 @@
 		24E241F51E7B861D85846FC5 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F940F90C871F0E1973F94A /* Pods_SygicMapsKit_ExampleUITests.framework */; };
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
-		5852283022427F65000385ED /* SygicMapsKit_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* SygicMapsKit_UITests.swift */; };
-		5852283822428118000385ED /* KifTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852283722428118000385ED /* KifTest.swift */; };
+		5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* BrowseModule_UITests.swift */; };
+		5852283822428118000385ED /* SearchModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852283722428118000385ED /* SearchModule_UITests.swift */; };
 		585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */; };
 		589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */; };
 		589CB07C21EE16890082F7C4 /* Skins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07B21EE16890082F7C4 /* Skins.swift */; };
 		589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07D21EF96F30082F7C4 /* ZZZTest.swift */; };
 		589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */; };
+		58C2B61A2245335500C2810F /* KIFHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C2B6192245335500C2810F /* KIFHelpers.swift */; };
 		58D3D33821E7A65500E11D1D /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* Markers.swift */; };
 		5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
@@ -64,9 +65,9 @@
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		5852282D22427F65000385ED /* SygicMapsKit_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5852282F22427F65000385ED /* SygicMapsKit_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SygicMapsKit_UITests.swift; sourceTree = "<group>"; };
+		5852282F22427F65000385ED /* BrowseModule_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModule_UITests.swift; sourceTree = "<group>"; };
 		5852283122427F65000385ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5852283722428118000385ED /* KifTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KifTest.swift; sourceTree = "<group>"; };
+		5852283722428118000385ED /* SearchModule_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModule_UITests.swift; sourceTree = "<group>"; };
 		58522839224284CD000385ED /* KIF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KIF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		585E80F3221D9A5B00B7D6C7 /* SygicMapsKit_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SygicMapsKit_ExampleUITests.swift; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		589CB07B21EE16890082F7C4 /* Skins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skins.swift; sourceTree = "<group>"; };
 		589CB07D21EF96F30082F7C4 /* ZZZTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZZTest.swift; sourceTree = "<group>"; };
 		589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMKSDKInitializationTests.swift; sourceTree = "<group>"; };
+		58C2B6192245335500C2810F /* KIFHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIFHelpers.swift; sourceTree = "<group>"; };
 		58D3D33721E7A65500E11D1D /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
 		5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
@@ -158,8 +160,9 @@
 		5852282E22427F65000385ED /* SygicMapsKit_UITests */ = {
 			isa = PBXGroup;
 			children = (
-				5852282F22427F65000385ED /* SygicMapsKit_UITests.swift */,
-				5852283722428118000385ED /* KifTest.swift */,
+				58C2B6192245335500C2810F /* KIFHelpers.swift */,
+				5852282F22427F65000385ED /* BrowseModule_UITests.swift */,
+				5852283722428118000385ED /* SearchModule_UITests.swift */,
 				5852283122427F65000385ED /* Info.plist */,
 			);
 			path = SygicMapsKit_UITests;
@@ -672,8 +675,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5852283822428118000385ED /* KifTest.swift in Sources */,
-				5852283022427F65000385ED /* SygicMapsKit_UITests.swift in Sources */,
+				58C2B61A2245335500C2810F /* KIFHelpers.swift in Sources */,
+				5852283822428118000385ED /* SearchModule_UITests.swift in Sources */,
+				5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

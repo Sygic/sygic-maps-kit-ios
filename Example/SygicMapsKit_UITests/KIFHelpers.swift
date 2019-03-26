@@ -1,4 +1,4 @@
-//// SygicMapsKit_UITests.swift
+//// KIFHelpers.swift
 // 
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -22,41 +22,18 @@
 
 import KIF
 
-class SygicMapsKit_UITests: KIFTestCase {
-
+extension XCTestCase {
+    
     var tester: KIFUITestActor {
         return KIFUITestActor(file: #file, line: #line, delegate: self)
     }
     
-    override func beforeAll() {
-        
-        let tableView = tester.waitForView(withAccessibilityLabel: "tableView.root") as! UITableView
-        tester.tapRow(at: IndexPath(item: 0, section: 0), in: tableView)
+    var viewTester: KIFUIViewTestActor {
+        return KIFUIViewTestActor(inFile: #file, atLine: #line, delegate: self)
     }
     
-    func testBrowse() {
-        let browseTable = tester.waitForView(withAccessibilityLabel: "tableView.browseSamples") as! UITableView
-        tester.waitForCell(at: IndexPath(item: 0, section: 0), in: browseTable)
+    var system: KIFSystemTestActor {
+        return KIFSystemTestActor(inFile: #file, atLine: #line, delegate: self)
     }
-    
-//    override func setUp() {
-//        // Put setup code here. This method is called before the invocation of each test method in the class.
-//    }
-//
-//    override func tearDown() {
-//        // Put teardown code here. This method is called after the invocation of each test method in the class.
-//    }
-//
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
-//
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
-
 }
+

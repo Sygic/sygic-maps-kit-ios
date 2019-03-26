@@ -4,8 +4,8 @@ platform :ios, '10.0'
 use_frameworks!
 
 def shared_pods
-    pod 'SygicMaps'#, '9.2.0'
     pod 'SygicUIKit', :git => 'https://github.com/Sygic/sygic-ui-kit-ios.git', :branch => 'develop', :commit => 'HEAD'
+    pod 'SygicMaps', '9.3.1'
     pod 'SygicMapsKit', :path => '../'
 end
 
