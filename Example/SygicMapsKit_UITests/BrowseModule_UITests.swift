@@ -95,7 +95,8 @@ class BrowseModule_UITests: KIFTestCase {
         
         // copy coordinates
         let gpsCell = cellIndexPath(for: viewTester.usingLabel("GPS")?.waitForView())
-        gpsCell?.longPress(at: .zero, duration: 1)
+        XCTAssertNotNil(gpsCell)
+        gpsCell!.longPress(at: gpsCell!.tappablePoint(in: gpsCell!.bounds), duration: 2)
         tester.wait(forTimeInterval: 2)
         viewTester.usingLabel("Copy")?.waitForTappableView()?.tap()
         tester.wait(forTimeInterval: 1)
