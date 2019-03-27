@@ -59,70 +59,70 @@ class BrowseModule_UITests: KIFTestCase {
     }
     
     /// Customized browse map
-    func testBrowseMapAllVisible() {
-        let browseIndex = IndexPath(item: 1, section: 0)
-        goToBrowseSample(at: browseIndex)
-        
-        tester.wait(forTimeInterval: 2)
-        let map = tester.waitForView(withAccessibilityLabel: "Map")
-        
-        // system Location permissions alert
-        tester.acknowledgeSystemAlert()
-        
-        let browse = tester.waitForView(withAccessibilityLabel: "view.browseModule.root") as! SYMKBrowseMapView
-        
-        XCTAssertNotNil(browse.compass)
-        XCTAssertNotNil(browse.recenterButton)
-        XCTAssertNotNil(browse.zoomControl)
-        XCTAssertNotNil(browse.mapView)
-        XCTAssertTrue(!map!.isHidden)
-        
-        map?.twoFingerRotate(at: map!.center, angle: 60)
-        tester.waitForAnimationsToFinish()
-        tester.waitForView(withAccessibilityLabel: "native.compas")?.tap()
-        tester.wait(forTimeInterval: 1)
-        
-        // tap map to show PoiDetail
-        map?.tap(at: map!.center)
-        tester.wait(forTimeInterval: 3)
-        
-        // tap title to expand
-        let titleCell = cellIndexPath(for: viewTester.usingIdentifier("PoiDetailAddressCell.titleLabel")?.waitForView())
-        XCTAssertNotNil(titleCell)
-        let poiDetailTable = viewTester.usingIdentifier("PoiDetailView.tableView")?.waitForView() as! UITableView
-        tester.tapRow(at: IndexPath(row: 0, section: 0), in: poiDetailTable)
-        tester.wait(forTimeInterval: 3)
-        
-        // copy coordinates // TODO: turn OFF  case travisCI cannot long press cell
-//        let gpsCell = cellIndexPath(for: viewTester.usingLabel("GPS")?.waitForView())
-//        XCTAssertNotNil(gpsCell)
-//        gpsCell!.longPress(at: gpsCell!.tappablePoint(in: gpsCell!.bounds), duration: 3)
-//        tester.wait(forTimeInterval: 3)
-//        viewTester.usingLabel("Copy")?.waitForTappableView()?.tap()
+//    func testBrowseMapAllVisible() {
+//        let browseIndex = IndexPath(item: 1, section: 0)
+//        goToBrowseSample(at: browseIndex)
+//
 //        tester.wait(forTimeInterval: 2)
-        
-        // collapse
-        tester.tapRow(at: IndexPath(row: 0, section: 0), in: poiDetailTable)
-        tester.wait(forTimeInterval: 3)
-        
-        // dismiss PoiDetail
-        map?.tap(at: CGPoint(x: 100, y: 100))
-        tester.wait(forTimeInterval: 3)
-        
-        // lock position
-        let lockButton = viewTester.usingIdentifier("actionButton")?.waitForTappableView()
-        XCTAssertNotNil(lockButton)
-        lockButton?.tap()
-        tester.wait(forTimeInterval: 1)
-        
-        // zoom controls
-        let zoomButton = viewTester.usingLabel("")?.waitForTappableView()
-        XCTAssertNotNil(zoomButton)
-        zoomButton?.tap()
-        tester.wait(forTimeInterval: 1)
-        viewTester.usingLabel("")?.waitForTappableView()?.tap()
-        tester.wait(forTimeInterval: 1)
-    }
+//        let map = tester.waitForView(withAccessibilityLabel: "Map")
+//
+//        // system Location permissions alert
+//        tester.acknowledgeSystemAlert()
+//
+//        let browse = tester.waitForView(withAccessibilityLabel: "view.browseModule.root") as! SYMKBrowseMapView
+//
+//        XCTAssertNotNil(browse.compass)
+//        XCTAssertNotNil(browse.recenterButton)
+//        XCTAssertNotNil(browse.zoomControl)
+//        XCTAssertNotNil(browse.mapView)
+//        XCTAssertTrue(!map!.isHidden)
+//
+//        map?.twoFingerRotate(at: map!.center, angle: 60)
+//        tester.waitForAnimationsToFinish()
+//        tester.waitForView(withAccessibilityLabel: "native.compas")?.tap()
+//        tester.wait(forTimeInterval: 1)
+//
+//        // tap map to show PoiDetail
+//        map?.tap(at: map!.center)
+//        tester.wait(forTimeInterval: 3)
+//
+//        // tap title to expand
+//        let titleCell = cellIndexPath(for: viewTester.usingIdentifier("PoiDetailAddressCell.titleLabel")?.waitForView())
+//        XCTAssertNotNil(titleCell)
+//        let poiDetailTable = viewTester.usingIdentifier("PoiDetailView.tableView")?.waitForView() as! UITableView
+//        tester.tapRow(at: IndexPath(row: 0, section: 0), in: poiDetailTable)
+//        tester.wait(forTimeInterval: 3)
+//
+//        // copy coordinates // TODO: turn OFF  case travisCI cannot long press cell
+////        let gpsCell = cellIndexPath(for: viewTester.usingLabel("GPS")?.waitForView())
+////        XCTAssertNotNil(gpsCell)
+////        gpsCell!.longPress(at: gpsCell!.tappablePoint(in: gpsCell!.bounds), duration: 3)
+////        tester.wait(forTimeInterval: 3)
+////        viewTester.usingLabel("Copy")?.waitForTappableView()?.tap()
+////        tester.wait(forTimeInterval: 2)
+//
+//        // collapse
+//        tester.tapRow(at: IndexPath(row: 0, section: 0), in: poiDetailTable)
+//        tester.wait(forTimeInterval: 3)
+//
+//        // dismiss PoiDetail
+//        map?.tap(at: CGPoint(x: 100, y: 100))
+//        tester.wait(forTimeInterval: 3)
+//
+//        // lock position
+//        let lockButton = viewTester.usingIdentifier("actionButton")?.waitForTappableView()
+//        XCTAssertNotNil(lockButton)
+//        lockButton?.tap()
+//        tester.wait(forTimeInterval: 1)
+//
+//        // zoom controls
+//        let zoomButton = viewTester.usingLabel("")?.waitForTappableView()
+//        XCTAssertNotNil(zoomButton)
+//        zoomButton?.tap()
+//        tester.wait(forTimeInterval: 1)
+//        viewTester.usingLabel("")?.waitForTappableView()?.tap()
+//        tester.wait(forTimeInterval: 1)
+//    }
     
     /// Custom tap handling
     func testBrowseMapCustomTap() {
@@ -141,22 +141,22 @@ class BrowseModule_UITests: KIFTestCase {
     }
     
     /// Custom annotations
-//    func testCustomAnnotations() {
-//        let browseIndex = IndexPath(item: 3, section: 0)
-//        goToBrowseSample(at: browseIndex)
-//
-//        tester.wait(forTimeInterval: 2)
-//        let map = tester.waitForView(withAccessibilityLabel: "Map")
-//        XCTAssertNotNil(map)
-//
-//        tester.wait(forTimeInterval: 2)
-//        map!.tap(at: map!.center)
-//        tester.wait(forTimeInterval: 2)
-//
-//        // test annotation appear
-//        let annotationView = viewTester.usingIdentifier("DataAnnotation")?.waitForView()
-//        XCTAssertNotNil(annotationView)
-//    }
+    func testCustomAnnotations() {
+        let browseIndex = IndexPath(item: 3, section: 0)
+        goToBrowseSample(at: browseIndex)
+
+        tester.wait(forTimeInterval: 2)
+        let map = tester.waitForView(withAccessibilityLabel: "Map")
+        XCTAssertNotNil(map)
+
+        tester.wait(forTimeInterval: 2)
+        map!.tap(at: map!.center)
+        tester.wait(forTimeInterval: 2)
+
+        // test annotation appear
+        let annotationView = viewTester.usingIdentifier("DataAnnotation")?.waitForView()
+        XCTAssertNotNil(annotationView)
+    }
     
     /// Skins
     func testCustomSkinExample() {
@@ -168,20 +168,20 @@ class BrowseModule_UITests: KIFTestCase {
     }
     
     /// Custom markers
-//    func testCustomMarkers() {
-//        let browseIndex = IndexPath(item: 5, section: 0)
-//        goToBrowseSample(at: browseIndex)
-//
-//        let map = tester.waitForView(withAccessibilityLabel: "Map")
-//        XCTAssertNotNil(map)
-//
-//        tester.wait(forTimeInterval: 3)
-//        map!.tap(at: map!.center)
-//        tester.wait(forTimeInterval: 3)
-//
-//        let customMarkerTitle = viewTester.usingLabel("Super custom POI")?.waitForView()
-//        XCTAssertNotNil(customMarkerTitle)
-//    }
+    func testCustomMarkers() {
+        let browseIndex = IndexPath(item: 5, section: 0)
+        goToBrowseSample(at: browseIndex)
+
+        let map = tester.waitForView(withAccessibilityLabel: "Map")
+        XCTAssertNotNil(map)
+
+        tester.wait(forTimeInterval: 3)
+        map!.tap(at: map!.center)
+        tester.wait(forTimeInterval: 3)
+
+        let customMarkerTitle = viewTester.usingLabel("Super custom POI")?.waitForView()
+        XCTAssertNotNil(customMarkerTitle)
+    }
     
     /// Map selection modes
     func testSelectionModes() {
