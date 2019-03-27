@@ -63,6 +63,7 @@ class BrowseModule_UITests: KIFTestCase {
         let browseIndex = IndexPath(item: 1, section: 0)
         goToBrowseSample(at: browseIndex)
         
+        tester.wait(forTimeInterval: 2)
         let map = tester.waitForView(withAccessibilityLabel: "Map")
         
         // system Location permissions alert
@@ -83,29 +84,29 @@ class BrowseModule_UITests: KIFTestCase {
         
         // tap map to show PoiDetail
         map?.tap(at: map!.center)
-        tester.wait(forTimeInterval: 2)
+        tester.wait(forTimeInterval: 3)
         
         // tap title to expand
         let titleCell = cellIndexPath(for: viewTester.usingIdentifier("PoiDetailAddressCell.titleLabel")?.waitForView())
         XCTAssertNotNil(titleCell)
         let poiDetailTable = viewTester.usingIdentifier("PoiDetailView.tableView")?.waitForView() as! UITableView
         tester.tapRow(at: IndexPath(row: 0, section: 0), in: poiDetailTable)
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 3)
         
         // copy coordinates
         let gpsCell = cellIndexPath(for: viewTester.usingLabel("GPS")?.waitForView())
         gpsCell?.longPress(at: .zero, duration: 1)
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 2)
         viewTester.usingLabel("Copy")?.waitForTappableView()?.tap()
         tester.wait(forTimeInterval: 1)
         
         // collapse
         tester.tapRow(at: IndexPath(row: 0, section: 0), in: poiDetailTable)
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 3)
         
         // dismiss PoiDetail
         map?.tap(at: CGPoint(x: 100, y: 100))
-        tester.wait(forTimeInterval: 2)
+        tester.wait(forTimeInterval: 3)
         
         // lock position
         let lockButton = viewTester.usingIdentifier("actionButton")?.waitForTappableView()
@@ -143,12 +144,13 @@ class BrowseModule_UITests: KIFTestCase {
         let browseIndex = IndexPath(item: 3, section: 0)
         goToBrowseSample(at: browseIndex)
         
+        tester.wait(forTimeInterval: 2)
         let map = tester.waitForView(withAccessibilityLabel: "Map")
         XCTAssertNotNil(map)
         
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 2)
         map!.tap(at: map!.center)
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 2)
         
         // test annotation appear
         let annotationView = viewTester.usingIdentifier("DataAnnotation")?.waitForView()
@@ -172,9 +174,9 @@ class BrowseModule_UITests: KIFTestCase {
         let map = tester.waitForView(withAccessibilityLabel: "Map")
         XCTAssertNotNil(map)
         
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 3)
         map!.tap(at: map!.center)
-        tester.wait(forTimeInterval: 1)
+        tester.wait(forTimeInterval: 3)
         
         let customMarkerTitle = viewTester.usingLabel("Super custom POI")?.waitForView()
         XCTAssertNotNil(customMarkerTitle)
