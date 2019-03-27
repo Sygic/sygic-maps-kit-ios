@@ -96,7 +96,7 @@ class BrowseModule_UITests: KIFTestCase {
         // copy coordinates
         let gpsCell = cellIndexPath(for: viewTester.usingLabel("GPS")?.waitForView())
         XCTAssertNotNil(gpsCell)
-        gpsCell!.longPress(at: gpsCell!.tappablePoint(in: gpsCell!.bounds), duration: 2)
+        gpsCell!.longPress(at: gpsCell!.tappablePoint(in: gpsCell!.bounds), duration: 3)
         tester.wait(forTimeInterval: 3)
         viewTester.usingLabel("Copy")?.waitForTappableView()?.tap()
         tester.wait(forTimeInterval: 2)
@@ -168,20 +168,20 @@ class BrowseModule_UITests: KIFTestCase {
     }
     
     /// Custom markers
-    func testCustomMarkers() {
-        let browseIndex = IndexPath(item: 5, section: 0)
-        goToBrowseSample(at: browseIndex)
-        
-        let map = tester.waitForView(withAccessibilityLabel: "Map")
-        XCTAssertNotNil(map)
-        
-        tester.wait(forTimeInterval: 3)
-        map!.tap(at: map!.center)
-        tester.wait(forTimeInterval: 3)
-        
-        let customMarkerTitle = viewTester.usingLabel("Super custom POI")?.waitForView()
-        XCTAssertNotNil(customMarkerTitle)
-    }
+//    func testCustomMarkers() {
+//        let browseIndex = IndexPath(item: 5, section: 0)
+//        goToBrowseSample(at: browseIndex)
+//        
+//        let map = tester.waitForView(withAccessibilityLabel: "Map")
+//        XCTAssertNotNil(map)
+//        
+//        tester.wait(forTimeInterval: 3)
+//        map!.tap(at: map!.center)
+//        tester.wait(forTimeInterval: 3)
+//        
+//        let customMarkerTitle = viewTester.usingLabel("Super custom POI")?.waitForView()
+//        XCTAssertNotNil(customMarkerTitle)
+//    }
     
     /// Map selection modes
     func testSelectionModes() {
