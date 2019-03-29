@@ -11,12 +11,12 @@
             buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
+            buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SygicMapsKit_Tests.xctest"
-               BlueprintName = "SygicMapsKit_Tests"
+               BlueprintIdentifier = "5852282C22427F65000385ED"
+               BuildableName = "SygicMapsKit_UITests.xctest"
+               BlueprintName = "SygicMapsKit_UITests"
                ReferencedContainer = "container:SygicMapsKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,13 +32,22 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SygicMapsKit_Tests.xctest"
-               BlueprintName = "SygicMapsKit_Tests"
+               BlueprintIdentifier = "5852282C22427F65000385ED"
+               BuildableName = "SygicMapsKit_UITests.xctest"
+               BlueprintName = "SygicMapsKit_UITests"
                ReferencedContainer = "container:SygicMapsKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5852282C22427F65000385ED"
+            BuildableName = "SygicMapsKit_UITests.xctest"
+            BlueprintName = "SygicMapsKit_UITests"
+            ReferencedContainer = "container:SygicMapsKit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -55,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACE41AFB9204008FA782"
-            BuildableName = "SygicMapsKit_Tests.xctest"
-            BlueprintName = "SygicMapsKit_Tests"
+            BlueprintIdentifier = "5852282C22427F65000385ED"
+            BuildableName = "SygicMapsKit_UITests.xctest"
+            BlueprintName = "SygicMapsKit_UITests"
             ReferencedContainer = "container:SygicMapsKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -90,9 +99,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACE41AFB9204008FA782"
-            BuildableName = "SygicMapsKit_Tests.xctest"
-            BlueprintName = "SygicMapsKit_Tests"
+            BlueprintIdentifier = "5852282C22427F65000385ED"
+            BuildableName = "SygicMapsKit_UITests.xctest"
+            BlueprintName = "SygicMapsKit_UITests"
             ReferencedContainer = "container:SygicMapsKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

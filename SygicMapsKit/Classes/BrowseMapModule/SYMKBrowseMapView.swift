@@ -26,7 +26,7 @@ import SygicUIKit
 
 
 /// Browse Map Module's view.
-class SYMKBrowseMapView: UIView {
+public class SYMKBrowseMapView: UIView {
     
     // MARK: - Public Properties
     
@@ -112,6 +112,7 @@ class SYMKBrowseMapView: UIView {
     // MARK: - Private Methods
     
     private func setupUI() {
+        accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
     }
     

@@ -1,9 +1,9 @@
 osx_image: xcode10.1
 language: objective-c
-# cache: cocoapods
+cache: cocoapods
 podfile: Example/Podfile
 
-if: type == pull_request OR tag IS present
+if: type == pull_request OR tag IS present OR type == cron
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
@@ -11,6 +11,8 @@ before_install:
 
 stages:
 - name: test
+- name: testKif
+  if: type == cron
 - name: deploy cocoapod
   if: tag =~ ^\d+\.\d+\.\d+$
 
@@ -19,15 +21,18 @@ jobs:
     - stage: test
       name: Unit tests
       script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
+    - stage: test
+      name: pod test
+      script: pod lib lint
 #    - stage: test
 #      name: UI tests - Browse map
 #      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testBrowseMapExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
 #    - stage: test
 #      name: UI tests - Search
 #      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testSearchExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
-    - stage: test
-      name: pod test
-      script: pod lib lint
+    - stage: testKif
+      name: UI KIF tests
+      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_UITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone SE,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=YES | xcpretty
     - stage: deploy cocoapod
       script: pod spec lint
       deploy:
