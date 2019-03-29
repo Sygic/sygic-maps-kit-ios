@@ -37,7 +37,7 @@ jobs:
       script: pod spec lint
       deploy:
         provider: script
-        script: pod trunk push --verbose # | ruby -e 'ARGF.each{ print "." }'
+        script: pod trunk push --verbose --allow-warnings # | ruby -e 'ARGF.each{ print "." }'
         on:
           tags: true
           all_branches: true
