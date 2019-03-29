@@ -50,7 +50,7 @@ class SYMKRouteComputeView: UIView {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mapView)
-        sendSubview(toBack: mapView)
+        sendSubviewToBack(mapView)
         mapView.coverWholeSuperview()
     }
     

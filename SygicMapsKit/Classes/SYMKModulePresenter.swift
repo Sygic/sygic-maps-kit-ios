@@ -65,7 +65,7 @@ public extension SYMKModulePresenter where Self: UIViewController {
     }
     
     private func addModuleAsSubview(_ module: SYMKModuleViewController) {
-        addChildViewController(module)
+        addChild(module)
         view.addSubview(module.view)
         module.view.translatesAutoresizingMaskIntoConstraints = false
         module.view.coverWholeSuperview()
@@ -74,7 +74,7 @@ public extension SYMKModulePresenter where Self: UIViewController {
     private func removeLastModuleFromSuperview() {
         guard let lastModule = presentedModules.last else { return }
         lastModule.view.removeFromSuperview()
-        lastModule.removeFromParentViewController()
+        lastModule.removeFromParent()
     }
     
 }
