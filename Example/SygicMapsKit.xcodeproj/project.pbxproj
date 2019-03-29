@@ -11,6 +11,7 @@
 		24E241F51E7B861D85846FC5 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F940F90C871F0E1973F94A /* Pods_SygicMapsKit_ExampleUITests.framework */; };
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
+		583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */; };
 		5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* BrowseModule_UITests.swift */; };
 		5852283822428118000385ED /* SearchModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852283722428118000385ED /* SearchModule_UITests.swift */; };
 		585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */; };
@@ -64,6 +65,7 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
+		583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
 		5852282D22427F65000385ED /* SygicMapsKit_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5852282F22427F65000385ED /* BrowseModule_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModule_UITests.swift; sourceTree = "<group>"; };
 		5852283122427F65000385ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -157,6 +159,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		583EE956224E5D8E00A7592A /* Navigation examples */ = {
+			isa = PBXGroup;
+			children = (
+				583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */,
+			);
+			path = "Navigation examples";
+			sourceTree = "<group>";
+		};
 		5852282E22427F65000385ED /* SygicMapsKit_UITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
+				583EE956224E5D8E00A7592A /* Navigation examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
 				589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */,
@@ -701,6 +712,7 @@
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
+				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
 				5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* Markers.swift in Sources */,
