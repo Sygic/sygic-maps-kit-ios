@@ -38,7 +38,7 @@ public protocol SYMKMapObjectsManager: class {
 /// Protocol for map marker class, which is used to define look of SYMapMarker displayed on map
 public protocol SYMKMapMarker: Equatable {
     var mapMarker: SYMapMarker { get }
-    var highlighted: Bool {get set }
+    var highlighted: Bool { get set }
 }
 
 /// Class responsible for management of displayed SYMKMapMarker instances. It includes

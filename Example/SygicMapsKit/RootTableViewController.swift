@@ -34,6 +34,11 @@ class RootTableViewController: UITableViewController {
     let rowsData = [["Browse Map", "Search", "Navigation"],
                     ["Source code", "Wiki"]]
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.accessibilityLabel = "tableView.root"
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sectionsData.count
     }
