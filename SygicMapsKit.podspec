@@ -8,40 +8,24 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SygicMapsKit'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of SygicMapsKit.'
-  s.swift_version    = '4.0'
-  
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+  s.version          = '1.0.0'
+  s.summary          = 'Library based on SygicMaps SDK. It provides ready to use components to build map-based application. Example app included.'
+  s.swift_version    = '4.2'
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+	A powerful open-source library based on Sygic Maps SDK which can be used to display rich map content and interact with it. It is using UI components from Sygic UI Kit.
                        DESC
 
   s.homepage         = 'https://github.com/Sygic/sygic-maps-kit-ios'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Sygic' => 'info@sygic.com' }
   s.source           = { :git => 'https://github.com/Sygic/sygic-maps-kit-ios.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'SygicMapsKit/Classes/**/*'
 
-  # s.resource_bundles = {
-  #   'SygicMapsKit' => ['SygicMapsKit/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
-
-  s.dependency 'SygicMaps'
-  s.dependency 'SygicUIKit'
+  s.dependency 'SygicMaps', '~> 9.0'
+  s.dependency 'SygicUIKit', '~> 1.0'
 
 end

@@ -30,7 +30,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         let searchView = SYMKSearchView()
         view = searchView
         
-        addChildViewController(resultsViewController)
+        addChild(resultsViewController)
         searchView.setupResultsView(resultsViewController.view)
     }
     

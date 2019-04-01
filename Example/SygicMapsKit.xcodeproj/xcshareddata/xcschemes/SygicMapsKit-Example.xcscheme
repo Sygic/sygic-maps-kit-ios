@@ -22,7 +22,7 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
@@ -62,6 +62,16 @@
                ReferencedContainer = "container:SygicMapsKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5852282C22427F65000385ED"
+               BuildableName = "SygicMapsKit_UITests.xctest"
+               BlueprintName = "SygicMapsKit_UITests"
+               ReferencedContainer = "container:SygicMapsKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -95,6 +105,23 @@
             ReferencedContainer = "container:SygicMapsKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "SDK_APP_KEY"
+            value = "$(SDK_APP_KEY)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SDK_APP_SECRET"
+            value = "$(SDK_APP_SECRET)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SDK_APP_ROUTING"
+            value = "$(SDK_APP_ROUTING)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
