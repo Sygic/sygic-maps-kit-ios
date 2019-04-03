@@ -8,7 +8,7 @@ class SDKInitializationTest: QuickSpec {
         describe("SDK initialization") {
             
             beforeEach {
-                SYMKApiKeys.set(appKey: "", appSecret: "")
+                SYMKApiKeys.set(appKey: "", appSecret: "", routingKey: "")
             }
             
             it("should not finish without key") {

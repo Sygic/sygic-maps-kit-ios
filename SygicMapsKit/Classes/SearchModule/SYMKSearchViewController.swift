@@ -26,7 +26,7 @@ import SygicUIKit
 
 /// output
 public protocol SYMKSearchViewControllerDelegate: class {
-    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [Any])
+    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult])
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController)
 }
 
@@ -38,6 +38,10 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     public var searchBarController = SYUISearchBarController()
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
+    // MARK: - Private properties
+    
+    private let model = SYMKSearchModel()
+    
     // MARK: - Public methods
     
     override func sygicSDKInitialized() {
@@ -45,22 +49,29 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         resultsViewController.interactionBlock = { [weak self] in
             _ = self?.searchBarController.resignFirstResponder()
         }
+        resultsViewController.selectionBlock = { [weak self] searchResult in
+            guard let weakSelf = self else { return }
+            weakSelf.delegate?.searchController(weakSelf, didSearched: [searchResult])
+        }
     }
     
-    override func sygicSDKFailure() {
-        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        _ = searchBarController.becomeFirstResponder()
     }
 
-    /// input
     public func prefillSearch(with text: String) {
         searchBarController.prefillSearch(with: text)
+        updateSearchResults(with: text)
+    }
+
+    public func mapCoordinates(coordinates: SYGeoCoordinate?) {
+        model.coordinates = coordinates
     }
     
-    // TODO: implement input coordinates based on model logic
-    //       MS-5189
-    public func mapCoordinates(coordinates: SYGeoCoordinate) { }
+    public func maxResults(count: UInt) {
+        model.maxResultsCount = count
+    }
     
     public override func loadView() {
         let searchView = SYMKSearchView()
@@ -74,19 +85,28 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     }
     
     // MARK: - Private methods
+    
+    func updateSearchResults(with searchQuery: String) {
+        model.search(with: searchQuery) { [weak self] (results, state) in
+            self?.resultsViewController.data = results
+        }
+    }
+    
 }
 
 extension SYMKSearchViewController: SYUISearchBarDelegate {
     
     public func search(textDidChange searchedText: String) {
-        // model.searchedText = searchedText
+        updateSearchResults(with: searchedText)
     }
     
     public func searchDidBeginEditing() { }
     
     public func searchDidEndEditing() { }
     
-    public func searchSearchButtonClicked() { }
+    public func searchSearchButtonClicked() {
+        delegate?.searchController(self, didSearched: resultsViewController.data)
+    }
     
     public func searchCancelButtonClicked() {
         delegate?.searchControllerDidCancel(self)

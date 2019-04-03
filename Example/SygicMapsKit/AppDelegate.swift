@@ -28,14 +28,15 @@ import SygicMapsKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
         let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
+        let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
         
-        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
-        
+        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
+
         return true
     }
     

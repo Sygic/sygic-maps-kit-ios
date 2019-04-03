@@ -262,3 +262,61 @@ public class SYMKPoiCategory: NSObject, NSCoding {
     }
     
 }
+
+public class SYMKPoiGroup: NSObject {
+    public let name: String
+    public let icon: String
+    public let color: UIColor
+    public let searchId: SYPoiGroup
+    
+    public init(name: String, icon: String, color: UIColor, searchId: SYPoiGroup) {
+        self.name = name
+        self.icon = icon
+        self.color = color
+        self.searchId = searchId
+        super.init()
+    }
+    
+    public func isPetrolStation() -> Bool {
+        return searchId == .petrol_Station
+    }
+    
+    public func infinarioTrackingType() -> String {
+        if searchId == .unknown {
+            return "more"
+        }
+        
+        switch (searchId) {
+        case .tourism: return "attractions"
+        case .food_and_Drink: return "eating & drinking"
+        case .petrol_Station: return "fuel"
+        case .parking: return "parking"
+        case .shopping: return "shopping"
+        case .accommodation: return "accommodation"
+        case .transportation: return "plane"
+        case .bankATM: return "bank"
+            
+        default: return name
+        }
+    }
+    
+    public class func with(syPoiGroup: SYPoiGroup) -> SYMKPoiGroup {
+        switch syPoiGroup {
+        case .unknown: return SYMKPoiGroup(name: "", icon: SYUIIcon.contextMenuIos, color: .poiGroupGuides, searchId: .unknown)
+        case .food_and_Drink: return SYMKPoiGroup(name: LS("_grp.Food_and_Drink"), icon: SYUIIcon.food, color: .poiGroupFoodDrink, searchId: .food_and_Drink)
+        case .accommodation: return SYMKPoiGroup(name: LS("_grp.Accomodation"), icon: SYUIIcon.accomodation, color: .poiGroupAccomodation, searchId: .accommodation)
+        case .shopping: return SYMKPoiGroup(name: LS("_grp.Shopping"), icon: SYUIIcon.shopping, color: .poiGroupShopping, searchId: .shopping)
+        case .transportation: return SYMKPoiGroup(name: LS("_grp.Transportation"), icon: SYUIIcon.plane, color: .poiGroupTransportation, searchId: .transportation)
+        case .tourism: return SYMKPoiGroup(name: LS("_grp.Tourism"), icon: SYUIIcon.attraction, color: .poiGroupTourism, searchId: .tourism)
+        case .social_Life: return SYMKPoiGroup(name: LS("_grp.Social_Life"), icon: SYUIIcon.theater, color: .poiGroupSocialLife, searchId: .social_Life)
+        case .services_and_Education: return SYMKPoiGroup(name: LS("_grp.Services_and_Education"), icon: SYUIIcon.school, color: .poiGroupSvcEducation, searchId: .services_and_Education)
+        case .sport: return SYMKPoiGroup(name: LS("_grp.Sport"), icon: SYUIIcon.running, color: .poiGroupSport, searchId: .sport)
+        case .vehicle_Services: return SYMKPoiGroup(name: LS("_grp.Vehicle_Services"), icon: SYUIIcon.vehicle, color: .poiGroupVehicleServices, searchId: .vehicle_Services)
+        case .emergency: return SYMKPoiGroup(name: LS("_grp.Emergency"), icon: SYUIIcon.hospital, color: .poiGroupEmergency, searchId: .emergency)
+        case .guides: return SYMKPoiGroup(name: LS("_grp.Guides"), icon: SYUIIcon.infoCenter, color: .poiGroupGuides, searchId: .guides)
+        case .parking: return SYMKPoiGroup(name: LS("_grp.Parking"), icon: SYUIIcon.parking, color: .poiGroupParking, searchId: .parking)
+        case .petrol_Station: return SYMKPoiGroup(name: LS("_grp.Petrol_Station"), icon: SYUIIcon.stationPetrol, color: .poiGroupPetrolStation, searchId: .petrol_Station)
+        case .bankATM: return SYMKPoiGroup(name: LS("_grp.BankATM"), icon: SYUIIcon.money, color: .poiGroupBank, searchId: .bankATM)
+        }
+    }
+}
