@@ -1,10 +1,32 @@
+//// SYMKBrowseMapView.swift
+//
+// Copyright (c) 2019 - Sygic a.s.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the &quot;Software&quot;), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import UIKit
 import SygicMaps
 import SygicUIKit
 
 
 /// Browse Map Module's view.
-class SYMKBrowseMapView: UIView {
+public class SYMKBrowseMapView: UIView {
     
     // MARK: - Public Properties
     
@@ -43,7 +65,7 @@ class SYMKBrowseMapView: UIView {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mapView)
-        sendSubview(toBack: mapView)
+        sendSubviewToBack(mapView)
         mapView.coverWholeSuperview()
     }
     
@@ -53,7 +75,7 @@ class SYMKBrowseMapView: UIView {
     public func setupCompass(_ compass: UIView) {
         self.compass = compass
         addSubview(compass)
-        bringSubview(toFront: compass)
+        bringSubviewToFront(compass)
         compass.translatesAutoresizingMaskIntoConstraints = false
         compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
         compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
@@ -65,7 +87,7 @@ class SYMKBrowseMapView: UIView {
     public func setupZoomControl(_ zoomControl: UIView) {
         self.zoomControl = zoomControl
         addSubview(zoomControl)
-        bringSubview(toFront: zoomControl)
+        bringSubviewToFront(zoomControl)
         zoomControl.translatesAutoresizingMaskIntoConstraints = false
         zoomControl.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
         if let recenterButton = recenterButton {
@@ -81,7 +103,7 @@ class SYMKBrowseMapView: UIView {
     public func setupRecenter(_ recenter: UIView) {
         recenterButton = recenter
         addSubview(recenter)
-        bringSubview(toFront: recenter)
+        bringSubviewToFront(recenter)
         recenter.translatesAutoresizingMaskIntoConstraints = false
         recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
         recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
@@ -90,6 +112,7 @@ class SYMKBrowseMapView: UIView {
     // MARK: - Private Methods
     
     private func setupUI() {
+        accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
     }
     

@@ -65,11 +65,11 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     public override func loadView() {
         let searchView = SYMKSearchView()
         view = searchView
-        
-        addChildViewController(searchBarController)
+    
+        addChild(searchBarController)
         searchView.setupSearchBarView(searchBarController.view)
         
-        addChildViewController(resultsViewController)
+        addChild(resultsViewController)
         searchView.setupResultsView(resultsViewController.view)
     }
     

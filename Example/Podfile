@@ -1,12 +1,11 @@
-source "ssh://git@git.sygic.com:7999/navi/cocoapods.git"
 source "https://github.com/CocoaPods/Specs.git"
 
 platform :ios, '10.0'
 use_frameworks!
 
 def shared_pods
-    pod 'SygicMaps', '9.1.1'
     pod 'SygicUIKit', :git => 'https://github.com/Sygic/sygic-ui-kit-ios.git', :branch => 'feature/search', :commit => 'HEAD'
+    pod 'SygicMaps'
     pod 'SygicMapsKit', :path => '../'
 end
 
@@ -22,6 +21,11 @@ end
 
 target 'SygicMapsKit_ExampleUITests' do
     shared_pods
+end
+
+target 'SygicMapsKit_UITests' do
+  shared_pods
+  pod 'KIF', :configurations => ['Debug']
 end
 
 post_install do |installer|
