@@ -23,7 +23,7 @@ class SDKInitializationTest: QuickSpec {
                 var initializationResult: Bool?
                 // incorrect key
                 let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
-                SYMKApiKeys.set(appKey: appKey, appSecret: "fweferfSdnGUzpZ7XI+h7+lna3IslJrewfNTHIxyiZlpjgR7aX1Nz9jaw4Z4rVJtLZkOxyh0AL1q+dwefwfwf")
+                SYMKApiKeys.set(appKey: appKey, appSecret: "fweferfSdnGUzpZ7XI+h7+lna3IslJrewfNTHIxyiZlpjgR7aX1Nz9jaw4Z4rVJtLZkOxyh0AL1q+dwefwfwf", routingKey: "")
                 SYMKSdkManager.shared.initializeIfNeeded({ (result) in
                     initializationResult = result
                 })
@@ -35,11 +35,9 @@ class SDKInitializationTest: QuickSpec {
                 // correct test key
                 let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
                 let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
+                let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
                 
-                print("_________________________________\n\(appKey)")
-                print("\(appSecret)\n________________________")
-                
-                SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
+                SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
                 SYMKSdkManager.shared.initializeIfNeeded({ (result) in
                     initializationResult = result
                 })
