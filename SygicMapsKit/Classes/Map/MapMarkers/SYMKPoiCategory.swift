@@ -26,7 +26,7 @@ import SygicMaps
 
 
 /// Helper class responsible for mapping SYPoiCategory to icon and color identical to icons and colors used in SYMapView engine.
-public class SYMKPoiCategory: NSObject, NSCoding {
+public class SYMKPoiCategory {
 
     // MARK: - Public Properties
     
@@ -40,20 +40,6 @@ public class SYMKPoiCategory: NSObject, NSCoding {
     public init(icon: String, color: UIColor?) {
         self.icon = icon
         self.color = color ?? .textBody
-        super.init()
-    }
-    
-    public required convenience init?(coder decoder: NSCoder) {
-        guard let icon = decoder.decodeObject(forKey: "icon") as? String,
-            let color = decoder.decodeObject(forKey: "color") as? UIColor
-            else { return nil }
-        
-        self.init(icon: icon, color: color)
-    }
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(icon, forKey: "icon")
-        aCoder.encode(color, forKey: "color")
     }
     
     /// Returns specific category icon and color for `SYPoiCategory`.
@@ -263,7 +249,7 @@ public class SYMKPoiCategory: NSObject, NSCoding {
     
 }
 
-public class SYMKPoiGroup: NSObject {
+public class SYMKPoiGroup {
     public let name: String
     public let icon: String
     public let color: UIColor
@@ -274,30 +260,6 @@ public class SYMKPoiGroup: NSObject {
         self.icon = icon
         self.color = color
         self.searchId = searchId
-        super.init()
-    }
-    
-    public func isPetrolStation() -> Bool {
-        return searchId == .petrol_Station
-    }
-    
-    public func infinarioTrackingType() -> String {
-        if searchId == .unknown {
-            return "more"
-        }
-        
-        switch (searchId) {
-        case .tourism: return "attractions"
-        case .food_and_Drink: return "eating & drinking"
-        case .petrol_Station: return "fuel"
-        case .parking: return "parking"
-        case .shopping: return "shopping"
-        case .accommodation: return "accommodation"
-        case .transportation: return "plane"
-        case .bankATM: return "bank"
-            
-        default: return name
-        }
     }
     
     public class func with(syPoiGroup: SYPoiGroup) -> SYMKPoiGroup {

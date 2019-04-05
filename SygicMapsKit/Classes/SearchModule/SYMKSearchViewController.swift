@@ -62,10 +62,10 @@ public class SYMKSearchViewController: SYMKModuleViewController {
 
     public func prefillSearch(with text: String) {
         searchBarController.prefillSearch(with: text)
-        updateSearchResults(with: text)
+        search(for: text)
     }
 
-    public func mapCoordinates(coordinates: SYGeoCoordinate?) {
+    public func searchCoordinates(coordinates: SYGeoCoordinate?) {
         model.coordinates = coordinates
     }
     
@@ -86,8 +86,8 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     
     // MARK: - Private methods
     
-    func updateSearchResults(with searchQuery: String) {
-        model.search(with: searchQuery) { [weak self] (results, state) in
+    private func search(for query: String) {
+        model.search(with: query) { [weak self] (results, state) in
             self?.resultsViewController.data = results
         }
     }
@@ -97,7 +97,8 @@ public class SYMKSearchViewController: SYMKModuleViewController {
 extension SYMKSearchViewController: SYUISearchBarDelegate {
     
     public func search(textDidChange searchedText: String) {
-        updateSearchResults(with: searchedText)
+        // updateResultsWith()
+        search(for: searchedText)
     }
     
     public func searchDidBeginEditing() { }
