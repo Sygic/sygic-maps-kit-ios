@@ -23,5 +23,27 @@
 import Foundation
 import SygicMaps
 
-
-class SYMKSearchModel { }
+class SYMKSearchModel {
+    
+    // MARK: - Public Properties
+    
+    public var coordinates: SYGeoCoordinate?
+    public var maxResultsCount: UInt = 10
+    
+    // MARK: - Private Properties
+    
+    private let search = SYSearch()
+    
+    // MARK: - Public Methods
+    
+    public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ resultState: SYRequestResultState) -> ()) {
+        let position = coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
+        let request = SYSearchRequest(query: query, atLocation: position)
+        request.maxResultsCount = maxResultsCount
+        
+        search.start(request) { (results, state) in
+            response(results, state)
+        }
+    }
+    
+}

@@ -1,4 +1,4 @@
-//// AppDelegate.swift
+//// SYMapSearchResultExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,28 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
-import SygicMapsKit
+import SygicMaps
 
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
+extension SYMapSearchResult {
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
-        let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
-        let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
-        
-        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
-
-        return true
+    public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
+        let location = self.coordinate ?? coordinates ?? SYGeoCoordinate()
+        let search = SYSearch()
+        search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
+            _ = search // reference to search instance, so completion block is executed
+            data(detail)
+        }
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        SYMKSdkManager.shared.terminate()
-    }
-
 }

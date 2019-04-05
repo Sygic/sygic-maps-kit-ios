@@ -1,5 +1,6 @@
 import SygicMapsKit
 import SygicUIKit
+import SygicMaps
 
 
 class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter, SYMKSearchViewControllerDelegate {
@@ -34,15 +35,21 @@ class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter, 
     
     @objc private func tapped() {
         let searchModule = SYMKSearchViewController()
-        // searchModule.prefillSearch(with: "Prefilled search text")
         searchModule.delegate = self
         presentModule(searchModule)
     }
     
-    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [Any]) { }
+    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
+        dismissModule()
+        let alert = UIAlertController(title: nil, message: "\(results)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController) {
         dismissModule()
     }
 
 }
+
+
