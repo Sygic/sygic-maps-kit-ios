@@ -24,8 +24,16 @@ import SygicMaps
 
 extension SYMapSearchResult {
     
+    /// Detail result request for `SYSearchResult`. `SYSearchResultDetail` doesn't have more information.
+    /// You need to cast it to some subclass, to retrieve more information.
+    ///
+    /// - Parameters:
+    ///   - coordinates: Coordinates for search result. In most cases you need coordinates of result, but groups and categories doesn't have coordinates.
+    ///                  So coordinates must be set to retrieve point of interests around this location.
+    ///   - data: Result closure callback
+    ///   - result: Detail result of a `SYSearchResult`.
     public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
-        let location = self.coordinate ?? coordinates ?? SYGeoCoordinate()
+        let location = self.coordinate ?? coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
         let search = SYSearch()
         search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
             _ = search // reference to search instance, so completion block is executed

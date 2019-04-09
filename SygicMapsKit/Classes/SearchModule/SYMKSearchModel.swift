@@ -27,7 +27,10 @@ class SYMKSearchModel {
     
     // MARK: - Public Properties
     
+    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
     public var coordinates: SYGeoCoordinate?
+    
+    /// Max number of results search returns.
     public var maxResultsCount: UInt = 10
     
     // MARK: - Private Properties
@@ -36,6 +39,16 @@ class SYMKSearchModel {
     
     // MARK: - Public Methods
     
+    /// Search for results based on query. Searching around `coordinates` set in model.
+    /// If `coordinates` are not set, user location coordinates are used.
+    ///
+    /// If `coordinates` are not set and user location is not valid, search returns empty array of results.
+    ///
+    /// - Parameters:
+    ///   - query: text query for search
+    ///   - response: Response closure callback
+    ///   - results: Search results based on query.
+    ///   - resultState: Result state from search.
     public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ resultState: SYRequestResultState) -> ()) {
         let position = coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
         let request = SYSearchRequest(query: query, atLocation: position)

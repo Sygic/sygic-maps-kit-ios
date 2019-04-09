@@ -24,18 +24,38 @@ import SygicMaps
 import SygicUIKit
 
 
-/// output
+/// Search module output protocol
 public protocol SYMKSearchViewControllerDelegate: class {
+    
+    /// Delegate receives searched data. SYSearchResult contains just type and coordinates of the result.
+    /// If coordinates are not set, result is group or category. For more information about search result,
+    /// cast it to `SYMapSearchResult` subclass and call `detail` method.
+    ///
+    /// - Parameters:
+    ///   - searchController: Search module controller.
+    ///   - results: Array of search results.
     func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult])
+    
+    /// Delegate receives information, that user did cancel action.
+    ///
+    /// - Parameter searchController: Search module controller.
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController)
 }
 
+/// Search module.
+///
+/// A controller that manages searching for point of interests, cities, streets etc.
 public class SYMKSearchViewController: SYMKModuleViewController {
     
     // MARK: - Public properties
     
+    /// Results controller manages searched results.
     public var resultsViewController: SYUISearchResultsViewController<SYSearchResult> = SYUISearchResultsTableViewController<SYSearchResult>()
+    
+    /// Search bar controller manages input field for search.
     public var searchBarController = SYUISearchBarController()
+    
+    /// Delegate output for search controller.
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
     // MARK: - Private properties
@@ -60,15 +80,25 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         _ = searchBarController.becomeFirstResponder()
     }
 
+    /// Prefill search input field and search for results for this text.
+    ///
+    /// - Parameter text: String for search input field.
     public func prefillSearch(with text: String) {
         searchBarController.prefillSearch(with: text)
         search(for: text)
     }
 
+    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
+    ///
+    /// If search coordinates are not set and user doesn't have valid location, search doesn't return any results.
+    /// - Parameter coordinates: Coodinates to find results around.
     public func searchCoordinates(coordinates: SYGeoCoordinate?) {
         model.coordinates = coordinates
     }
     
+    /// Max number of results search returns.
+    ///
+    /// - Parameter count: Max results positive number.
     public func maxResults(count: UInt) {
         model.maxResultsCount = count
     }
@@ -97,7 +127,6 @@ public class SYMKSearchViewController: SYMKModuleViewController {
 extension SYMKSearchViewController: SYUISearchBarDelegate {
     
     public func search(textDidChange searchedText: String) {
-        // updateResultsWith()
         search(for: searchedText)
     }
     
