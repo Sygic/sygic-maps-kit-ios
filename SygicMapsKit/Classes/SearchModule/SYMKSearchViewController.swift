@@ -126,19 +126,19 @@ public class SYMKSearchViewController: SYMKModuleViewController {
 
 extension SYMKSearchViewController: SYUISearchBarDelegate {
     
-    public func search(textDidChange searchedText: String) {
+    public func searchBar(textDidChange searchedText: String) {
         search(for: searchedText)
     }
     
-    public func searchDidBeginEditing() { }
+    public func searchBarDidBeginEditing() { }
     
-    public func searchDidEndEditing() { }
+    public func searchBarDidEndEditing() { }
     
-    public func searchSearchButtonClicked() {
+    public func searchBarSearchButtonClicked() {
         delegate?.searchController(self, didSearched: resultsViewController.data)
     }
     
-    public func searchCancelButtonClicked() {
+    public func searchBarCancelButtonClicked() {
         delegate?.searchControllerDidCancel(self)
     }
     

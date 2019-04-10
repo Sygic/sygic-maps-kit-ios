@@ -57,6 +57,7 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .all
         browseMapModule.customMarkers = customMarkers()
+        browseMapModule.userLocationSkin = .pedestrian
         browseMapModule.mapSkin = .night
         browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
         browseMapModule.mapState.zoom = 16
