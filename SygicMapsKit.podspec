@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SygicMapsKit/Classes/**/*'
 
-  s.dependency 'SygicMaps', '~> 9.0'
+  s.dependency 'SygicMaps', '~> 10.0'
   s.dependency 'SygicUIKit', '~> 1.0'
 
 end

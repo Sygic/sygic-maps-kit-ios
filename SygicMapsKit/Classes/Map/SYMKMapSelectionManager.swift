@@ -103,7 +103,6 @@ public class SYMKMapSelectionManager {
         if hadPinSelected {
             mapMarkersManager.removeAllMarkers()
             customMarkersManager.highlightedMarker = nil
-            delegate?.mapSelectionDeselectAll()
         }
         
         var viewObj: SYViewObject?
@@ -112,16 +111,21 @@ public class SYMKMapSelectionManager {
                 selectMapPoi(poi)
                 return
             } else if let marker = obj as? SYMapMarker {
-                selectCustomMarker(marker)
-                return
+                if let customMarker = customMarkersManager.markers.first(where: { $0.mapMarker == marker }) {
+                    selectCustomMarker(customMarker)
+                    return
+                }
             } else if mapSelectionMode == .all && viewObj == nil {
                 viewObj = obj
             }
         }
         
-        guard !hadPinSelected else { return }
-        if let coordinate = viewObj?.coordinate {
+        if hadPinSelected {
+            // deselected delegate message call only if no selection was made
+            delegate?.mapSelectionDeselectAll()
+        } else if let coordinate = viewObj?.coordinate {
             selectCoordinate(coordinate)
+            return
         }
     }
     
@@ -181,13 +185,12 @@ public class SYMKMapSelectionManager {
         delegate?.mapSelection(didSelect: poiData)
     }
     
-    private func selectCustomMarker(_ mapMarker: SYMapMarker) {
-        guard let customMarker = customMarkersManager.markers.first(where: { $0.mapMarker == mapMarker }) else { return }
-        customMarkersManager.highlightedMarker = customMarker
-        if let dataPayload = customMarker.data {
+    private func selectCustomMarker(_ mapMarker: SYMKMapPin) {
+        customMarkersManager.highlightedMarker = mapMarker
+        if let dataPayload = mapMarker.data {
             delegate?.mapSelection(didSelect: dataPayload)
         } else {
-            delegate?.mapSelection(didSelect: SYMKPoiData(with: customMarker.coordinate))
+            delegate?.mapSelection(didSelect: SYMKPoiData(with: mapMarker.coordinate))
         }
     }
 }
