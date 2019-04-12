@@ -42,7 +42,6 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
 ///
 /// In case you want draw custom `UIView` object on map, you must conform to this protocol.
 /// Add annotation object (object with coordinates) with `addAnnotation(SYAnnotation)` method
-///
 public protocol SYMKBrowserMapViewControllerAnnotationDelegate: class {
     
     /// When map reaches some annotation, this method is called. It needs `SYAnnotationView` object
