@@ -30,7 +30,7 @@ import SygicUIKit
 /// is no longer showed after tap on map. Delegate receives raw data instead.
 public protocol SYMKBrowseMapViewControllerDelegate: class {
     
-    /// Implement this method to present default selection UI interface (SYMKMapPin and SYMKPoiDetailController)
+    /// Implement this method to present default selection UI interface (`SYMKMapPin` and `SYMKPoiDetailController`)
     /// while although receiving delegated method events browseMapController(_:, didSelect:)
     ///
     /// - Parameters:
