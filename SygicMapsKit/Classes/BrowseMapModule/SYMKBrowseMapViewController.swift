@@ -42,7 +42,6 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
 ///
 /// In case you want draw custom `UIView` object on map, you must conform to this protocol.
 /// Add annotation object (object with coordinates) with `addAnnotation(SYAnnotation)` method
-///
 public protocol SYMKBrowserMapViewControllerAnnotationDelegate: class {
     
     /// When map reaches some annotation, this method is called. It needs `SYAnnotationView` object
@@ -227,12 +226,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         triggerUserLocation(showUserLocation)
         setupMapController()
         setupViewDelegates()
-    }
-    
-    internal override func sygicSDKFailure() {
-        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
     }
     
     private func setupMapController() {

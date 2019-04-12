@@ -50,6 +50,12 @@ public class SYMKModuleViewController: UIViewController {
     internal func sygicSDKInitialized() { }
     
     /// Method called after Sygic SDK initialization fails.
-    internal func sygicSDKFailure() { }
+    ///
+    /// Override this method in subclass for custom behaviour.
+    internal func sygicSDKFailure() {
+        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
+    }
     
 }

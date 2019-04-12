@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F102E90EFA983EDCE590834 /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCFE85BE719DD8C9300B562 /* Pods_SygicMapsKit_Example.framework */; };
-		24E241F51E7B861D85846FC5 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F940F90C871F0E1973F94A /* Pods_SygicMapsKit_ExampleUITests.framework */; };
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
+		5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
 		583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */; };
 		5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* BrowseModule_UITests.swift */; };
@@ -24,6 +23,7 @@
 		5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
 		5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* TapHandling.swift */; };
+		5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */; };
 		5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */; };
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
 		5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */; };
@@ -34,6 +34,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		7966CE3D65C19204C8B875A0 /* Pods_SygicMapsKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECD4D225235E228CD21B9BB /* Pods_SygicMapsKit_Tests.framework */; };
+		94D47597055C024C898056D3 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F940F90C871F0E1973F94A /* Pods_SygicMapsKit_ExampleUITests.framework */; };
+		E743465DA1C34770ECFB48BF /* Pods_SygicMapsKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCFE85BE719DD8C9300B562 /* Pods_SygicMapsKit_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,9 +63,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B2E3D18C5040C330283B964 /* Pods-SygicMapsKit_ExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		17AE0E85638006EEF02D1998 /* Pods-SygicMapsKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		2307BFC503B9F13E42BDC3BE /* Pods-SygicMapsKit_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		25213E643DAD110E70076C31 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchExamplesTableViewController.swift; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
 		5852282D22427F65000385ED /* SygicMapsKit_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +89,7 @@
 		5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212621FA05D300F21AD4 /* TapHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapHandling.swift; sourceTree = "<group>"; };
+		5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseMapWithSearch.swift; sourceTree = "<group>"; };
 		5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleExampleTableViewCell.swift; sourceTree = "<group>"; };
 		5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModuleExampleTableViewCell.xib; sourceTree = "<group>"; };
 		5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModes.swift; sourceTree = "<group>"; };
@@ -98,15 +105,20 @@
 		607FACE51AFB9204008FA782 /* SygicMapsKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* TestsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsTemplate.swift; sourceTree = "<group>"; };
+		635C8A6BC70420AB6C974B9A /* Pods-SygicMapsKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		6DCFE85BE719DD8C9300B562 /* Pods_SygicMapsKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E6667ECA597D03AF5908DE4 /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		7ECD4D225235E228CD21B9BB /* Pods_SygicMapsKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9528F1F2FEB0B81C28321085 /* Pods-SygicMapsKit_ExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		95829CBC18D70F3211451354 /* Pods-SygicMapsKit_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		96A095915A281E1656A5D9DF /* Pods-SygicMapsKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		B2064034290AA206289CFC33 /* Pods-SygicMapsKit_UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.release.xcconfig"; sourceTree = "<group>"; };
 		B23239AC5C389ADB6478D9BC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D52FAAD2A6DAAA632F83829D /* Pods-SygicMapsKit_UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.release.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.release.xcconfig"; sourceTree = "<group>"; };
 		D7EF1026EB55740FA1173205 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		DB17910B81124752E076D09A /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0CB3F397E24F281242E67EB /* Pods-SygicMapsKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E4F940F90C871F0E1973F94A /* Pods_SygicMapsKit_ExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicMapsKit_ExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E535844C52AC991C4F78AA05 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24E241F51E7B861D85846FC5 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */,
+				94D47597055C024C898056D3 /* Pods_SygicMapsKit_ExampleUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F102E90EFA983EDCE590834 /* Pods_SygicMapsKit_Example.framework in Frameworks */,
+				E743465DA1C34770ECFB48BF /* Pods_SygicMapsKit_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +213,14 @@
 			path = "Browse examples";
 			sourceTree = "<group>";
 		};
+		5C9B71E922293C6D00896FCD /* Search examples */ = {
+			isa = PBXGroup;
+			children = (
+				5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */,
+			);
+			path = "Search examples";
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -229,11 +249,13 @@
 		607FACD21AFB9204008FA782 /* Example for SygicMapsKit */ = {
 			isa = PBXGroup;
 			children = (
+				5C9B71E922293C6D00896FCD /* Search examples */,
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				583EE956224E5D8E00A7592A /* Navigation examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
 				589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */,
+				5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */,
 				5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */,
 				5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -294,6 +316,14 @@
 				7E6667ECA597D03AF5908DE4 /* Pods-SygicMapsKit_Tests.release.xcconfig */,
 				2307BFC503B9F13E42BDC3BE /* Pods-SygicMapsKit_UITests.debug.xcconfig */,
 				D52FAAD2A6DAAA632F83829D /* Pods-SygicMapsKit_UITests.release.xcconfig */,
+				DB17910B81124752E076D09A /* Pods-SygicMapsKit_Example.debug.xcconfig */,
+				17AE0E85638006EEF02D1998 /* Pods-SygicMapsKit_Example.release.xcconfig */,
+				0B2E3D18C5040C330283B964 /* Pods-SygicMapsKit_ExampleUITests.debug.xcconfig */,
+				25213E643DAD110E70076C31 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */,
+				635C8A6BC70420AB6C974B9A /* Pods-SygicMapsKit_Tests.debug.xcconfig */,
+				E0CB3F397E24F281242E67EB /* Pods-SygicMapsKit_Tests.release.xcconfig */,
+				95829CBC18D70F3211451354 /* Pods-SygicMapsKit_UITests.debug.xcconfig */,
+				B2064034290AA206289CFC33 /* Pods-SygicMapsKit_UITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -478,8 +508,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
@@ -488,8 +516,6 @@
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
@@ -506,15 +532,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-SygicMapsKit_Tests-checkManifestLockResult.txt",
 			);
@@ -528,8 +550,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
@@ -540,8 +560,6 @@
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
@@ -560,15 +578,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-SygicMapsKit_Example-checkManifestLockResult.txt",
 			);
@@ -582,15 +596,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-SygicMapsKit_UITests-checkManifestLockResult.txt",
 			);
@@ -604,8 +614,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
@@ -615,8 +623,6 @@
 				"${BUILT_PRODUCTS_DIR}/KIF/KIF.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
@@ -634,15 +640,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-SygicMapsKit_ExampleUITests-checkManifestLockResult.txt",
 			);
@@ -656,8 +658,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
@@ -666,8 +666,6 @@
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
@@ -707,9 +705,11 @@
 				5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */,
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
 				5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */,
+				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
+				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
