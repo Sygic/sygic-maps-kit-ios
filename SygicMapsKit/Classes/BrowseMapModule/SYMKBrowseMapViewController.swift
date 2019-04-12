@@ -35,7 +35,7 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - browseController: Browse map module controller.
-    /// - Returns: Return true if default UI should be presented. Default false.
+    /// - Returns: Return true if default UI should be presented. Default return value is false.
     func browseMapControllerShouldPresentDefaultUI(_ browseController: SYMKBrowseMapViewController) -> Bool
     
     /// Delegate receives data about (point of interest) that was selected on map.
