@@ -8,7 +8,7 @@ if: type == pull_request OR tag IS present OR type == cron
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example --repo-update
-- pod update
+- pod update --project-directory=Example
 
 stages:
 - name: test
