@@ -31,7 +31,7 @@ import SygicUIKit
 public protocol SYMKBrowseMapViewControllerDelegate: class {
     
     /// Implement this method to present default selection UI interface (`SYMKMapPin` and `SYMKPoiDetailController`)
-    /// while although receiving delegated method events browseMapController(_:, didSelect:)
+    /// Although delegate still receives method event `browseMapController(_:, didSelect:)`
     ///
     /// - Parameters:
     ///   - browseController: Browse map module controller.
