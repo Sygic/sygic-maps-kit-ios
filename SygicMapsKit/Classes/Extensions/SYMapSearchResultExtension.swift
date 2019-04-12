@@ -1,4 +1,4 @@
-//// SYMKApiKeys.swift
+//// SYMapSearchResultExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,24 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import SygicMaps
 
-/// Define API keys for using Sygic Maps SDK.
-/// Obtain keys - http://www.sygic.com/enterprise/get-api-key/
-public class SYMKApiKeys {
-
-    static private(set) var appKey = ""
-    static private(set) var appSecret = ""
-    static private(set) var routingKey = ""
+extension SYMapSearchResult {
     
-    /// Set application key and application secret obtained by Sygic SDK.
+    /// Detail result request for `SYSearchResult`. `SYSearchResultDetail` doesn't have more information.
+    /// You need to cast it to some subclass, to retrieve more information.
     ///
     /// - Parameters:
-    ///   - appKey: Application key.
-    ///   - appSecret: Application secret.
-    static public func set(appKey: String, appSecret: String, routingKey: String) {
-        SYMKApiKeys.appKey = appKey
-        SYMKApiKeys.appSecret = appSecret
-        SYMKApiKeys.routingKey = routingKey
+    ///   - coordinates: Coordinates for search result. In most cases you need coordinates of result, but groups and categories doesn't have coordinates.
+    ///                  So coordinates must be set to retrieve point of interests around this location.
+    ///   - data: Result closure callback
+    ///   - result: Detail result of a `SYSearchResult`.
+    public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
+        let location = self.coordinate ?? coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
+        let search = SYSearch()
+        search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
+            _ = search // reference to search instance, so completion block is executed
+            data(detail)
+        }
     }
     
 }

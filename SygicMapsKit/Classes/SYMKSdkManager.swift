@@ -70,7 +70,7 @@ public class SYMKSdkManager {
         }
         guard !initializing else { return }
         initializing = true
-        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret, onlineRoutingKey: "") { initResult in
+        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret, onlineRoutingKey: SYMKApiKeys.routingKey) { initResult in
             DispatchQueue.main.async {
                 self.lock.wait()
                 let success = initResult == .success
