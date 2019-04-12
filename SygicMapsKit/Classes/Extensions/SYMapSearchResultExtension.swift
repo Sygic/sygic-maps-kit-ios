@@ -1,4 +1,4 @@
-//// TapHandling.swift
+//// SYMapSearchResultExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,37 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
 import SygicMaps
-import SygicMapsKit
 
-
-class CustomDataHandlingViewController: UIViewController, SYMKModulePresenter {
+extension SYMapSearchResult {
     
-    var presentedModules = [SYMKModuleViewController]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = "Custom Tap Handling Example"
-        
-        let browseMap = SYMKBrowseMapViewController()
-        browseMap.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
-        browseMap.mapState.zoom = 16
-        browseMap.delegate = self
-        browseMap.mapSelectionMode = .all
-        presentModule(browseMap)
-    }
-    
-}
-
-extension CustomDataHandlingViewController: SYMKBrowseMapViewControllerDelegate {
-    
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?) {
-        guard let data = data else { return }
-        let alert = UIAlertController(title: nil, message: "\(data)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+    /// Detail result request for `SYSearchResult`. `SYSearchResultDetail` doesn't have more information.
+    /// You need to cast it to some subclass, to retrieve more information.
+    ///
+    /// - Parameters:
+    ///   - coordinates: Coordinates for search result. In most cases you need coordinates of result, but groups and categories doesn't have coordinates.
+    ///                  So coordinates must be set to retrieve point of interests around this location.
+    ///   - data: Result closure callback
+    ///   - result: Detail result of a `SYSearchResult`.
+    public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
+        let location = self.coordinate ?? coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
+        let search = SYSearch()
+        search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
+            _ = search // reference to search instance, so completion block is executed
+            data(detail)
+        }
     }
     
 }

@@ -53,12 +53,6 @@ public class SYMKRouteComputeController: SYMKModuleViewController {
         setupMapController()
     }
     
-    override internal func sygicSDKFailure() {
-        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
-    }
-    
     private func setupMapController() {
         let mapController = SYMKMapController(with: mapState)
         mapController.selectionManager = SYMKMapSelectionManager(with: .none)
