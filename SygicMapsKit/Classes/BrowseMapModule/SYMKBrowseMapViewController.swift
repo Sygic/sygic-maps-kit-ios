@@ -30,12 +30,26 @@ import SygicUIKit
 /// is no longer showed after tap on map. Delegate receives raw data instead.
 public protocol SYMKBrowseMapViewControllerDelegate: class {
     
+    /// Implement this method to present default selection UI interface (`SYMKMapPin` and `SYMKPoiDetailController`)
+    /// Although delegate still receives method event `browseMapController(_:, didSelect:)`
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module controller.
+    /// - Returns: Return true if default UI should be presented. Default return value is false.
+    func browseMapControllerShouldPresentDefaultUI(_ browseController: SYMKBrowseMapViewController) -> Bool
+    
     /// Delegate receives data about (point of interest) that was selected on map.
     ///
     /// - Parameters:
     ///   - browseController: Browse map module controller.
-    ///   - data: Data about selected point of interest.
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
+    ///   - data: Data about selected point of interest. Data will be nil if method was called by marker deselection.
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?)
+}
+
+public extension SYMKBrowseMapViewControllerDelegate {
+    func browseMapControllerShouldPresentDefaultUI(_ browseController: SYMKBrowseMapViewController) -> Bool {
+        return false
+    }
 }
 
 /// Browse map module annotation protocol.
@@ -307,20 +321,24 @@ extension SYMKBrowseMapViewController: SYMKMapControllerDelegate {
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
     public func mapSelectionShouldAddPoiPin() -> Bool {
-        return delegate == nil
+        if let delegate = delegate {
+            return delegate.browseMapControllerShouldPresentDefaultUI(self)
+        }
+        return true
     }
     
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
-        if let delegate = delegate {
-            delegate.browseMapController(self, didSelect: poiData)
-        } else {
+        if delegate == nil || delegate!.browseMapControllerShouldPresentDefaultUI(self) == true {
+            hidePoiDetail()
             showPoiDetail(with: poiData)
         }
+        delegate?.browseMapController(self, didSelect: poiData)
     }
     
     public func mapSelectionDeselectAll() {
         hidePoiDetail()
+        delegate?.browseMapController(self, didSelect: nil)
     }
     
 }
