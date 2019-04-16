@@ -8,6 +8,7 @@ if: type == pull_request OR tag IS present OR type == cron
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example --repo-update
+- pod update --project-directory=Example
 
 stages:
 - name: test
@@ -20,7 +21,7 @@ jobs:
   include:
     - stage: test
       name: Unit tests
-      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty
+      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_Tests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=YES | xcpretty
 #    - stage: test
 #      name: UI tests - Browse map
 #      script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_ExampleUITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO -only-testing:SygicMapsKit_ExampleUITests/SygicMapsKit_ExampleUITests/testBrowseMapExamples CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
@@ -31,7 +32,7 @@ jobs:
       name: UI KIF tests
       script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_UITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone SE,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=YES | xcpretty
     - stage: deploy cocoapod
-      script: pod lib lint
+      script: pod spec lint
       deploy:
         provider: script
         script: pod trunk push --verbose --allow-warnings # | ruby -e 'ARGF.each{ print "." }'

@@ -58,7 +58,7 @@ class BrowseModuleExampleViewController: UIViewController, SYMKModulePresenter {
 
 extension BrowseModuleExampleViewController: SYMKBrowseMapViewControllerDelegate {
     
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?) {
         let routeComputeModule = SYMKRouteComputeController()
         routeComputeModule.mapState = browseController.mapState.copy() as! SYMKMapState
         routeComputeModule.delegate = self
