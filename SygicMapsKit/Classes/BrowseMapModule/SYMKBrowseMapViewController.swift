@@ -23,7 +23,6 @@
 import SygicMaps
 import SygicUIKit
 
-
 /// Browse map module output protocol.
 ///
 /// Adopting of this protocol overrides default behaviour, which means, bottom sheet
@@ -222,7 +221,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     // MARK: - Private Methods
     
     internal override func sygicSDKInitialized() {
-        SYOnlineSession.shared().onlineMapsEnabled = true
         triggerUserLocation(showUserLocation)
         setupMapController()
         setupViewDelegates()

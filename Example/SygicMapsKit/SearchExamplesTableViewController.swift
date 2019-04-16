@@ -11,21 +11,22 @@ class SearchExamplesTableViewController: UITableViewController {
     ]
     
     private let cellHeight: CGFloat = 330
+    private let reuseIdentifier = String(describing: ModuleExampleTableViewCell.self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Search Examples"
-        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: "reuseIdentifier")
+        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
         tableView.separatorStyle = .none
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return modulesData.count
     }
-
+ 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ModuleExampleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ModuleExampleTableViewCell
         let data = modulesData[indexPath.row]
         cell.title = data.title
         cell.subtitle = data.subtitle
@@ -36,7 +37,9 @@ class SearchExamplesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            navigationController?.pushViewController(SYMKSearchViewController(), animated: true)
+            let searchModule = SYMKSearchViewController()
+            searchModule.searchCoordinates(coordinates: SYGeoCoordinate(latitude: 51.508111, longitude: -0.131409)!)
+            navigationController?.pushViewController(searchModule, animated: true)
         case 1:
             navigationController?.pushViewController(BrowseMapWithSearchViewController(), animated: true)
         default:

@@ -33,9 +33,7 @@ class SYMKSearchModel {
     /// Max number of results search returns.
     public var maxResultsCount: UInt = 10
     
-    // MARK: - Private Properties
-    
-    private let search = SYSearch()
+    public var search: SYSearch?
     
     // MARK: - Public Methods
     
@@ -54,7 +52,7 @@ class SYMKSearchModel {
         let request = SYSearchRequest(query: query, atLocation: position)
         request.maxResultsCount = maxResultsCount
         
-        search.start(request) { (results, state) in
+        search?.start(request) { (results, state) in
             response(results, state)
         }
     }
