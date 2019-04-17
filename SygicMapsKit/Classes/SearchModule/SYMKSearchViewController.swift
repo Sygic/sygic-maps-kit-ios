@@ -65,7 +65,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Public methods
     
     override func sygicSDKInitialized() {
-        model.search = SYSearch()
+        model.sdkInitialized()
         searchBarController.delegate = self
         resultsViewController.interactionBlock = { [weak self] in
             _ = self?.searchBarController.resignFirstResponder()
