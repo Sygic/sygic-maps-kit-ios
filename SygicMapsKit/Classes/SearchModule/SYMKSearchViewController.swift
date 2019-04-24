@@ -58,13 +58,30 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     /// Delegate output for search controller.
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
+    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
+    ///
+    /// If search coordinates are not set and user doesn't have valid location, search doesn't return any results.
+    public var searchCoordinates: SYGeoCoordinate? {
+        didSet {
+            model?.coordinates = searchCoordinates
+        }
+    }
+    
+    /// Max number of results search returns.
+    public var maxResultsCount = SYMKSearchModel.maxResultsDefault {
+        didSet {
+            model?.maxResultsCount = maxResultsCount
+        }
+    }
+    
     // MARK: - Private properties
     
-    private let model = SYMKSearchModel()
+    private var model: SYMKSearchModel?
     
     // MARK: - Public methods
     
     override func sygicSDKInitialized() {
+        model = SYMKSearchModel(maxResultsCount: maxResultsCount, coordinates: searchCoordinates)
         searchBarController.delegate = self
         resultsViewController.interactionBlock = { [weak self] in
             _ = self?.searchBarController.resignFirstResponder()
@@ -87,21 +104,6 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         searchBarController.prefillSearch(with: text)
         search(for: text)
     }
-
-    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
-    ///
-    /// If search coordinates are not set and user doesn't have valid location, search doesn't return any results.
-    /// - Parameter coordinates: Coodinates to find results around.
-    public func searchCoordinates(coordinates: SYGeoCoordinate?) {
-        model.coordinates = coordinates
-    }
-    
-    /// Max number of results search returns.
-    ///
-    /// - Parameter count: Max results positive number.
-    public func maxResults(count: UInt) {
-        model.maxResultsCount = count
-    }
     
     public override func loadView() {
         let searchView = SYMKSearchView()
@@ -117,7 +119,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Private methods
     
     private func search(for query: String) {
-        model.search(with: query) { [weak self] (results, state) in
+        model?.search(with: query) { [weak self] (results, state) in
             self?.resultsViewController.data = results
         }
     }

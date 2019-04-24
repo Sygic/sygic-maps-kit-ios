@@ -82,14 +82,14 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
     public init(with place: SYPlace) {
         self.init(with: place.coordinate)
         
-        street = place.street
-        houseNumber = place.houseNumber
-        postal = place.postal
-        city = place.city
+        street = place.locationInfo?.street
+        houseNumber = place.locationInfo?.houseNumber
+        postal = place.locationInfo?.postal
+        city = place.locationInfo?.city
         
-        phone = place.phone
-        email = place.email
-        website = place.website
+        phone = place.locationInfo?.phone
+        email = place.locationInfo?.email
+        website = place.locationInfo?.website
         
         if !place.name.isEmpty {
             name = place.name
@@ -111,6 +111,21 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
         if let resultCity = reverseResult.resultDescription.city, !resultCity.isEmpty {
             city = resultCity
         }
+    }
+    
+    public init(with poiDetail: SYSearchResultDetailPoi) {
+        self.init(with: poiDetail.coordinate ?? SYGeoCoordinate())
+        
+        name = poiDetail.name
+        
+        street = poiDetail.locationInfo.street
+        houseNumber = poiDetail.locationInfo.houseNumber
+        postal = poiDetail.locationInfo.postal
+        city = poiDetail.locationInfo.city
+        
+        phone = poiDetail.locationInfo.phone
+        email = poiDetail.locationInfo.email
+        website = poiDetail.locationInfo.website
     }
     
     private func formattedAddress(from street: String? = nil, houseNumber: String? = nil, city: String? = nil, postal: String? = nil) -> String? {

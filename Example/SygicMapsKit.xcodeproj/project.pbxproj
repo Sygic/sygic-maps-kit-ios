@@ -23,6 +23,7 @@
 		5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
 		5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* TapHandling.swift */; };
+		5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74DD5A226F548100321EE7 /* BrowseMapWithSearchResults.swift */; };
 		5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */; };
 		5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */; };
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
@@ -89,6 +90,7 @@
 		5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212621FA05D300F21AD4 /* TapHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapHandling.swift; sourceTree = "<group>"; };
+		5C74DD5A226F548100321EE7 /* BrowseMapWithSearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseMapWithSearchResults.swift; sourceTree = "<group>"; };
 		5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseMapWithSearch.swift; sourceTree = "<group>"; };
 		5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleExampleTableViewCell.swift; sourceTree = "<group>"; };
 		5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModuleExampleTableViewCell.xib; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */,
+				5C74DD5A226F548100321EE7 /* BrowseMapWithSearchResults.swift */,
 			);
 			path = "Search examples";
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -710,6 +714,7 @@
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
+				5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
