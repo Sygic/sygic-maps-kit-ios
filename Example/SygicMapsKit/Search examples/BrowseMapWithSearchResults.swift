@@ -25,21 +25,19 @@ import SygicUIKit
 import SygicMaps
 
 
-class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter, SYMKSearchViewControllerDelegate, SYMKBrowseMapViewControllerDelegate {
+class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
     var poiDetail: SYMKPoiDetailViewController?
-    var resultsTableView: SYUISearchResultsTableViewController<SYMapSearchResult>?
-    var browseMapModule: SYMKBrowseMapViewController?
+    var resultsTableViewController: SYUISearchResultsTableViewController<SYMapSearchResult>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let browseMap = SYMKBrowseMapViewController()
-        browseMapModule = browseMap
         browseMap.delegate = self
         browseMap.useCompass = true
-        browseMap.useRecenterButton = true // FIXME: delete
+        browseMap.useRecenterButton = true
         browseMap.useZoomControl = true
         browseMap.mapSelectionMode = .all
         
@@ -65,26 +63,36 @@ class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter, SYMKSea
         searchModule.delegate = self
         presentModule(searchModule)
     }
+
+    func addPin(on browseMap: SYMKBrowseMapViewController, pin: SYMKMapPin, poiData: SYMKPoiData) {
+        browseMap.customMarkers = [pin]
+        poiDetail = SYMKPoiDetailViewController(with: poiData)
+        poiDetail!.defaultMinimizedHeight = 300
+        poiDetail!.presentPoiDetailAsChildViewController(to: self, completion: nil)
+        browseMap.mapState.geoCenter = pin.coordinate
+    }
+    
+}
+
+extension BrowseMapWithSearchResults: SYMKBrowseMapViewControllerDelegate {
     
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?) {
         if data == nil {
             browseController.customMarkers = []
+            resultsTableViewController?.view.removeFromSuperview()
             poiDetail?.dismissPoiDetail { _ in
                 self.poiDetail = nil
             }
         }
     }
     
-    func addPin(on browseMap: SYMKBrowseMapViewController, pin: SYMKMapPin, poiData: SYMKPoiData) {
-        browseMap.customMarkers = [pin]
-        poiDetail = SYMKPoiDetailViewController(with: poiData)
-        poiDetail!.presentPoiDetailAsChildViewController(to: self, completion: nil)
-        browseMap.mapState.geoCenter = pin.coordinate
-    }
+}
+
+extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     
     func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
         dismissModule()
-        let mapResults = results.compactMap({ (result) -> SYMapSearchResult? in
+        let mapResults = results.compactMap({ result -> SYMapSearchResult? in
             return result as? SYMapSearchResult
         })
         let browseMap = presentedModules[0] as! SYMKBrowseMapViewController
@@ -93,70 +101,86 @@ class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter, SYMKSea
             let result = mapResults[0]
             
             if let poi = result as? SYMapSearchResultPoi {
-                poi.detail { poiDetail in
-                    guard let detailedPoi = poiDetail as? SYSearchResultDetailPoi else { return }
-                    let poiData = SYMKPoiData(with: detailedPoi)
-                    let category = SYMKPoiCategory.with(syPoiCategory: detailedPoi.category)
-                    let pin = SYMKMapPin(data: poiData, icon: category.icon, color: category.color, highlighted: true)!
-                    self.addPin(on: self.browseMapModule!, pin: pin, poiData: poiData)
-                }
+                addPoiWithAdditionalInformationToMap(poi: poi, browseMap: browseMap)
                 return
             }
             
-            if let resultCoordinate = result.coordinate {
-                let poiData = SYMKPoiData(with: resultCoordinate)
-                let pin = SYMKMapPin(data: poiData, highlighted: true)!
-                addPin(on: browseMap, pin: pin, poiData: poiData)
+            if result.coordinate != nil {
+                addSearchResultToMap(result: result, browseMap: browseMap)
             } else {
-                // TODO: [] bug - search filtruje resulty, ktore nemaju coordinaty (teda kategorie a groupy)
-//                result.detail { resultDetail in
-//                    if let categoryDetail = resultDetail as? SYSearchResultDetailPoiCategory {
-//                        var pins = [SYMKMapPin]()
-//                        categoryDetail.pois.forEach { detailPoi in
-//                            guard let coordinate = detailPoi.coordinate else { return }
-//                            let category = SYMKPoiCategory.with(syPoiCategory: detailPoi.category)
-//                            guard let pin = SYMKMapPin(coordinate: coordinate, icon: category.icon, color: category.color, highlighted: false) else { return }
-//                            pins.append(pin)
-//                            browseMap.customMarkers = pins
-//                        }
-//                    } else if let groupDetail = resultDetail as? SYSearchResultDetailPoiCategoryGroup {
-//                        var pins = [SYMKMapPin]()
-//                        groupDetail.pois.forEach { detailPoi in
-//                            guard let coordinate = detailPoi.coordinate else { return }
-//                            let group = SYMKPoiGroup.with(syPoiGroup: detailPoi.group)
-//                            guard let pin = SYMKMapPin(coordinate: coordinate, icon: group.icon, color: group.color, highlighted: false) else { return }
-//                            pins.append(pin)
-//                            browseMap.customMarkers = pins
-//                        }
-//                    }
-//                }
+               resultSheetWithPoisFromCategoryOrGroup(result: result)
             }
-            
         } else {
-            let bottomSheet = SYUIBottomSheetView()
-            resultsTableView = SYUISearchResultsTableViewController<SYMapSearchResult>()
-            resultsTableView?.data = mapResults
-            resultsTableView?.selectionBlock = { [weak self] result in
-                if let coordinate = result.coordinate {
-                    let poiData = SYMKPoiData(with: coordinate)
-                    let pin = SYMKMapPin(data: poiData, highlighted: true)!
-                    self?.addPin(on: browseMap, pin: pin, poiData: poiData)
-                }
-                bottomSheet.animateOut {
-                    self?.resultsTableView = nil
-                    bottomSheet.removeFromSuperview()
-                }
-            }
-            bottomSheet.addSubview(resultsTableView!.view)
-            browseMap.view.addSubview(bottomSheet)
-            bottomSheet.minimizedHeight = 200
-            bottomSheet.animateIn(nil)
+            resultSheetWithSearchResults(results: mapResults, browseMap: browseMap)
         }
-        
     }
     
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController) {
         dismissModule()
     }
-
+    
+    private func addPoiWithAdditionalInformationToMap(poi: SYMapSearchResultPoi, browseMap: SYMKBrowseMapViewController) {
+        poi.detail { poiDetail in
+            guard let detailedPoi = poiDetail as? SYSearchResultDetailPoi else { return }
+            let poiData = SYMKPoiData(with: detailedPoi)
+            let category = SYMKPoiCategory.with(syPoiCategory: detailedPoi.category)
+            let pin = SYMKMapPin(data: poiData, icon: category.icon, color: category.color, highlighted: true)!
+            self.addPin(on: browseMap, pin: pin, poiData: poiData)
+        }
+    }
+    
+    private func addSearchResultToMap(result: SYMapSearchResult, browseMap: SYMKBrowseMapViewController) {
+        guard let resultCoordinate = result.coordinate else { return }
+        var poiData = SYMKPoiData(with: resultCoordinate)
+        poiData.street = result.resultLabels.street?.value
+        poiData.city = result.resultLabels.city?.value
+        poiData.postal = result.resultLabels.postal?.value
+        poiData.houseNumber = result.resultLabels.leftNumber?.value ?? result.resultLabels.rightNumber?.value
+        let pin = SYMKMapPin(data: poiData, highlighted: true)!
+        addPin(on: browseMap, pin: pin, poiData: poiData)
+    }
+    
+    private func resultSheetWithSearchResults(results: [SYMapSearchResult], browseMap: SYMKBrowseMapViewController) {
+        resultsTableViewController = SYUISearchResultsTableViewController<SYMapSearchResult>()
+        resultsTableViewController?.data = results
+        resultsTableViewController?.selectionBlock = { [weak self] result in
+            if let coordinate = result.coordinate {
+                let poiData = SYMKPoiData(with: coordinate)
+                let pin = SYMKMapPin(data: poiData, highlighted: true)!
+                self?.addPin(on: browseMap, pin: pin, poiData: poiData)
+            }
+        }
+        view.addSubview(resultsTableViewController!.view)
+        resultsTableViewController!.view.translatesAutoresizingMaskIntoConstraints = false
+        resultsTableViewController!.view.safeTrailingAnchor.constraint(equalTo: view.safeTrailingAnchor).isActive = true
+        resultsTableViewController!.view.safeLeadingAnchor.constraint(equalTo: view.safeLeadingAnchor).isActive = true
+        resultsTableViewController!.view.safeBottomAnchor.constraint(equalTo: view.safeBottomAnchor).isActive = true
+        resultsTableViewController!.view.safeTopAnchor.constraint(equalTo: view.bottomAnchor, constant: -300).isActive = true
+    }
+    
+    private func resultSheetWithPoisFromCategoryOrGroup(result: SYMapSearchResult) {
+        // TODO: [MS-5629] bug - search filtruje resulty, ktore nemaju coordinaty (teda kategorie a groupy)
+        //                result.detail { resultDetail in
+        //                    if let categoryDetail = resultDetail as? SYSearchResultDetailPoiCategory {
+        //                        var pins = [SYMKMapPin]()
+        //                        categoryDetail.pois.forEach { detailPoi in
+        //                            guard let coordinate = detailPoi.coordinate else { return }
+        //                            let category = SYMKPoiCategory.with(syPoiCategory: detailPoi.category)
+        //                            guard let pin = SYMKMapPin(coordinate: coordinate, icon: category.icon, color: category.color, highlighted: false) else { return }
+        //                            pins.append(pin)
+        //                            browseMap.customMarkers = pins
+        //                        }
+        //                    } else if let groupDetail = resultDetail as? SYSearchResultDetailPoiCategoryGroup {
+        //                        var pins = [SYMKMapPin]()
+        //                        groupDetail.pois.forEach { detailPoi in
+        //                            guard let coordinate = detailPoi.coordinate else { return }
+        //                            let group = SYMKPoiGroup.with(syPoiGroup: detailPoi.group)
+        //                            guard let pin = SYMKMapPin(coordinate: coordinate, icon: group.icon, color: group.color, highlighted: false) else { return }
+        //                            pins.append(pin)
+        //                            browseMap.customMarkers = pins
+        //                        }
+        //                    }
+        //                }
+    }
+    
 }

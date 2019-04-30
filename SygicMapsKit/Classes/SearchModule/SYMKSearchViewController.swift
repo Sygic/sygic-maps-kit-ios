@@ -83,6 +83,9 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     override func sygicSDKInitialized() {
         model = SYMKSearchModel(maxResultsCount: maxResultsCount, coordinates: searchCoordinates)
         searchBarController.delegate = self
+        if !searchBarController.searchText.isEmpty {
+            search(for: searchBarController.searchText)
+        }
         resultsViewController.interactionBlock = { [weak self] in
             _ = self?.searchBarController.resignFirstResponder()
         }

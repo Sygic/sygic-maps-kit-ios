@@ -40,17 +40,46 @@ public class SYMKMapState: NSCopying {
     /// well, so you don't need to allocate new `SYMapView` object. You will prevent
     /// black screen, the moment while `SYMapView` is allocated.
     public var map: SYMapView?
+    
     /// Center of a map
-    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)!
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)! {
+        didSet {
+            if map?.geoCenter != geoCenter {
+                map?.geoCenter = geoCenter
+            }
+        }
+    }
+    
     /// Zoom of a map.
-    public var zoom: CGFloat = 0
+    public var zoom: CGFloat = 0 {
+        didSet {
+            if map?.zoom != zoom {
+                map?.zoom = zoom
+            }
+        }
+    }
+    
     /// Rotation of a map.
-    public var rotation: CGFloat = 0
+    public var rotation: CGFloat = 0 {
+        didSet {
+            if map?.rotation != rotation {
+                map?.rotation = rotation
+            }
+        }
+    }
+    
     /// Tilt of a map.
-    public var tilt: CGFloat = 0
+    public var tilt: CGFloat = 0 {
+        didSet {
+            if map?.tilt != tilt {
+                map?.tilt = tilt
+            }
+        }
+    }
     
     /// Camera movement mode. Default is `.free`.
     public var cameraMovementMode: SYCameraMovement = .free
+    
     /// Camera rotation mode. Default is `.free`.
     public var cameraRotationMode: SYCameraRotation = .free
     
