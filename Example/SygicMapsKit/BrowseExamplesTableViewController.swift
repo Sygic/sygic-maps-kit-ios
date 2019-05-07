@@ -44,13 +44,14 @@ class BrowseExamplesTableViewController: UITableViewController {
     ]
     
     private let cellHeight: CGFloat = 330
+    private let reuseIdentifier = String(describing: ModuleExampleTableViewCell.self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Browse Map Examples"
         tableView.accessibilityLabel = "tableView.browseSamples"
-        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: "reuseIdentifier")
+        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
         tableView.separatorStyle = .none
     }
 
@@ -59,7 +60,7 @@ class BrowseExamplesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ModuleExampleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ModuleExampleTableViewCell
         let data = modulesData[indexPath.row]
         cell.title = data.title
         cell.subtitle = data.subtitle

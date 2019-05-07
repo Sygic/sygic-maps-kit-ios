@@ -33,11 +33,16 @@ class SYMKSearchModel {
     /// Max number of results search returns.
     public var maxResultsCount: UInt = 10
     
-    // MARK: - Private Properties
+    // MARK: - Private Poperties
     
-    private let search = SYSearch()
+    private var search: SYSearch?
     
     // MARK: - Public Methods
+    
+    /// Method that informs model about sdk initialization, so sdk classes can be initialized.
+    public func sdkInitialized() {
+        search = SYSearch()
+    }
     
     /// Search for results based on query. Searching around `coordinates` set in model.
     /// If `coordinates` are not set, user location coordinates are used.
@@ -54,7 +59,7 @@ class SYMKSearchModel {
         let request = SYSearchRequest(query: query, atLocation: position)
         request.maxResultsCount = maxResultsCount
         
-        search.start(request) { (results, state) in
+        search?.start(request) { (results, state) in
             response(results, state)
         }
     }

@@ -23,7 +23,6 @@
 import SygicMaps
 import SygicUIKit
 
-
 /// Browse map module output protocol.
 ///
 /// Adopting of this protocol overrides default behaviour, which means, bottom sheet
@@ -143,13 +142,13 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     public var mapSkin: MapSkins = .day {
         didSet {
-            mapController?.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+            mapController?.mapView.activeSkins = activeSkins
         }
     }
     
     public var userLocationSkin: UsersLocationSkins = .car {
         didSet {
-            mapController?.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+            mapController?.mapView.activeSkins = activeSkins
         }
     }
     
@@ -236,7 +235,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     // MARK: - Private Methods
     
     internal override func sygicSDKInitialized() {
-        SYOnlineSession.shared().onlineMapsEnabled = true
         triggerUserLocation(showUserLocation)
         setupMapController()
         setupViewDelegates()
@@ -246,7 +244,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
-        mapController.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+        mapController.mapView.activeSkins = activeSkins
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap(customMarkers)
@@ -272,6 +270,14 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         for marker in markers {
             mapController.selectionManager?.removeCustomPin(marker)
         }
+    }
+    
+    private var activeSkins: [String] {
+        var skins = [mapSkin.rawValue]
+        if userLocationSkin == .pedestrian {
+            skins.append(userLocationSkin.rawValue)
+        }
+        return skins
     }
     
     // MARK: User Location
