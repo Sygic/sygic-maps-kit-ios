@@ -32,6 +32,13 @@ class SYMKSearchModel {
     /// Search find results around this coordinates. If they are not set, user location coordinates are used.
     public var coordinates: SYGeoCoordinate?
     
+    public var hasValidSearchPosition: Bool {
+        if coordinates == nil && SYPositioning.shared().lastKnownLocation?.coordinate == nil {
+            return false
+        }
+        return true
+    }
+    
     /// Max number of results search returns.
     public var maxResultsCount = SYMKSearchModel.maxResultsDefault
     
