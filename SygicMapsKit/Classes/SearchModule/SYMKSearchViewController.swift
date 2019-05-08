@@ -142,17 +142,22 @@ public class SYMKSearchViewController: SYMKModuleViewController {
             self.triggerUserLocation(true)
             return
         }
-        guard !query.isEmpty else { return }
         
         searchBarController.showLoadingIndicator(true)
+        
         model.search(with: query) { [weak self] (results, state) in
             self?.resultsViewController.data = results
-            if state == .success && results.count == 0 {
-                self?.resultsViewController.showErrorMessage("No results found")
-            } else {
-                self?.resultsViewController.showErrorMessage(state.stringMessage())
-            }
+            self?.resultsViewController.showErrorMessage(self?.errorMessage(for: results, state))
             self?.searchBarController.showLoadingIndicator(false)
+        }
+    }
+    
+    private func errorMessage(for results: [SYSearchResult], _ state: SYRequestResultState) -> String? {
+        guard results.count == 0 else { return nil }
+        if state == .success && !searchBarController.searchText.isEmpty {
+            return LS("No results found")
+        } else {
+            return state.stringMessage()
         }
     }
     

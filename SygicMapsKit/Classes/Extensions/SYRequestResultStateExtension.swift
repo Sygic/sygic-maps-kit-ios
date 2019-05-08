@@ -21,20 +21,21 @@
 // THE SOFTWARE.
 
 import SygicMaps
+import SygicUIKit
 
 public extension SYRequestResultState {
     func stringMessage() -> String? {
         switch self {
         case .error:
-            return "Search error"
+            return LS("Search error")
         case .notAvailable:
-            return "Search not available"
+            return LS("Search not available")
         case .cancelled:
-            return "Search canceled"
+            return LS("Search canceled")
         case .wrongResponse:
-            return "Wrong response from search"
+            return LS("Wrong response from search")
         case .timeout:
-            return "Search timeout"
+            return LS("Search timeout")
         default:
             return nil
         }
