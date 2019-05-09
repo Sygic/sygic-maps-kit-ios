@@ -28,15 +28,15 @@ import SygicUIKit
 /// Delegate of map selection actions
 public protocol SYMKMapSelectionDelegate: class {
     
-    /// Tells selection manager, if should mark selected place with default MapPin marker
-    func mapSelectionShouldAddPoiPin() -> Bool
-    
     /// Delegated method called when map selection occured (by tap gesture...)
     ///
     /// - Parameter poiData: poi data of selected place on map
     func mapSelection(didSelect poiData: SYMKPoiDataProtocol)
     
-    /// Delegated method called by deselection map gesture
+    func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin?
+    
+    func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool
+    
     func mapSelectionDeselectAll()
 }
 
@@ -105,6 +105,18 @@ public class SYMKMapSelectionManager {
             customMarkersManager.highlightedMarker = nil
         }
         
+        let firstCoordinateObject = objects.first { $0.coordinate != nil }
+        guard let firstObject = firstCoordinateObject else { return }
+        guard let objectCoordinates = firstObject.coordinate else { return }
+        
+        if let shouldProcess = delegate?.mapSelectionDidTapOnMap(selectionType: firstObject.selectionType, coordinates: objectCoordinates), shouldProcess == false {
+            return
+        }
+        
+        if let pin = delegate?.mapSelectionShouldAddPinToMap(coordinates: objectCoordinates) {
+            mapMarkersManager.addMapMarker(pin)
+        }
+        
         var viewObj: SYViewObject?
         for obj in objects {
             if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
@@ -120,10 +132,7 @@ public class SYMKMapSelectionManager {
             }
         }
         
-        if hadPinSelected {
-            // deselected delegate message call only if no selection was made
-            delegate?.mapSelectionDeselectAll()
-        } else if let coordinate = viewObj?.coordinate {
+        if let coordinate = viewObj?.coordinate {
             selectCoordinate(coordinate)
             return
         }
@@ -179,9 +188,6 @@ public class SYMKMapSelectionManager {
     }
     
     private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
-        if let delegate = delegate, delegate.mapSelectionShouldAddPoiPin(), let pin = SYMKMapPin(coordinate: poiData.coordinate, icon: category.icon, color: category.color, highlighted: highlighted) {
-            mapMarkersManager.addMapMarker(pin)
-        }
         delegate?.mapSelection(didSelect: poiData)
     }
     
