@@ -40,7 +40,8 @@ class BrowseExamplesTableViewController: UITableViewController {
         ModuleData(title: "Browse Map - Custom Annotation View", subtitle: "Browes Map module with custom view for map points", image: "preview-browsemap-annotation"),
         ModuleData(title: "Browse Map - Skins", subtitle: "Browse Map module with custom skins", image: "preview-browsemap-skins"),
         ModuleData(title: "Browse Map - Markers", subtitle: "Browse Map module with own custom map markers", image: "preview-browsemap-markers"),
-        ModuleData(title: "Browse Map - Selection Modes", subtitle: "Browse Map module with all available selection modes", image: "preview-browsemap-selectionmodes")
+        ModuleData(title: "Browse Map - Selection Modes", subtitle: "Browse Map module with all available selection modes", image: "preview-browsemap-selectionmodes"),
+        ModuleData(title: "Browse Map - Car/Pedestrian", subtitle: "Switching between multiple map scins", image: "preview-browsemap-pedestrian")
     ]
     
     private let cellHeight: CGFloat = 330
@@ -84,6 +85,8 @@ class BrowseExamplesTableViewController: UITableViewController {
             navigationController?.pushViewController(CustomMarkersExampleViewController(), animated: true)
         case 6:
             navigationController?.pushViewController(BrowseMapSelectionModesExampleViewController(), animated: true)
+        case 7:
+            navigationController?.pushViewController(BrowseMapPedestrianExampleViewController(), animated: true)
         default:
             break
         }

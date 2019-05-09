@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
 		5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */; };
+		582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582E343A22845E6F007E58CF /* PedestrianSwitching.swift */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
 		583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */; };
 		5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* BrowseModule_UITests.swift */; };
@@ -70,6 +71,7 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchExamplesTableViewController.swift; sourceTree = "<group>"; };
+		582E343A22845E6F007E58CF /* PedestrianSwitching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedestrianSwitching.swift; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
 		5852282D22427F65000385ED /* SygicMapsKit_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +211,7 @@
 				58D3D33721E7A65500E11D1D /* Markers.swift */,
 				589CB07B21EE16890082F7C4 /* Skins.swift */,
 				5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */,
+				582E343A22845E6F007E58CF /* PedestrianSwitching.swift */,
 			);
 			path = "Browse examples";
 			sourceTree = "<group>";
@@ -705,6 +708,7 @@
 				5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */,
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
 				5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */,
+				582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */,
 				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
