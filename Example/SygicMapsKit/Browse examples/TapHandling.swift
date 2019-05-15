@@ -52,4 +52,12 @@ extension CustomDataHandlingViewController: SYMKBrowseMapViewControllerDelegate 
         present(alert, animated: true, completion: nil)
     }
     
+    func browseMapControllerShouldAddPinOnTap(_ browseController: SYMKBrowseMapViewController, coordinates: SYGeoCoordinate) -> SYMKMapPin? {
+        return nil
+    }
+    
+    func browseMapControllerShouldPresentDefaultPoiDetail(_ browseController: SYMKBrowseMapViewController) -> Bool {
+        return false
+    }
+    
 }

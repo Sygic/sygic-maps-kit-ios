@@ -37,6 +37,10 @@ class SYMKMapSelectionManagerTests: QuickSpec {
 
 extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
     
+    func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin? {
+        return SYMKMapPin(coordinate: coordinates, highlighted: true)
+    }
+    
     func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         selectedData = poiData
     }

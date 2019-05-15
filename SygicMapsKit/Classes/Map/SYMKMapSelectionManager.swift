@@ -28,15 +28,31 @@ import SygicUIKit
 /// Delegate of map selection actions
 public protocol SYMKMapSelectionDelegate: class {
     
-    /// Delegated method called when map selection occured (by tap gesture...)
+    /// Delegated method called when data are received.
     ///
-    /// - Parameter poiData: poi data of selected place on map
+    /// - Parameter poiData: poi data of selected place on map.
     func mapSelection(didSelect poiData: SYMKPoiDataProtocol)
     
+    /// Delegate method that asks for pin added to map.
+    ///
+    /// - Parameter coordinates: Pin coordinatss.
+    /// - Returns: Pin added on map. Return nil for no pin.
     func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin?
     
+    /// Delegate method called when map selection occured (by tap gesture).
+    ///
+    /// - Parameters:
+    ///   - selectionType: Type of object tapped on.
+    ///   - coordinates: Map coordinates tapped on.
+    /// - Returns: Returns if data should be processed and returned in `mapSelection(didSelect poiData: SYMKPoiDataProtocol)` method.
     func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool
     
+    /// Asks delegate if poi detail was shown.
+    ///
+    /// - Returns: If poi detail was shown.
+    func mapSelectionPoiDetailWasShown() -> Bool
+    
+    /// Tells delegate to deselect elements after tap to map.
     func mapSelectionDeselectAll()
 }
 
@@ -99,42 +115,40 @@ public class SYMKMapSelectionManager {
     public func selectMapObjects(_ objects: [SYViewObject]) {
         guard mapSelectionMode != .none else { return }
         
-        let hadPinSelected = !mapMarkersManager.markers.isEmpty || customMarkersManager.highlightedMarker != nil
-        if hadPinSelected {
-            mapMarkersManager.removeAllMarkers()
-            customMarkersManager.highlightedMarker = nil
-        }
-        
         let firstCoordinateObject = objects.first { $0.coordinate != nil }
         guard let firstObject = firstCoordinateObject else { return }
         guard let objectCoordinates = firstObject.coordinate else { return }
         
-        if let shouldProcess = delegate?.mapSelectionDidTapOnMap(selectionType: firstObject.selectionType, coordinates: objectCoordinates), shouldProcess == false {
-            return
-        }
+        let pinWasShown = !mapMarkersManager.markers.isEmpty
+        let poiDetailWasShown = delegate?.mapSelectionPoiDetailWasShown()
         
-        if let pin = delegate?.mapSelectionShouldAddPinToMap(coordinates: objectCoordinates) {
-            mapMarkersManager.addMapMarker(pin)
-        }
+        delegate?.mapSelectionDeselectAll()
+        mapMarkersManager.removeAllMarkers() // TODO: [MS-5725] - vymazat iba jeden mozny pin
         
-        var viewObj: SYViewObject?
-        for obj in objects {
-            if let poi = obj as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
-                selectMapPoi(poi)
-                return
-            } else if let marker = obj as? SYMapMarker {
-                if let customMarker = customMarkersManager.markers.first(where: { $0.mapMarker == marker }) {
-                    selectCustomMarker(customMarker)
-                    return
-                }
-            } else if mapSelectionMode == .all && viewObj == nil {
-                viewObj = obj
+        let shouldProcess = delegate?.mapSelectionDidTapOnMap(selectionType: firstObject.selectionType, coordinates: objectCoordinates)
+        
+        if mapSelectionMode == .markers {
+            guard firstObject.selectionType == .marker else { return }
+            if let processData = shouldProcess, processData == true {
+                selectViewObject(firstObject)
             }
-        }
-        
-        if let coordinate = viewObj?.coordinate {
-            selectCoordinate(coordinate)
-            return
+        } else if mapSelectionMode == .all {
+            if firstObject.selectionType != .marker {
+                if (!pinWasShown && !poiDetailWasShown!) || firstObject.selectionType == .poi {
+                    if let pin = delegate?.mapSelectionShouldAddPinToMap(coordinates: objectCoordinates) {
+                        mapMarkersManager.addMapMarker(pin)
+                    }
+                }
+            }
+            if let processData = shouldProcess, processData == true {
+                if let poiDetailWasShown = poiDetailWasShown {
+                    if !poiDetailWasShown && !pinWasShown {
+                        selectViewObject(firstObject)
+                    } else if poiDetailWasShown && (firstObject.selectionType == .poi || firstObject.selectionType == .marker) {
+                        selectViewObject(firstObject)
+                    }
+                }
+            }
         }
     }
     
@@ -173,6 +187,18 @@ public class SYMKMapSelectionManager {
     }
     
     // MARK: - Selection
+    
+    private func selectViewObject(_ object: SYViewObject) {
+        if let poi = object as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
+            selectMapPoi(poi)
+        } else if let marker = object as? SYMapMarker {
+            if let customMarker = customMarkersManager.markers.first(where: { $0.mapMarker == marker }) {
+                selectCustomMarker(customMarker)
+            }
+        } else if mapSelectionMode == .all {
+            selectCoordinate(object.coordinate!)
+        }
+    }
     
     private func selectMapPoi(_ poi: SYPoiObject) {
         SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
