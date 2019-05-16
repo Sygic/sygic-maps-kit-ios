@@ -183,8 +183,7 @@ extension SYMKMapController: SYUIMapRecenterDelegate {
 // MARK: - Zoom buttons Delegate
 
 extension SYMKMapController: SYUIZoomControllerDelegate {
-    
-    public func zoomController(wants activity: SYUIZoomActivity) {
+    public func zoomController(_ controller: SYUIZoomController, wants activity: SYUIZoomActivity) {
         switch activity {
         case .zoomIn, .zoomingIn:
             zoomMap(.zoomIn)

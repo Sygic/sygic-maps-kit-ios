@@ -49,13 +49,13 @@ public protocol SYMKModulePresenter: class {
 
 public extension SYMKModulePresenter where Self: UIViewController {
     
-    public func presentModule(_ viewController: SYMKModuleViewController) {
+    func presentModule(_ viewController: SYMKModuleViewController) {
         removeLastModuleFromSuperview()
         presentedModules.append(viewController)
         addModuleAsSubview(viewController)
     }
     
-    public func dismissModule() {
+    func dismissModule() {
         removeLastModuleFromSuperview()
         _ = presentedModules.popLast()
         

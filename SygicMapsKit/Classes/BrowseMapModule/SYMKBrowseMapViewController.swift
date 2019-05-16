@@ -274,17 +274,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
-    // MARK: User Location
-    
-    private func triggerUserLocation(_ show: Bool) {
-        guard SYMKSdkManager.shared.isSdkInitialized else { return }
-        if show {
-            SYPositioning.shared().startUpdatingPosition()
-        } else {
-            SYPositioning.shared().stopUpdatingPosition()
-        }
-    }
-    
     // MARK: PoiDetail
     
     private func showPoiDetail(with data: SYMKPoiDetailModel) {

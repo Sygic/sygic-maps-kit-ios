@@ -40,7 +40,23 @@ public protocol SYMKSearchViewControllerDelegate: class {
     ///
     /// - Parameter searchController: Search module controller.
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController)
+    
+    
+    /// Delegate event for error state handling
+    ///
+    /// - Parameters:
+    ///   - searchController: Search module controller.
+    ///   - searchState: state to handle
+    /// - Returns: String message to display for received search state. Return nil if you don't what to display any message.
+    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchState: SYRequestResultState) -> String?
 }
+
+public extension SYMKSearchViewControllerDelegate {
+    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchState: SYRequestResultState) -> String? {
+        return searchState.stringMessage()
+    }
+}
+
 
 /// Search module.
 ///
@@ -122,8 +138,26 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Private methods
     
     private func search(for query: String) {
-        model?.search(with: query) { [weak self] (results, state) in
+        guard let model = model, model.hasValidSearchPosition else {
+            self.triggerUserLocation(true)
+            return
+        }
+        
+        searchBarController.showLoadingIndicator(true)
+        
+        model.search(with: query) { [weak self] (results, state) in
             self?.resultsViewController.data = results
+            self?.resultsViewController.showErrorMessage(self?.errorMessage(for: results, state))
+            self?.searchBarController.showLoadingIndicator(false)
+        }
+    }
+    
+    private func errorMessage(for results: [SYSearchResult], _ state: SYRequestResultState) -> String? {
+        guard results.count == 0 else { return nil }
+        if state == .success && !searchBarController.searchText.isEmpty {
+            return LS("No results found")
+        } else {
+            return state.stringMessage()
         }
     }
     

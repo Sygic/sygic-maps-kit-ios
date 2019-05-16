@@ -32,6 +32,13 @@ class SYMKSearchModel {
     /// Search find results around this coordinates. If they are not set, user location coordinates are used.
     public var coordinates: SYGeoCoordinate?
     
+    public var hasValidSearchPosition: Bool {
+        if coordinates == nil && SYPositioning.shared().lastKnownLocation?.coordinate == nil {
+            return false
+        }
+        return true
+    }
+    
     /// Max number of results search returns.
     public var maxResultsCount = SYMKSearchModel.maxResultsDefault
     
@@ -58,7 +65,10 @@ class SYMKSearchModel {
     ///   - results: Search results based on query.
     ///   - resultState: Result state from search.
     public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ resultState: SYRequestResultState) -> ()) {
-        guard !query.isEmpty else { return }
+        guard !query.isEmpty else {
+            response([], .success)
+            return
+        }
         let position = coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
         let request = SYSearchRequest(query: query, atLocation: position)
         request.maxResultsCount = maxResultsCount
