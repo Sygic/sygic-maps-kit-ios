@@ -40,17 +40,19 @@ class BrowseExamplesTableViewController: UITableViewController {
         ModuleData(title: "Browse Map - Custom Annotation View", subtitle: "Browes Map module with custom view for map points", image: "preview-browsemap-annotation"),
         ModuleData(title: "Browse Map - Skins", subtitle: "Browse Map module with custom skins", image: "preview-browsemap-skins"),
         ModuleData(title: "Browse Map - Markers", subtitle: "Browse Map module with own custom map markers", image: "preview-browsemap-markers"),
-        ModuleData(title: "Browse Map - Selection Modes", subtitle: "Browse Map module with all available selection modes", image: "preview-browsemap-selectionmodes")
+        ModuleData(title: "Browse Map - Selection Modes", subtitle: "Browse Map module with all available selection modes", image: "preview-browsemap-selectionmodes"),
+        ModuleData(title: "Browse Map - Car/Pedestrian", subtitle: "Switching between multiple map skins", image: "preview-browsemap-pedestrian")
     ]
     
     private let cellHeight: CGFloat = 330
+    private let reuseIdentifier = String(describing: ModuleExampleTableViewCell.self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Browse Map Examples"
         tableView.accessibilityLabel = "tableView.browseSamples"
-        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: "reuseIdentifier")
+        tableView.register(UINib(nibName: "ModuleExampleTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
         tableView.separatorStyle = .none
     }
 
@@ -59,7 +61,7 @@ class BrowseExamplesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ModuleExampleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ModuleExampleTableViewCell
         let data = modulesData[indexPath.row]
         cell.title = data.title
         cell.subtitle = data.subtitle
@@ -83,6 +85,8 @@ class BrowseExamplesTableViewController: UITableViewController {
             navigationController?.pushViewController(CustomMarkersExampleViewController(), animated: true)
         case 6:
             navigationController?.pushViewController(BrowseMapSelectionModesExampleViewController(), animated: true)
+        case 7:
+            navigationController?.pushViewController(BrowseMapPedestrianExampleViewController(), animated: true)
         default:
             break
         }

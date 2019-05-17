@@ -42,7 +42,7 @@ class SYMKSearchModel {
     /// Max number of results search returns.
     public var maxResultsCount = SYMKSearchModel.maxResultsDefault
     
-    // MARK: - Private Properties
+    // MARK: - Private Poperties
     
     private var search: SYSearch?
     
@@ -51,6 +51,11 @@ class SYMKSearchModel {
     public init(maxResultsCount: UInt, coordinates: SYGeoCoordinate?) {
         self.coordinates = coordinates
         self.maxResultsCount = maxResultsCount
+        search = SYSearch()
+    }
+    
+    /// Method that informs model about sdk initialization, so sdk classes can be initialized.
+    public func sdkInitialized() {
         search = SYSearch()
     }
     

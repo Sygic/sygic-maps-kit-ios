@@ -33,13 +33,21 @@ public class SYMKSdkManager {
     /// Singleton shared instance.
     public static let shared = SYMKSdkManager()
     
+    /// Boolean value, whether Sygic SDK is using online or offline maps.
+    public var onlineMapsEnabled = true {
+        didSet {
+            if isSdkInitialized {
+                SYOnlineSession.shared().onlineMapsEnabled = onlineMapsEnabled
+            }
+        }
+    }
+    
     /// Boolean value, whether sdk is initialized or not.
     public var isSdkInitialized: Bool {
         return SYContext.isInitialized()
     }
     
     // MARK: - Private Properties
-    
     private var initializing = false
     private var completions = [SdkInitializationCompletion]()
     private let lock = DispatchSemaphore(value: 1)
@@ -75,6 +83,9 @@ public class SYMKSdkManager {
                 self.lock.wait()
                 let success = initResult == .success
                 self.initializing = false
+                if (success) {
+                    SYOnlineSession.shared().onlineMapsEnabled = self.onlineMapsEnabled
+                }
                 self.completions.forEach { block in
                     block(success)
                 }
