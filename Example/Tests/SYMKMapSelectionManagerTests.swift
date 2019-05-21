@@ -49,4 +49,10 @@ extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
         return true
     }
     
+    func mapSelectionDeselectAll() { }
+    
+    func mapSelectionPoiDetailWasShown() -> Bool {
+        return true
+    }
+    
 }
