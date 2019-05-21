@@ -129,7 +129,7 @@ public class SYMKBrowseMapView: UIView {
         button.addTarget(self, action: #selector(actionButtonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         addSubview(button)
-        button.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -16).isActive = true
+        button.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
         button.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -16).isActive = true
         
         actionButton?.removeFromSuperview()
