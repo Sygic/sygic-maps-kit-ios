@@ -29,26 +29,53 @@ import SygicUIKit
 /// is no longer showed after tap on map. Delegate receives raw data instead.
 public protocol SYMKBrowseMapViewControllerDelegate: class {
     
-    /// Implement this method to present default selection UI interface (`SYMKMapPin` and `SYMKPoiDetailController`)
+    /// Implement this method to present default selection UI interface (`SYMKPoiDetailController`)
     /// Although delegate still receives method event `browseMapController(_:, didSelect:)`
     ///
     /// - Parameters:
     ///   - browseController: Browse map module controller.
     /// - Returns: Return true if default UI should be presented. Default return value is false.
-    func browseMapControllerShouldPresentDefaultUI(_ browseController: SYMKBrowseMapViewController) -> Bool
+    func browseMapControllerShouldPresentDefaultPoiDetail(_ browseController: SYMKBrowseMapViewController) -> Bool
+    
+    /// Modifies the map marker default behavior. Override this method to use custom map marker.
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module.
+    ///   - coordinates: Coordinates for map marker.
+    /// - Returns: Return map marker or return nil for no map marker.
+    func browseMapControllerShouldAddPinOnTap(_ browseController: SYMKBrowseMapViewController, coordinates: SYGeoCoordinate) -> SYMKMapPin?
     
     /// Delegate receives data about (point of interest) that was selected on map.
     ///
     /// - Parameters:
     ///   - browseController: Browse map module controller.
     ///   - data: Data about selected point of interest. Data will be nil if method was called by marker deselection.
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?)
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
+    
+    /// Delegate method called after tap to the map.
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module.
+    ///   - selectionType: Type belonging to the tap on the map.
+    ///   - coordinates: Coordinates belonging to the tap on the map.
+    /// - Returns: True to continue to proceed the map tap data, False otherwise. Default value is True.
+    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool
 }
 
 public extension SYMKBrowseMapViewControllerDelegate {
-    func browseMapControllerShouldPresentDefaultUI(_ browseController: SYMKBrowseMapViewController) -> Bool {
-        return false
+    
+    func browseMapControllerShouldPresentDefaultPoiDetail(_ browseController: SYMKBrowseMapViewController) -> Bool {
+        return true
     }
+    
+    func browseMapControllerShouldAddPinOnTap(_ browseController: SYMKBrowseMapViewController, coordinates: SYGeoCoordinate) -> SYMKMapPin? {
+        return SYMKMapPin(coordinate: coordinates, highlighted: true)
+    }
+    
+    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool {
+        return true
+    }
+    
 }
 
 /// Browse map module annotation protocol.
@@ -327,25 +354,34 @@ extension SYMKBrowseMapViewController: SYMKMapControllerDelegate {
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
-    public func mapSelectionShouldAddPoiPin() -> Bool {
-        if let delegate = delegate {
-            return delegate.browseMapControllerShouldPresentDefaultUI(self)
-        }
-        return true
+    public func mapSelectionDeselectAll() {
+        hidePoiDetail()
+    }
+    
+    public func mapSelectionPoiDetailWasShown() -> Bool {
+        return poiDetailViewController != nil
     }
     
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
-        if delegate == nil || delegate!.browseMapControllerShouldPresentDefaultUI(self) == true {
-            hidePoiDetail()
+        if delegate == nil || delegate!.browseMapControllerShouldPresentDefaultPoiDetail(self) == true {
             showPoiDetail(with: poiData)
         }
         delegate?.browseMapController(self, didSelect: poiData)
     }
     
-    public func mapSelectionDeselectAll() {
-        hidePoiDetail()
-        delegate?.browseMapController(self, didSelect: nil)
+    public func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin? {
+        if let delegate = delegate {
+            return delegate.browseMapControllerShouldAddPinOnTap(self, coordinates: coordinates)
+        }
+        return SYMKMapPin(coordinate: coordinates, highlighted: true)
+    }
+    
+    public func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool {
+        if let delegate = delegate {
+            return delegate.browseMapControllerDidTapOnMap(self, selectionType: selectionType, coordinates: coordinates)
+        }
+        return true
     }
     
 }
