@@ -196,6 +196,18 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         super.viewWillDisappear(animated)
     }
     
+    /// Setup action button with passed attributes and action and add it in bottom right corner of view
+    ///
+    /// - Parameters:
+    ///   - title: title
+    ///   - icon: icon
+    ///   - style: action button style. Default is .secondary
+    ///   - action: action block called on touch up inside event
+    public func setupActionButton(with title: String?,icon: String?, style: SYUIActionButtonStyle = .secondary, action: (()->())?) {
+        guard let browseView = view as? SYMKBrowseMapView else { return }
+        browseView.setupActionButton(with: title, icon: icon, style: style, action: action)
+    }
+    
     /// Add annotation to map.
     ///
     /// - Parameter annotation: Annotation added on a map.
