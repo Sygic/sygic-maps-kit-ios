@@ -65,13 +65,11 @@ class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter {
 
 extension BrowseMapWithSearchResults: SYMKBrowseMapViewControllerDelegate {
     
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?) {
-        if data == nil {
-            browseController.customMarkers = []
-            resultsTableViewController?.view.removeFromSuperview()
-            poiDetail?.dismissPoiDetail { _ in
-                self.poiDetail = nil
-            }
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
+        browseController.customMarkers = []
+        resultsTableViewController?.view.removeFromSuperview()
+        poiDetail?.dismissPoiDetail { _ in
+            self.poiDetail = nil
         }
     }
     
