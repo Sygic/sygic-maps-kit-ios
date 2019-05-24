@@ -37,15 +37,15 @@ public protocol SYMKMapSelectionDelegate: class {
     ///
     /// - Parameter coordinates: Pin coordinatss.
     /// - Returns: Pin added on map. Return nil for no pin.
-    func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin?
+    func mapSelectionShouldAddMarkerToMap(location: SYGeoCoordinate) -> SYMapMarker?
     
     /// Delegate method called when map selection occured (by tap gesture).
     ///
     /// - Parameters:
     ///   - selectionType: Type of object tapped on.
-    ///   - coordinates: Map coordinates tapped on.
+    ///   - location: Map coordinates tapped on.
     /// - Returns: Returns if data should be processed and returned in `mapSelection(didSelect poiData: SYMKPoiDataProtocol)` method.
-    func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool
+    func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool
     
     /// Asks delegate if poi detail was shown.
     ///
@@ -88,20 +88,20 @@ public class SYMKMapSelectionManager {
     
     // MARK: - Private Properties
     
-    private var mapMarkersManager = SYMKMapMarkersManager<SYMKMapPin>()
-    private var customMarkersManager = SYMKMapMarkersManager<SYMKMapPin>()
+    private var mapMarkersManager = SYMKMapMarkersManager<SYMapMarker>()
+    private var customMarkersManager = SYMKMapMarkersManager<SYMapMarker>()
     private var reverseSearch = SYReverseSearch()
     
     // MARK: - Public Methods
     
-    public init(with mode: MapSelectionMode, customMarkers: [SYMKMapPin]? = nil) {
+    public init(with mode: MapSelectionMode, customMarkers: [SYMapMarker]? = nil) {
         mapSelectionMode = mode
         
         mapMarkersManager.mapObjectsManager = self
         customMarkersManager.mapObjectsManager = self
         
         customMarkers?.forEach {
-            addCustomPin($0)
+            addCustomMarker($0)
         }
     }
     
@@ -125,7 +125,7 @@ public class SYMKMapSelectionManager {
         delegate?.mapSelectionDeselectAll()
         mapMarkersManager.removeAllMarkers() // TODO: [MS-5725] - vymazat iba jeden mozny pin
         
-        let shouldProcess = delegate?.mapSelectionDidTapOnMap(selectionType: firstObject.selectionType, coordinates: objectCoordinates)
+        let shouldProcess = delegate?.mapSelectionDidTapOnMap(selectionType: firstObject.selectionType, location: objectCoordinates)
         
         if mapSelectionMode == .markers {
             guard firstObject.selectionType == .marker else { return }
@@ -135,7 +135,7 @@ public class SYMKMapSelectionManager {
         } else if mapSelectionMode == .all {
             if firstObject.selectionType != .marker {
                 if (!pinWasShown && !poiDetailWasShown!) || firstObject.selectionType == .poi {
-                    if let pin = delegate?.mapSelectionShouldAddPinToMap(coordinates: objectCoordinates) {
+                    if let pin = delegate?.mapSelectionShouldAddMarkerToMap(location: objectCoordinates) {
                         mapMarkersManager.addMapMarker(pin)
                     }
                 }
@@ -155,15 +155,15 @@ public class SYMKMapSelectionManager {
     /// Adds provided pin to mapView
     ///
     /// - Parameter pin: new map pin
-    public func addCustomPin(_ pin: SYMKMapPin) {
-        customMarkersManager.addMapMarker(pin)
+    public func addCustomMarker(_ marker: SYMapMarker) {
+        customMarkersManager.addMapMarker(marker)
     }
     
     /// Removes provided pin from mapView
     ///
     /// - Parameter pin: pin to remove
-    public func removeCustomPin(_ pin: SYMKMapPin) {
-        customMarkersManager.removeMapMarker(pin)
+    public func removeCustomMarker(_ marker: SYMapMarker) {
+        customMarkersManager.removeMapMarker(marker)
     }
     
     // MARK: - Private Methods
@@ -217,12 +217,14 @@ public class SYMKMapSelectionManager {
         delegate?.mapSelection(didSelect: poiData)
     }
     
-    private func selectCustomMarker(_ mapMarker: SYMKMapPin) {
+    private func selectCustomMarker(_ mapMarker: SYMapMarker) {
         customMarkersManager.highlightedMarker = mapMarker
-        if let dataPayload = mapMarker.data {
+        if let dataPayload = mapMarker.payload as? SYMKPoiDataProtocol {
             delegate?.mapSelection(didSelect: dataPayload)
-        } else {
-            delegate?.mapSelection(didSelect: SYMKPoiData(with: mapMarker.coordinate))
+        } else if let location = mapMarker.coordinate {
+            let poiData = SYMKPoiData(with: location)
+            poiData.customData = mapMarker.payload
+            delegate?.mapSelection(didSelect: poiData)
         }
     }
 }

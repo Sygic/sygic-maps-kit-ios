@@ -33,7 +33,7 @@ class DataAnnotation: SYAnnotation {
     init(data: SYMKPoiDataProtocol) {
         self.data = data
         super.init()
-        self.coordinate = data.coordinate
+        self.coordinate = data.location
     }
     
 }

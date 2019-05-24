@@ -41,9 +41,9 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - browseController: Browse map module.
-    ///   - coordinates: Coordinates for map marker.
+    ///   - location: Coordinates for map marker.
     /// - Returns: Return map marker or return nil for no map marker.
-    func browseMapControllerShouldAddPinOnTap(_ browseController: SYMKBrowseMapViewController, coordinates: SYGeoCoordinate) -> SYMKMapPin?
+    func browseMapControllerShouldAddMarkerOnTap(_ browseController: SYMKBrowseMapViewController, location: SYGeoCoordinate) -> SYMapMarker?
     
     /// Delegate receives data about (point of interest) that was selected on map.
     ///
@@ -59,7 +59,7 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
     ///   - selectionType: Type belonging to the tap on the map.
     ///   - coordinates: Coordinates belonging to the tap on the map.
     /// - Returns: True to continue to proceed the map tap data, False otherwise. Default value is True.
-    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool
+    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool
 }
 
 public extension SYMKBrowseMapViewControllerDelegate {
@@ -68,11 +68,11 @@ public extension SYMKBrowseMapViewControllerDelegate {
         return true
     }
     
-    func browseMapControllerShouldAddPinOnTap(_ browseController: SYMKBrowseMapViewController, coordinates: SYGeoCoordinate) -> SYMKMapPin? {
-        return SYMKMapPin(coordinate: coordinates, highlighted: true)
+    func browseMapControllerShouldAddMarkerOnTap(_ browseController: SYMKBrowseMapViewController, location: SYGeoCoordinate) -> SYMapMarker? {
+        return SYMapMarker(with: SYMKPoiData(with: location))
     }
     
-    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool {
+    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         return true
     }
     
@@ -152,7 +152,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     }
     
     /// Custom pois presented by markers in map.
-    public var customMarkers: [SYMKMapPin]? {
+    public var customMarkers: [SYMapMarker]? {
         didSet {
             if let allMarkers = customMarkers {
                 if let oldMarkers = oldValue {
@@ -297,17 +297,17 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         
     }
     
-    private func addCustomMarkersToMap(_ markers: [SYMKMapPin]?) {
+    private func addCustomMarkersToMap(_ markers: [SYMapMarker]?) {
         guard let markers = markers, markers.count > 0, let mapController = mapController else { return }
         for marker in markers {
-            mapController.selectionManager?.addCustomPin(marker)
+            mapController.selectionManager?.addCustomMarker(marker)
         }
     }
     
-    private func removeCustomMarkersFromMap(_ markers: [SYMKMapPin]?) {
+    private func removeCustomMarkersFromMap(_ markers: [SYMapMarker]?) {
         guard let markers = markers, markers.count > 0, let mapController = mapController else { return }
         for marker in markers {
-            mapController.selectionManager?.removeCustomPin(marker)
+            mapController.selectionManager?.removeCustomMarker(marker)
         }
     }
     
@@ -370,16 +370,16 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
         delegate?.browseMapController(self, didSelect: poiData)
     }
     
-    public func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin? {
+    public func mapSelectionShouldAddMarkerToMap(location: SYGeoCoordinate) -> SYMapMarker? {
         if let delegate = delegate {
-            return delegate.browseMapControllerShouldAddPinOnTap(self, coordinates: coordinates)
+            return delegate.browseMapControllerShouldAddMarkerOnTap(self, location: location)
         }
-        return SYMKMapPin(coordinate: coordinates, highlighted: true)
+        return SYMapMarker(with: SYMKPoiData(with: location))
     }
     
-    public func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool {
+    public func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         if let delegate = delegate {
-            return delegate.browseMapControllerDidTapOnMap(self, selectionType: selectionType, coordinates: coordinates)
+            return delegate.browseMapControllerDidTapOnMap(self, selectionType: selectionType, location: location)
         }
         return true
     }
