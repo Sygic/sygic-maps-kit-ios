@@ -27,17 +27,32 @@ class SYMKSearchModel {
     
     // MARK: - Public Properties
     
+    static let maxResultsDefault: UInt = 10
+    
     /// Search find results around this coordinates. If they are not set, user location coordinates are used.
     public var coordinates: SYGeoCoordinate?
     
+    public var hasValidSearchPosition: Bool {
+        if coordinates == nil && SYPositioning.shared().lastKnownLocation?.coordinate == nil {
+            return false
+        }
+        return true
+    }
+    
     /// Max number of results search returns.
-    public var maxResultsCount: UInt = 10
+    public var maxResultsCount = SYMKSearchModel.maxResultsDefault
     
     // MARK: - Private Poperties
     
     private var search: SYSearch?
     
     // MARK: - Public Methods
+
+    public init(maxResultsCount: UInt, coordinates: SYGeoCoordinate?) {
+        self.coordinates = coordinates
+        self.maxResultsCount = maxResultsCount
+        search = SYSearch()
+    }
     
     /// Method that informs model about sdk initialization, so sdk classes can be initialized.
     public func sdkInitialized() {
@@ -55,6 +70,10 @@ class SYMKSearchModel {
     ///   - results: Search results based on query.
     ///   - resultState: Result state from search.
     public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ resultState: SYRequestResultState) -> ()) {
+        guard !query.isEmpty else {
+            response([], .success)
+            return
+        }
         let position = coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
         let request = SYSearchRequest(query: query, atLocation: position)
         request.maxResultsCount = maxResultsCount

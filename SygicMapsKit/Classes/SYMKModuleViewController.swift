@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import SygicMaps
+
 
 /// Module view controller. Subclass of `UIViewController` that contains Sygic Map object and handle
 /// SDK initialization. It contains `SYMKMapState` object that stores map view and state of map.
@@ -58,4 +60,15 @@ public class SYMKModuleViewController: UIViewController {
         UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
     }
     
+    /// Method starts user loaction tracking.
+    ///
+    /// Permission alert is presented if necesary.
+    public func triggerUserLocation(_ startUpdating: Bool) {
+        guard SYMKSdkManager.shared.isSdkInitialized else { return }
+        if startUpdating {
+            SYPositioning.shared().startUpdatingPosition()
+        } else {
+            SYPositioning.shared().stopUpdatingPosition()
+        }
+    }
 }

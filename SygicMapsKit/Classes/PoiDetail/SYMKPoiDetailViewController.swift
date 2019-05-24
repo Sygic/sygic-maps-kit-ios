@@ -35,7 +35,7 @@ public class SYMKPoiDetailViewController: SYUIPoiDetailViewController {
     private var poiDetailDelegate: SYMKPoiDetailDelegate?
     
     /// Designated constructor with data as SYMKPoiDetailModel
-    init(with data: SYMKPoiDetailModel) {
+    public init(with data: SYMKPoiDetailModel) {
         self.data = data
         super.init(nibName: nil, bundle: nil)
     }

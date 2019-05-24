@@ -1,3 +1,25 @@
+//// BrowseMapWithSearch.swift
+//
+// Copyright (c) 2019 - Sygic a.s.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import SygicMapsKit
 import SygicUIKit
 import SygicMaps
@@ -15,25 +37,14 @@ class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter, 
         browseMap.useRecenterButton = true
         browseMap.useZoomControl = true
         browseMap.mapSelectionMode = .all
+        browseMap.setupActionButton(with: nil, icon: SYUIIcon.search) { [unowned self] in
+            self.searchButtonTapped()
+        }
         
         presentModule(browseMap)
-        
-        setupSearchButton(for: browseMap)
     }
     
-    private func setupSearchButton(for browseMap: SYMKBrowseMapViewController) {
-        let searchButton = SYUIActionButton()
-        searchButton.style = .secondary
-        searchButton.icon = SYUIIcon.search
-        searchButton.accessibilityIdentifier = "Search Button"
-        searchButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
-        searchButton.translatesAutoresizingMaskIntoConstraints = false
-        browseMap.view.addSubview(searchButton)
-        searchButton.trailingAnchor.constraint(equalTo: browseMap.view.safeTrailingAnchor, constant: -16).isActive = true
-        searchButton.bottomAnchor.constraint(equalTo: browseMap.view.safeBottomAnchor, constant: -16).isActive = true
-    }
-    
-    @objc private func tapped() {
+    private func searchButtonTapped() {
         let searchModule = SYMKSearchViewController()
         searchModule.delegate = self
         presentModule(searchModule)

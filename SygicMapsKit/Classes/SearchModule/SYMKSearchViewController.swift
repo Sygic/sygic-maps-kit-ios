@@ -40,7 +40,23 @@ public protocol SYMKSearchViewControllerDelegate: class {
     ///
     /// - Parameter searchController: Search module controller.
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController)
+    
+    
+    /// Delegate event for error state handling
+    ///
+    /// - Parameters:
+    ///   - searchController: Search module controller.
+    ///   - searchState: state to handle
+    /// - Returns: String message to display for received search state. Return nil if you don't what to display any message.
+    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchState: SYRequestResultState) -> String?
 }
+
+public extension SYMKSearchViewControllerDelegate {
+    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchState: SYRequestResultState) -> String? {
+        return searchState.stringMessage()
+    }
+}
+
 
 /// Search module.
 ///
@@ -58,15 +74,34 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     /// Delegate output for search controller.
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
+    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
+    ///
+    /// If search coordinates are not set and user doesn't have valid location, search doesn't return any results.
+    public var searchCoordinates: SYGeoCoordinate? {
+        didSet {
+            model?.coordinates = searchCoordinates
+        }
+    }
+    
+    /// Max number of results search returns.
+    public var maxResultsCount = SYMKSearchModel.maxResultsDefault {
+        didSet {
+            model?.maxResultsCount = maxResultsCount
+        }
+    }
+    
     // MARK: - Private properties
     
-    private let model = SYMKSearchModel()
+    private var model: SYMKSearchModel?
     
     // MARK: - Public methods
     
     override func sygicSDKInitialized() {
-        model.sdkInitialized()
+        model = SYMKSearchModel(maxResultsCount: maxResultsCount, coordinates: searchCoordinates)
         searchBarController.delegate = self
+        if !searchBarController.searchText.isEmpty {
+            search(for: searchBarController.searchText)
+        }
         resultsViewController.interactionBlock = { [weak self] in
             _ = self?.searchBarController.resignFirstResponder()
         }
@@ -88,21 +123,6 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         searchBarController.prefillSearch(with: text)
         search(for: text)
     }
-
-    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
-    ///
-    /// If search coordinates are not set and user doesn't have valid location, search doesn't return any results.
-    /// - Parameter coordinates: Coodinates to find results around.
-    public func searchCoordinates(coordinates: SYGeoCoordinate?) {
-        model.coordinates = coordinates
-    }
-    
-    /// Max number of results search returns.
-    ///
-    /// - Parameter count: Max results positive number.
-    public func maxResults(count: UInt) {
-        model.maxResultsCount = count
-    }
     
     public override func loadView() {
         let searchView = SYMKSearchView()
@@ -118,8 +138,26 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Private methods
     
     private func search(for query: String) {
+        guard let model = model, model.hasValidSearchPosition else {
+            self.triggerUserLocation(true)
+            return
+        }
+        
+        searchBarController.showLoadingIndicator(true)
+        
         model.search(with: query) { [weak self] (results, state) in
             self?.resultsViewController.data = results
+            self?.resultsViewController.showErrorMessage(self?.errorMessage(for: results, state))
+            self?.searchBarController.showLoadingIndicator(false)
+        }
+    }
+    
+    private func errorMessage(for results: [SYSearchResult], _ state: SYRequestResultState) -> String? {
+        guard results.count == 0 else { return nil }
+        if state == .success && !searchBarController.searchText.isEmpty {
+            return LS("No results found")
+        } else {
+            return state.stringMessage()
         }
     }
     

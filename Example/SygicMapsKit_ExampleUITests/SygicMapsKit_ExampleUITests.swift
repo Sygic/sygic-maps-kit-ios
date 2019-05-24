@@ -144,6 +144,37 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
     
     func testSearchExamples() {
         app.tables.staticTexts["Search"].tap()
+
+        // Search - Default
+        app.tables.cells.staticTexts["Search - Default"].tap()
+        app.typeText("Eurovea")
+        app.tables.staticTexts["Eurovea"].firstMatch.tap()
+        app.typeText("zzzzzzzzzzzzzzzz")
+        app.tables["Empty list"].tap()
+        app.navigationBars["SygicMapsKit.SYMKSearchView"].buttons["Search Examples"].tap()
+        
+        // Browse Map with Search
+        app.tables.cells.staticTexts["Browse Map with Search"].tap()
+        app/*@START_MENU_TOKEN@*/.buttons["Search Button"]/*[[".otherElements[\"view.browseModule.root\"].buttons[\"Search Button\"]",".buttons[\"Search Button\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.typeText("Sygic")
+        app.tables.cells.firstMatch.tap()
+        app.alerts.buttons["Ok"].tap()
+        app.navigationBars["SygicMapsKit_Example.BrowseMapWithSearchView"].buttons["Search Examples"].tap()
+        
+        // Search Results on map
+        app.tables.cells.staticTexts["Search Results on map"].tap()
+        app/*@START_MENU_TOKEN@*/.buttons["Search Button"]/*[[".otherElements[\"view.browseModule.root\"].buttons[\"Search Button\"]",".buttons[\"Search Button\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.typeText("Sygic")
+        app.tables.cells.firstMatch.tap()
+        XCUIApplication().tables["PoiDetailView.tableView"]/*@START_MENU_TOKEN@*/.staticTexts["PoiDetailAddressCell.titleLabel"]/*[[".cells",".staticTexts[\"Sygic\"]",".staticTexts[\"PoiDetailAddressCell.titleLabel\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        XCUIApplication().navigationBars["SygicMapsKit_Example.BrowseMapWithSearchResults"].buttons["Search Examples"].tap()
+        
+        // Prefill Search
+        app.tables.cells.staticTexts["Prefill Search"].tap()
+        app.tables.cells.firstMatch.tap()
+        app.navigationBars["SygicMapsKit.SYMKSearchView"].buttons["Search Examples"].tap()
+        
     }
 
 }
+
