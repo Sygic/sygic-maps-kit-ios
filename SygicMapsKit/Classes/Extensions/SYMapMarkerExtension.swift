@@ -34,16 +34,8 @@ public extension SYMapMarker {
     ///   - color: color of marker image
     convenience init(with payload: SYMKPoiData, icon: String = SYUIIcon.POIPoi, color: UIColor = .action) {
         let pinView = SYUIPinView(icon: icon, color: color, highlighted: true)
-        self.init(coordinate: payload.location, image: pinView.imageFromView()!, payload: payload)
-    }
-}
-
-extension SYMapMarker: SYMKMapMarker {
-    public var mapMarker: SYMapMarker { return self }
-    public var highlighted: Bool {
-        get {
-            return false
-        }
-        set {}
+        let pinImage = pinView.imageFromView()! 
+        self.init(coordinate: payload.location, image: pinImage, payload: payload)
+        anchorPosition = CGPoint(x: 0.5, y: 1)
     }
 }

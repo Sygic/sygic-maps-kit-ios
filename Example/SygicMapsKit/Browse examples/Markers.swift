@@ -35,9 +35,6 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
         title = "Custom Markers Example"
 
         let browseMapModule = SYMKBrowseMapViewController()
-        browseMapModule.useRecenterButton = true
-        browseMapModule.useZoomControl = true
-        browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .markers
         browseMapModule.customMarkers = customMarkers()
         browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!
@@ -54,7 +51,7 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
     }
     
     private func markerWithEverything() -> SYMapMarker {
-        var data = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!)
+        let data = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!)
         data.name = "Super custom POI"
         data.street = "Mlynske Nivy"
         data.houseNumber = "16"
