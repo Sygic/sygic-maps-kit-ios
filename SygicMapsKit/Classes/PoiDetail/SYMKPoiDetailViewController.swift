@@ -30,7 +30,7 @@ import SygicUIKit
 /// SYMKPoiDetailModel. Controller creates data source as SYMKPoiDetailDataSource and delegate as SYMKPoiDetailDelegate itself.
 public class SYMKPoiDetailViewController: SYUIPoiDetailViewController {
     
-    private let data: SYMKPoiDetailModel
+    private var data: SYMKPoiDetailModel?
     private var poiDetailDataSource: SYMKPoiDetailDataSource?
     private var poiDetailDelegate: SYMKPoiDetailDelegate?
     
@@ -44,13 +44,25 @@ public class SYMKPoiDetailViewController: SYUIPoiDetailViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    init () {
+        super.init(nibName: nil, bundle: nil)
+        showLoadingIndicator(true)
+    }
+    
     override public func viewDidLoad() {
+        if let data = data {
+            update(with: data)
+        }
+        super.viewDidLoad()
+    }
+    
+    public func update(with data: SYMKPoiDetailModel) {
         poiDetailDataSource = SYMKPoiDetailDataSource(with: data)
         poiDetailDelegate = SYMKPoiDetailDelegate(with: data, controller: self)
         
         dataSource = poiDetailDataSource
         delegate = poiDetailDelegate
         
-        super.viewDidLoad()
+        showLoadingIndicator(false)
     }
 }
