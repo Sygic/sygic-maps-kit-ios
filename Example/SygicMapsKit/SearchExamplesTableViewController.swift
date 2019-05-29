@@ -8,7 +8,7 @@ class SearchExamplesTableViewController: UITableViewController {
     let modulesData = [
         ModuleData(title: "Search - Default", subtitle: "Search module with geo coordinates", image: "preview-search-basic"),
         ModuleData(title: "Browse Map with Search", subtitle: "Browse Map module with action button transitioning to search", image: "preview-search-browsemap"),
-        ModuleData(title: "Search Results on map", subtitle: "Browse map module with search results", image: "preview-search-results"),
+        ModuleData(title: "Search Results on Map", subtitle: "Browse map module with search results", image: "preview-search-results"),
         ModuleData(title: "Prefill Search", subtitle: "Search module with prefill search and geo coordinates", image: "preview-search-basic")
     ]
     
@@ -49,6 +49,7 @@ class SearchExamplesTableViewController: UITableViewController {
         case 3:
             let searchModule = SYMKSearchViewController()
             searchModule.searchCoordinates = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+            searchModule.maxResultsCount = 5
             searchModule.prefillSearch(with: "OMV")
             navigationController?.pushViewController(searchModule, animated: true)
         default:

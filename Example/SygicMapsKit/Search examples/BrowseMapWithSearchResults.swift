@@ -129,20 +129,21 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     
     private func resultSheetWithSearchResults(results: [SYMapSearchResult], browseMap: SYMKBrowseMapViewController) {
         resultsTableViewController = SYUISearchResultsTableViewController<SYMapSearchResult>()
-        resultsTableViewController?.data = results
-        resultsTableViewController?.selectionBlock = { [weak self] result in
+        guard let resultsTable = resultsTableViewController else { return }
+        resultsTable.data = results
+        resultsTable.selectionBlock = { [weak self] result in
             if let coordinate = result.coordinate {
                 let poiData = SYMKPoiData(with: coordinate)
                 let pin = SYMKMapPin(data: poiData, highlighted: true)!
                 self?.addPin(on: browseMap, pin: pin, poiData: poiData)
             }
         }
-        view.addSubview(resultsTableViewController!.view)
-        resultsTableViewController!.view.translatesAutoresizingMaskIntoConstraints = false
-        resultsTableViewController!.view.safeTrailingAnchor.constraint(equalTo: view.safeTrailingAnchor).isActive = true
-        resultsTableViewController!.view.safeLeadingAnchor.constraint(equalTo: view.safeLeadingAnchor).isActive = true
-        resultsTableViewController!.view.safeBottomAnchor.constraint(equalTo: view.safeBottomAnchor).isActive = true
-        resultsTableViewController!.view.safeTopAnchor.constraint(equalTo: view.bottomAnchor, constant: -300).isActive = true
+        view.addSubview(resultsTable.view)
+        resultsTable.view.translatesAutoresizingMaskIntoConstraints = false
+        resultsTable.view.safeTrailingAnchor.constraint(equalTo: view.safeTrailingAnchor).isActive = true
+        resultsTable.view.safeLeadingAnchor.constraint(equalTo: view.safeLeadingAnchor).isActive = true
+        resultsTable.view.safeBottomAnchor.constraint(equalTo: view.safeBottomAnchor).isActive = true
+        resultsTable.view.safeTopAnchor.constraint(equalTo: view.bottomAnchor, constant: -300).isActive = true
     }
     
     private func resultSheetWithPoisFromCategoryOrGroup(result: SYMapSearchResult) {
