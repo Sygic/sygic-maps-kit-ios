@@ -365,9 +365,7 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
-        if poiDetailViewController != nil {
-            updatePoiDetail(with: poiData)
-        }
+        updatePoiDetail(with: poiData)
         delegate?.browseMapController(self, didSelect: poiData)
     }
     
