@@ -25,7 +25,7 @@ import SygicUIKit
 import SygicMaps
 
 
-class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter, SYMKSearchViewControllerDelegate {
+class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
     
@@ -49,6 +49,10 @@ class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter, 
         searchModule.delegate = self
         presentModule(searchModule)
     }
+
+}
+
+extension BrowseMapWithSearchViewController: SYMKSearchViewControllerDelegate {
     
     func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
         dismissModule()
@@ -60,7 +64,7 @@ class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter, 
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController) {
         dismissModule()
     }
-
+    
 }
 
 

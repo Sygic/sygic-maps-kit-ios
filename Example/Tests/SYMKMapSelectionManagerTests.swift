@@ -41,6 +41,8 @@ extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
         return SYMapMarker(with: SYMKPoiData(with: location))
     }
     
+    func mapSelectionWillSelectData(_ mapSelection: SYMKMapSelectionManager) { }
+    
     func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         selectedData = poiData
     }
@@ -48,8 +50,6 @@ extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
     func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         return true
     }
-    
-    func mapSelectionDeselectAll() { }
     
     func mapSelectionPoiDetailWasShown() -> Bool {
         return true

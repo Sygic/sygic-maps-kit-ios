@@ -33,6 +33,9 @@ public protocol SYMKMapSelectionDelegate: class {
     /// - Parameter poiData: poi data of selected place on map.
     func mapSelection(didSelect poiData: SYMKPoiDataProtocol)
     
+    /// Informs delegate that map selection will select data in `mapSelection(didSelect poiData: SYMKPoiDataProtocol)` call.
+    func mapSelectionWillSelectData(_ mapSelection: SYMKMapSelectionManager)
+    
     /// Delegate method that asks for pin added to map.
     ///
     /// - Parameter coordinates: Pin coordinatss.
@@ -51,9 +54,6 @@ public protocol SYMKMapSelectionDelegate: class {
     ///
     /// - Returns: If poi detail was shown.
     func mapSelectionPoiDetailWasShown() -> Bool
-    
-    /// Tells delegate to deselect elements after tap to map.
-    func mapSelectionDeselectAll()
 }
 
 /// Map selection manager.
@@ -119,7 +119,6 @@ public class SYMKMapSelectionManager {
         let pinWasShown = defaultMarker != nil
         let poiDetailWasShown = delegate?.mapSelectionPoiDetailWasShown()
         
-        delegate?.mapSelectionDeselectAll()
         if let markerShown = defaultMarker {
             mapView?.remove(markerShown)
             defaultMarker = nil
@@ -188,6 +187,7 @@ public class SYMKMapSelectionManager {
     // MARK: - Selection
     
     private func selectViewObject(_ object: SYViewObject) {
+        delegate?.mapSelectionWillSelectData(self)
         if let poi = object as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
             selectMapPoi(poi)
         } else if let marker = object as? SYMapMarker {
