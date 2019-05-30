@@ -129,6 +129,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /// Enables recenter button functionality.
     /// Button is automatically shown if map camera isn't centered to current position.
     /// After tapping recenter button, camera is automatically recentered and button disappears.
+    /// Recenter button requires showUserLocation to be true and turns it ON automatically when locking maps camera.
     public var useRecenterButton = false
     
     /// Enables bounce in animation on first appearance of default poi detail bottom sheet
@@ -138,6 +139,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public var showUserLocation = false {
         didSet {
             triggerUserLocation(showUserLocation)
+            if let mapController = mapController {
+                mapController.mapView.positionIndicator.visible = showUserLocation
+            }
         }
     }
     
@@ -273,9 +277,16 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         
     // MARK: - Private Methods
     
+    deinit {
+        if showUserLocation {
+            showUserLocation = false
+        }
+    }
+    
     internal override func sygicSDKInitialized() {
-        triggerUserLocation(showUserLocation)
         setupMapController()
+        let applyLocationValue = showUserLocation
+        showUserLocation = applyLocationValue
         setupViewDelegates()
     }
     
