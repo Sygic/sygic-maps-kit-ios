@@ -65,7 +65,7 @@ public class SYMKMapPin: SYMKMapMarker {
     }
     
     public convenience init?(data: SYMKPoiData, icon: String = SYUIIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
-        self.init(coordinate: data.coordinate, icon: icon, color: color, highlighted: highlighted)
+        self.init(coordinate: data.location, icon: icon, color: color, highlighted: highlighted)
         self.data = data
     }
 

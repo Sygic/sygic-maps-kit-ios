@@ -79,7 +79,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         map.tap()
         
         let alertButton = app.alerts.buttons["Ok"]
-        XCTAssertTrue(alertButton.waitForExistence(timeout: 2))
+        XCTAssertTrue(alertButton.waitForExistence(timeout: 5))
         alertButton.tap()
         
         app.navigationBars["Custom Tap Handling Example"].buttons["Browse Map Examples"].tap()
@@ -95,7 +95,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         map.tap()
         
         let annotation = map.otherElements.matching(identifier: "DataAnnotation").element
-        XCTAssertTrue(annotation.waitForExistence(timeout: 2))
+        XCTAssertTrue(annotation.waitForExistence(timeout: 5))
         
         app.navigationBars["Custom marker info demo"].buttons["Browse Map Examples"].tap()
         
@@ -117,7 +117,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         XCTAssertTrue(map.waitForExistence(timeout: 5))
         map.tap()
         
-        XCTAssertTrue(app.staticTexts["Super custom POI"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["Super custom POI"].waitForExistence(timeout: 5))
         
         app.navigationBars["Custom Markers Example"].buttons["Browse Map Examples"].tap()
         

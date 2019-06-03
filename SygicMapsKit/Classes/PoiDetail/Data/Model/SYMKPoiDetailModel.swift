@@ -29,7 +29,7 @@ import SygicUIKit
 /// Protocol for poi data
 public protocol SYMKPoiDataProtocol {
     /// POI geo coordinates (latitude, longitude)
-    var coordinate: SYGeoCoordinate { get }
+    var location: SYGeoCoordinate { get }
     /// POI name (optional)
     var name: String? { get }
     /// POI address
@@ -58,8 +58,8 @@ public protocol SYMKPoiDetailModel: SYMKPoiDataProtocol {
 }
 
 /// Implementation of poi data protocol
-public struct SYMKPoiData: SYMKPoiDataProtocol {
-    public var coordinate: SYGeoCoordinate
+public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
+    public var location: SYGeoCoordinate
     public var name: String? = nil
     public var street: String? = nil
     public var houseNumber: String? = nil
@@ -68,18 +68,32 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
     public var phone: String? = nil
     public var email: String? = nil
     public var website: String? = nil
+    public var customData: NSCoding? = nil
+    
+    private enum EncodeKeys: String {
+        case location = "KeyLocation"
+        case name = "KeyName"
+        case street = "KeyStreet"
+        case houseNumber = "KeyHouseNumber"
+        case city = "KeyCity"
+        case postal = "KeyPostal"
+        case phone = "KeyPhone"
+        case email = "KeyEmail"
+        case website = "KeyWebsite"
+        case data = "KeyData"
+    }
     
     /// Basic initializer only with mandatory attributes
     ///
     /// - Parameter coordinate: geo coordinates
-    public init(with coordinate: SYGeoCoordinate) {
-        self.coordinate = coordinate
+    public init(with location: SYGeoCoordinate) {
+        self.location = location
     }
     
     /// Initializer used with map place data
     ///
     /// - Parameter place: map place provided by SYMapView
-    public init(with place: SYPlace) {
+    public convenience init(with place: SYPlace) {
         self.init(with: place.coordinate)
         
         street = place.locationInfo?.street
@@ -99,7 +113,7 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
     /// Initializer used with reverse search data (address point)
     ///
     /// - Parameter reverseResult: search result provided by SYReverseSearch for geo coordinates
-    public init(with reverseResult: SYReverseSearchResult) {
+    public convenience init(with reverseResult: SYReverseSearchResult) {
         self.init(with: reverseResult.coordinate)
         
         if let resultStreet = reverseResult.resultDescription.street, !resultStreet.isEmpty {
@@ -113,7 +127,10 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
         }
     }
     
-    public init(with poiDetail: SYSearchResultDetailPoi) {
+    /// Initializer used with search poi data
+    ///
+    /// - Parameter poiDetail: search result detail provided by SYSearch for detail request on SYMapSearchResult
+    public convenience init(with poiDetail: SYSearchResultDetailPoi) {
         self.init(with: poiDetail.coordinate ?? SYGeoCoordinate())
         
         name = poiDetail.name
@@ -126,6 +143,32 @@ public struct SYMKPoiData: SYMKPoiDataProtocol {
         phone = poiDetail.locationInfo.phone
         email = poiDetail.locationInfo.email
         website = poiDetail.locationInfo.website
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        location = aDecoder.decodeObject(forKey: EncodeKeys.location.rawValue) as! SYGeoCoordinate
+        name = aDecoder.decodeObject(forKey: EncodeKeys.name.rawValue) as? String
+        street = aDecoder.decodeObject(forKey: EncodeKeys.street.rawValue) as? String
+        houseNumber = aDecoder.decodeObject(forKey: EncodeKeys.houseNumber.rawValue) as? String
+        city = aDecoder.decodeObject(forKey: EncodeKeys.city.rawValue) as? String
+        postal = aDecoder.decodeObject(forKey: EncodeKeys.postal.rawValue) as? String
+        phone = aDecoder.decodeObject(forKey: EncodeKeys.phone.rawValue) as? String
+        email = aDecoder.decodeObject(forKey: EncodeKeys.email.rawValue) as? String
+        website = aDecoder.decodeObject(forKey: EncodeKeys.website.rawValue) as? String
+        customData = aDecoder.decodeObject(forKey: EncodeKeys.data.rawValue) as? NSCoding
+    }
+    
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(location, forKey: EncodeKeys.location.rawValue)
+        aCoder.encode(name, forKey: EncodeKeys.name.rawValue)
+        aCoder.encode(street, forKey: EncodeKeys.street.rawValue)
+        aCoder.encode(houseNumber, forKey: EncodeKeys.houseNumber.rawValue)
+        aCoder.encode(city, forKey: EncodeKeys.city.rawValue)
+        aCoder.encode(postal, forKey: EncodeKeys.postal.rawValue)
+        aCoder.encode(phone, forKey: EncodeKeys.phone.rawValue)
+        aCoder.encode(email, forKey: EncodeKeys.email.rawValue)
+        aCoder.encode(website, forKey: EncodeKeys.website.rawValue)
+        aCoder.encode(customData, forKey: EncodeKeys.data.rawValue)
     }
     
     private func formattedAddress(from street: String? = nil, houseNumber: String? = nil, city: String? = nil, postal: String? = nil) -> String? {
@@ -177,7 +220,7 @@ extension SYMKPoiData: SYMKPoiDetailModel {
         } else if let postalAndCity = formattedAddress(city: city, postal: postal) {
             return postalAndCity
         }
-        return coordinate.string
+        return location.string
     }
     
     public var poiDetailSubtitle: String? {

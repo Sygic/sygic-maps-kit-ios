@@ -21,13 +21,13 @@ class SYMKMapSelectionManagerTests: QuickSpec {
                     
                     let mockData = SYMKPoiData(with: SYGeoCoordinate(latitude: 47, longitude: 52)!)
                     
-                    let pin = SYMKMapPin(data: mockData)!
-                    self.selectionManager.addCustomPin(pin)
+                    let marker = SYMapMarker(with: mockData)
+                    self.selectionManager.addCustomMarker(marker)
                     
-                    self.selectionManager.selectMapObjects([pin.mapMarker])
+                    self.selectionManager.selectMapObjects([marker])
                     
                     expect(self.selectedData).to(beAKindOf(SYMKPoiData.self))
-                    expect(self.selectedData?.coordinate).to(beIdenticalTo(mockData.coordinate))
+                    expect(self.selectedData?.location).to(beIdenticalTo(mockData.location))
                 }
             }
         }
@@ -37,8 +37,8 @@ class SYMKMapSelectionManagerTests: QuickSpec {
 
 extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
     
-    func mapSelectionShouldAddPinToMap(coordinates: SYGeoCoordinate) -> SYMKMapPin? {
-        return SYMKMapPin(coordinate: coordinates, highlighted: true)
+    func mapSelectionShouldAddMarkerToMap(location: SYGeoCoordinate) -> SYMapMarker? {
+        return SYMapMarker(with: SYMKPoiData(with: location))
     }
     
     func mapSelectionWillSelectData(_ mapSelection: SYMKMapSelectionManager) { }
@@ -47,7 +47,7 @@ extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
         selectedData = poiData
     }
     
-    func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, coordinates: SYGeoCoordinate) -> Bool {
+    func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         return true
     }
     

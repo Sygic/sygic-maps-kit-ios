@@ -53,12 +53,12 @@ class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter {
         presentModule(searchModule)
     }
 
-    func addPin(on browseMap: SYMKBrowseMapViewController, pin: SYMKMapPin, poiData: SYMKPoiData) {
-        browseMap.customMarkers = [pin]
+    func addMarker(on browseMap: SYMKBrowseMapViewController, marker: SYMapMarker, poiData: SYMKPoiData) {
+        browseMap.customMarkers = [marker]
         poiDetail = SYMKPoiDetailViewController(with: poiData)
         poiDetail!.defaultMinimizedHeight = 300
         poiDetail!.presentPoiDetailAsChildViewController(to: self, completion: nil)
-        browseMap.mapState.geoCenter = pin.coordinate
+        browseMap.mapState.geoCenter = marker.coordinate!
     }
     
 }
@@ -111,20 +111,20 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
             guard let detailedPoi = poiDetail as? SYSearchResultDetailPoi else { return }
             let poiData = SYMKPoiData(with: detailedPoi)
             let category = SYMKPoiCategory.with(syPoiCategory: detailedPoi.category)
-            let pin = SYMKMapPin(data: poiData, icon: category.icon, color: category.color, highlighted: true)!
-            self.addPin(on: browseMap, pin: pin, poiData: poiData)
+            let pin = SYMapMarker(with: poiData, icon: category.icon, color: category.color)
+            self.addMarker(on: browseMap, marker: pin, poiData: poiData)
         }
     }
     
     private func addSearchResultToMap(result: SYMapSearchResult, browseMap: SYMKBrowseMapViewController) {
         guard let resultCoordinate = result.coordinate else { return }
-        var poiData = SYMKPoiData(with: resultCoordinate)
+        let poiData = SYMKPoiData(with: resultCoordinate)
         poiData.street = result.resultLabels.street?.value
         poiData.city = result.resultLabels.city?.value
         poiData.postal = result.resultLabels.postal?.value
         poiData.houseNumber = result.resultLabels.leftNumber?.value ?? result.resultLabels.rightNumber?.value
-        let pin = SYMKMapPin(data: poiData, highlighted: true)!
-        addPin(on: browseMap, pin: pin, poiData: poiData)
+        let pin = SYMapMarker(with: poiData)
+        addMarker(on: browseMap, marker: pin, poiData: poiData)
     }
     
     private func resultSheetWithSearchResults(results: [SYMapSearchResult], browseMap: SYMKBrowseMapViewController) {
@@ -134,8 +134,8 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
         resultsTable.selectionBlock = { [weak self] result in
             if let coordinate = result.coordinate {
                 let poiData = SYMKPoiData(with: coordinate)
-                let pin = SYMKMapPin(data: poiData, highlighted: true)!
-                self?.addPin(on: browseMap, pin: pin, poiData: poiData)
+                let pin = SYMapMarker(with: poiData)
+                self?.addMarker(on: browseMap, marker: pin, poiData: poiData)
             }
         }
         view.addSubview(resultsTable.view)
