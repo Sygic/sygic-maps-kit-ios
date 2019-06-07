@@ -15,7 +15,9 @@ class AwesomeMenuViewController: UIViewController {
             naviBar.setBackgroundImage(UIImage(), for: .default)
             naviBar.shadowImage = UIImage()
             naviBar.isTranslucent = true
+            naviBar.tintColor = UIColor(red: 32.0/255.0, green: 93.0/255.0, blue: 1, alpha: 1)
         }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "blueLogo"), style: .plain, target: nil, action: nil)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
@@ -25,12 +27,6 @@ class AwesomeMenuViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        let imageView = UIImageView(image: UIImage(named: "blueLogo"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageView)
-        imageView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 24).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: -38).isActive = true
     }
 
 }
@@ -66,7 +62,9 @@ extension AwesomeMenuViewController: UITableViewDelegate, UITableViewDataSource 
             collectionCell.delegate = self
             return collectionCell
         } else if indexPath.section == 2 {
-            return ShowAllTableCell()
+            let cell = ShowAllTableCell()
+            cell.setup()
+            return cell
         }
         
         let cell = UITableViewCell(style: .default, reuseIdentifier: "identifier")
@@ -159,20 +157,17 @@ extension AwesomeMenuViewController: CollectionTableViewCellDelegate {
 
 class ShowAllTableCell: UITableViewCell {
     let title = UILabel()
-
-    init() {
-        super.init(style: .default, reuseIdentifier: "identifier")
+    func setup() {
+        backgroundColor = .clear
+        heightAnchor.constraint(equalToConstant: 56).isActive = true
+        
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.headingOld)
         title.text = "VIEW ALL EXAMPLES →"
         title.textColor = UIColor(red: 32.0/255.0, green: 93.0/255.0, blue: 1, alpha: 1)
         contentView.addSubview(title)
-        contentView.heightAnchor.constraint(equalToConstant: 56).isActive = true
         title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         title.leadingAnchor.constraint(equalTo: contentView.safeLeadingAnchor, constant: 24).isActive = true
-    }
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 }
 
@@ -273,6 +268,9 @@ class CollectionCell: UICollectionViewCell {
         label.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
         imageView.setupDefaultShadow()
+        
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 16
     }
     
     func update(with image: UIImage?, text: String) {
@@ -284,12 +282,6 @@ class CollectionCell: UICollectionViewCell {
         super.prepareForReuse()
         imageView.image = nil
         label.text = ""
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 16
     }
 }
 
@@ -345,28 +337,15 @@ extension SmallerCollectionTableViewCell: UICollectionViewDataSource, UICollecti
     }
 }
 
-class SmallerCollectionCell: UICollectionViewCell {
-    let imageView = UIImageView()
-    let background = UIView()
-    let label = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setup() {
+class SmallerCollectionCell: CollectionCell {
+    override func setup() {
         backgroundColor = .clear
         
-        background.translatesAutoresizingMaskIntoConstraints = false
-        background.backgroundColor = .textTitle
-        contentView.addSubview(background)
-        background.coverWholeSuperview()
-        contentView.setupDefaultShadow()
+        imageHolder.translatesAutoresizingMaskIntoConstraints = false
+        imageHolder.backgroundColor = .textTitle
+        contentView.addSubview(imageHolder)
+        imageHolder.coverWholeSuperview()
+        imageHolder.setupDefaultShadow()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imageView)
@@ -383,23 +362,9 @@ class SmallerCollectionCell: UICollectionViewCell {
         label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
         label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
-        imageView.setupDefaultShadow()
-    }
-    
-    func update(with image: UIImage?, text: String) {
-        imageView.image = image
-        label.text = text
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-        label.text = nil
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        background.clipsToBounds = true
-        background.layer.cornerRadius = 16
+        contentView.setupDefaultShadow()
+        
+        imageHolder.clipsToBounds = true
+        imageHolder.layer.cornerRadius = 16
     }
 }
