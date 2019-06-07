@@ -20,6 +20,7 @@
 		589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB07D21EF96F30082F7C4 /* ZZZTest.swift */; };
 		589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */; };
 		58C2B61A2245335500C2810F /* KIFHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C2B6192245335500C2810F /* KIFHelpers.swift */; };
+		58D2F2D022AA4FCD0078FF5B /* AwesomeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D2F2CF22AA4FCD0078FF5B /* AwesomeMenuViewController.swift */; };
 		58D3D33821E7A65500E11D1D /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D3D33721E7A65500E11D1D /* Markers.swift */; };
 		5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
@@ -89,6 +90,7 @@
 		589CB07D21EF96F30082F7C4 /* ZZZTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZZTest.swift; sourceTree = "<group>"; };
 		589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMKSDKInitializationTests.swift; sourceTree = "<group>"; };
 		58C2B6192245335500C2810F /* KIFHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIFHelpers.swift; sourceTree = "<group>"; };
+		58D2F2CF22AA4FCD0078FF5B /* AwesomeMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwesomeMenuViewController.swift; sourceTree = "<group>"; };
 		58D3D33721E7A65500E11D1D /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
 		5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
@@ -220,6 +222,14 @@
 			path = "Browse examples";
 			sourceTree = "<group>";
 		};
+		58D2F2CE22AA4FCD0078FF5B /* TvMenu */ = {
+			isa = PBXGroup;
+			children = (
+				58D2F2CF22AA4FCD0078FF5B /* AwesomeMenuViewController.swift */,
+			);
+			path = TvMenu;
+			sourceTree = "<group>";
+		};
 		5C9B71E922293C6D00896FCD /* Search examples */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +267,7 @@
 		607FACD21AFB9204008FA782 /* Example for SygicMapsKit */ = {
 			isa = PBXGroup;
 			children = (
+				58D2F2CE22AA4FCD0078FF5B /* TvMenu */,
 				5C9B71E922293C6D00896FCD /* Search examples */,
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				583EE956224E5D8E00A7592A /* Navigation examples */,
@@ -723,6 +734,7 @@
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
 				5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
+				58D2F2D022AA4FCD0078FF5B /* AwesomeMenuViewController.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,

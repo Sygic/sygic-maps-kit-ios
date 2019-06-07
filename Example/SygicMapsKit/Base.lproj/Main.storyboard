@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kVQ-HA-Odu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YRn-pG-m4N">
     <device id="retina6_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="b6i-Q0-u2e">
+            <objects>
+                <navigationController id="YRn-pG-m4N" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9K7-OV-sI4">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4cQ-Wc-WMf" kind="relationship" relationship="rootViewController" id="Gb7-Ye-FwW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WbR-g9-TxU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1236" y="1481"/>
+        </scene>
         <!--Sygic Maps Kit Samples-->
         <scene sceneID="2hG-ez-9RE">
             <objects>
@@ -94,6 +110,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wqL-fb-But" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-816" y="787"/>
+        </scene>
+        <!--Awesome Menu View Controller-->
+        <scene sceneID="TV4-05-xX6">
+            <objects>
+                <viewController id="4cQ-Wc-WMf" customClass="AwesomeMenuViewController" customModule="SygicMapsKit_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Wxd-Qa-pKn"/>
+                        <viewControllerLayoutGuide type="bottom" id="GBl-BC-RMv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JBe-YY-Tqo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Nvg-nk-L0o"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1i1-vY-8LC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-391" y="1499"/>
         </scene>
     </scenes>
     <resources>
