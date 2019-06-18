@@ -125,7 +125,7 @@ public class SYMKBrowseMapView: UIView {
         button.title = title
         button.style = style
         button.icon = icon
-        button.accessibilityIdentifier = "BottomActionButton"
+        button.accessibilityIdentifier = "BrowseMapBottomActionButton"
         button.addTarget(self, action: #selector(actionButtonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         addSubview(button)

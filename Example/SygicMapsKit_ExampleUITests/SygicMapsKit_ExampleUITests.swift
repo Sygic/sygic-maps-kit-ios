@@ -51,7 +51,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         map.tap()
         
         let poiDetailHeaderTitle = app.tables["PoiDetailView.tableView"].staticTexts["PoiDetailAddressCell.titleLabel"]
-        XCTAssertTrue(poiDetailHeaderTitle.waitForExistence(timeout: 2))
+        XCTAssertTrue(poiDetailHeaderTitle.waitForExistence(timeout: 5))
         poiDetailHeaderTitle.tap()
         
         app.tables["PoiDetailView.tableView"]/*@START_MENU_TOKEN@*/.cells.staticTexts["GPS"].press(forDuration: 1.0);/*[[".cells.staticTexts[\"GPS\"]",".tap()",".press(forDuration: 1.0);",".staticTexts[\"GPS\"]"],[[[-1,3,1],[-1,0,1]],[[-1,2],[-1,1]]],[1,0]]@END_MENU_TOKEN@*/
@@ -155,18 +155,18 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         
         // Browse Map with Search
         app.tables.cells.staticTexts["Browse Map with Search"].tap()
-        app/*@START_MENU_TOKEN@*/.buttons["Search Button"]/*[[".otherElements[\"view.browseModule.root\"].buttons[\"Search Button\"]",".buttons[\"Search Button\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["BrowseMapBottomActionButton"].tap()
         app.typeText("Sygic")
         app.tables.cells.firstMatch.tap()
         app.alerts.buttons["Ok"].tap()
         app.navigationBars["SygicMapsKit_Example.BrowseMapWithSearchView"].buttons["Search Examples"].tap()
         
         // Search Results on map
-        app.tables.cells.staticTexts["Search Results on map"].tap()
-        app/*@START_MENU_TOKEN@*/.buttons["Search Button"]/*[[".otherElements[\"view.browseModule.root\"].buttons[\"Search Button\"]",".buttons[\"Search Button\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.tables.cells.staticTexts["Search Results on Map"].tap()
+        app.buttons["BrowseMapBottomActionButton"].tap()
         app.typeText("Sygic")
         app.tables.cells.firstMatch.tap()
-        XCUIApplication().tables["PoiDetailView.tableView"]/*@START_MENU_TOKEN@*/.staticTexts["PoiDetailAddressCell.titleLabel"]/*[[".cells",".staticTexts[\"Sygic\"]",".staticTexts[\"PoiDetailAddressCell.titleLabel\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        // TODO: detect map marker
         XCUIApplication().navigationBars["SygicMapsKit_Example.BrowseMapWithSearchResults"].buttons["Search Examples"].tap()
         
         // Prefill Search
