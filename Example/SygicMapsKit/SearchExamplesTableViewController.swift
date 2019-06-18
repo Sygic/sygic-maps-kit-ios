@@ -48,9 +48,9 @@ class SearchExamplesTableViewController: UITableViewController {
             navigationController?.pushViewController(BrowseMapWithSearchResults(), animated: true)
         case 3:
             let searchModule = SYMKSearchViewController()
-            searchModule.searchCoordinates = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+            searchModule.searchCoordinates = SYGeoCoordinate(latitude: 51.507320, longitude: -0.127786)!
             searchModule.maxResultsCount = 5
-            searchModule.prefillSearch(with: "OMV")
+            searchModule.prefillSearch(with: "London Eye")
             navigationController?.pushViewController(searchModule, animated: true)
         default:
             break

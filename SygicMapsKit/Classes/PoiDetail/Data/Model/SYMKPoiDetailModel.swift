@@ -127,6 +127,23 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
         }
     }
     
+    /// Initailizer used with map search result. Extracts basic address info. Initializer will fail if search result location is nil (Group or Category result).
+    ///
+    /// - Parameter mapResult: SYMapSearchResult
+    public convenience init?(with mapResult: SYMapSearchResult) {
+        guard let location = mapResult.coordinate else { return nil }
+        self.init(with: location)
+        if mapResult.mapResultType == .poi {
+            if let poi = mapResult.resultLabels.poi?.value {
+                name = poi
+            }
+        }
+        street = mapResult.resultLabels.street?.value
+        city = mapResult.resultLabels.city?.value
+        postal = mapResult.resultLabels.postal?.value
+        houseNumber = mapResult.resultLabels.addressPoint?.value
+    }
+    
     /// Initializer used with search poi data
     ///
     /// - Parameter poiDetail: search result detail provided by SYSearch for detail request on SYMapSearchResult

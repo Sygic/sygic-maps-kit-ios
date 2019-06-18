@@ -88,6 +88,8 @@ public class SYMKMapState: NSCopying {
         return tilt >= 0.01
     }
     
+    var boundingBoxSetting: SYGeoBoundingBox?
+    
     /// Initializes and returns map. If map isn't already initialized, returns new map instance with defined state values.
     ///
     /// - Parameter frame: Initial frame of a map. Default is `CGRect.zero`.
@@ -99,6 +101,23 @@ public class SYMKMapState: NSCopying {
             map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
             map?.accessibilityLabel = "Map"
             return map!
+        }
+    }
+    
+    /// Sets visible map rectangle defined by parameters
+    ///
+    /// - Parameters:
+    ///   - boundingBox: visible bounding box to be set
+    ///   - edgeInsets: map edge insets around visible bounding box (in relative screen coordinates <0,1>)
+    ///   - duration: map transition animation duration
+    ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
+    public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
+        self.boundingBoxSetting = boundingBox
+        if map?.boundingBox != boundingBox {
+            map?.setViewBoundingBox(boundingBox, with: edgeInsets, duration: duration, curve: .accelerateDecelerate) { [weak self] (animId, success) in
+                self?.boundingBoxSetting = nil
+                completion?(success)
+            }
         }
     }
     
@@ -122,6 +141,7 @@ extension SYMapView {
     ///
     /// - Parameter mapState: State for map.
     public func setup(with mapState: SYMKMapState) {
+        guard mapState.boundingBoxSetting == nil else { return }
         geoCenter = mapState.geoCenter
         zoom = mapState.zoom
         rotation = mapState.rotation

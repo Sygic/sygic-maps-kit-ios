@@ -29,15 +29,8 @@ class SYMKSearchModel {
     
     static let maxResultsDefault: UInt = 10
     
-    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
+    /// Search find results around this coordinates. If they are not set, search engine will find best results all around the world.
     public var coordinates: SYGeoCoordinate?
-    
-    public var hasValidSearchPosition: Bool {
-        if coordinates == nil && SYPositioning.shared().lastKnownLocation?.coordinate == nil {
-            return false
-        }
-        return true
-    }
     
     /// Max number of results search returns.
     public var maxResultsCount = SYMKSearchModel.maxResultsDefault
@@ -74,8 +67,7 @@ class SYMKSearchModel {
             response([], .success)
             return
         }
-        let position = coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
-        let request = SYSearchRequest(query: query, atLocation: position)
+        let request = SYSearchRequest(query: query, atLocation: coordinates)
         request.maxResultsCount = maxResultsCount
         
         search?.start(request) { (results, state) in

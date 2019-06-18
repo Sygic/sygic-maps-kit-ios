@@ -138,8 +138,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Private methods
     
     private func search(for query: String) {
-        guard let model = model, model.hasValidSearchPosition else {
-            self.triggerUserLocation(true)
+        guard let model = model else {
             return
         }
         

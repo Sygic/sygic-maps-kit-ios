@@ -216,8 +216,8 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         if let map = mapState.map {
             (view as! SYMKBrowseMapView).setupMapView(map)
             map.delegate = mapController
-            map.setup(with: mapState)
             map.renderEnabled = true
+            map.setup(with: mapState)
         }
         super.viewDidAppear(animated)
     }
