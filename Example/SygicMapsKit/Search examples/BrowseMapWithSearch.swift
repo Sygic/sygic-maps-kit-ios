@@ -46,6 +46,9 @@ class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter {
     
     private func searchButtonTapped() {
         let searchModule = SYMKSearchViewController()
+        if let browseMap = presentedModules.first as? SYMKBrowseMapViewController {
+            searchModule.searchLocation = browseMap.mapState.geoCenter
+        }
         searchModule.delegate = self
         presentModule(searchModule)
     }
