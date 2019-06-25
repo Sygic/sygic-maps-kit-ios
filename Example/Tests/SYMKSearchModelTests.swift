@@ -47,7 +47,7 @@ class SYMKSearchModelTest: QuickSpec {
             context("Searching") {
                 it("shouldReturnSuccess") {
                     var searchState: SYRequestResultState?
-                    let searchModel = SYMKSearchModel(maxResultsCount: 10, coordinates: nil)
+                    let searchModel = SYMKSearchModel(maxResultsCount: 10, location: nil)
                     searchModel.search(with: "Eurovea", response: { (results: [SYSearchResult], state: SYRequestResultState) in
                         searchState = state
                     })
@@ -56,7 +56,7 @@ class SYMKSearchModelTest: QuickSpec {
                 
                 it("shouldReturnOneResults") {
                     var multipleResults = [[SYSearchResult]]()
-                    let searchModel = SYMKSearchModel(maxResultsCount: 10, coordinates: nil)
+                    let searchModel = SYMKSearchModel(maxResultsCount: 10, location: nil)
                     searchModel.search(with: "Eurov", response: { (results: [SYSearchResult], state: SYRequestResultState) in
                         multipleResults.append(results)
                     })
