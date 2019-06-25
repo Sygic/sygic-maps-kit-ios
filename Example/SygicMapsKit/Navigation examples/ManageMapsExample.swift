@@ -82,10 +82,15 @@ class ManageMapsPackagesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show map", style: .plain, target: self, action: #selector(shortcutToMap))
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         SYMapLoader.shared().delegate = self
         SYMapLoader.shared().getMapPackages(for: group)
+    }
+    
+    @objc func shortcutToMap() {
+        navigationController?.pushViewController(SYMKBrowseMapViewController(), animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,6 +102,7 @@ class ManageMapsPackagesViewController: UITableViewController {
         let package = packages[indexPath.row]
         cell?.textLabel?.text = package.title
         cell?.detailTextLabel?.text = "\(package.sizeOnDisk)"
+        cell?.accessoryType = (package.status() == SYMapLoaderMapPackageStatus.loaded ? UITableViewCell.AccessoryType.checkmark : UITableViewCell.AccessoryType.none)
         return cell!
     }
     
@@ -115,9 +121,20 @@ extension ManageMapsPackagesViewController: SYMapLoaderDelegate {
         guard progress.totalSize != 0 else { assert(true); return }
         let progress = Float(progress.downloadedSize)/Float(progress.totalSize)
         print("progresss \(package.title): \(package.status().rawValue) (\(progress))")
+        tableView.reloadData()
     }
     
     func mapLoader(_ maploader: SYMapLoader, didInstallMapPackage package: SYMapLoaderMapPackage, from task: SYTask) {
         print("installed \(package.title): \(package.status().rawValue)")
+        if package.status() == .unloaded {
+            maploader.load([package])
+        }
+    }
+    
+    func mapLoader(_ mapLoader: SYMapLoader, didLoad package: SYMapLoaderMapPackage, with result: SYMapLoaderLoadPackageResult) {
+        if result == .loadSuccess {
+            print("Map loaded: \(package.countryIso ?? "ApplicationData")")
+        }
+        tableView.reloadData()
     }
 }
