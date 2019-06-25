@@ -27,17 +27,30 @@ class SYMKSearchModel {
     
     // MARK: - Public Properties
     
-    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
+    static let maxResultsDefault: UInt = 10
+    
+    /// Search find results around this coordinates. If they are not set, search engine will find best results all around the world.
     public var coordinates: SYGeoCoordinate?
     
     /// Max number of results search returns.
-    public var maxResultsCount: UInt = 10
+    public var maxResultsCount = SYMKSearchModel.maxResultsDefault
     
-    // MARK: - Private Properties
+    // MARK: - Private Poperties
     
-    private let search = SYSearch()
+    private var search: SYSearch?
     
     // MARK: - Public Methods
+
+    public init(maxResultsCount: UInt, coordinates: SYGeoCoordinate?) {
+        self.coordinates = coordinates
+        self.maxResultsCount = maxResultsCount
+        search = SYSearch()
+    }
+    
+    /// Method that informs model about sdk initialization, so sdk classes can be initialized.
+    public func sdkInitialized() {
+        search = SYSearch()
+    }
     
     /// Search for results based on query. Searching around `coordinates` set in model.
     /// If `coordinates` are not set, user location coordinates are used.
@@ -50,11 +63,14 @@ class SYMKSearchModel {
     ///   - results: Search results based on query.
     ///   - resultState: Result state from search.
     public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ resultState: SYRequestResultState) -> ()) {
-        let position = coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
-        let request = SYSearchRequest(query: query, atLocation: position)
+        guard !query.isEmpty else {
+            response([], .success)
+            return
+        }
+        let request = SYSearchRequest(query: query, atLocation: coordinates)
         request.maxResultsCount = maxResultsCount
         
-        search.start(request) { (results, state) in
+        search?.start(request) { (results, state) in
             response(results, state)
         }
     }

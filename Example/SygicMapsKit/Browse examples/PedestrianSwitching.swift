@@ -1,4 +1,4 @@
-//// SelectionModes.swift
+//// PedestrianSwitching.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -26,10 +26,11 @@ import SygicUIKit
 import SygicMapsKit
 
 
-class BrowseMapSelectionModesExampleViewController: UIViewController, SYMKModulePresenter {
+class BrowseMapPedestrianExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
     var browseMap: SYMKBrowseMapViewController?
+    var pedestrianButton: SYUIActionButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,50 +40,40 @@ class BrowseMapSelectionModesExampleViewController: UIViewController, SYMKModule
         let browseMapModule = SYMKBrowseMapViewController()
         browseMapModule.useZoomControl = true
         browseMapModule.useRecenterButton = true
+        browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .all
-        browseMapModule.customMarkers = customMarkers()
         browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
         browseMapModule.mapState.zoom = 16
         browseMap = browseMapModule
         
         presentModule(browseMapModule)
         
-        setupModesSelectionButton()
+        setupPedestrianSelectionButton()
     }
     
-    private func customMarkers() -> [SYMapMarker] {
-        let pin1 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!), icon: SYUIIcon.apple, color: .gray)
-        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!), icon: SYUIIcon.sygic, color: .red)
-        return [pin1, pin2]
-    }
-    
-    private func setupModesSelectionButton() {
+    private func setupPedestrianSelectionButton() {
         let modeSelectButton = SYUIActionButton()
-        modeSelectButton.style = .secondary
-        modeSelectButton.title = "Selection mode"
+        modeSelectButton.icon = SYUIIcon.walk
         modeSelectButton.accessibilityIdentifier = "Selection mode"
-        modeSelectButton.height = 44
-        modeSelectButton.titleSize = 15
         modeSelectButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
+        pedestrianButton = modeSelectButton
         
         modeSelectButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(modeSelectButton)
         modeSelectButton.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
-        modeSelectButton.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
+        modeSelectButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16).isActive = true
     }
     
     @objc private func tapped() {
-        let modes = UIAlertController(title: "Selection Modes", message: nil, preferredStyle: .actionSheet)
-        modes.addAction(UIAlertAction(title: "All", style: .default, handler: { [weak self] _ in
-            self?.browseMap?.mapSelectionMode = .all
-        }))
-        modes.addAction(UIAlertAction(title: "Markers only", style: .default, handler: { [weak self] _ in
-            self?.browseMap?.mapSelectionMode = .markers
-        }))
-        modes.addAction(UIAlertAction(title: "None", style: .default, handler: { [weak self] _ in
-            self?.browseMap?.mapSelectionMode = .none
-        }))
-        present(modes, animated: true)
+        guard let browseModule = browseMap else { return }
+        let isPedestrian = browseModule.userLocationSkin == .pedestrian
+        if isPedestrian {
+            browseModule.userLocationSkin = .car
+            pedestrianButton?.icon = SYUIIcon.walk
+        } else {
+            browseModule.userLocationSkin = .pedestrian
+            pedestrianButton?.icon = SYUIIcon.vehicle
+        }
     }
     
 }

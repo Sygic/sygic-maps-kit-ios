@@ -63,13 +63,13 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
 
 extension CustomMarkerInfoExampleViewController: SYMKBrowseMapViewControllerDelegate {
     
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol?) {
-        guard let data = data else { return }
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
+        guard let data = data as? SYMKPoiData else { return }
         let customAnnotation = DataAnnotation(data: data)
         customAnnotations.append(customAnnotation)
         browseController.addAnnotation(customAnnotation)
-        let pin = SYMKMapPin(coordinate: data.coordinate, highlighted: true)!
-        var pins = browseController.customMarkers ?? [SYMKMapPin]()
+        let pin = SYMapMarker(with: data)
+        var pins = browseController.customMarkers ?? [SYMapMarker]()
         pins.append(pin)
         browseController.customMarkers = pins
     }

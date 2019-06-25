@@ -51,7 +51,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         map.tap()
         
         let poiDetailHeaderTitle = app.tables["PoiDetailView.tableView"].staticTexts["PoiDetailAddressCell.titleLabel"]
-        XCTAssertTrue(poiDetailHeaderTitle.waitForExistence(timeout: 2))
+        XCTAssertTrue(poiDetailHeaderTitle.waitForExistence(timeout: 5))
         poiDetailHeaderTitle.tap()
         
         app.tables["PoiDetailView.tableView"]/*@START_MENU_TOKEN@*/.cells.staticTexts["GPS"].press(forDuration: 1.0);/*[[".cells.staticTexts[\"GPS\"]",".tap()",".press(forDuration: 1.0);",".staticTexts[\"GPS\"]"],[[[-1,3,1],[-1,0,1]],[[-1,2],[-1,1]]],[1,0]]@END_MENU_TOKEN@*/
@@ -79,7 +79,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         map.tap()
         
         let alertButton = app.alerts.buttons["Ok"]
-        XCTAssertTrue(alertButton.waitForExistence(timeout: 2))
+        XCTAssertTrue(alertButton.waitForExistence(timeout: 5))
         alertButton.tap()
         
         app.navigationBars["Custom Tap Handling Example"].buttons["Browse Map Examples"].tap()
@@ -95,7 +95,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         map.tap()
         
         let annotation = map.otherElements.matching(identifier: "DataAnnotation").element
-        XCTAssertTrue(annotation.waitForExistence(timeout: 2))
+        XCTAssertTrue(annotation.waitForExistence(timeout: 5))
         
         app.navigationBars["Custom marker info demo"].buttons["Browse Map Examples"].tap()
         
@@ -117,7 +117,7 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
         XCTAssertTrue(map.waitForExistence(timeout: 5))
         map.tap()
         
-        XCTAssertTrue(app.staticTexts["Super custom POI"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["Super custom POI"].waitForExistence(timeout: 5))
         
         app.navigationBars["Custom Markers Example"].buttons["Browse Map Examples"].tap()
         
@@ -144,6 +144,37 @@ class SygicMapsKit_ExampleUITests: XCTestCase {
     
     func testSearchExamples() {
         app.tables.staticTexts["Search"].tap()
+
+        // Search - Default
+        app.tables.cells.staticTexts["Search - Default"].tap()
+        app.typeText("Eurovea")
+        app.tables.staticTexts["Eurovea"].firstMatch.tap()
+        app.typeText("zzzzzzzzzzzzzzzz")
+        app.tables["Empty list"].tap()
+        app.navigationBars["SygicMapsKit.SYMKSearchView"].buttons["Search Examples"].tap()
+        
+        // Browse Map with Search
+        app.tables.cells.staticTexts["Browse Map with Search"].tap()
+        app.buttons["BrowseMapBottomActionButton"].tap()
+        app.typeText("Sygic")
+        app.tables.cells.firstMatch.tap()
+        app.alerts.buttons["Ok"].tap()
+        app.navigationBars["SygicMapsKit_Example.BrowseMapWithSearchView"].buttons["Search Examples"].tap()
+        
+        // Search Results on map
+        app.tables.cells.staticTexts["Search Results on Map"].tap()
+        app.buttons["BrowseMapBottomActionButton"].tap()
+        app.typeText("Sygic")
+        app.tables.cells.firstMatch.tap()
+        // TODO: detect map marker
+        XCUIApplication().navigationBars["SygicMapsKit_Example.BrowseMapWithSearchResults"].buttons["Search Examples"].tap()
+        
+        // Prefill Search
+        app.tables.cells.staticTexts["Prefill Search"].tap()
+        app.tables.cells.firstMatch.tap()
+        app.navigationBars["SygicMapsKit.SYMKSearchView"].buttons["Search Examples"].tap()
+        
     }
 
 }
+

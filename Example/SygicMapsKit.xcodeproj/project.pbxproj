@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
 		5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */; };
+		582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582E343A22845E6F007E58CF /* PedestrianSwitching.swift */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
 		583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */; };
 		583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE95922525C9100A7592A /* ManageMapsExample.swift */; };
@@ -24,6 +25,8 @@
 		5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */; };
 		5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */; };
 		5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B212621FA05D300F21AD4 /* TapHandling.swift */; };
+		5C5504242298156E00C7DBC3 /* SYMKSearchModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5504222298156E00C7DBC3 /* SYMKSearchModelTests.swift */; };
+		5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74DD5A226F548100321EE7 /* BrowseMapWithSearchResults.swift */; };
 		5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */; };
 		5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */; };
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
@@ -71,6 +74,7 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchExamplesTableViewController.swift; sourceTree = "<group>"; };
+		582E343A22845E6F007E58CF /* PedestrianSwitching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedestrianSwitching.swift; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
 		583EE95922525C9100A7592A /* ManageMapsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageMapsExample.swift; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 		5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnnotation.swift; sourceTree = "<group>"; };
 		5C3B212621FA05D300F21AD4 /* TapHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapHandling.swift; sourceTree = "<group>"; };
+		5C5504222298156E00C7DBC3 /* SYMKSearchModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMKSearchModelTests.swift; sourceTree = "<group>"; };
+		5C74DD5A226F548100321EE7 /* BrowseMapWithSearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseMapWithSearchResults.swift; sourceTree = "<group>"; };
 		5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseMapWithSearch.swift; sourceTree = "<group>"; };
 		5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleExampleTableViewCell.swift; sourceTree = "<group>"; };
 		5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModuleExampleTableViewCell.xib; sourceTree = "<group>"; };
@@ -212,6 +218,7 @@
 				58D3D33721E7A65500E11D1D /* Markers.swift */,
 				589CB07B21EE16890082F7C4 /* Skins.swift */,
 				5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */,
+				582E343A22845E6F007E58CF /* PedestrianSwitching.swift */,
 			);
 			path = "Browse examples";
 			sourceTree = "<group>";
@@ -220,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				5C9B71E522292C9B00896FCD /* BrowseMapWithSearch.swift */,
+				5C74DD5A226F548100321EE7 /* BrowseMapWithSearchResults.swift */,
 			);
 			path = "Search examples";
 			sourceTree = "<group>";
@@ -281,6 +289,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				5C5504222298156E00C7DBC3 /* SYMKSearchModelTests.swift */,
 				607FACEB1AFB9204008FA782 /* TestsTemplate.swift */,
 				5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */,
 				589CB08121F075BB0082F7C4 /* SYMKSDKInitializationTests.swift */,
@@ -454,6 +463,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -708,12 +718,14 @@
 				5C3B212B21FA05D300F21AD4 /* TapHandling.swift in Sources */,
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
 				5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */,
+				582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */,
 				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
+				5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
@@ -730,6 +742,7 @@
 				589CB08421F076170082F7C4 /* SYMKSDKInitializationTests.swift in Sources */,
 				5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */,
 				589CB08021EF97630082F7C4 /* ZZZTest.swift in Sources */,
+				5C5504242298156E00C7DBC3 /* SYMKSearchModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1008,6 +1021,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1025,6 +1039,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
