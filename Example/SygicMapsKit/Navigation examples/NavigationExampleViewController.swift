@@ -54,6 +54,7 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
             guard let self = self else { return }
             guard success else {
                 let errorAlert = UIAlertController.init(title: "Error init SDK", message: nil, preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(errorAlert, animated: true, completion: nil)
                 return
             }
