@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43DF1C8322C3825600F930C2 /* NavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */; };
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
 		5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */; };
 		582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582E343A22845E6F007E58CF /* PedestrianSwitching.swift */; };
@@ -72,6 +73,8 @@
 		2307BFC503B9F13E42BDC3BE /* Pods-SygicMapsKit_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		25213E643DAD110E70076C31 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationExampleViewController.swift; sourceTree = "<group>"; };
+		43DF1C8A22C3A5F200F930C2 /* SimulatorLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatorLocation.gpx; sourceTree = "<group>"; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchExamplesTableViewController.swift; sourceTree = "<group>"; };
 		582E343A22845E6F007E58CF /* PedestrianSwitching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedestrianSwitching.swift; sourceTree = "<group>"; };
@@ -179,11 +182,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		583EE956224E5D8E00A7592A /* Navigation examples */ = {
+		43DF1C8422C3826200F930C2 /* Other examples */ = {
 			isa = PBXGroup;
 			children = (
 				583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */,
 				583EE95922525C9100A7592A /* ManageMapsExample.swift */,
+			);
+			path = "Other examples";
+			sourceTree = "<group>";
+		};
+		583EE956224E5D8E00A7592A /* Navigation examples */ = {
+			isa = PBXGroup;
+			children = (
+				43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */,
 			);
 			path = "Navigation examples";
 			sourceTree = "<group>";
@@ -260,9 +271,10 @@
 		607FACD21AFB9204008FA782 /* Example for SygicMapsKit */ = {
 			isa = PBXGroup;
 			children = (
-				5C9B71E922293C6D00896FCD /* Search examples */,
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				583EE956224E5D8E00A7592A /* Navigation examples */,
+				5C9B71E922293C6D00896FCD /* Search examples */,
+				43DF1C8422C3826200F930C2 /* Other examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
 				589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */,
@@ -282,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD41AFB9204008FA782 /* Info.plist */,
+				43DF1C8A22C3A5F200F930C2 /* SimulatorLocation.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -729,6 +742,7 @@
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
+				43DF1C8322C3825600F930C2 /* NavigationExampleViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
 				5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* Markers.swift in Sources */,
