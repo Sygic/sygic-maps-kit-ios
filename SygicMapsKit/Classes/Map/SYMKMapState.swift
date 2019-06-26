@@ -44,8 +44,8 @@ public class SYMKMapState: NSCopying {
     /// Center of a map
     public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)! {
         didSet {
-            if map?.geoCenter != geoCenter {
-                map?.geoCenter = geoCenter
+            if map?.camera.geoCenter != geoCenter {
+                map?.camera.geoCenter = geoCenter
             }
         }
     }
@@ -53,8 +53,8 @@ public class SYMKMapState: NSCopying {
     /// Zoom of a map.
     public var zoom: CGFloat = 0 {
         didSet {
-            if map?.zoom != zoom {
-                map?.zoom = zoom
+            if map?.camera.zoom != zoom {
+                map?.camera.zoom = zoom
             }
         }
     }
@@ -62,8 +62,8 @@ public class SYMKMapState: NSCopying {
     /// Rotation of a map.
     public var rotation: CGFloat = 0 {
         didSet {
-            if map?.rotation != rotation {
-                map?.rotation = rotation
+            if map?.camera.rotation != rotation {
+                map?.camera.rotation = rotation
             }
         }
     }
@@ -71,8 +71,8 @@ public class SYMKMapState: NSCopying {
     /// Tilt of a map.
     public var tilt: CGFloat = 0 {
         didSet {
-            if map?.tilt != tilt {
-                map?.tilt = tilt
+            if map?.camera.tilt != tilt {
+                map?.camera.tilt = tilt
             }
         }
     }
@@ -113,8 +113,8 @@ public class SYMKMapState: NSCopying {
     ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
     public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
         self.boundingBoxSetting = boundingBox
-        if map?.boundingBox != boundingBox {
-            map?.setViewBoundingBox(boundingBox, with: edgeInsets, duration: duration, curve: .accelerateDecelerate) { [weak self] (animId, success) in
+        if map?.camera.boundingBox != boundingBox {
+            map?.camera.setViewBoundingBox(boundingBox, with: edgeInsets, duration: duration, curve: .accelerateDecelerate) { [weak self] (animId, success) in
                 self?.boundingBoxSetting = nil
                 completion?(success)
             }
@@ -142,12 +142,12 @@ extension SYMapView {
     /// - Parameter mapState: State for map.
     public func setup(with mapState: SYMKMapState) {
         guard mapState.boundingBoxSetting == nil else { return }
-        geoCenter = mapState.geoCenter
-        zoom = mapState.zoom
-        rotation = mapState.rotation
-        tilt = mapState.tilt
-        cameraMovementMode = mapState.cameraMovementMode
-        cameraRotationMode = mapState.cameraRotationMode
+        camera.geoCenter = mapState.geoCenter
+        camera.zoom = mapState.zoom
+        camera.rotation = mapState.rotation
+        camera.tilt = mapState.tilt
+        camera.movementMode = mapState.cameraMovementMode
+        camera.rotationMode = mapState.cameraRotationMode
     }
     
 }
