@@ -82,7 +82,7 @@ class ManageMapsPackagesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show map", style: .plain, target: self, action: #selector(shortcutToMap))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Offline maps", style: .plain, target: self, action: #selector(shortcutToMap))
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         SYMapLoader.shared().delegate = self
@@ -90,6 +90,7 @@ class ManageMapsPackagesViewController: UITableViewController {
     }
     
     @objc func shortcutToMap() {
+        SYMKSdkManager.shared.onlineMapsEnabled = false
         navigationController?.pushViewController(SYMKBrowseMapViewController(), animated: true)
     }
     
