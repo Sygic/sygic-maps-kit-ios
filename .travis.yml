@@ -32,7 +32,7 @@ jobs:
       name: UI KIF tests
       script: set -o pipefail && xcodebuild clean build test -workspace Example/SygicMapsKit.xcworkspace -scheme SygicMapsKit_UITests -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone SE,OS=12.1' -enableCodeCoverage YES ONLY_ACTIVE_ARCH=YES | xcpretty
     - stage: deploy cocoapod
-      script: echo "DEPLOY"
+      script: pod spec lint
       deploy:
         provider: script
         script: pod trunk push --verbose --allow-warnings # | ruby -e 'ARGF.each{ print "." }'
