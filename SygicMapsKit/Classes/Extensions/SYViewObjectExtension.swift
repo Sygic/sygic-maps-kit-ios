@@ -38,8 +38,7 @@ extension SYViewObject {
             case .route: return .route
             default: return .other
             }
-        }
-        if let proxyObject = self as? SYProxyObject {
+        } else if let proxyObject = self as? SYProxyObject {
             switch proxyObject.type {
             case .poi: return .poi
             default: return .other

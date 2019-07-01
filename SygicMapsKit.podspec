@@ -28,4 +28,8 @@ Pod::Spec.new do |s|
   s.dependency 'SygicMaps', '~> 13.0'
   s.dependency 'SygicUIKit', '~> 2.0'
 
+  s.xcconfig = {
+    'VALID_ARCHS' =>  'arm64 x86_64',
+  }
+
 end
