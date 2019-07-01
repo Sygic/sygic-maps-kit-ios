@@ -28,46 +28,21 @@ import SygicMapsKit
 class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
-    var routing: SYRouting?
-    var routeComputed: ((SYRoute)->())?
-    
-    deinit {
-        routing?.cancelComputing()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupInitializingActivityIndicator()
         
-        routeComputed = { [weak self] (testRoute) in
+        
+        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 48.146211, longitude: 17.126587)!, to: SYGeoCoordinate(latitude: 48.166338, longitude: 17.150818)!) { [weak self] (testRoute) in
+            
             let navigationModule = SYMKNavigationViewController(with: testRoute)
             self?.presentModule(navigationModule)
         }
-        
-        computeRoute()
     }
     
-    /// Helper function to quick get SYRoute. (The route can be obtained form SYMKRoutingModule in the future)
-    private func computeRoute() {
-        SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
-            guard let self = self else { return }
-            guard success else {
-                let errorAlert = UIAlertController.init(title: "Error init SDK", message: nil, preferredStyle: .alert)
-                errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(errorAlert, animated: true, completion: nil)
-                return
-            }
-            
-            let start = SYWaypoint(position: SYGeoCoordinate(latitude: 48.146211, longitude: 17.126587)!, type: .start, name: "StartWP")
-            let end = SYWaypoint(position: SYGeoCoordinate(latitude: 48.166338, longitude: 17.150818)!, type: .end, name: "EndWP")
-            
-            let routing = SYRouting()
-            routing.delegate = self
-            routing.computeRoute(start, to: end, via: nil, with: nil)
-            self.routing = routing
-        }
-    }
+    
     
     /// Just to see something while SDK is initializing and SYRoute computing
     private func setupInitializingActivityIndicator() {
@@ -79,11 +54,55 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
     }
 }
 
-extension NavigationExampleViewController: SYRoutingDelegate {
+
+// MARK: - Temporary Routing helper
+
+class RoutingHelper: NSObject, SYRoutingDelegate {
+    
+    static let shared = RoutingHelper()
+    
+    private var routing: SYRouting?
+    private var routeComputed: ((SYRoute)->())?
+    
+    private override init() {
+        super.init()
+    }
+    
+    /// Helper function to quick get SYRoute. (The route can be obtained form SYMKRoutingModule in the future)
+    public func computeRoute(from: SYGeoCoordinate, to: SYGeoCoordinate, completion: @escaping (SYRoute)->()) {
+        routeComputed = completion
+        
+        SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
+            guard let self = self else { return }
+            guard success else {
+                self.showSDKInitError()
+                return
+            }
+            
+            let start = SYWaypoint(position: from, type: .start, name: "StartWP")
+            let end = SYWaypoint(position: to, type: .end, name: "EndWP")
+            
+            let routing = SYRouting()
+            routing.delegate = self
+            routing.computeRoute(start, to: end, via: nil, with: nil)
+            self.routing = routing
+        }
+    }
+    
     func routing(_ routing: SYRouting, didComputePrimaryRoute route: SYRoute?) {
         if let route = route {
             routeComputed?(route)
+            routeComputed = nil
         }
         routing.cancelComputing()
+        self.routing = nil
+    }
+    
+    private func showSDKInitError() {
+        let errorAlert = UIAlertController.init(title: "Error init SDK", message: nil, preferredStyle: .alert)
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window?.rootViewController?.present(errorAlert, animated: true, completion: nil)
     }
 }
+
