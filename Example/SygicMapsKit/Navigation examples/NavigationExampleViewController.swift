@@ -39,10 +39,12 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
             
             let navigationModule = SYMKNavigationViewController(with: testRoute)
             self?.presentModule(navigationModule)
+            
+//            let previewPosition = SYSimulatorPositionSource()
+//            SYPositioning.shared().dataSource = previewPosition
+//            previewPosition.start()
         }
     }
-    
-    
     
     /// Just to see something while SDK is initializing and SYRoute computing
     private func setupInitializingActivityIndicator() {

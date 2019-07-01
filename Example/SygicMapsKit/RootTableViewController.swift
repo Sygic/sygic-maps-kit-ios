@@ -65,7 +65,7 @@ class RootTableViewController: UITableViewController {
             case 1:
                 navigationController?.pushViewController(SearchExamplesTableViewController(), animated: true)
             case 2:
-                navigationController?.pushViewController(NavigationExampleViewController(), animated: true)
+                navigationController?.pushViewController(NavigationExamplesTableViewController(), animated: true)
             case 3:
                 navigationController?.pushViewController(DoubleMapViewController(), animated: true)
             default:
