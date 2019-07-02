@@ -24,7 +24,7 @@ import Foundation
 import SygicMaps
 
 
-public extension SYPlace {
+public extension SYLocationInfo {
     
     /// Formatted string containing street and house number from place address
     var streetAndHouseNumber: String? {
@@ -70,7 +70,7 @@ public extension SYPlace {
     /// - Parameter field: desired location info type
     /// - Returns: Location info value string. If empty, returns nil.
     func unemptyLocationInfo(for field: SYLocationInfoField) -> String? {
-        if let info = locationInfo?.values(for: field)?.first, !info.isEmpty {
+        if let info = values(for: field)?.first, !info.isEmpty {
             return info
         }
         return nil
@@ -84,6 +84,7 @@ public extension SYPlace {
     var postal: String? { return unemptyLocationInfo(for: .postal) }
     
     // MARK: Contacts
+    
     var phone: String? { return unemptyLocationInfo(for: .phone) }
     var email: String? { return unemptyLocationInfo(for: .mail) }
     var website: String? { return unemptyLocationInfo(for: .url) }

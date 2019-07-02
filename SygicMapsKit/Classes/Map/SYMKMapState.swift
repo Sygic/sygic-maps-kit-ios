@@ -40,17 +40,46 @@ public class SYMKMapState: NSCopying {
     /// well, so you don't need to allocate new `SYMapView` object. You will prevent
     /// black screen, the moment while `SYMapView` is allocated.
     public var map: SYMapView?
+    
     /// Center of a map
-    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)!
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)! {
+        didSet {
+            if map?.camera.geoCenter != geoCenter {
+                map?.camera.geoCenter = geoCenter
+            }
+        }
+    }
+    
     /// Zoom of a map.
-    public var zoom: CGFloat = 0
+    public var zoom: CGFloat = 0 {
+        didSet {
+            if map?.camera.zoom != zoom {
+                map?.camera.zoom = zoom
+            }
+        }
+    }
+    
     /// Rotation of a map.
-    public var rotation: CGFloat = 0
+    public var rotation: CGFloat = 0 {
+        didSet {
+            if map?.camera.rotation != rotation {
+                map?.camera.rotation = rotation
+            }
+        }
+    }
+    
     /// Tilt of a map.
-    public var tilt: CGFloat = 0
+    public var tilt: CGFloat = 0 {
+        didSet {
+            if map?.camera.tilt != tilt {
+                map?.camera.tilt = tilt
+            }
+        }
+    }
     
     /// Camera movement mode. Default is `.free`.
     public var cameraMovementMode: SYCameraMovement = .free
+    
     /// Camera rotation mode. Default is `.free`.
     public var cameraRotationMode: SYCameraRotation = .free
     
@@ -58,6 +87,8 @@ public class SYMKMapState: NSCopying {
     public var isTilt3D: Bool {
         return tilt >= 0.01
     }
+    
+    var boundingBoxSetting: SYGeoBoundingBox?
     
     /// Initializes and returns map. If map isn't already initialized, returns new map instance with defined state values.
     ///
@@ -70,6 +101,23 @@ public class SYMKMapState: NSCopying {
             map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
             map?.accessibilityLabel = "Map"
             return map!
+        }
+    }
+    
+    /// Sets visible map rectangle defined by parameters
+    ///
+    /// - Parameters:
+    ///   - boundingBox: visible bounding box to be set
+    ///   - edgeInsets: map edge insets around visible bounding box (in relative screen coordinates <0,1>)
+    ///   - duration: map transition animation duration
+    ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
+    public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
+        self.boundingBoxSetting = boundingBox
+        if map?.camera.boundingBox != boundingBox {
+            map?.camera.setViewBoundingBox(boundingBox, with: edgeInsets, duration: duration, curve: .accelerateDecelerate) { [weak self] (animId, success) in
+                self?.boundingBoxSetting = nil
+                completion?(success)
+            }
         }
     }
     
@@ -93,12 +141,13 @@ extension SYMapView {
     ///
     /// - Parameter mapState: State for map.
     public func setup(with mapState: SYMKMapState) {
-        geoCenter = mapState.geoCenter
-        zoom = mapState.zoom
-        rotation = mapState.rotation
-        tilt = mapState.tilt
-        cameraMovementMode = mapState.cameraMovementMode
-        cameraRotationMode = mapState.cameraRotationMode
+        guard mapState.boundingBoxSetting == nil else { return }
+        camera.geoCenter = mapState.geoCenter
+        camera.zoom = mapState.zoom
+        camera.rotation = mapState.rotation
+        camera.tilt = mapState.tilt
+        camera.movementMode = mapState.cameraMovementMode
+        camera.rotationMode = mapState.cameraRotationMode
     }
     
 }

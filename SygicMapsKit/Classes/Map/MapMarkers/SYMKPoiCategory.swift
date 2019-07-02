@@ -26,7 +26,7 @@ import SygicMaps
 
 
 /// Helper class responsible for mapping SYPoiCategory to icon and color identical to icons and colors used in SYMapView engine.
-public class SYMKPoiCategory: NSObject, NSCoding {
+public class SYMKPoiCategory {
 
     // MARK: - Public Properties
     
@@ -40,20 +40,6 @@ public class SYMKPoiCategory: NSObject, NSCoding {
     public init(icon: String, color: UIColor?) {
         self.icon = icon
         self.color = color ?? .textBody
-        super.init()
-    }
-    
-    public required convenience init?(coder decoder: NSCoder) {
-        guard let icon = decoder.decodeObject(forKey: "icon") as? String,
-            let color = decoder.decodeObject(forKey: "color") as? UIColor
-            else { return nil }
-        
-        self.init(icon: icon, color: color)
-    }
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(icon, forKey: "icon")
-        aCoder.encode(color, forKey: "color")
     }
     
     /// Returns specific category icon and color for `SYPoiCategory`.
@@ -261,4 +247,38 @@ public class SYMKPoiCategory: NSObject, NSCoding {
         }
     }
     
+}
+
+public class SYMKPoiGroup {
+    public let name: String
+    public let icon: String
+    public let color: UIColor
+    public let searchId: SYPoiGroup
+    
+    public init(name: String, icon: String, color: UIColor, searchId: SYPoiGroup) {
+        self.name = name
+        self.icon = icon
+        self.color = color
+        self.searchId = searchId
+    }
+    
+    public class func with(syPoiGroup: SYPoiGroup) -> SYMKPoiGroup {
+        switch syPoiGroup {
+        case .unknown: return SYMKPoiGroup(name: "", icon: SYUIIcon.contextMenuIos, color: .poiGroupGuides, searchId: .unknown)
+        case .food_and_Drink: return SYMKPoiGroup(name: LS("_grp.Food_and_Drink"), icon: SYUIIcon.food, color: .poiGroupFoodDrink, searchId: .food_and_Drink)
+        case .accommodation: return SYMKPoiGroup(name: LS("_grp.Accomodation"), icon: SYUIIcon.accomodation, color: .poiGroupAccomodation, searchId: .accommodation)
+        case .shopping: return SYMKPoiGroup(name: LS("_grp.Shopping"), icon: SYUIIcon.shopping, color: .poiGroupShopping, searchId: .shopping)
+        case .transportation: return SYMKPoiGroup(name: LS("_grp.Transportation"), icon: SYUIIcon.plane, color: .poiGroupTransportation, searchId: .transportation)
+        case .tourism: return SYMKPoiGroup(name: LS("_grp.Tourism"), icon: SYUIIcon.attraction, color: .poiGroupTourism, searchId: .tourism)
+        case .social_Life: return SYMKPoiGroup(name: LS("_grp.Social_Life"), icon: SYUIIcon.theater, color: .poiGroupSocialLife, searchId: .social_Life)
+        case .services_and_Education: return SYMKPoiGroup(name: LS("_grp.Services_and_Education"), icon: SYUIIcon.school, color: .poiGroupSvcEducation, searchId: .services_and_Education)
+        case .sport: return SYMKPoiGroup(name: LS("_grp.Sport"), icon: SYUIIcon.running, color: .poiGroupSport, searchId: .sport)
+        case .vehicle_Services: return SYMKPoiGroup(name: LS("_grp.Vehicle_Services"), icon: SYUIIcon.vehicle, color: .poiGroupVehicleServices, searchId: .vehicle_Services)
+        case .emergency: return SYMKPoiGroup(name: LS("_grp.Emergency"), icon: SYUIIcon.hospital, color: .poiGroupEmergency, searchId: .emergency)
+        case .guides: return SYMKPoiGroup(name: LS("_grp.Guides"), icon: SYUIIcon.infoCenter, color: .poiGroupGuides, searchId: .guides)
+        case .parking: return SYMKPoiGroup(name: LS("_grp.Parking"), icon: SYUIIcon.parking, color: .poiGroupParking, searchId: .parking)
+        case .petrol_Station: return SYMKPoiGroup(name: LS("_grp.Petrol_Station"), icon: SYUIIcon.stationPetrol, color: .poiGroupPetrolStation, searchId: .petrol_Station)
+        case .bankATM: return SYMKPoiGroup(name: LS("_grp.BankATM"), icon: SYUIIcon.money, color: .poiGroupBank, searchId: .bankATM)
+        }
+    }
 }

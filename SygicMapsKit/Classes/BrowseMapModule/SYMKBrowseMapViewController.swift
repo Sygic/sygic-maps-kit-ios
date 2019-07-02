@@ -23,26 +23,65 @@
 import SygicMaps
 import SygicUIKit
 
-
 /// Browse map module output protocol.
 ///
 /// Adopting of this protocol overrides default behaviour, which means, bottom sheet
 /// is no longer showed after tap on map. Delegate receives raw data instead.
 public protocol SYMKBrowseMapViewControllerDelegate: class {
     
+    /// Implement this method to present default selection UI interface (`SYMKPoiDetailController`)
+    /// Although delegate still receives method event `browseMapController(_:, didSelect:)`
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module controller.
+    /// - Returns: Return true if default UI should be presented. Default return value is false.
+    func browseMapControllerShouldPresentDefaultPoiDetail(_ browseController: SYMKBrowseMapViewController) -> Bool
+    
+    /// Modifies the map marker default behavior. Override this method to use custom map marker.
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module.
+    ///   - location: Coordinates for map marker.
+    /// - Returns: Return map marker or return nil for no map marker.
+    func browseMapControllerShouldAddMarkerOnTap(_ browseController: SYMKBrowseMapViewController, location: SYGeoCoordinate) -> SYMapMarker?
+    
     /// Delegate receives data about (point of interest) that was selected on map.
     ///
     /// - Parameters:
     ///   - browseController: Browse map module controller.
-    ///   - data: Data about selected point of interest.
+    ///   - data: Data about selected point of interest. Data will be nil if method was called by marker deselection.
     func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
+    
+    /// Delegate method called after tap to the map.
+    ///
+    /// - Parameters:
+    ///   - browseController: Browse map module.
+    ///   - selectionType: Type belonging to the tap on the map.
+    ///   - coordinates: Coordinates belonging to the tap on the map.
+    /// - Returns: True to continue to proceed the map tap data, False otherwise. Default value is True.
+    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool
+}
+
+public extension SYMKBrowseMapViewControllerDelegate {
+    
+    func browseMapControllerShouldPresentDefaultPoiDetail(_ browseController: SYMKBrowseMapViewController) -> Bool {
+        return true
+    }
+    
+    func browseMapControllerShouldAddMarkerOnTap(_ browseController: SYMKBrowseMapViewController, location: SYGeoCoordinate) -> SYMapMarker? {
+        return SYMapMarker(with: SYMKPoiData(with: location))
+    }
+    
+    func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
+        return true
+    }
+    
 }
 
 /// Browse map module annotation protocol.
 ///
 /// In case you want draw custom `UIView` object on map, you must conform to this protocol.
 /// Add annotation object (object with coordinates) with `addAnnotation(SYAnnotation)` method
-///
 public protocol SYMKBrowserMapViewControllerAnnotationDelegate: class {
     
     /// When map reaches some annotation, this method is called. It needs `SYAnnotationView` object
@@ -90,6 +129,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /// Enables recenter button functionality.
     /// Button is automatically shown if map camera isn't centered to current position.
     /// After tapping recenter button, camera is automatically recentered and button disappears.
+    /// Recenter button requires showUserLocation to be true and turns it ON automatically when locking maps camera.
     public var useRecenterButton = false
     
     /// Enables bounce in animation on first appearance of default poi detail bottom sheet
@@ -99,6 +139,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public var showUserLocation = false {
         didSet {
             triggerUserLocation(showUserLocation)
+            if let mapController = mapController {
+                mapController.mapView.positionIndicator.visible = showUserLocation
+            }
         }
     }
     
@@ -113,7 +156,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     }
     
     /// Custom pois presented by markers in map.
-    public var customMarkers: [SYMKMapPin]? {
+    public var customMarkers: [SYMapMarker]? {
         didSet {
             if let allMarkers = customMarkers {
                 if let oldMarkers = oldValue {
@@ -130,13 +173,13 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     public var mapSkin: MapSkins = .day {
         didSet {
-            mapController?.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+            mapController?.mapView.activeSkins = activeSkins
         }
     }
     
     public var userLocationSkin: UsersLocationSkins = .car {
         didSet {
-            mapController?.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+            mapController?.mapView.activeSkins = activeSkins
         }
     }
     
@@ -146,7 +189,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     private var compassController = SYMKCompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
     private var zoomController = SYMKZoomController()
-    private var poiDetailViewController: SYUIPoiDetailViewController?
+    private var poiDetailViewController: SYMKPoiDetailViewController?
     
     private var mapControls = [MapControl]()
     
@@ -173,8 +216,8 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         if let map = mapState.map {
             (view as! SYMKBrowseMapView).setupMapView(map)
             map.delegate = mapController
-            map.setup(with: mapState)
             map.renderEnabled = true
+            map.setup(with: mapState)
         }
         super.viewDidAppear(animated)
     }
@@ -182,6 +225,18 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         mapController?.mapView.renderEnabled = false
         super.viewWillDisappear(animated)
+    }
+    
+    /// Setup action button with passed attributes and action and add it in bottom right corner of view
+    ///
+    /// - Parameters:
+    ///   - title: title
+    ///   - icon: icon
+    ///   - style: action button style. Default is .secondary
+    ///   - action: action block called on touch up inside event
+    public func setupActionButton(with title: String?,icon: String?, style: SYUIActionButtonStyle = .secondary, action: (()->())?) {
+        guard let browseView = view as? SYMKBrowseMapView else { return }
+        browseView.setupActionButton(with: title, icon: icon, style: style, action: action)
     }
     
     /// Add annotation to map.
@@ -222,24 +277,24 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         
     // MARK: - Private Methods
     
-    internal override func sygicSDKInitialized() {
-        SYOnlineSession.shared().onlineMapsEnabled = true
-        triggerUserLocation(showUserLocation)
-        setupMapController()
-        setupViewDelegates()
+    deinit {
+        if showUserLocation {
+            showUserLocation = false
+        }
     }
     
-    internal override func sygicSDKFailure() {
-        let alert = UIAlertController(title: "Error", message: "Error during SDK initialization", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
+    internal override func sygicSDKInitialized() {
+        setupMapController()
+        let applyLocationValue = showUserLocation
+        showUserLocation = applyLocationValue
+        setupViewDelegates()
     }
     
     private func setupMapController() {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
-        mapController.mapView.activeSkins = [mapSkin.rawValue, userLocationSkin.rawValue]
+        mapController.mapView.activeSkins = activeSkins
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap(customMarkers)
@@ -253,35 +308,38 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         
     }
     
-    private func addCustomMarkersToMap(_ markers: [SYMKMapPin]?) {
+    private func addCustomMarkersToMap(_ markers: [SYMapMarker]?) {
         guard let markers = markers, markers.count > 0, let mapController = mapController else { return }
         for marker in markers {
-            mapController.selectionManager?.addCustomPin(marker)
+            mapController.selectionManager?.addCustomMarker(marker)
         }
     }
     
-    private func removeCustomMarkersFromMap(_ markers: [SYMKMapPin]?) {
+    private func removeCustomMarkersFromMap(_ markers: [SYMapMarker]?) {
         guard let markers = markers, markers.count > 0, let mapController = mapController else { return }
         for marker in markers {
-            mapController.selectionManager?.removeCustomPin(marker)
+            mapController.selectionManager?.removeCustomMarker(marker)
         }
     }
     
-    // MARK: User Location
-    
-    private func triggerUserLocation(_ show: Bool) {
-        guard SYMKSdkManager.shared.isSdkInitialized else { return }
-        if show {
-            SYPositioning.shared().startUpdatingPosition()
-        } else {
-            SYPositioning.shared().stopUpdatingPosition()
+    private var activeSkins: [String] {
+        var skins = [mapSkin.rawValue]
+        if userLocationSkin == .pedestrian {
+            skins.append(userLocationSkin.rawValue)
         }
+        return skins
     }
-    
+
     // MARK: PoiDetail
     
-    private func showPoiDetail(with data: SYMKPoiDetailModel) {
-        poiDetailViewController = SYMKPoiDetailViewController(with: data)
+    private func updatePoiDetail(with data: SYMKPoiDetailModel) {
+        if let poiDetail = poiDetailViewController {
+            poiDetail.update(with: data)
+        }
+    }
+    
+    private func showPoiDetailWithLoading() {
+        poiDetailViewController = SYMKPoiDetailViewController()
         poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, bounce: bounceDefaultPoiDetailFirstTime, completion: nil)
         bounceDefaultPoiDetailFirstTime = false
     }
@@ -313,21 +371,35 @@ extension SYMKBrowseMapViewController: SYMKMapControllerDelegate {
 
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
-    public func mapSelectionShouldAddPoiPin() -> Bool {
-        return delegate == nil
+    public func mapSelectionPoiDetailWasShown() -> Bool {
+        return poiDetailViewController != nil
     }
     
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
         guard let poiData = poiData as? SYMKPoiData else { return }
-        if let delegate = delegate {
-            delegate.browseMapController(self, didSelect: poiData)
-        } else {
-            showPoiDetail(with: poiData)
-        }
+        updatePoiDetail(with: poiData)
+        delegate?.browseMapController(self, didSelect: poiData)
     }
     
-    public func mapSelectionDeselectAll() {
+    public func mapSelectionShouldAddMarkerToMap(location: SYGeoCoordinate) -> SYMapMarker? {
+        if let delegate = delegate {
+            return delegate.browseMapControllerShouldAddMarkerOnTap(self, location: location)
+        }
+        return SYMapMarker(with: SYMKPoiData(with: location))
+    }
+    
+    public func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         hidePoiDetail()
+        if let delegate = delegate {
+            return delegate.browseMapControllerDidTapOnMap(self, selectionType: selectionType, location: location)
+        }
+        return true
+    }
+    
+    public func mapSelectionWillSelectData(_ mapSelection: SYMKMapSelectionManager) {
+        if delegate == nil || delegate!.browseMapControllerShouldPresentDefaultPoiDetail(self) {
+            showPoiDetailWithLoading()
+        }
     }
     
 }

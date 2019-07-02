@@ -57,6 +57,7 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .all
         browseMapModule.customMarkers = customMarkers()
+        browseMapModule.userLocationSkin = .pedestrian
         browseMapModule.mapSkin = .night
         browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
         browseMapModule.mapState.zoom = 16
@@ -68,10 +69,9 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         super.viewDidDisappear(animated)
     }
     
-    private func customMarkers() -> [SYMKMapPin] {
-        let pin1 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!, color: .red)!
-        let pin2 = SYMKMapPin(coordinate: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!, color: .red)!
-        pin2.highlighted = true
+    private func customMarkers() -> [SYMapMarker] {
+        let pin1 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!), color: .red)
+        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!), color: .red)
         return [pin1, pin2]
     }
     

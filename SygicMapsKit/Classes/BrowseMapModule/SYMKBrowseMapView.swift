@@ -38,10 +38,14 @@ public class SYMKBrowseMapView: UIView {
     public private(set) weak var recenterButton: UIView?
     /// Zoom control view.
     public private(set) weak var zoomControl: UIView?
+    /// Customizable bottom right action button
+    /// Use setupActionButton(with title:,icon:,style:,action:) to setup and customize
+    public private(set) var actionButton: SYUIActionButton?
     
     // MARK: - Private Properties
     
     private let sideMargin: CGFloat = 16
+    private var actionButtonActionBlock: (()->())?
     
     // MARK: - Public Methods
     
@@ -108,12 +112,40 @@ public class SYMKBrowseMapView: UIView {
         recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
         recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
     }
+    
+    /// Setup action button with passed attributes and action and add it in bottom right corner
+    ///
+    /// - Parameters:
+    ///   - title: title
+    ///   - icon: icon
+    ///   - style: action button style. Default is .secondary
+    ///   - action: action block called on touch up inside event
+    public func setupActionButton(with title: String?,icon: String?, style: SYUIActionButtonStyle = .secondary, action: (()->())?) {
+        let button = SYUIActionButton()
+        button.title = title
+        button.style = style
+        button.icon = icon
+        button.accessibilityIdentifier = "BrowseMapBottomActionButton"
+        button.addTarget(self, action: #selector(actionButtonTapped(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(button)
+        button.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
+        button.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
+        
+        actionButton?.removeFromSuperview()
+        actionButton = button
+        actionButtonActionBlock = action
+    }
 
     // MARK: - Private Methods
     
     private func setupUI() {
         accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
+    }
+    
+    @objc private func actionButtonTapped(_ sender: Any) {
+        actionButtonActionBlock?()
     }
     
 }
