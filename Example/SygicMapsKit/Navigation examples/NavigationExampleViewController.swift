@@ -34,16 +34,24 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
         view.backgroundColor = .white
         setupInitializingActivityIndicator()
         
-        
         RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 48.146211, longitude: 17.126587)!, to: SYGeoCoordinate(latitude: 48.166338, longitude: 17.150818)!) { [weak self] (testRoute) in
             
             let navigationModule = SYMKNavigationViewController(with: testRoute)
+            navigationModule.route = testRoute
             self?.presentModule(navigationModule)
             
-//            let previewPosition = SYSimulatorPositionSource()
-//            SYPositioning.shared().dataSource = previewPosition
-//            previewPosition.start()
+            if let previewPosition = SYRoutePositionSimulator(route: testRoute) {
+                SYPositioning.shared().dataSource = previewPosition
+                previewPosition.start()
+            }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let simulator = SYPositioning.shared().dataSource as? SYRoutePositionSimulator {
+            simulator.stop()
+        }
+        super.viewWillDisappear(animated)
     }
     
     /// Just to see something while SDK is initializing and SYRoute computing

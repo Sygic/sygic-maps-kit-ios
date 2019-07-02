@@ -24,19 +24,49 @@ import UIKit
 import SygicMaps
 
 
+/// Navigation module
 public class SYMKNavigationViewController: SYMKModuleViewController {
     
-    public var route: SYRoute
-    public private(set) var navigationView: SYMKNavigationView!
+    // MARK: - Public Properties
     
-    public init(with route: SYRoute) {
+    public var route: SYRoute? {
+        didSet {
+            if let newRoute = route {
+                mapRoute = SYMapRoute(route: newRoute, type: .primary)
+            } else {
+                mapRoute = nil
+            }
+        }
+    }
+    
+    // MARK: - Private Properties
+    
+    private var mapRoute: SYMapRoute? {
+        didSet {
+            guard let navigationView = view as? SYMKNavigationView, let map = navigationView.mapView as? SYMapView else { return }
+            if let oldRoute = oldValue {
+                map.remove(oldRoute)
+            }
+            if let newRoute = mapRoute {
+                map.add(newRoute)
+            }
+        }
+    }
+    
+    // MARK: - Public Methods
+    
+    public init(with route: SYRoute? = nil) {
         self.route = route
+        if let newRoute = route {
+            mapRoute = SYMapRoute(route: newRoute, type: .primary)
+        }
         
         super.init(nibName: nil, bundle: nil)
         
         self.mapState.tilt = 60.0
         self.mapState.zoom = 17
         self.mapState.cameraMovementMode = .followGpsPositionWithAutozoom
+        self.mapState.cameraRotationMode = .vehicle
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +75,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     
     public override func loadView() {
         let navigationView = SYMKNavigationView()
-        self.navigationView = navigationView
         view = navigationView
     }
     
@@ -64,8 +93,11 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let map = mapState.loadMap(with: view.bounds)
         navigationView.setupMapView(map)
         
-        map.add(SYMapRoute(route: route, type: .primary))
         SYNavigation.shared().delegate = self
+        
+        guard let route = route, let mapRoute = mapRoute else { return }
+        map.remove(mapRoute)
+        map.add(mapRoute)
         SYNavigation.shared().start(with: route)
     }
 }
