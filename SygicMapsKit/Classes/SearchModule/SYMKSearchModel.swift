@@ -30,7 +30,7 @@ class SYMKSearchModel {
     static let maxResultsDefault: UInt = 10
     
     /// Search find results around this coordinates. If they are not set, search engine will find best results all around the world.
-    public var coordinates: SYGeoCoordinate?
+    public var location: SYGeoCoordinate?
     
     /// Max number of results search returns.
     public var maxResultsCount = SYMKSearchModel.maxResultsDefault
@@ -41,8 +41,8 @@ class SYMKSearchModel {
     
     // MARK: - Public Methods
 
-    public init(maxResultsCount: UInt, coordinates: SYGeoCoordinate?) {
-        self.coordinates = coordinates
+    public init(maxResultsCount: UInt, location: SYGeoCoordinate?) {
+        self.location = location
         self.maxResultsCount = maxResultsCount
         search = SYSearch()
     }
@@ -67,7 +67,7 @@ class SYMKSearchModel {
             response([], .success)
             return
         }
-        let request = SYSearchRequest(query: query, atLocation: coordinates)
+        let request = SYSearchRequest(query: query, atLocation: location)
         request.maxResultsCount = maxResultsCount
         
         search?.start(request) { (results, state) in

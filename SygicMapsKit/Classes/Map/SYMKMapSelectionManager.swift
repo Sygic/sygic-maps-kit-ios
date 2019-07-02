@@ -204,7 +204,7 @@ public class SYMKMapSelectionManager {
     }
     
     private func selectCoordinate(_ coordinate: SYGeoCoordinate) {
-        reverseSearch.reverseSearch(with: coordinate) { [weak self] results in
+        reverseSearch.reverseSearch(with: coordinate, withFilter: []) { [weak self] results in
             guard let result = results.first else { return }
             self?.selectPlace(with: SYMKPoiData(with: result))
         }

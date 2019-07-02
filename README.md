@@ -64,17 +64,17 @@ limitations under the License.
 [SygicMapsSDK]: <https://www.sygic.com/enterprise/maps-navigation-sdk-api-developers>
 [SygicUIKit]: <https://github.com/Sygic/sygic-ui-kit-ios>
 [AndroidMapsKit]: <https://github.com/Sygic/sygic-maps-kit-android>
-[SygicLogo]: <Assets/sygic_logo.png>
+[SygicLogo]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/sygic_logo.png>
 [CocoaPods]: <https://cocoapods.org>
 [MapsKitWiki]: <https://github.com/Sygic/sygic-maps-kit-ios/wiki>
 [SygicMobileSDKiOS]: <https://stackoverflow.com/questions/tagged/ios+sygic-mobile-sdk>
 [MapsKitIssues]: <https://github.com/Sygic/sygic-maps-kit-ios/issues>
 
-[Example1]: <Assets/example1.png>
-[Example2]: <Assets/example2.png>
-[Example3]: <Assets/example3.png>
-[Example4]: <Assets/example4.png>
-[Example1Thumbnail]: <Assets/example1_thumbnail.png>
-[Example2Thumbnail]: <Assets/example2_thumbnail.png>
-[Example3Thumbnail]: <Assets/example3_thumbnail.png>
-[Example4Thumbnail]: <Assets/example4_thumbnail.png>
+[Example1]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example1.png>
+[Example2]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example2.png>
+[Example3]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example3.png>
+[Example4]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example4.png>
+[Example1Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example1_thumbnail.png>
+[Example2Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example2_thumbnail.png>
+[Example3Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example3_thumbnail.png>
+[Example4Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example4_thumbnail.png>
