@@ -76,8 +76,8 @@ public class SYMKMapController: NSObject {
     
     public init(with mapState: SYMKMapState, mapFrame: CGRect = .zero) {
         mapView = mapState.loadMap(with: mapFrame)
-        mapView.cameraRotationMode = mapState.cameraRotationMode
-        mapView.cameraMovementMode = mapState.cameraMovementMode
+        mapView.camera.rotationMode = mapState.cameraRotationMode
+        mapView.camera.movementMode = mapState.cameraMovementMode
         self.mapState = mapState
         
         super.init()
@@ -88,22 +88,23 @@ public class SYMKMapController: NSObject {
     // MARK: - Private Methods
     
     private func rotateMapNorth() {
-        let rotationAngle = mapView.rotation < 180.0 ? -mapView.rotation : 360.0 - mapView.rotation
-        mapView.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
+        let rotation = mapView.camera.rotation
+        let rotationAngle = rotation < 180.0 ? -rotation : 360.0 - rotation
+        mapView.camera.rotateView(rotationAngle, withDuration: 0.2, curve: .decelerate, completion: nil)
     }
     
     private func zoomMap(_ zoomAction: ZoomActionType) {
-        mapView.animate({ [unowned self] in
-            self.mapView.zoom += zoomAction.rawValue
+        mapView.camera.animate({ [unowned self] in
+            self.mapView.camera.zoom += zoomAction.rawValue
         }, withDuration: 0.3, curve: .linear, completion: nil)
     }
     
     private func toggleTilt() {
-        let isActual3D = mapView.tilt >= 0.01
+        let isActual3D = mapView.camera.tilt >= 0.01
         let newTilt = isActual3D ? Tilt._2D : Tilt._3D
         
-        mapView.animate({
-            self.mapView.tilt = newTilt.rawValue
+        mapView.camera.animate({
+            self.mapView.camera.tilt = newTilt.rawValue
         }, withDuration: 0.2, curve: .decelerate, completion: nil)
     }
 }
@@ -123,7 +124,7 @@ extension SYMKMapController: SYMapViewDelegate {
     
     public func mapView(_ mapView: SYMapView, didChangeCameraMovementMode mode: SYCameraMovement) {
         if mode == .free {
-            mapView.cameraRotationMode = .free
+            mapView.camera.rotationMode = .free
         }
         mapState.cameraMovementMode = mode
         delegate?.mapController(self, didUpdate: mapState)
@@ -150,8 +151,8 @@ extension SYMKMapController: SYMapViewDelegate {
 extension SYMKMapController: SYUICompassDelegate {
     
     public func compassDidTap(_ compass: SYUICompass) {
-        if mapView.cameraMovementMode != .free {
-            mapView.cameraRotationMode = .free
+        if mapView.camera.movementMode != .free {
+            mapView.camera.rotationMode = .free
         }
         rotateMapNorth()
     }
@@ -165,14 +166,14 @@ extension SYMKMapController: SYUIMapRecenterDelegate {
     public func didChangeRecenterButtonState(button: SYUIActionButton, state: SYUIRecenterState) {
         switch state {
         case .locked:
-            mapView.cameraMovementMode = .followGpsPositionWithAutozoom
-            if mapView.cameraRotationMode == .attitude {
-                mapView.cameraRotationMode = .free
+            mapView.camera.movementMode = .followGpsPositionWithAutozoom
+            if mapView.camera.rotationMode == .attitude {
+                mapView.camera.rotationMode = .free
                 rotateMapNorth()
             }
         case .lockedCompass:
-            mapView.cameraMovementMode = .followGpsPositionWithAutozoom
-            mapView.cameraRotationMode = .attitude
+            mapView.camera.movementMode = .followGpsPositionWithAutozoom
+            mapView.camera.rotationMode = .attitude
         default:
             break
         }

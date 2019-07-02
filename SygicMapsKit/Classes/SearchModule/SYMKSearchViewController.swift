@@ -74,12 +74,12 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     /// Delegate output for search controller.
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
-    /// Search find results around this coordinates. If they are not set, user location coordinates are used.
+    /// Search find results around this location. If it is not set, user location is used.
     ///
-    /// If search coordinates are not set and user doesn't have valid location, search doesn't return any results.
-    public var searchCoordinates: SYGeoCoordinate? {
+    /// If search location is not set and user doesn't have valid location, search engine try to search whole world for most relevant results.
+    public var searchLocation: SYGeoCoordinate? {
         didSet {
-            model?.coordinates = searchCoordinates
+            model?.location = searchLocation
         }
     }
     
@@ -97,7 +97,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Public methods
     
     override func sygicSDKInitialized() {
-        model = SYMKSearchModel(maxResultsCount: maxResultsCount, coordinates: searchCoordinates)
+        model = SYMKSearchModel(maxResultsCount: maxResultsCount, location: searchLocation)
         searchBarController.delegate = self
         if !searchBarController.searchText.isEmpty {
             search(for: searchBarController.searchText)
