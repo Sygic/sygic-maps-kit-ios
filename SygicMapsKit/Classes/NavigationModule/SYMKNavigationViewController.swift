@@ -86,10 +86,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        self.mapState.tilt = 60.0
-        self.mapState.zoom = 17
         self.mapState.cameraMovementMode = .followGpsPositionWithAutozoom
         self.mapState.cameraRotationMode = .vehicle
+        self.mapState.tilt = 60.0
     }
     
     required init?(coder: NSCoder) {

@@ -29,6 +29,7 @@ class NavigationExamplesTableViewController: UITableViewController {
     
     let modulesData = [
         ModuleData(title: "Navigation demo", subtitle: "Navigation module with predefined route preview", image: "preview-browsemap-default"),
+        ModuleData(title: "Navigation from current location", subtitle: "Navigation module with route computed to current location", image: "preview-browsemap-default"),
     ]
     
     private let cellHeight: CGFloat = 330
@@ -60,6 +61,8 @@ class NavigationExamplesTableViewController: UITableViewController {
         switch indexPath.row {
         case 0:
             navigationController?.pushViewController(NavigationExampleViewController(), animated: true)
+        case 1:
+            navigationController?.pushViewController(CurrentLocationNavigationExampleViewController(), animated: true)
         default:
             break
         }
