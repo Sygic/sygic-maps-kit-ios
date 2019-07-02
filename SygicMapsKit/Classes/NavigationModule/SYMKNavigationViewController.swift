@@ -29,12 +29,35 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
-    public var route: SYRoute? {
+    /// Navigation route
+    public private(set) var route: SYRoute? {
         didSet {
+            guard route != oldValue else { return }
             if let newRoute = route {
                 mapRoute = SYMapRoute(route: newRoute, type: .primary)
+                SYNavigation.shared().start(with: route)
             } else {
                 mapRoute = nil
+                stopNavigation()
+            }
+        }
+    }
+    
+    /// Indicates if navigation should simulate device position through route. Default: false
+    public var preview: Bool = false {
+        didSet {
+            guard preview != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
+            if preview {
+                guard let route = route else { return }
+                if let previewPosition = SYRoutePositionSimulator(route: route) {
+                    SYPositioning.shared().dataSource = previewPosition
+                    previewPosition.start()
+                }
+            } else {
+                if let simulator = SYPositioning.shared().dataSource as? SYRoutePositionSimulator {
+                    simulator.stop()
+                    SYPositioning.shared().dataSource = nil
+                }
             }
         }
     }
@@ -73,6 +96,10 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        stopNavigation()
+    }
+    
     public override func loadView() {
         let navigationView = SYMKNavigationView()
         view = navigationView
@@ -99,6 +126,26 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         map.remove(mapRoute)
         map.add(mapRoute)
         SYNavigation.shared().start(with: route)
+    }
+    
+    /// Start navigation
+    /// - Parameter route: route
+    /// - Parameter preview: if true, navigation will simulate device position through route (default: false)
+    public func startNavigation(with route: SYRoute, preview: Bool = false) {
+        self.route = route
+        self.preview = preview
+    }
+    
+    /// Stops current navigation and removes route
+    public func stopNavigation() {
+        guard SYMKSdkManager.shared.isSdkInitialized else { return }
+        if SYNavigation.shared().isNavigating() {
+            SYNavigation.shared().stop()
+        }
+        preview = false
+        if route != nil {
+            route = nil
+        }
     }
 }
 
