@@ -250,7 +250,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     ///
     /// - Parameter annotations: Array of annotations added on a map.
     public func addAnnotations(_ annotations: [SYAnnotation]) {
-        mapController?.mapView.addAnnotations(annotations)
+        for annotation in annotations {
+            mapController?.mapView.addAnnotation(annotation)
+        }
     }
     
     /// Returns a reusable annotation view object located by its identifier.
@@ -272,7 +274,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     ///
     /// - Parameter annotations: Annotations removed from a map.
     public func removeAnnotations(_ annotations: [SYAnnotation]) {
-        mapController?.mapView.removeAnnotations(annotations)
+        for annotation in annotations {
+            mapController?.mapView.removeAnnotation(annotation)
+        }
     }
         
     // MARK: - Private Methods

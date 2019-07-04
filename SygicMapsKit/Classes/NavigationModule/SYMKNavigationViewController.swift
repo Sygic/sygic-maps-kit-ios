@@ -169,7 +169,4 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
         
     }
     
-    public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
-        
-    }
 }

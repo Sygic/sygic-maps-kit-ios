@@ -43,9 +43,7 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     func setupLocationManager() {
         SYMKSdkManager.shared.initializeIfNeeded { [weak self] (success) in
             guard success else {
-                let errorAlert = UIAlertController(title: "Error init SDK", message: nil, preferredStyle: .alert)
-                errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self?.present(errorAlert, animated: true, completion: nil)
+                self?.showErrorMessage("Error init SDK")
                 return
             }
             
@@ -55,10 +53,16 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     }
     
     func computeRoute(from location: SYGeoCoordinate) {
-        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788)!) { [weak self] (testRoute) in
+        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.8899, longitude: 12.49489)!) { [weak self] (result) in
             
             guard let navigationModule = self?.presentedModules.first as? SYMKNavigationViewController else { return }
-            navigationModule.startNavigation(with: testRoute)
+            
+            switch result {
+            case .success(route: let testRoute):
+                navigationModule.startNavigation(with: testRoute)
+            case .error(errorMessage: let message):
+                self?.showErrorMessage(message)
+            }
         }
     }
     
@@ -69,6 +73,12 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
         view.addSubview(activityIndicator)
         activityIndicator.centerInSuperview()
         activityIndicator.startAnimating()
+    }
+    
+    private func showErrorMessage(_ message: String) {
+        let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(errorAlert, animated: true, completion: nil)
     }
 }
 

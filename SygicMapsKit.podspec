@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SygicMapsKit/Classes/**/*'
 
-  s.dependency 'SygicMaps', '~> 13.0'
+  s.dependency 'SygicMaps'#, '~> 13.0'
   s.dependency 'SygicUIKit', '~> 2.0'
 
   s.xcconfig = {

@@ -34,11 +34,16 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
         view.backgroundColor = .white
         setupInitializingActivityIndicator()
         
-        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 48.146211, longitude: 17.126587)!, to: SYGeoCoordinate(latitude: 48.166338, longitude: 17.150818)!) { [weak self] (testRoute) in
+        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788)!, to: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420)!) { [weak self] (result) in
             
-            let navigationModule = SYMKNavigationViewController(with: testRoute)
-            self?.presentModule(navigationModule)
-            navigationModule.startNavigation(with: testRoute, preview: true)
+            switch result {
+            case .success(route: let testRoute):
+                let navigationModule = SYMKNavigationViewController(with: testRoute)
+                self?.presentModule(navigationModule)
+                navigationModule.startNavigation(with: testRoute, preview: true)
+            case .error(errorMessage: let message):
+                self?.showErrorMessage(message)
+            }
         }
     }
     
@@ -49,5 +54,11 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
         view.addSubview(activityIndicator)
         activityIndicator.centerInSuperview()
         activityIndicator.startAnimating()
+    }
+    
+    private func showErrorMessage(_ message: String) {
+        let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(errorAlert, animated: true, completion: nil)
     }
 }

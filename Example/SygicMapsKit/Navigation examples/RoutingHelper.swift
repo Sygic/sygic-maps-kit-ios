@@ -28,18 +28,23 @@ import SygicMapsKit
 
 class RoutingHelper: NSObject, SYRoutingDelegate {
     
+    enum RoutingResult {
+        case success(route: SYRoute)
+        case error(errorMessage: String)
+    }
+    
     static let shared = RoutingHelper()
     
     private var routing: SYRouting?
-    private var routeComputed: ((SYRoute)->())?
+    private var routingFinished: ((RoutingResult)->())?
     
     private override init() {
         super.init()
     }
     
     /// Helper function to quick get SYRoute. (The route can be obtained form SYMKRoutingModule in the future)
-    public func computeRoute(from: SYGeoCoordinate, to: SYGeoCoordinate, completion: @escaping (SYRoute)->()) {
-        routeComputed = completion
+    public func computeRoute(from: SYGeoCoordinate, to: SYGeoCoordinate, completion: @escaping (RoutingResult)->()) {
+        routingFinished = completion
         
         SYMKSdkManager.shared.initializeIfNeeded { [weak self] success in
             guard let self = self else { return }
@@ -60,11 +65,19 @@ class RoutingHelper: NSObject, SYRoutingDelegate {
     
     func routing(_ routing: SYRouting, didComputePrimaryRoute route: SYRoute?) {
         if let route = route {
-            routeComputed?(route)
-            routeComputed = nil
+            routingFinished?(.success(route: route))
+        } else {
+            routingFinished?(.error(errorMessage: "No route"))
         }
+        routingFinished = nil
         routing.cancelComputing()
         self.routing = nil
+    }
+    
+    func routing(_ routing: SYRouting, computingFailedWithError error: SYRoutingError) {
+        print("Routing error")
+        routingFinished?(.error(errorMessage: "Routing error: \(error.rawValue)"))
+        routingFinished = nil
     }
     
     private func showSDKInitError() {
@@ -75,4 +88,45 @@ class RoutingHelper: NSObject, SYRoutingDelegate {
     }
 }
 
-
+extension SYRoutingError {
+    var description: String {
+        switch self {
+        case .unspecifiedFault:
+            return "unspecifiedFault"
+        case .userCanceled:
+            return "userCanceled"
+        case .frontEmpty:
+            return "frontEmpty"
+        case .pathReconstructFailed:
+            return "pathReconstructFailed"
+        case .wrongFromPoint:
+            return "wrongFromPoint"
+        case .pathConstructFailed:
+            return "pathConstructFailed"
+        case .pathNotFound:
+            return "pathNotFound"
+        case .unreachableTarget:
+            return "unreachableTarget"
+        case .invalidSelection:
+            return "invalidSelection"
+        case .alternativeRejected:
+            return "alternativeRejected"
+        case .onlineServiceError:
+            return "onlineServiceError"
+        case .onlineServiceNotAvailable:
+            return "onlineServiceNotAvailable"
+        case .onlineServiceWrongResponse:
+            return "onlineServiceWrongResponse"
+        case .onlineServiceTimeout:
+            return "onlineServiceTimeout"
+        case .noComputeCanBeCalled:
+            return "noComputeCanBeCalled"
+        case .couldNotRetrieveSavedRoute:
+            return "couldNotRetrieveSavedRoute"
+        case .mapNotAvailable:
+            return "mapNotAvailable"
+        case .selectionOutsideOfMap:
+            return "selectionOutsideOfMap"
+        }
+    }
+}
