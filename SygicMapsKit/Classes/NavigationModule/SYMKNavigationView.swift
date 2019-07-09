@@ -33,11 +33,15 @@ public class SYMKNavigationView: UIView {
     /// Map view.
     public private(set) weak var mapView: UIView?
     /// Signpost view.
-//    public private(set) weak var signpostView: UIView?
+    //    public private(set) weak var signpostView: UIView?
+    /// Route preview view with controlls to manage route preview playback
+    public private(set) weak var routePreviewView: UIView?
+    /// Infobar View
+    public private(set) weak var infobarView: UIView?
     
     // MARK: - Private Properties
     
-    private let sideMargin: CGFloat = 16
+    private let margin: CGFloat = 16
     private var actionButtonActionBlock: (()->())?
     
     // MARK: - Public Methods
@@ -57,13 +61,30 @@ public class SYMKNavigationView: UIView {
     
     /// Setup map view on whole scene.
     ///
-    /// - Parameter mapView: Map view to set up.
+    /// - Parameter mapView: Map view to set up
     public func setupMapView(_ mapView: UIView) {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mapView)
         sendSubviewToBack(mapView)
         mapView.coverWholeSuperview()
+    }
+    
+    /// Setup route preview control view
+    ///
+    /// - Parameter routePreview: route preview control view
+    public func setupRoutePreviewView(_ routePreview: UIView) {
+        self.routePreviewView?.removeFromSuperview()
+        self.routePreviewView = routePreview
+        addSubview(routePreview)
+        bringSubviewToFront(routePreview)
+        routePreview.translatesAutoresizingMaskIntoConstraints = false
+        routePreview.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        if let infobar = infobarView {
+            routePreview.bottomAnchor.constraint(equalTo: infobar.topAnchor, constant: -margin).isActive = true
+        } else {
+            routePreview.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
+        }
     }
     
     // MARK: - Private Methods
