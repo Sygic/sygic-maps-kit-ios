@@ -24,8 +24,8 @@ target 'SygicMapsKit_ExampleUITests' do
 end
 
 target 'SygicMapsKit_UITests' do
-  shared_pods
-  pod 'KIF', :configurations => ['Debug']
+    shared_pods
+    pod 'KIF', :configurations => ['Debug']
 end
 
 post_install do |installer|
