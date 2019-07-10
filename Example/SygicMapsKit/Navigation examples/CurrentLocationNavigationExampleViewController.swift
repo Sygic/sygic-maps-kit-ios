@@ -1,4 +1,4 @@
-//// NavigationExampleViewController.swift
+//// CurrentLocationNavigationExampleViewController.swift
 // 
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -25,22 +25,41 @@ import SygicMaps
 import SygicMapsKit
 
 
-class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
+class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModulePresenter {
     
+    var currentLocation: SYGeoCoordinate?
     var presentedModules = [SYMKModuleViewController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupInitializingActivityIndicator()
+        setupLocationManager()
         
-        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788)!, to: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420)!) { [weak self] (result) in
+        let navigationModule = SYMKNavigationViewController()
+        presentModule(navigationModule)
+    }
+    
+    func setupLocationManager() {
+        SYMKSdkManager.shared.initializeIfNeeded { [weak self] (success) in
+            guard success else {
+                self?.showErrorMessage("Error init SDK")
+                return
+            }
+            
+            SYPositioning.shared().delegate = self
+            SYPositioning.shared().startUpdatingPosition()
+        }
+    }
+    
+    func computeRoute(from location: SYGeoCoordinate) {
+        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.8899, longitude: 12.49489)!) { [weak self] (result) in
+            
+            guard let navigationModule = self?.presentedModules.first as? SYMKNavigationViewController else { return }
             
             switch result {
             case .success(route: let testRoute):
-                let navigationModule = SYMKNavigationViewController(with: testRoute)
-                self?.presentModule(navigationModule)
-                navigationModule.startNavigation(with: testRoute, preview: true)
+                navigationModule.startNavigation(with: testRoute)
             case .error(errorMessage: let message):
                 self?.showErrorMessage(message)
             }
@@ -60,5 +79,14 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
         let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(errorAlert, animated: true, completion: nil)
+    }
+}
+
+extension CurrentLocationNavigationExampleViewController: SYPositioningDelegate {
+    func positioning(_ positioning: SYPositioning, didUpdate position: SYPosition) {
+        guard currentLocation == nil, let location = position.coordinate else { return }
+        
+        currentLocation = location
+        computeRoute(from: location)
     }
 }

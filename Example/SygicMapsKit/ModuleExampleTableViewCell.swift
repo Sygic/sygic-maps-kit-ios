@@ -58,23 +58,20 @@ class ModuleExampleTableViewCell: UITableViewCell {
         mainCellView.layer.cornerRadius = 6
         mainCellView.layer.masksToBounds = true
         
-        shadowView.backgroundColor = UIColor.clear
         shadowView.layer.shadowColor = UIColor.black.cgColor
         shadowView.layer.shadowOffset = CGSize(width: 3, height: 3)
         shadowView.layer.shadowOpacity = 0.7
         shadowView.layer.shadowRadius = 4.0
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        mainCellView.backgroundColor = selected ? .lightGray : .white
-    }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         
-        mainCellView.backgroundColor = highlighted ? .lightGray : .white
+        if #available(iOS 13.0, *) {
+            mainCellView.backgroundColor = highlighted ? .secondarySystemBackground : .tertiarySystemBackground
+        } else {
+            mainCellView.backgroundColor = highlighted ? .lightGray : .white
+        }
     }
 
 }

@@ -22,30 +22,83 @@
 
 import UIKit
 import SygicMaps
+import SygicUIKit
 
 
+/// Navigation module
 public class SYMKNavigationViewController: SYMKModuleViewController {
     
-    public var route: SYRoute
-    public private(set) var navigationView: SYMKNavigationView!
+    // MARK: - Public Properties
     
-    public init(with route: SYRoute) {
+    /// Navigation route
+    public private(set) var route: SYRoute? {
+        didSet {
+            guard route != oldValue else { return }
+            if let newRoute = route {
+                mapRoute = SYMapRoute(route: newRoute, type: .primary)
+                SYNavigation.shared().start(with: route)
+            } else {
+                mapRoute = nil
+                stopNavigation()
+            }
+        }
+    }
+    
+    /// Indicates if navigation should simulate device position through route. Default: false
+    public var preview: Bool = false {
+        didSet {
+            guard preview != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
+            if preview {
+                startPreview()
+            } else {
+                stopPreview()
+            }
+        }
+    }
+    
+    // MARK: - Private Properties
+    
+    private var mapRoute: SYMapRoute? {
+        didSet {
+            guard let navigationView = view as? SYMKNavigationView, let map = navigationView.mapView as? SYMapView else { return }
+            if let oldRoute = oldValue {
+                map.remove(oldRoute)
+            }
+            if let newRoute = mapRoute {
+                map.add(newRoute)
+            }
+        }
+    }
+    
+    private let routePreviewController = SYMKRoutePreviewController()
+    
+    // MARK: - Public Methods
+    
+    public init(with route: SYRoute? = nil) {
         self.route = route
+        if let newRoute = route {
+            mapRoute = SYMapRoute(route: newRoute, type: .primary)
+        }
         
         super.init(nibName: nil, bundle: nil)
         
-        self.mapState.tilt = 60.0
-        self.mapState.zoom = 17
-        self.mapState.cameraMovementMode = .followGpsPositionWithAutozoom
+        mapState.cameraMovementMode = .followGpsPositionWithAutozoom
+        mapState.cameraRotationMode = .vehicle
+        mapState.tilt = 60.0
+        
+        routePreviewController.previewDelegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        stopNavigation()
+    }
+    
     public override func loadView() {
         let navigationView = SYMKNavigationView()
-        self.navigationView = navigationView
         view = navigationView
     }
     
@@ -60,13 +113,51 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     
     override func sygicSDKInitialized() {
         guard let navigationView = view as? SYMKNavigationView else { return }
-        triggerUserLocation(true)
         let map = mapState.loadMap(with: view.bounds)
         navigationView.setupMapView(map)
+        triggerUserLocation(true)
         
-        map.add(SYMapRoute(route: route, type: .primary))
         SYNavigation.shared().delegate = self
+        
+        guard let route = route, let mapRoute = mapRoute else { return }
+        map.remove(mapRoute)
+        map.add(mapRoute)
         SYNavigation.shared().start(with: route)
+    }
+    
+    /// Start navigation
+    /// - Parameter route: route
+    /// - Parameter preview: if true, navigation will simulate device position through route (default: false)
+    public func startNavigation(with route: SYRoute, preview: Bool = false) {
+        self.route = route
+        self.preview = preview
+    }
+    
+    /// Stops current navigation and removes route
+    public func stopNavigation() {
+        guard SYMKSdkManager.shared.isSdkInitialized else { return }
+        if SYNavigation.shared().isNavigating() {
+            SYNavigation.shared().stop()
+        }
+        preview = false
+        if route != nil {
+            route = nil
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func startPreview() {
+        guard let route = route else { return }
+        routePreviewController.startPreview(route)
+        guard let navigationView = view as? SYMKNavigationView else { return }
+        navigationView.setupRoutePreviewView(routePreviewController.expandableButtonsView)
+    }
+    
+    private func stopPreview() {
+        routePreviewController.stopPreview()
+        guard let navigationView = view as? SYMKNavigationView else { return }
+        navigationView.routePreviewView?.removeFromSuperview()
     }
 }
 
@@ -90,8 +181,10 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     public func navigation(_ navigation: SYNavigation, didUpdateDirection instruction: SYInstruction?) {
         
     }
-    
-    public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
-        
+}
+
+extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
+    public func routePreviewDidStop(_ controller: SYMKRoutePreviewController) {
+        preview = false
     }
 }

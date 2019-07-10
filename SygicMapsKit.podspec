@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
   s.author           = { 'Sygic' => 'info@sygic.com' }
   s.source           = { :git => 'https://github.com/Sygic/sygic-maps-kit-ios.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '11.0'
 
   s.source_files = 'SygicMapsKit/Classes/**/*'
 
-  s.dependency 'SygicMaps', '~> 13.0'
+  s.dependency 'SygicMaps'#, '~> 13.0'
   s.dependency 'SygicUIKit', '~> 2.0'
 
   s.xcconfig = {
