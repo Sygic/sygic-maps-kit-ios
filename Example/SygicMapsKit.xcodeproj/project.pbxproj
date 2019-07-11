@@ -16,6 +16,7 @@
 		582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582E343A22845E6F007E58CF /* PedestrianSwitching.swift */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
 		583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */; };
+		583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE95922525C9100A7592A /* ManageMapsExample.swift */; };
 		5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* BrowseModule_UITests.swift */; };
 		5852283822428118000385ED /* SearchModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852283722428118000385ED /* SearchModule_UITests.swift */; };
 		585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */; };
@@ -85,6 +86,7 @@
 		582E343A22845E6F007E58CF /* PedestrianSwitching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedestrianSwitching.swift; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
+		583EE95922525C9100A7592A /* ManageMapsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageMapsExample.swift; sourceTree = "<group>"; };
 		5852282D22427F65000385ED /* SygicMapsKit_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5852282F22427F65000385ED /* BrowseModule_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModule_UITests.swift; sourceTree = "<group>"; };
 		5852283122427F65000385ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */,
+				583EE95922525C9100A7592A /* ManageMapsExample.swift */,
 			);
 			path = "Other examples";
 			sourceTree = "<group>";
@@ -742,6 +745,7 @@
 				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
 				43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
+				583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
