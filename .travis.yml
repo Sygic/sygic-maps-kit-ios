@@ -1,10 +1,9 @@
-osx_image: xcode10.1
+osx_image: xcode11
 language: objective-c
 #cache: cocoapods
 podfile: Example/Podfile
 
-if: tag IS present OR type == cron
-#if: type == pull_request OR tag IS present OR type == cron
+if: type == pull_request OR tag IS present OR type == cron
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
