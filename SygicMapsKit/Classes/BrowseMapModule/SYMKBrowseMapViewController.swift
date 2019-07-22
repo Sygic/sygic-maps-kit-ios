@@ -308,8 +308,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         compassController.delegate = mapController
         recenterController.delegate = mapController
         zoomController.delegate = mapController
-        mapController?.delegate = self
-        
+        mapController?.delegate = self        
     }
     
     private func addCustomMarkersToMap(_ markers: [SYMapMarker]?) {

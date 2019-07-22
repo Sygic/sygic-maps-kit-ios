@@ -32,12 +32,15 @@ public class SYMKNavigationView: UIView {
     
     /// Map view.
     public private(set) weak var mapView: UIView?
-    /// Signpost view.
-    //    public private(set) weak var signpostView: UIView?
-    /// Route preview view with controlls to manage route preview playback
+
+    /// Route preview view with controlls to manage route preview playback.
     public private(set) weak var routePreviewView: UIView?
-    /// Infobar View
+    
+    /// Infobar View.
     public private(set) weak var infobarView: UIView?
+    
+    /// Instruction view.
+    public private(set) weak var instructionView: SYMKInstructionView?
     
     // MARK: - Private Properties
     
@@ -87,6 +90,20 @@ public class SYMKNavigationView: UIView {
         }
     }
     
+    /// Setup instruction view for navigation module.
+    ///
+    /// - Parameter instructionView: view with navigating instructions.
+    public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
+        self.instructionView?.removeFromSuperview()
+        guard let instructionView = instructionView else { return }
+        self.instructionView = instructionView
+        instructionView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(instructionView)
+        instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
+        instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+    }
+
     // MARK: - Private Methods
     
     private func setupUI() {

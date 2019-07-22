@@ -24,9 +24,11 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'SygicMapsKit/Classes/**/*'
+  s.resources = 'SygicMapsKit/Resources/**/*.{xcassets}'
 
   s.dependency 'SygicMaps'#, '~> 13.0'
   s.dependency 'SygicUIKit', '~> 2.0'
+  s.dependency 'SwiftSVG'
 
   s.xcconfig = {
     'VALID_ARCHS' =>  'arm64 x86_64',

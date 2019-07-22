@@ -36,6 +36,7 @@
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
 		5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
+		5CFA3A6722E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* RootTableViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -112,6 +113,7 @@
 		5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModes.swift; sourceTree = "<group>"; };
 		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
 		5CE66C9BA3342341A8EC63D3 /* Pods-SygicMapsKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.release.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.release.xcconfig"; sourceTree = "<group>"; };
+		5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSignpostsExampleViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */,
 				43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */,
 				43854DAC22CB7034002C09C2 /* RoutingHelper.swift */,
+				5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */,
 			);
 			path = "Navigation examples";
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSVG/SwiftSVG.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
@@ -553,6 +557,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -588,6 +593,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSVG/SwiftSVG.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
@@ -597,6 +603,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -652,6 +659,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSVG/SwiftSVG.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
@@ -660,6 +668,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -696,6 +705,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSVG/SwiftSVG.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
@@ -703,6 +713,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -743,6 +754,7 @@
 				582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */,
 				436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */,
 				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
+				5CFA3A6722E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift in Sources */,
 				43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */,
