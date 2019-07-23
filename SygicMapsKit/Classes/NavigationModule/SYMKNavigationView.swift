@@ -46,6 +46,10 @@ public class SYMKNavigationView: UIView {
     
     private let margin: CGFloat = 16
     private var actionButtonActionBlock: (()->())?
+    private var trailingInstructionAnchor: NSLayoutConstraint?
+    private var trailingInstructionValue: CGFloat {
+        return SYUIDeviceOrientationUtils.isLandscape() ? -frame.width*0.5 : -margin
+    }
     
     // MARK: - Public Methods
     
@@ -60,6 +64,11 @@ public class SYMKNavigationView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        trailingInstructionAnchor?.constant = trailingInstructionValue
     }
     
     /// Setup map view on whole scene.
@@ -101,7 +110,8 @@ public class SYMKNavigationView: UIView {
         addSubview(instructionView)
         instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
-        instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: trailingInstructionValue)
+        trailingInstructionAnchor?.isActive = true
     }
 
     // MARK: - Private Methods
@@ -110,4 +120,5 @@ public class SYMKNavigationView: UIView {
         accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
     }
+    
 }
