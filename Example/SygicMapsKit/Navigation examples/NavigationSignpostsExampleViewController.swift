@@ -52,8 +52,8 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
     private func setupSignpostsSelectionButton() {
         let signpostTypeSelectButton = SYUIActionButton()
         signpostTypeSelectButton.style = .secondary
-        signpostTypeSelectButton.title = "Selection mode"
-        signpostTypeSelectButton.accessibilityIdentifier = "Selection mode"
+        signpostTypeSelectButton.title = "Instructions"
+        signpostTypeSelectButton.accessibilityIdentifier = "Instructions"
         signpostTypeSelectButton.height = 44
         signpostTypeSelectButton.titleSize = 15
         signpostTypeSelectButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)

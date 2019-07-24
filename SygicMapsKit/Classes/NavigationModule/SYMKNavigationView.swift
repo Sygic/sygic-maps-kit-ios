@@ -47,9 +47,7 @@ public class SYMKNavigationView: UIView {
     private let margin: CGFloat = 16
     private var actionButtonActionBlock: (()->())?
     private var trailingInstructionAnchor: NSLayoutConstraint?
-    private var trailingInstructionValue: CGFloat {
-        return SYUIDeviceOrientationUtils.isLandscape() ? -frame.width*0.5 : -margin
-    }
+    private var landscapeInstructionWidthAnchor: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -68,7 +66,10 @@ public class SYMKNavigationView: UIView {
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        trailingInstructionAnchor?.constant = trailingInstructionValue
+        
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscape()
+        trailingInstructionAnchor?.isActive = !isLandscape
+        landscapeInstructionWidthAnchor?.isActive = isLandscape
     }
     
     /// Setup map view on whole scene.
@@ -110,7 +111,8 @@ public class SYMKNavigationView: UIView {
         addSubview(instructionView)
         instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
-        trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: trailingInstructionValue)
+        landscapeInstructionWidthAnchor = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
+        trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
         trailingInstructionAnchor?.isActive = true
     }
 
