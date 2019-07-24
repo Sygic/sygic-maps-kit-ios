@@ -102,7 +102,7 @@ public class SYMKDirectionController {
         } else if let roadName = maneuver.nextRoad?.roadName, !roadName.isEmpty {
             instructionText = roadName
         } else {
-            instructionText = "NONE"
+            instructionText = maneuver.toTextInstruction()
         }
         
         actualInstructionText.text = instructionText

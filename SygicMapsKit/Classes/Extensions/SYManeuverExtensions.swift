@@ -31,12 +31,62 @@ public extension SYManeuver {
         return type.toImage()
     }
     
+    @objc func toTextInstruction() -> String {
+        switch type {
+        case .start:
+            return LS("instruction.start")
+        case .end:
+            return LS("instruction.end")
+        case .via:
+            return LS("instruction.via")
+        case .easyLeft:
+            return LS("instruction.easyLeft")
+        case .easyRight:
+            return LS("instruction.easyRight")
+        case .keepLeft:
+            return LS("instruction.keepLeft")
+        case .keepRight:
+            return LS("instruction.keepRight")
+        case .left:
+            return LS("instruction.left")
+        case .right:
+            return LS("instruction.right")
+        case .sharpLeft:
+            return LS("instruction.sharpLeft")
+        case .sharpRight:
+            return LS("instruction.sharpRight")
+        case .straight, .follow:
+            return LS("instruction.follow")
+        case .uTurnLeft, .uTurnRight:
+            return LS("instruction.uTurn")
+        case .ferry:
+            return LS("instruction.ferry")
+        case .stateBoundary:
+            return LS("instruction.stateBoundary")
+        case .motorway:
+            return LS("instruction.motorway")
+        case .tunnel:
+            return LS("instruction.tunnel")
+        case .none, .roundabout, .exit, .outOfRoute:
+            return ""
+        }
+    }
+    
 }
 
 public extension SYManeuverExit {
     
     override func toImage() -> String {
         return exitType.toImage()
+    }
+    
+    override func toTextInstruction() -> String {
+        switch exitType {
+        case .left:
+            return LS("instruction.exitLeft")
+        case .right:
+            return LS("instruction.exitRight")
+        }
     }
     
 }
