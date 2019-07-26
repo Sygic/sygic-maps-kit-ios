@@ -76,15 +76,27 @@ public class SYMKNavigationView: UIView {
     public func setupRoutePreviewView(_ routePreview: UIView) {
         self.routePreviewView?.removeFromSuperview()
         self.routePreviewView = routePreview
-        addSubview(routePreview)
-        bringSubviewToFront(routePreview)
         routePreview.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(routePreview)
         routePreview.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         if let infobar = infobarView {
             routePreview.bottomAnchor.constraint(equalTo: infobar.topAnchor, constant: -margin).isActive = true
         } else {
             routePreview.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
         }
+    }
+    
+    /// Setup route preview control view
+    ///
+    /// - Parameter routePreview: route preview control view
+    public func setupInfobarView(_ infobar: UIView) {
+        self.infobarView?.removeFromSuperview()
+        self.infobarView = infobar
+        infobar.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(infobar)
+        infobar.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        infobar.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        infobar.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
     }
     
     // MARK: - Private Methods

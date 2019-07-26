@@ -78,10 +78,22 @@ public class SYMKMapState: NSCopying {
     }
     
     /// Camera movement mode. Default is `.free`.
-    public var cameraMovementMode: SYCameraMovement = .free
+    public var cameraMovementMode: SYCameraMovement = .free {
+        didSet {
+            if map?.camera.movementMode != cameraMovementMode {
+                map?.camera.movementMode = cameraMovementMode
+            }
+        }
+    }
     
     /// Camera rotation mode. Default is `.free`.
-    public var cameraRotationMode: SYCameraRotation = .free
+    public var cameraRotationMode: SYCameraRotation = .free {
+        didSet {
+            if map?.camera.rotationMode != cameraRotationMode {
+                map?.camera.rotationMode = cameraRotationMode
+            }
+        }
+    }
     
     /// Returns, whether tilt is 3D or not.
     public var isTilt3D: Bool {

@@ -56,6 +56,20 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Button that appears inside infobarView. Default button locks map position on user location
+    public var leftInfobarButton: SYUIActionButton? {
+        didSet {
+            infobarController?.infobarView.leftButton = leftInfobarButton
+        }
+    }
+    
+    /// Button that appears inside infobarView. Default button cancels navigation
+    public var rightInfobarButton: SYUIActionButton? {
+        didSet {
+            infobarController?.infobarView.rightButton = rightInfobarButton
+        }
+    }
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -70,6 +84,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    private var infobarController: SYMKInfobarController?
     private let routePreviewController = SYMKRoutePreviewController()
     
     // MARK: - Public Methods
@@ -87,6 +102,18 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         mapState.tilt = 60.0
         
         routePreviewController.previewDelegate = self
+        
+        let lockButton = SYUIActionButton()
+        lockButton.style = .primary13
+        lockButton.icon = SYUIIcon.contextMenuIos
+        lockButton.addTarget(self, action: #selector(lockPosition), for: .touchUpInside)
+        leftInfobarButton = lockButton
+        
+        let cancelRouteButton = SYUIActionButton()
+        cancelRouteButton.style = .error13
+        cancelRouteButton.icon = SYUIIcon.close
+        cancelRouteButton.addTarget(self, action: #selector(stopNavigation), for: .touchUpInside)
+        rightInfobarButton = cancelRouteButton
     }
     
     required init?(coder: NSCoder) {
@@ -117,6 +144,11 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         navigationView.setupMapView(map)
         triggerUserLocation(true)
         
+        infobarController = SYMKInfobarController()
+        infobarController?.infobarView.leftButton = leftInfobarButton
+        infobarController?.infobarView.rightButton = rightInfobarButton
+        navigationView.setupInfobarView(infobarController!.infobarView)
+        
         SYNavigation.shared().delegate = self
         
         guard let route = route, let mapRoute = mapRoute else { return }
@@ -134,7 +166,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     /// Stops current navigation and removes route
-    public func stopNavigation() {
+    @objc public func stopNavigation() {
         guard SYMKSdkManager.shared.isSdkInitialized else { return }
         if SYNavigation.shared().isNavigating() {
             SYNavigation.shared().stop()
@@ -159,6 +191,11 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         guard let navigationView = view as? SYMKNavigationView else { return }
         navigationView.routePreviewView?.removeFromSuperview()
     }
+    
+    @objc private func lockPosition() {
+        mapState.cameraMovementMode = .followGpsPositionWithAutozoom
+        mapState.cameraRotationMode = .vehicle
+    }
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
@@ -167,7 +204,8 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate positionInfo: SYPositionInfo?) {
-        
+        guard let info = positionInfo else { return }
+        infobarController?.updatePositionInfo(info)
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate limit: SYSpeedLimit?) {
@@ -180,6 +218,11 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     
     public func navigation(_ navigation: SYNavigation, didUpdateDirection instruction: SYInstruction?) {
         
+    }
+    
+    public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
+        guard let info = info else { return }
+        infobarController?.updateRouteInfo(info)
     }
 }
 
