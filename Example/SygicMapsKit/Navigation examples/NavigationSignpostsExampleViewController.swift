@@ -32,7 +32,7 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupInitializingActivityIndicator()
     
         RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 48.146815, longitude: 17.142426)!, to: SYGeoCoordinate(latitude: 48.142441, longitude: 17.143728)!) { [weak self] (result) in
