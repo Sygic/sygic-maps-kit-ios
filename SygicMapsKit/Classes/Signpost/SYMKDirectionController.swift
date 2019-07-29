@@ -63,6 +63,7 @@ public class SYMKDirectionController {
     
     private let directionView = SYMKDirectionView()
     private let minimumTunnelLength: UInt = 200
+    private let followDistanceThreshold: UInt = 2000
     
     // MARK: - Public Methods
     
@@ -99,6 +100,8 @@ public class SYMKDirectionController {
         
         if let roundaboutExit = roundaboutExitNumber(from: maneuver) {
             instructionText = "\(LS("exit")) \(roundaboutExit)"
+        } else if maneuver.distanceToManeuver >= followDistanceThreshold {
+            instructionText = LS("route.instructionsText.continueAlong")
         } else if let roadName = maneuver.nextRoad?.roadName, !roadName.isEmpty {
             instructionText = roadName
         } else {
@@ -110,7 +113,7 @@ public class SYMKDirectionController {
     
     private func updateDirection(from maneuver: SYManeuver) {
         let bundle = Bundle(for: SYMKDirectionController.self)
-        if let image = UIImage(named: maneuver.toImage(), in: bundle, compatibleWith: nil) {
+        if let image = UIImage(named: maneuver.toImageName(), in: bundle, compatibleWith: nil) {
             actualInstructionDirection.image = image
         }
         
@@ -123,7 +126,7 @@ public class SYMKDirectionController {
         }
         
         let bundle = Bundle(for: SYMKDirectionController.self)
-        if let image = UIImage(named: nextManeuver.toImage(), in: bundle, compatibleWith: nil) {
+        if let image = UIImage(named: nextManeuver.toImageName(), in: bundle, compatibleWith: nil) {
             nextInstructionDirection.image = image
         }
     }

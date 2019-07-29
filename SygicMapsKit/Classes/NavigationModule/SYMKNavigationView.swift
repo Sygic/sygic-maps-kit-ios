@@ -66,10 +66,7 @@ public class SYMKNavigationView: UIView {
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
-        let isLandscape = SYUIDeviceOrientationUtils.isLandscape()
-        trailingInstructionAnchor?.isActive = !isLandscape
-        landscapeInstructionWidthAnchor?.isActive = isLandscape
+        updateTraitCollectionConstraints()
     }
     
     /// Setup map view on whole scene.
@@ -105,15 +102,15 @@ public class SYMKNavigationView: UIView {
     /// - Parameter instructionView: view with navigating instructions.
     public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
         self.instructionView?.removeFromSuperview()
-        guard let instructionView = instructionView else { return }
         self.instructionView = instructionView
+        guard let instructionView = instructionView else { return }
         instructionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(instructionView)
         instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         landscapeInstructionWidthAnchor = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
         trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
-        trailingInstructionAnchor?.isActive = true
+        updateTraitCollectionConstraints()
     }
 
     // MARK: - Private Methods
@@ -121,6 +118,12 @@ public class SYMKNavigationView: UIView {
     private func setupUI() {
         accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
+    }
+    
+    private func updateTraitCollectionConstraints() {
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscape()
+        trailingInstructionAnchor?.isActive = !isLandscape
+        landscapeInstructionWidthAnchor?.isActive = isLandscape
     }
     
 }

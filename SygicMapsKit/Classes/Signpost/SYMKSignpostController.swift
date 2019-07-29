@@ -37,7 +37,6 @@ public class SYMKSignpostController: SYMKDirectionController {
     // MARK: - Private Properties
 
     private let signpostView = SYMKSignpostView()
-    private let followDistanceThreshold: UInt = 1000
     private var latestUpdate: (instruction: SYInstruction?, signposts: [SYSignpost]?) = (instruction: nil, signposts: nil) {
         didSet {
             if let instruction = latestUpdate.instruction {
@@ -117,20 +116,6 @@ public class SYMKSignpostController: SYMKDirectionController {
         
         signpostView.updateRouteNumbers(with: routeNumbers)
         signpostView.updatePictograms(with: pictograms)
-    }
-    
-    override internal func updateActualInstructionText(from maneuver: SYManeuver) {
-        var instructionText: String
-
-        if let roundaboutExit = roundaboutExitNumber(from: maneuver) {
-            instructionText = "\(LS("exit")) \(roundaboutExit)"
-        } else if let roadName = maneuver.nextRoad?.roadName, !roadName.isEmpty && maneuver.type != .follow && maneuver.distanceToManeuver <= followDistanceThreshold {
-            instructionText = roadName
-        } else {
-            instructionText = LS("route.instructionsText.continueAlong")
-        }
-
-        actualInstructionText.text = instructionText
     }
     
     override func animateNextInstruction(visible: Bool) {

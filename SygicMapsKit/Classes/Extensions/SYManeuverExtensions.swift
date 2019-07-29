@@ -27,8 +27,8 @@ import SygicUIKit
 /// Maneuver extensions for mapping arrow directions to vector images from assets catalog.
 public extension SYManeuver {
     
-    @objc func toImage() -> String {
-        return type.toImage()
+    @objc func toImageName() -> String {
+        return type.toImageName()
     }
     
     @objc func toTextInstruction() -> String {
@@ -76,8 +76,8 @@ public extension SYManeuver {
 
 public extension SYManeuverExit {
     
-    override func toImage() -> String {
-        return exitType.toImage()
+    override func toImageName() -> String {
+        return exitType.toImageName()
     }
     
     override func toTextInstruction() -> String {
@@ -93,15 +93,15 @@ public extension SYManeuverExit {
 
 public extension SYManeuverRoundabout {
     
-    override func toImage() -> String {
-        return roundaboutType.toImage()
+    override func toImageName() -> String {
+        return roundaboutType.toImageName()
     }
     
 }
 
 public extension SYManeuverType {
     
-    func toImage() -> String {
+    func toImageName() -> String {
         switch self {
         case .none:
             return ""
@@ -146,7 +146,7 @@ public extension SYManeuverType {
 
 public extension SYRoundaboutType {
     
-    func toImage() -> String {
+    func toImageName() -> String {
         switch self {
         case .SE:
             return "direction_rb_se"
@@ -187,7 +187,7 @@ public extension SYRoundaboutType {
 
 public extension SYExitType {
     
-    func toImage() -> String {
+    func toImageName() -> String {
         switch self {
         case .left:
             return "direction_exit_left"
