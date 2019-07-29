@@ -25,7 +25,7 @@ import SygicMaps
 import SygicUIKit
 
 
-/// Predefined
+/// Predefined types of informations appearing inside infobar
 public enum SYMKInfobarItemType {
     case estimatedTimeOfArrival(_ value: TimeInterval?)
     case remainingTime(_ value: TimeInterval?)
@@ -35,6 +35,7 @@ public enum SYMKInfobarItemType {
     case custom(_ value: Any? = nil)
 }
 
+/// Protocol for infobar items
 public protocol SYMKInfobarItem {
     var type: SYMKInfobarItemType { get }
     var view: UIView { get }
@@ -42,24 +43,26 @@ public protocol SYMKInfobarItem {
 }
 
 
+/// Controls infobar view, presented informations and updating items.
 public class SYMKInfobarController {
     
     // MARK: - Public Properties
     
-    /// Max 3
+    /// Primary infobar items presented in first row. Infobar shows max 3 items by default.
     public var items: [SYMKInfobarItem] = [] {
         didSet {
             infobarView.items = items.map { $0.view }
         }
     }
     
-    /// Max 3
+    /// Secondary infobar items presented in second row. Infobar shows max 3 items by default.
     public var secondaryItems: [SYMKInfobarItem] = [] {
         didSet {
             infobarView.secondaryItems = secondaryItems.map { $0.view }
         }
     }
     
+    /// InfobarView
     public let infobarView = SYUIInfobarView()
     
     // MARK: - Public Methods
@@ -73,12 +76,16 @@ public class SYMKInfobarController {
         infobarView.secondaryItems = secondaryItems.map { $0.view }
     }
     
+    /// Updates infobar items with route info data
+    /// - Parameter info: route info
     public func updateRouteInfo(_ info: SYOnRouteInfo) {
         updateItemView(of: .remainingTime(info.timeToEndWithSpeedProfileAndTraffic))
         updateItemView(of: .estimatedTimeOfArrival(info.timeToEndWithSpeedProfileAndTraffic))
         updateItemView(of: .remainingDistance(info.distanceToEnd))
     }
     
+    /// Updates infobar items with position data
+    /// - Parameter info: position info
     public func updatePositionInfo(_ info: SYPositionInfo) {
         guard let position = SYPositioning.shared().lastKnownLocation else { return }
         if let altitude = position.coordinate?.altitude {
