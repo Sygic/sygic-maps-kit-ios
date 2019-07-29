@@ -25,7 +25,7 @@ import SygicUIKit
 
 
 public class SYMKEtaInfobarItem: SYMKInfobarItem {
-    public var type: SYMKInfobarItemType = .estimatedTimeOfArrival(0)
+    public var type: SYMKInfobarItemType = .estimatedTimeOfArrival(Date())
     public let view: UIView = SYUIInfobarSecondaryLabel()
     
     private let timeFormatter: DateFormatter = {
@@ -39,16 +39,9 @@ public class SYMKEtaInfobarItem: SYMKInfobarItem {
         case .estimatedTimeOfArrival(let time):
             type = valueType
             guard let label = view as? SYUIInfobarLabel else { return }
-            label.text = formattedValue(time)
+            label.text = timeFormatter.string(from: time)
         default:
             break
         }
-    }
-    
-    private func formattedValue(_ remainingTime: TimeInterval?) -> String {
-        if let time = remainingTime {
-            return timeFormatter.string(from: Date(timeIntervalSinceNow: time))
-        }
-        return ""
     }
 }

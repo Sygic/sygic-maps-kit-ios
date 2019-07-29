@@ -27,12 +27,18 @@ import SygicUIKit
 
 /// Predefined types of informations appearing inside infobar
 public enum SYMKInfobarItemType {
-    case estimatedTimeOfArrival(_ value: TimeInterval?)
+    /// Estimated time of arrival computed with current speed and traffic on route
+    case estimatedTimeOfArrival(_ value: Date)
+    /// Remaining time to the end of route
     case remainingTime(_ value: TimeInterval?)
+    /// Remaining distance to the end of route
     case remainingDistance(_ value: UInt)
+    /// Current driving speed
     case currentSpeed(_ value: SYSpeed)
+    /// Altitude of current location
     case altitude(_ value: Double)
-    case custom(_ value: Any? = nil)
+    /// Custom undefined item
+    case custom
 }
 
 /// Protocol for infobar items
@@ -80,7 +86,7 @@ public class SYMKInfobarController {
     /// - Parameter info: route info
     public func updateRouteInfo(_ info: SYOnRouteInfo) {
         updateItemView(of: .remainingTime(info.timeToEndWithSpeedProfileAndTraffic))
-        updateItemView(of: .estimatedTimeOfArrival(info.timeToEndWithSpeedProfileAndTraffic))
+        updateItemView(of: .estimatedTimeOfArrival(Date(timeIntervalSinceNow: info.timeToEndWithSpeedProfileAndTraffic)))
         updateItemView(of: .remainingDistance(info.distanceToEnd))
     }
     
