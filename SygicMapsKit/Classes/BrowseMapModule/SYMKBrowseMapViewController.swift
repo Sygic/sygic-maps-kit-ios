@@ -108,6 +108,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public enum MapSkins: String {
         case day
         case night
+        case device
     }
     
     public enum UsersLocationSkins: String {
@@ -171,7 +172,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
-    public var mapSkin: MapSkins = .day {
+    public var mapSkin: MapSkins = .device {
         didSet {
             mapController?.mapView.activeSkins = activeSkins
         }
@@ -192,6 +193,23 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     private var poiDetailViewController: SYMKPoiDetailViewController?
     
     private var mapControls = [MapControl]()
+    
+    private var activeSkins: [String] {
+        var skins: [String] = []
+        if #available(iOS 12.0, *) {
+            if mapSkin == .night || (mapSkin == .device && traitCollection.userInterfaceStyle == .dark) {
+                skins.append(MapSkins.night.rawValue)
+            } else {
+                skins.append(MapSkins.day.rawValue)
+            }
+        } else {
+            skins.append(mapSkin.rawValue)
+        }
+        if userLocationSkin == .pedestrian {
+            skins.append(userLocationSkin.rawValue)
+        }
+        return skins
+    }
     
     // MARK: - Public Methods
     
@@ -225,6 +243,13 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         mapController?.mapView.renderEnabled = false
         super.viewWillDisappear(animated)
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 12.0, *), mapSkin == .device {
+            mapController?.mapView.activeSkins = activeSkins
+        }
     }
     
     /// Setup action button with passed attributes and action and add it in bottom right corner of view
@@ -326,14 +351,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
-    private var activeSkins: [String] {
-        var skins = [mapSkin.rawValue]
-        if userLocationSkin == .pedestrian {
-            skins.append(userLocationSkin.rawValue)
-        }
-        return skins
-    }
-
     // MARK: PoiDetail
     
     private func updatePoiDetail(with data: SYMKPoiDetailModel) {

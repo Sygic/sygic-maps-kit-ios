@@ -25,6 +25,7 @@ import SygicMaps
 import SygicUIKit
 import SygicMapsKit
 
+
 private class CustomColorPallete: SYUIColorPalette {
     var action: UIColor {
         return .red
@@ -36,9 +37,12 @@ private class CustomFont: SYUIFontFamily {
     var bold: String { return "Futura-CondensedExtraBold" }
 }
 
+
 class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
+    
+    let browseMapModule = SYMKBrowseMapViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +55,6 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         // set font family with your defined font names
         // SYUIFontManager.shared.currentFontFamily = CustomFont()
         
-        let browseMapModule = SYMKBrowseMapViewController()
         browseMapModule.useRecenterButton = true
         browseMapModule.useZoomControl = true
         browseMapModule.useCompass = true
@@ -62,6 +65,12 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
         browseMapModule.mapState.zoom = 16
         presentModule(browseMapModule)
+        
+        browseMapModule.setupActionButton(with: "Switch map skin", icon: SYUIIcon.gallery, style: .primary13) { [weak self] in
+            guard let browseMap = self?.browseMapModule else { return }
+            let skin: SYMKBrowseMapViewController.MapSkins = browseMap.mapSkin == .night ? .day : .night
+            browseMap.mapSkin = skin
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -74,5 +83,4 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!), color: .red)
         return [pin1, pin2]
     }
-    
 }
