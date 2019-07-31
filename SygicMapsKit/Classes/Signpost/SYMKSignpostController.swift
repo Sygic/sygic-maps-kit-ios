@@ -76,7 +76,7 @@ public class SYMKSignpostController: SYMKDirectionController {
         var titles = [String]()
         var routeNumbers = [SYRouteNumberFormat]()
         var exitNames = [String]()
-        var pictograms = [String]()
+        var pictograms = [SYSignpostElementPictogramType]()
         
         for element in signpost.elements {
             switch element.type {
@@ -93,7 +93,7 @@ public class SYMKSignpostController: SYMKDirectionController {
                     exitNames.append(exitName)
                 }
             case .pictogram:
-                pictograms.append(element.pictogram.toSymbol())
+                pictograms.append(element.pictogram)
                 break
             case .lineBreak:
                 break
@@ -114,8 +114,7 @@ public class SYMKSignpostController: SYMKDirectionController {
         pictograms = Array(pictograms.prefix(signpostView.maxSymbols))
         routeNumbers = Array(routeNumbers.prefix(signpostView.maxSymbols - pictograms.count))
         
-        signpostView.updateRouteNumbers(with: routeNumbers)
-        signpostView.updatePictograms(with: pictograms)
+        signpostView.updateSignpostSymbols(with: routeNumbers, pictograms: pictograms)
     }
     
     override func animateNextInstruction(visible: Bool) {
@@ -123,8 +122,7 @@ public class SYMKSignpostController: SYMKDirectionController {
     }
     
     private func clearSignpostInfo() {
-        signpostView.updateRouteNumbers(with: [])
-        signpostView.updatePictograms(with: [])
+        signpostView.updateSignpostSymbols(with: [], pictograms: [])
     }
     
     private func roundaboutExitNumber(from maneuver: SYManeuver) -> String? {

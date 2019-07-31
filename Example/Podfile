@@ -7,7 +7,6 @@ def shared_pods
     pod 'SygicUIKit', :git => 'https://github.com/Sygic/sygic-ui-kit-ios.git', :branch => 'develop', :commit => 'HEAD'
     pod 'SygicMaps'
     pod 'SygicMapsKit', :path => '../'
-    pod 'SwiftSVG', :git => 'https://github.com/anonymcek/SwiftSVG.git'
 end
 
 target 'SygicMapsKit_Example' do

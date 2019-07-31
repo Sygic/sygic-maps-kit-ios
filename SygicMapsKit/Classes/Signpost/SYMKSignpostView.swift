@@ -48,6 +48,7 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.numberOfLines = 2
         return label
     }()
@@ -71,9 +72,15 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
     private let nextInstructionSize = 24
     private let nextInstructionAnimationDuration = 0.2
     private let nextInstructionBackground = UIView()
-    private let symbolsStackView = UIStackView()
-    private var routeNumbers = [SYMKRouteNumberView]()
-    private var pictograms = [UILabel]()
+    private var actualRouteNumbers = [SYRouteNumberFormat]()
+    private var actualPictograms = [SYSignpostElementPictogramType]()
+    
+    private let symbolsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 8
+        return stackView
+    }()
     
     // MARK: - Public Methods
     
@@ -86,32 +93,26 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// Update symbols with formatted route numbers.
-    ///
-    /// - Parameter formats: Formatted route numbers from signposts.
-    public func updateRouteNumbers(with formats: [SYRouteNumberFormat]) {
-        for (index, view) in routeNumbers.enumerated() {
-            if formats.indices.contains(index) {
-                view.update(with: formats[index])
-                view.isHidden = false
-            } else {
-                view.isHidden = true
-            }
+    /// Update signpost symbols. Sum of route numbers and pictograms together must be lower or equal to `maxSymbols`.
+    /// - Parameter routeNumbers: Route numbers symbols to update.
+    /// - Parameter pictograms: Pictograms symbols to update.
+    public func updateSignpostSymbols(with routeNumbers: [SYRouteNumberFormat], pictograms: [SYSignpostElementPictogramType]) {
+        guard routeNumbers.count + pictograms.count <= maxSymbols else { return }
+        if routeNumbers == actualRouteNumbers && pictograms == actualPictograms { return }
+        symbolsStackView.removeAll()
+        
+        routeNumbers.forEach { routeNumber in
+            let roadSign = SYMKSignpostSymbolView()
+            roadSign.update(with: routeNumber)
+            symbolsStackView.addArrangedSubview(roadSign)
         }
-    }
-    
-    /// Update symbols with pictograms.
-    ///
-    /// - Parameter pictograms: Pictograms from signposts.
-    public func updatePictograms(with pictograms: [String]) {
-        for (index, view) in self.pictograms.enumerated() {
-            if pictograms.indices.contains(index) {
-                view.text = pictograms[index]
-                view.isHidden = false
-            } else {
-                view.isHidden = true
-            }
+        pictograms.forEach { pictogram in
+            let symbol = SYMKSignpostSymbolView()
+            symbol.update(with: pictogram)
+            symbolsStackView.addArrangedSubview(symbol)
         }
+        actualRouteNumbers = routeNumbers
+        actualPictograms = pictograms
     }
     
     /// Animate visibility of next instruction information.
@@ -130,7 +131,6 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         clipsToBounds = true
         layer.cornerRadius = 8
         
-        symbolsStackView.distribution = .fillProportionally
         nextInstructionBackground.backgroundColor = UIColor(argb: 0xff1B1B1B)
         
         addSubview(instructionDistance)
@@ -174,27 +174,17 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         nextInstructionDirection.topAnchor.constraint(equalTo: nextInstructionBackground.topAnchor, constant: margin/2).isActive = true
         nextInstructionDirection.bottomAnchor.constraint(equalTo: nextInstructionBackground.bottomAnchor, constant: -margin/2).isActive = true
         NSLayoutConstraint.activate(nextInstructionDirection.widthAndHeightConstraints(with: CGSize(width: nextInstructionSize, height: nextInstructionSize)))
-        
-        initRouteNumbers()
-        initPictograms()
     }
     
-    private func initRouteNumbers() {
-        for _ in 0..<maxSymbols {
-            let routeNumberView = SYMKRouteNumberView()
-            symbolsStackView.addArrangedSubview(routeNumberView)
-            routeNumbers.append(routeNumberView)
-        }
-    }
+}
+
+extension SYRouteNumberFormat {
     
-    private func initPictograms() {
-        for _ in 0..<maxSymbols {
-            let pictogram = UILabel()
-            pictogram.translatesAutoresizingMaskIntoConstraints = false
-            pictogram.font = SYUIFont.with(SYUIFont.iconFont, size: 28.0)
-            symbolsStackView.addArrangedSubview(pictogram)
-            pictograms.append(pictogram)
-        }
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? SYRouteNumberFormat else { return false }
+        return shape == object.shape &&
+            insideNumber == object.insideNumber &&
+            numberColor == object.numberColor
     }
     
 }

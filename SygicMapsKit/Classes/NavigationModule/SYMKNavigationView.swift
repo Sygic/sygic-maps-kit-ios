@@ -66,7 +66,7 @@ public class SYMKNavigationView: UIView {
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        updateTraitCollectionConstraints()
+        updateTraitCollectionLayout()
     }
     
     /// Setup map view on whole scene.
@@ -110,7 +110,7 @@ public class SYMKNavigationView: UIView {
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         landscapeInstructionWidthAnchor = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
         trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
-        updateTraitCollectionConstraints()
+        updateTraitCollectionLayout()
     }
 
     // MARK: - Private Methods
@@ -120,8 +120,8 @@ public class SYMKNavigationView: UIView {
         backgroundColor = UIColor.gray
     }
     
-    private func updateTraitCollectionConstraints() {
-        let isLandscape = SYUIDeviceOrientationUtils.isLandscape()
+    private func updateTraitCollectionLayout() {
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
         trailingInstructionAnchor?.isActive = !isLandscape
         landscapeInstructionWidthAnchor?.isActive = isLandscape
     }

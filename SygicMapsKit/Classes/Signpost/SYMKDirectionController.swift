@@ -64,6 +64,7 @@ public class SYMKDirectionController {
     private let directionView = SYMKDirectionView()
     private let minimumTunnelLength: UInt = 200
     private let followDistanceThreshold: UInt = 2000
+    private let bundle = Bundle(for: SYMKDirectionController.self)
     
     // MARK: - Public Methods
     
@@ -112,11 +113,7 @@ public class SYMKDirectionController {
     }
     
     private func updateDirection(from maneuver: SYManeuver) {
-        let bundle = Bundle(for: SYMKDirectionController.self)
-        if let image = UIImage(named: maneuver.toImageName(), in: bundle, compatibleWith: nil) {
-            actualInstructionDirection.image = image
-        }
-        
+        actualInstructionDirection.image = UIImage(named: maneuver.toImageName(), in: bundle, compatibleWith: nil)
     }
     
     private func updateNextDirection(from nextManeuver: SYManeuver?) {
@@ -125,10 +122,7 @@ public class SYMKDirectionController {
             return
         }
         
-        let bundle = Bundle(for: SYMKDirectionController.self)
-        if let image = UIImage(named: nextManeuver.toImageName(), in: bundle, compatibleWith: nil) {
-            nextInstructionDirection.image = image
-        }
+        nextInstructionDirection.image = UIImage(named: nextManeuver.toImageName(), in: bundle, compatibleWith: nil)
     }
     
     private func updateDistance(_ distance: String) {
