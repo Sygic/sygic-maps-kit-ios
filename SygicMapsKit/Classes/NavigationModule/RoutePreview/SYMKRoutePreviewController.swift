@@ -41,9 +41,11 @@ public extension SYMKRoutePreviewDelegate  {
 }
 
 /// Route preview controller. Provides basic logic and control buttons for route preview simulation.
-public class SYMKRoutePreviewController: SYUIRoutePreviewController, SYUIRoutePreviewControllerDelegate {
+public class SYMKRoutePreviewController {
     
     // MARK: - Public Properties
+    
+    public let view = SYMKRoutePreviewView()
     
     weak var previewDelegate: SYMKRoutePreviewDelegate?
     
@@ -51,12 +53,14 @@ public class SYMKRoutePreviewController: SYUIRoutePreviewController, SYUIRoutePr
     
     private var simulator: SYRoutePositionSimulator?
     private var speed: CGFloat = 1
+    private var speedText: String { "\(Int(speed))x" }
     
     // MARK: - Public Methods
     
-    public override init() {
-        super.init()
-        delegate = self
+    public init() {
+        view.playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
+        view.speedButton.addTarget(self, action: #selector(speedButtonPressed), for: .touchUpInside)
+        view.stopButton.addTarget(self, action: #selector(stopButtonPressed), for: .touchUpInside)
     }
     
     /// Starts route preview. Creates route position simulator to simulate movement through received route.
@@ -68,7 +72,10 @@ public class SYMKRoutePreviewController: SYUIRoutePreviewController, SYUIRoutePr
         SYPositioning.shared().dataSource = simulator
         simulator.start()
         
-        isPlaying = true
+        speed = simulator.speedMultiplier
+        view.playButton.setImage(SYUIIcon.pause, for: .normal)
+        view.speedButton.setTitle(speedText, for: .normal)
+        
         previewDelegate?.routePreviewDidStart(self)
     }
     
@@ -77,25 +84,27 @@ public class SYMKRoutePreviewController: SYUIRoutePreviewController, SYUIRoutePr
         guard let simulator = SYPositioning.shared().dataSource as? SYRoutePositionSimulator else { return }
         simulator.stop()
         SYPositioning.shared().dataSource = nil
-        
-        isPlaying = false
         previewDelegate?.routePreviewDidStop(self)
     }
     
-    public func routePreviewController(_ controller: SYUIRoutePreviewController, wants activity: SYUIRoutePreviewActivity) {
-        switch activity {
-        case .play:
-            simulator?.start()
-            isPlaying = true
-        case .pause:
-            simulator?.pause()
-            isPlaying = false
-        case .speed:
-            speed = speed == 16 ? 1 : speed*2
-            speedText = "\(Int(speed))x"
-            simulator?.speedMultiplier = speed
-        case .stop:
-            stopPreview()
+    @objc private func playButtonPressed() {
+        guard let simulator = simulator else { return }
+        if simulator.isPaused {
+            simulator.start()
+            view.playButton.setImage(SYUIIcon.pause, for: .normal)
+        } else {
+            simulator.pause()
+            view.playButton.setImage(SYUIIcon.play, for: .normal)
         }
+    }
+    
+    @objc private func speedButtonPressed() {
+        speed = speed == 16 ? 1 : speed*2
+        view.speedButton.setTitle(speedText, for: .normal)
+        simulator?.speedMultiplier = speed
+    }
+    
+    @objc private func stopButtonPressed() {
+        stopPreview()
     }
 }

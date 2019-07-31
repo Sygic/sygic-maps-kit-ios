@@ -85,10 +85,11 @@ public class SYMKNavigationView: UIView {
         self.routePreviewView = routePreview
         routePreview.translatesAutoresizingMaskIntoConstraints = false
         addSubview(routePreview)
-        routePreview.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         if let infobar = infobarView {
+            routePreview.centerXAnchor.constraint(equalTo: infobar.centerXAnchor).isActive = true
             routePreview.bottomAnchor.constraint(equalTo: infobar.topAnchor, constant: -margin).isActive = true
         } else {
+            routePreview.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
             routePreview.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
         }
     }

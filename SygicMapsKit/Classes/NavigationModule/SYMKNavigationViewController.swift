@@ -183,7 +183,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         guard let route = route else { return }
         routePreviewController.startPreview(route)
         guard let navigationView = view as? SYMKNavigationView else { return }
-        navigationView.setupRoutePreviewView(routePreviewController.expandableButtonsView)
+        navigationView.setupRoutePreviewView(routePreviewController.view)
     }
     
     private func stopPreview() {

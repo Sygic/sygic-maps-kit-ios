@@ -189,8 +189,12 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     private var mapController: SYMKMapController?
     private var compassController = SYMKCompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
-    private var zoomController = SYMKZoomController()
     private var poiDetailViewController: SYMKPoiDetailViewController?
+    private var zoomController: SYMKZoomController = {
+        let zoomController = SYMKZoomController()
+        zoomController.expandableButtonsView.direction = .top
+        return zoomController
+    }()
     
     private var mapControls = [MapControl]()
     
