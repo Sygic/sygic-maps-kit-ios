@@ -30,12 +30,23 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
     
     var presentedModules = [SYMKModuleViewController]()
     
+    let signpostTypeSelectButton: SYUIActionButton = {
+        let actionButton = SYUIActionButton()
+        actionButton.style = .secondary
+        actionButton.title = "Instructions"
+        actionButton.accessibilityIdentifier = "Instructions"
+        actionButton.height = 44
+        actionButton.titleSize = 15
+        actionButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
+        return actionButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
         setupInitializingActivityIndicator()
     
-        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 48.146815, longitude: 17.142426)!, to: SYGeoCoordinate(latitude: 48.142441, longitude: 17.143728)!) { [weak self] (result) in
+        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 49.211638, longitude: 18.549533)!, to: SYGeoCoordinate(latitude: 48.142441, longitude: 17.143728)!) { [weak self] (result) in
             
             switch result {
             case .success(route: let testRoute):
@@ -50,14 +61,6 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
     }
     
     private func setupSignpostsSelectionButton() {
-        let signpostTypeSelectButton = SYUIActionButton()
-        signpostTypeSelectButton.style = .secondary
-        signpostTypeSelectButton.title = "Instructions"
-        signpostTypeSelectButton.accessibilityIdentifier = "Instructions"
-        signpostTypeSelectButton.height = 44
-        signpostTypeSelectButton.titleSize = 15
-        signpostTypeSelectButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
-        
         signpostTypeSelectButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(signpostTypeSelectButton)
         signpostTypeSelectButton.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
@@ -77,6 +80,7 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
         signpostType.addAction(UIAlertAction(title: "None", style: .default, handler: { _ in
             navigationModule.instructionsType = .none
         }))
+        signpostType.popoverPresentationController?.sourceView = signpostTypeSelectButton
         present(signpostType, animated: true)
     }
     
