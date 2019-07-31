@@ -43,6 +43,8 @@ public class SYMKNavigationView: UIView {
     
     private let margin: CGFloat = 16
     private var actionButtonActionBlock: (()->())?
+    private var infobarTrailingConstraint: NSLayoutConstraint?
+    private var infobarWidthConstraint: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -57,6 +59,11 @@ public class SYMKNavigationView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateInfobarLayoutConstraints()
     }
     
     /// Setup map view on whole scene.
@@ -95,8 +102,10 @@ public class SYMKNavigationView: UIView {
         infobar.translatesAutoresizingMaskIntoConstraints = false
         addSubview(infobar)
         infobar.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
-        infobar.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
         infobar.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
+        infobarTrailingConstraint = infobar.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        infobarWidthConstraint = infobar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
+        updateInfobarLayoutConstraints()
     }
     
     // MARK: - Private Methods
@@ -104,5 +113,11 @@ public class SYMKNavigationView: UIView {
     private func setupUI() {
         accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
+    }
+    
+    private func updateInfobarLayoutConstraints() {
+        let isPortrait = SYUIDeviceOrientationUtils.isPortrait(traitCollection)
+        infobarWidthConstraint?.isActive = !isPortrait
+        infobarTrailingConstraint?.isActive = isPortrait
     }
 }
