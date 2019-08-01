@@ -42,14 +42,8 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
             case .success(route: let testRoute):
                 self?.navigationModule.startNavigation(with: testRoute, preview: true)
             case .error(errorMessage: let message):
-                self?.showErrorMessage(message)
+                self?.showErrorMessageAlert(message)
             }
         }
-    }
-    
-    private func showErrorMessage(_ message: String) {
-        let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(errorAlert, animated: true, completion: nil)
     }
 }
