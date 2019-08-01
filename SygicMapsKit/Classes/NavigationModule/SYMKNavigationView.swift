@@ -32,17 +32,22 @@ public class SYMKNavigationView: UIView {
     
     /// Map view.
     public private(set) weak var mapView: UIView?
-    /// Signpost view.
-    //    public private(set) weak var signpostView: UIView?
-    /// Route preview view with controlls to manage route preview playback
+
+    /// Route preview view with controlls to manage route preview playback.
     public private(set) weak var routePreviewView: UIView?
-    /// Infobar View
+    
+    /// Infobar View.
     public private(set) weak var infobarView: UIView?
+    
+    /// Instruction view.
+    public private(set) weak var instructionView: SYMKInstructionView?
     
     // MARK: - Private Properties
     
     private let margin: CGFloat = 16
     private var actionButtonActionBlock: (()->())?
+    private var trailingInstructionAnchor: NSLayoutConstraint?
+    private var landscapeInstructionWidthAnchor: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -57,6 +62,11 @@ public class SYMKNavigationView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateTraitCollectionLayout()
     }
     
     /// Setup map view on whole scene.
@@ -87,10 +97,33 @@ public class SYMKNavigationView: UIView {
         }
     }
     
+    /// Setup instruction view for navigation module.
+    ///
+    /// - Parameter instructionView: view with navigating instructions.
+    public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
+        self.instructionView?.removeFromSuperview()
+        self.instructionView = instructionView
+        guard let instructionView = instructionView else { return }
+        instructionView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(instructionView)
+        instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
+        instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        landscapeInstructionWidthAnchor = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
+        trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        updateTraitCollectionLayout()
+    }
+
     // MARK: - Private Methods
     
     private func setupUI() {
         accessibilityLabel = "view.browseModule.root"
         backgroundColor = UIColor.gray
     }
+    
+    private func updateTraitCollectionLayout() {
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
+        trailingInstructionAnchor?.isActive = !isLandscape
+        landscapeInstructionWidthAnchor?.isActive = isLandscape
+    }
+    
 }
