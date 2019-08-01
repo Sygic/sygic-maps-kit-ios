@@ -124,10 +124,5 @@ public class SYMKSignpostController: SYMKDirectionController {
     private func clearSignpostInfo() {
         signpostView.updateSignpostSymbols(with: [], pictograms: [])
     }
-    
-    private func roundaboutExitNumber(from maneuver: SYManeuver) -> String? {
-        guard let roundaboutManeuver = maneuver as? SYManeuverRoundabout, roundaboutManeuver.roundaboutExitIndex > 0 else { return nil }
-        return "\(roundaboutManeuver.roundaboutExitIndex)"
-    }
-    
+        
 }

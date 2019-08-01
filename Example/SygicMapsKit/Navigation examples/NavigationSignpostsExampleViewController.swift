@@ -29,42 +29,24 @@ import SygicUIKit
 class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
-    
-    let signpostTypeSelectButton: SYUIActionButton = {
-        let actionButton = SYUIActionButton()
-        actionButton.style = .secondary
-        actionButton.title = "Instructions"
-        actionButton.accessibilityIdentifier = "Instructions"
-        actionButton.height = 44
-        actionButton.titleSize = 15
-        actionButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
-        return actionButton
-    }()
+    let navigationModule = SYMKNavigationViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
-        setupInitializingActivityIndicator()
-    
-        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 49.211638, longitude: 18.549533)!, to: SYGeoCoordinate(latitude: 48.142441, longitude: 17.143728)!) { [weak self] (result) in
-            
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Instruction Type", style: .done, target: self, action: #selector(tapped))
+        
+        presentModule(navigationModule)
+        
+        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 49.211638, longitude: 18.549533)!, to: SYGeoCoordinate(latitude: 48.142441, longitude: 17.143728)!) { [weak self] result in
             switch result {
             case .success(route: let testRoute):
-                let navigationModule = SYMKNavigationViewController(with: testRoute)
-                self?.presentModule(navigationModule)
-                navigationModule.startNavigation(with: testRoute, preview: true)
-                self?.setupSignpostsSelectionButton()
+                self?.navigationModule.startNavigation(with: testRoute, preview: true)
             case .error(errorMessage: let message):
                 self?.showErrorMessage(message)
             }
         }
-    }
-    
-    private func setupSignpostsSelectionButton() {
-        signpostTypeSelectButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(signpostTypeSelectButton)
-        signpostTypeSelectButton.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
-        signpostTypeSelectButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16).isActive = true
     }
     
     @objc private func tapped() {
@@ -80,19 +62,10 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
         signpostType.addAction(UIAlertAction(title: "None", style: .default, handler: { _ in
             navigationModule.instructionsType = .none
         }))
-        signpostType.popoverPresentationController?.sourceView = signpostTypeSelectButton
+        signpostType.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(signpostType, animated: true)
     }
-    
-    /// Just to see something while SDK is initializing and SYRoute computing
-    private func setupInitializingActivityIndicator() {
-        let activityIndicator = UIActivityIndicatorView(style: .gray)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        activityIndicator.centerInSuperview()
-        activityIndicator.startAnimating()
-    }
-    
+
     private func showErrorMessage(_ message: String) {
         let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

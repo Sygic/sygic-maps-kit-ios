@@ -33,7 +33,6 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupInitializingActivityIndicator()
         setupLocationManager()
         
         let navigationModule = SYMKNavigationViewController()
@@ -65,16 +64,7 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
             }
         }
     }
-    
-    /// Just to see something while SDK is initializing and SYRoute computing
-    private func setupInitializingActivityIndicator() {
-        let activityIndicator = UIActivityIndicatorView(style: .gray)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        activityIndicator.centerInSuperview()
-        activityIndicator.startAnimating()
-    }
-    
+
     private func showErrorMessage(_ message: String) {
         let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

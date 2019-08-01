@@ -28,32 +28,23 @@ import SygicMapsKit
 class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
+    let navigationModule = SYMKNavigationViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupInitializingActivityIndicator()
+        
+        presentModule(navigationModule)
         
         RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788)!, to: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420)!) { [weak self] (result) in
             
             switch result {
             case .success(route: let testRoute):
-                let navigationModule = SYMKNavigationViewController(with: testRoute)
-                self?.presentModule(navigationModule)
-                navigationModule.startNavigation(with: testRoute, preview: true)
+                self?.navigationModule.startNavigation(with: testRoute, preview: true)
             case .error(errorMessage: let message):
                 self?.showErrorMessage(message)
             }
         }
-    }
-    
-    /// Just to see something while SDK is initializing and SYRoute computing
-    private func setupInitializingActivityIndicator() {
-        let activityIndicator = UIActivityIndicatorView(style: .gray)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        activityIndicator.centerInSuperview()
-        activityIndicator.startAnimating()
     }
     
     private func showErrorMessage(_ message: String) {
