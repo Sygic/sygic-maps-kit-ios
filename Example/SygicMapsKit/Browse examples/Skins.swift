@@ -60,16 +60,16 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
         browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .all
         browseMapModule.customMarkers = customMarkers()
-        browseMapModule.userLocationSkin = .pedestrian
-        browseMapModule.mapSkin = .night
+        browseMapModule.mapState.userLocationSkin = .pedestrian
+        browseMapModule.mapState.mapSkin = .night
         browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
         browseMapModule.mapState.zoom = 16
         presentModule(browseMapModule)
         
         browseMapModule.setupActionButton(with: "Switch map skin", icon: SYUIIcon.gallery, style: .primary13) { [weak self] in
             guard let browseMap = self?.browseMapModule else { return }
-            let skin: SYMKBrowseMapViewController.MapSkins = browseMap.mapSkin == .night ? .day : .night
-            browseMap.mapSkin = skin
+            let skin: SYMKMapState.MapSkins = browseMap.mapState.mapSkin == .night ? .day : .night
+            browseMap.mapState.mapSkin = skin
         }
     }
     

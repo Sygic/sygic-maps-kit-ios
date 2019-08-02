@@ -23,6 +23,7 @@
 import SygicMaps
 import SygicUIKit
 
+
 /// Browse map module output protocol.
 ///
 /// Adopting of this protocol overrides default behaviour, which means, bottom sheet
@@ -105,17 +106,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
-    public enum MapSkins: String {
-        case day
-        case night
-        case device
-    }
-    
-    public enum UsersLocationSkins: String {
-        case pedestrian
-        case car
-    }
-    
     /// Delegate output for browse map controller.
     public weak var delegate: SYMKBrowseMapViewControllerDelegate?
     /// Annotation delegate for browse map controller.
@@ -172,18 +162,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
-    public var mapSkin: MapSkins = .device {
-        didSet {
-            mapController?.mapView.activeSkins = activeSkins
-        }
-    }
-    
-    public var userLocationSkin: UsersLocationSkins = .car {
-        didSet {
-            mapController?.mapView.activeSkins = activeSkins
-        }
-    }
-    
     // MARK: - Private Properties
     
     private var mapController: SYMKMapController?
@@ -197,23 +175,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     }()
     
     private var mapControls = [MapControl]()
-    
-    private var activeSkins: [String] {
-        var skins: [String] = []
-        if #available(iOS 12.0, *) {
-            if mapSkin == .night || (mapSkin == .device && traitCollection.userInterfaceStyle == .dark) {
-                skins.append(MapSkins.night.rawValue)
-            } else {
-                skins.append(MapSkins.day.rawValue)
-            }
-        } else {
-            skins.append(mapSkin.rawValue)
-        }
-        if userLocationSkin == .pedestrian {
-            skins.append(userLocationSkin.rawValue)
-        }
-        return skins
-    }
     
     // MARK: - Public Methods
     
@@ -249,12 +210,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         super.viewWillDisappear(animated)
     }
     
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if #available(iOS 12.0, *), mapSkin == .device {
-            mapController?.mapView.activeSkins = activeSkins
-        }
-    }
     
     /// Setup action button with passed attributes and action and add it in bottom right corner of view
     ///
@@ -327,7 +282,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
-        mapController.mapView.activeSkins = activeSkins
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap(customMarkers)
