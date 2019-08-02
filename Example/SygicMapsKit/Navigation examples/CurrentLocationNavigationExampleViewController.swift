@@ -33,7 +33,6 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupInitializingActivityIndicator()
         setupLocationManager()
         
         let navigationModule = SYMKNavigationViewController()
@@ -43,7 +42,7 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     func setupLocationManager() {
         SYMKSdkManager.shared.initializeIfNeeded { [weak self] (success) in
             guard success else {
-                self?.showErrorMessage("Error init SDK")
+                self?.showErrorMessageAlert("Error init SDK")
                 return
             }
             
@@ -61,25 +60,12 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
             case .success(route: let testRoute):
                 navigationModule.startNavigation(with: testRoute)
             case .error(errorMessage: let message):
-                self?.showErrorMessage(message)
+                self?.showErrorMessageAlert(message)
             }
         }
     }
+
     
-    /// Just to see something while SDK is initializing and SYRoute computing
-    private func setupInitializingActivityIndicator() {
-        let activityIndicator = UIActivityIndicatorView(style: .gray)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        activityIndicator.centerInSuperview()
-        activityIndicator.startAnimating()
-    }
-    
-    private func showErrorMessage(_ message: String) {
-        let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(errorAlert, animated: true, completion: nil)
-    }
 }
 
 extension CurrentLocationNavigationExampleViewController: SYPositioningDelegate {
@@ -88,5 +74,13 @@ extension CurrentLocationNavigationExampleViewController: SYPositioningDelegate 
         
         currentLocation = location
         computeRoute(from: location)
+    }
+}
+
+extension UIViewController {
+    func showErrorMessageAlert(_ message: String) {
+        let errorAlert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(errorAlert, animated: true, completion: nil)
     }
 }

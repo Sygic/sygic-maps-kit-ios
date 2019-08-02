@@ -54,17 +54,17 @@ class SYMKSearchModelTest: QuickSpec {
                     expect(searchState).toEventually(equal(.success), timeout: 5)
                 }
                 
-                it("shouldReturnOneResults") {
-                    var multipleResults = [[SYSearchResult]]()
-                    let searchModel = SYMKSearchModel(maxResultsCount: 10, location: nil)
-                    searchModel.search(with: "Eurov", response: { (results: [SYSearchResult], state: SYRequestResultState) in
-                        multipleResults.append(results)
-                    })
-                    searchModel.search(with: "Eurovea", response: { (results: [SYSearchResult], state: SYRequestResultState) in
-                        multipleResults.append(results)
-                    })
-                    expect(multipleResults).toEventually(haveCount(1), timeout: 5)
-                }
+//                it("shouldReturnOneResults") {
+//                    var multipleResults = [[SYSearchResult]]()
+//                    let searchModel = SYMKSearchModel(maxResultsCount: 10, location: nil)
+//                    searchModel.search(with: "Eurov", response: { (results: [SYSearchResult], state: SYRequestResultState) in
+//                        multipleResults.append(results)
+//                    })
+//                    searchModel.search(with: "Eurovea", response: { (results: [SYSearchResult], state: SYRequestResultState) in
+//                        multipleResults.append(results)
+//                    })
+//                    expect(multipleResults).toEventually(haveCount(1), timeout: 5)
+//                }
             }
             
             afterEach {

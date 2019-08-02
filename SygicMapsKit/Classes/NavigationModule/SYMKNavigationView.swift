@@ -32,12 +32,15 @@ public class SYMKNavigationView: UIView {
     
     /// Map view.
     public private(set) weak var mapView: UIView?
-    /// Signpost view.
-    //    public private(set) weak var signpostView: UIView?
-    /// Route preview view with controlls to manage route preview playback
+
+    /// Route preview view with controlls to manage route preview playback.
     public private(set) weak var routePreviewView: UIView?
-    /// Infobar View
+    
+    /// Infobar View.
     public private(set) weak var infobarView: UIView?
+    
+    /// Instruction view.
+    public private(set) weak var instructionView: SYMKInstructionView?
     
     // MARK: - Private Properties
     
@@ -45,6 +48,8 @@ public class SYMKNavigationView: UIView {
     private var actionButtonActionBlock: (()->())?
     private var infobarTrailingConstraint: NSLayoutConstraint?
     private var infobarWidthConstraint: NSLayoutConstraint?
+    private var instructionTrailingConstraint: NSLayoutConstraint?
+    private var instrunctionWidthConstraint: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -64,6 +69,7 @@ public class SYMKNavigationView: UIView {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateInfobarLayoutConstraints()
+        updateInstructionLayoutConstraints()
     }
     
     /// Setup map view on whole scene.
@@ -109,6 +115,22 @@ public class SYMKNavigationView: UIView {
         updateInfobarLayoutConstraints()
     }
     
+    /// Setup instruction view for navigation module.
+    ///
+    /// - Parameter instructionView: view with navigating instructions.
+    public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
+        self.instructionView?.removeFromSuperview()
+        self.instructionView = instructionView
+        guard let instructionView = instructionView else { return }
+        instructionView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(instructionView)
+        instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
+        instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        instrunctionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
+        instructionTrailingConstraint = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        updateInstructionLayoutConstraints()
+    }
+
     // MARK: - Private Methods
     
     private func setupUI() {
@@ -117,8 +139,14 @@ public class SYMKNavigationView: UIView {
     }
     
     private func updateInfobarLayoutConstraints() {
-        let isPortrait = SYUIDeviceOrientationUtils.isPortrait(traitCollection)
+        let isPortrait = SYUIDeviceOrientationUtils.isPortraitLayout(traitCollection)
         infobarWidthConstraint?.isActive = !isPortrait
         infobarTrailingConstraint?.isActive = isPortrait
+    }
+    
+    private func updateInstructionLayoutConstraints() {
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
+        instructionTrailingConstraint?.isActive = !isLandscape
+        instrunctionWidthConstraint?.isActive = isLandscape
     }
 }

@@ -25,6 +25,17 @@ import SygicMaps
 import SygicUIKit
 
 
+/// Type of view with navigation instructions.
+///
+/// - direction: Instructions using arrow direction with distance and road street names.
+/// - signpost: Extended direction instructions with signposts.
+/// - none: No instruction view.
+public enum SYMKInstructionType {
+    case direction
+    case signpost
+    case none
+}
+
 /// Navigation module
 public class SYMKNavigationViewController: SYMKModuleViewController {
     
@@ -70,6 +81,20 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Type of view with navigation instructions.
+    public var instructionsType: SYMKInstructionType = .direction {
+        didSet {
+            switch instructionsType {
+            case .direction:
+                instructionsController = SYMKDirectionController()
+            case .signpost:
+                instructionsController = SYMKSignpostController()
+            case .none:
+                instructionsController = nil
+            }
+        }
+    }
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -85,7 +110,18 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     private var infobarController: SYMKInfobarController?
+
     private let routePreviewController = SYMKRoutePreviewController()
+
+    private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
+        didSet {
+            guard let navigationView = view as? SYMKNavigationView, let instructionsController = instructionsController else {
+                (view as? SYMKNavigationView)?.setupInstructionView(nil)
+                return
+            }
+            navigationView.setupInstructionView(instructionsController.view)
+        }
+    }
     
     // MARK: - Public Methods
     
@@ -126,6 +162,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     
     public override func loadView() {
         let navigationView = SYMKNavigationView()
+        if let instructionsController = instructionsController {
+            navigationView.setupInstructionView(instructionsController.view)
+        }
         view = navigationView
     }
     
@@ -199,6 +238,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
+    
     public func navigation(_ navigation: SYNavigation, didUpdate route: SYRoute?) {
         print("navigation updated route")
     }
@@ -213,11 +253,13 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdateSignpost signpostInfo: [SYSignpost]?) {
-        
+        guard let signposts = signpostInfo, let signpostController = instructionsController as? SYMKSignpostController else { return }
+        signpostController.update(with: signposts)
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdateDirection instruction: SYInstruction?) {
-        
+        guard let instruction = instruction, let instructionsController = instructionsController else { return }
+        instructionsController.update(with: instruction)
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
@@ -227,7 +269,9 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
 }
 
 extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
+    
     public func routePreviewDidStop(_ controller: SYMKRoutePreviewController) {
         preview = false
     }
+    
 }
