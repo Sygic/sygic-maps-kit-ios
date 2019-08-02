@@ -53,7 +53,7 @@ public class SYMKRoutePreviewController {
     
     private var simulator: SYRoutePositionSimulator?
     private var speed: CGFloat = 1
-    private var speedText: String { "\(Int(speed))x" }
+    private var speedText: String { "\(Int(speed))X" }
     
     // MARK: - Public Methods
     

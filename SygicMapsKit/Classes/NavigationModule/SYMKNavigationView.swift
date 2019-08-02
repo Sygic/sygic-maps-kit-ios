@@ -103,9 +103,10 @@ public class SYMKNavigationView: UIView {
     /// Setup route preview control view
     ///
     /// - Parameter routePreview: route preview control view
-    public func setupInfobarView(_ infobar: UIView) {
+    public func setupInfobarView(_ infobar: UIView?) {
         self.infobarView?.removeFromSuperview()
         self.infobarView = infobar
+        guard let infobar = infobar else { return }
         infobar.translatesAutoresizingMaskIntoConstraints = false
         addSubview(infobar)
         infobar.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true

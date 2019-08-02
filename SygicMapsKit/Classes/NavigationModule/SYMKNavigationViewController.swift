@@ -67,6 +67,13 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Enables infobar functionality
+    public var useInfobar: Bool = true {
+        didSet {
+            setupInfobarController()
+        }
+    }
+    
     /// Button that appears inside infobarView. Default button locks map position on user location
     public var leftInfobarButton: SYUIActionButton? {
         didSet {
@@ -141,7 +148,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         
         let lockButton = SYUIActionButton()
         lockButton.style = .primary13
-        lockButton.icon = SYUIIcon.contextMenuIos
+        lockButton.icon = SYUIIcon.positionIos
         lockButton.addTarget(self, action: #selector(lockPosition), for: .touchUpInside)
         leftInfobarButton = lockButton
         
@@ -183,10 +190,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         navigationView.setupMapView(map)
         triggerUserLocation(true)
         
-        infobarController = SYMKInfobarController()
-        infobarController?.infobarView.leftButton = leftInfobarButton
-        infobarController?.infobarView.rightButton = rightInfobarButton
-        navigationView.setupInfobarView(infobarController!.infobarView)
+        setupInfobarController()
         
         SYNavigation.shared().delegate = self
         
@@ -217,6 +221,19 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     // MARK: - Private Methods
+    
+    private func setupInfobarController() {
+        guard let navigationView = view as? SYMKNavigationView else { return }
+        guard useInfobar else {
+            infobarController = nil
+            navigationView.setupInfobarView(nil)
+            return
+        }
+        infobarController = SYMKInfobarController()
+        infobarController?.infobarView.leftButton = leftInfobarButton
+        infobarController?.infobarView.rightButton = rightInfobarButton
+        navigationView.setupInfobarView(infobarController!.infobarView)
+    }
     
     private func startPreview() {
         guard let route = route else { return }

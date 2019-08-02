@@ -29,14 +29,19 @@ public class SYMKRoutePreviewView: UIView {
     public let stopButton: UIButton = {
         let button = UIButton()
         let bundle = Bundle(for: SYUIIcon.self)
-        let image = UIImage(named: "square", in: bundle, compatibleWith: nil)
-        button.setImage(image, for: .normal)
+        button.setImage(SYUIIcon.square, for: .normal)
+        button.tintColor = .accentSecondary
         return button
     }()
-    public let playButton = UIButton()
+    public let playButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .accentSecondary
+        return button
+    }()
     public let speedButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
+        button.setTitleColor(.accentSecondary, for: .normal)
         return button
     }()
     
@@ -54,10 +59,11 @@ public class SYMKRoutePreviewView: UIView {
         layer.cornerRadius = cornerRadius
         layer.masksToBounds = true
         
-        var blurStyle: UIBlurEffect.Style = .light
+        var blurStyle: UIBlurEffect.Style = .dark
         if #available(iOS 13.0, *) {
-            blurStyle = .systemThinMaterial
+            blurStyle = .systemMaterial
         }
+        
         let blur = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
         blur.translatesAutoresizingMaskIntoConstraints = false
         addSubview(blur)
