@@ -105,8 +105,8 @@ class DataAnnotationView: SYAnnotationView {
         
         firstLabel.textAlignment = .center
         secondLabel.textAlignment = .center
-        firstLabel.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
-        secondLabel.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
+        firstLabel.font = SYUIFont.with(.semiBold, size: SYUIFontSize.heading)
+        secondLabel.font = SYUIFont.with(.semiBold, size: SYUIFontSize.heading)
         
         stack.addArrangedSubview(firstLabel)
         stack.addArrangedSubview(secondLabel)
