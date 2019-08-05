@@ -59,6 +59,9 @@ public class SYMKDirectionController {
         return view.nextInstructionText
     }
     
+    /// Distance units shown in distance labels
+    public var units: SYUIDistanceUnits = .kilometers
+    
     // MARK: - Private Properties
     
     private let directionView = SYMKDirectionView()
@@ -88,7 +91,7 @@ public class SYMKDirectionController {
             distanceInMeters = tunnelData.remainingTunnelDistance
         }
         
-        let formattedDistanceInMeters = formattedDistance(distanceInMeters)
+        let formattedDistanceInMeters = formattedDistance(distanceInMeters, units: units)
         
         updateDistance(formattedDistanceInMeters)
         updateDirection(from: primaryManeuver)
@@ -133,8 +136,8 @@ public class SYMKDirectionController {
         directionView.animateNextInstruction(visible: visible)
     }
     
-    private func formattedDistance(_ distance: SYDistance) -> String {
-        let remainingDistance = distance.format(toShortUnits: true, andRound: true)
+    private func formattedDistance(_ distance: SYDistance, units: SYUIDistanceUnits) -> String {
+        let remainingDistance = distance.format(toShortUnits: true, andRound: true, usingOtherThenFormattersUnits: units)
         return "\(remainingDistance.formattedDistance) \(remainingDistance.units)"
     }
     
