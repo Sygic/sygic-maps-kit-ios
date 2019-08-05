@@ -24,6 +24,7 @@ import Foundation
 import SygicUIKit
 
 
+/// Item for infobar controller showing current altitude
 public class SYMKAltitudeInfobarItem: SYMKInfobarItem {
     public var type: SYMKInfobarItemType = .altitude(0)
     public let view: UIView = SYUIInfobarSecondaryLabel()

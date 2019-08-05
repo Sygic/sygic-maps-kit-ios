@@ -25,6 +25,7 @@ import SygicUIKit
 import SygicMaps
 
 
+/// Item for infobar controller showing current speed
 public class SYMKSpeedInfobarItem: SYMKInfobarItem {
     public var type: SYMKInfobarItemType = .currentSpeed(0)
     public let view: UIView = SYUIInfobarSecondaryLabel()

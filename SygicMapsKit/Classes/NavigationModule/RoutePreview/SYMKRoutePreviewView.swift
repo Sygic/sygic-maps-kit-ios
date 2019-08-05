@@ -24,8 +24,12 @@ import Foundation
 import SygicUIKit
 
 
+/// View with buttons to control route preview playback speed, pause and stop
 public class SYMKRoutePreviewView: UIView {
     
+    // MARK: - Public Properties
+    
+    /// Stop button
     public let stopButton: UIButton = {
         let button = UIButton()
         let bundle = Bundle(for: SYUIIcon.self)
@@ -33,11 +37,15 @@ public class SYMKRoutePreviewView: UIView {
         button.tintColor = .accentSecondary
         return button
     }()
+    
+    /// Play button
     public let playButton: UIButton = {
         let button = UIButton()
         button.tintColor = .accentSecondary
         return button
     }()
+    
+    /// Speed button
     public let speedButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
@@ -45,12 +53,16 @@ public class SYMKRoutePreviewView: UIView {
         return button
     }()
     
+    // MARK: - Private Properties
+    
     private let height: CGFloat = 40
     private let cornerRadius: CGFloat = 18
     
     private class func button() -> UIButton {
         return UIButton()
     }
+    
+    // MARK: - Public Methods
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

@@ -24,6 +24,8 @@ import Foundation
 import SygicUIKit
 import SygicMaps
 
+
+/// Item for infobar controller showing distance to the end of route
 public class SYMKRemainingDistanceInfobarItem: SYMKInfobarItem {
     public var type: SYMKInfobarItemType = .remainingDistance(0)
     public let view: UIView = SYUIInfobarSecondaryLabel()

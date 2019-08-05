@@ -24,6 +24,7 @@ import Foundation
 import SygicUIKit
 
 
+/// Item for infobar controller showing estimated time of arrival
 public class SYMKEtaInfobarItem: SYMKInfobarItem {
     public var type: SYMKInfobarItemType = .estimatedTimeOfArrival(Date())
     public let view: UIView = SYUIInfobarSecondaryLabel()

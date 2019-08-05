@@ -24,6 +24,7 @@ import Foundation
 import SygicUIKit
 
 
+/// Item for infobar controller showing time to the end of route
 public class SYMKRemainingTimeInfobarItem: SYMKInfobarItem {
     public var type: SYMKInfobarItemType = .remainingTime(0)
     public let view: UIView = SYUIInfobarLabel()
