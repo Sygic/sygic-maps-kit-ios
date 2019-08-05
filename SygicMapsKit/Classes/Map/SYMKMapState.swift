@@ -132,7 +132,7 @@ public class SYMKMapState: NSCopying {
     
     // MARK: - Private properties
     
-    var activeSkins: [String] {
+    internal var activeSkins: [String] {
         var skins: [String] = []
         guard let map = map else { return [] }
         if #available(iOS 12.0, *) {
