@@ -42,6 +42,9 @@ public class SYMKNavigationView: UIView {
     /// Instruction view.
     public private(set) weak var instructionView: SYMKInstructionView?
     
+    /// Current speed and speed limit view.
+    public private(set) weak var speedControlView: SYUISpeedControlView?
+    
     // MARK: - Private Properties
     
     private let margin: CGFloat = 16
@@ -71,7 +74,7 @@ public class SYMKNavigationView: UIView {
     
     /// Setup map view on whole scene.
     ///
-    /// - Parameter mapView: Map view to set up
+    /// - Parameter mapView: Map view to set up.
     public func setupMapView(_ mapView: UIView) {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -80,9 +83,9 @@ public class SYMKNavigationView: UIView {
         mapView.coverWholeSuperview()
     }
     
-    /// Setup route preview control view
+    /// Setup route preview control view.
     ///
-    /// - Parameter routePreview: route preview control view
+    /// - Parameter routePreview: Route preview control view.
     public func setupRoutePreviewView(_ routePreview: UIView) {
         self.routePreviewView?.removeFromSuperview()
         self.routePreviewView = routePreview
@@ -99,7 +102,7 @@ public class SYMKNavigationView: UIView {
     
     /// Setup instruction view for navigation module.
     ///
-    /// - Parameter instructionView: view with navigating instructions.
+    /// - Parameter instructionView: View with navigating instructions.
     public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
         self.instructionView?.removeFromSuperview()
         self.instructionView = instructionView
@@ -111,6 +114,17 @@ public class SYMKNavigationView: UIView {
         landscapeInstructionWidthAnchor = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
         trailingInstructionAnchor = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
         updateTraitCollectionLayout()
+    }
+    
+    /// Setup speed cobntrol view for navigation module.
+    ///
+    /// - Parameter speedControlView: View with current speed and speed limit.
+    public func setupSpeedControlView(_ speedControlView: SYUISpeedControlView) {
+        self.speedControlView = speedControlView
+        addSubview(speedControlView)
+        speedControlView.translatesAutoresizingMaskIntoConstraints = false
+        speedControlView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        speedControlView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
     }
 
     // MARK: - Private Methods

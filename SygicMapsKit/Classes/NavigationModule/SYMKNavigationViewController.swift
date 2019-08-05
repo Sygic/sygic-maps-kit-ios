@@ -67,6 +67,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Enables current speed and speed limit.
+    public var useSpeedControls = false
+    
     /// Type of view with navigation instructions.
     public var instructionsType: SYMKInstructionType = .direction {
         didSet {
@@ -94,9 +97,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
             }
         }
     }
-    
 
     private let routePreviewController = SYMKRoutePreviewController()
+    private let speedController = SYMKSpeedController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
         didSet {
@@ -138,6 +141,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         if let instructionsController = instructionsController {
             navigationView.setupInstructionView(instructionsController.view)
         }
+        if useSpeedControls {
+            navigationView.setupSpeedControlView(speedController.view)
+        }
         view = navigationView
     }
     
@@ -155,9 +161,10 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let map = mapState.loadMap(with: view.bounds)
         navigationView.setupMapView(map)
         triggerUserLocation(true)
+        setupSpeedUpdater()
         
         SYNavigation.shared().delegate = self
-        
+    
         guard let route = route, let mapRoute = mapRoute else { return }
         map.remove(mapRoute)
         map.add(mapRoute)
@@ -198,6 +205,20 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         guard let navigationView = view as? SYMKNavigationView else { return }
         navigationView.routePreviewView?.removeFromSuperview()
     }
+    
+    private func setupSpeedUpdater() {
+        guard useSpeedControls else { return }
+        
+        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let weakSelf = self else {
+                timer.invalidate()
+                return
+            }
+            guard timer.isValid else { return }
+            guard let speed = SYPositioning.shared().lastKnownLocation?.speed else { return }
+            weakSelf.speedController.currentSpeed = Int(speed)
+        }
+    }
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
@@ -211,7 +232,7 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate limit: SYSpeedLimit?) {
-        
+        speedController.update(with: limit)
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdateSignpost signpostInfo: [SYSignpost]?) {
