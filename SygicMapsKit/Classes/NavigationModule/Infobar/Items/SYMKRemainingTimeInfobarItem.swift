@@ -42,12 +42,12 @@ public class SYMKRemainingTimeInfobarItem: SYMKInfobarItem {
     private func formattedValue(_ remainingTime: TimeInterval?) -> String {
         if let time = remainingTime {
             if time < 60 {
-                return "\(time)s"
+                return "\(time)\(LS("sec"))"
             } else if time < 60*60 {
-                return String(format: "%imin", Int(time/60))
+                return String(format: "%i%@", Int(time/60), LS("min"))
             } else {
                 let min = Float(time).truncatingRemainder(dividingBy: 60*60)
-                return String(format: "%ih%im", Int(time/60/60), Int(min/60))
+                return String(format: "%i%@%i%@", Int(time/60/60), LS("h"), Int(min/60), LS("min"))
             }
         }
         return ""

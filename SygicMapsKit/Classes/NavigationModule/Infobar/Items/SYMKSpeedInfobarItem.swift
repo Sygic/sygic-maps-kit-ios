@@ -35,16 +35,16 @@ public class SYMKSpeedInfobarItem: SYMKInfobarItem {
     
     public func update(with valueType: SYMKInfobarItemType) {
         switch valueType {
-        case .currentSpeed(let speed):
+        case .currentSpeed(let speed, let units):
             type = valueType
             guard let label = view as? SYUIInfobarLabel else { return }
-            label.text = formattedValue(speed)
+            label.text = formattedValue(speed, units)
         default:
             break
         }
     }
 
-    private func formattedValue(_ speed: SYSpeed) -> String {
-        return "\(speed)kmh" //TODO: LS
+    private func formattedValue(_ speed: SYSpeed, _ units: SYUIDistanceUnits) -> String {
+        return "\(speed)\(units.speedTitle)"
     }
 }

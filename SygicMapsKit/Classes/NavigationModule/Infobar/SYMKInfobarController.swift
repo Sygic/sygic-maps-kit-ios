@@ -32,11 +32,11 @@ public enum SYMKInfobarItemType {
     /// Remaining time to the end of route
     case remainingTime(_ value: TimeInterval?)
     /// Remaining distance to the end of route
-    case remainingDistance(_ value: UInt)
+    case remainingDistance(_ value: UInt, units: SYUIDistanceUnits = .kilometers)
     /// Current driving speed
-    case currentSpeed(_ value: SYSpeed)
+    case currentSpeed(_ value: SYSpeed, units: SYUIDistanceUnits = .kilometers)
     /// Altitude of current location
-    case altitude(_ value: Double)
+    case altitude(_ value: Double, units: SYUIDistanceUnits = .kilometers)
     /// Custom undefined item
     case custom
 }
@@ -47,7 +47,6 @@ public protocol SYMKInfobarItem {
     var view: UIView { get }
     func update(with valueType: SYMKInfobarItemType)
 }
-
 
 /// Controls infobar view, presented informations and updating items.
 public class SYMKInfobarController {
@@ -68,6 +67,9 @@ public class SYMKInfobarController {
         }
     }
     
+    /// Distance units showing in infobar items. Default value is metric units.
+    public var units: SYUIDistanceUnits = .kilometers
+    
     /// InfobarView
     public let infobarView = SYUIInfobarView()
     
@@ -87,7 +89,8 @@ public class SYMKInfobarController {
     public func updateRouteInfo(_ info: SYOnRouteInfo) {
         updateItemView(of: .remainingTime(info.timeToEndWithSpeedProfileAndTraffic))
         updateItemView(of: .estimatedTimeOfArrival(Date(timeIntervalSinceNow: info.timeToEndWithSpeedProfileAndTraffic)))
-        updateItemView(of: .remainingDistance(info.distanceToEnd))
+        updateItemView(of: .remainingDistance(info.distanceToEnd, units: units))
+        infobarView.setNeedsLayout()
     }
     
     /// Updates infobar items with position data
@@ -95,9 +98,10 @@ public class SYMKInfobarController {
     public func updatePositionInfo(_ info: SYPositionInfo) {
         guard let position = SYPositioning.shared().lastKnownLocation else { return }
         if let altitude = position.coordinate?.altitude {
-            updateItemView(of: .altitude(altitude))
+            updateItemView(of: .altitude(altitude, units: units))
         }
-        updateItemView(of: .currentSpeed(position.speed))
+        updateItemView(of: .currentSpeed(position.speed, units: units ))
+        infobarView.setNeedsLayout()
     }
     
     // MARK: - Private Methods

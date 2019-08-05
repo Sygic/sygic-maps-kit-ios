@@ -22,7 +22,7 @@
 
 import Foundation
 import SygicUIKit
-
+import SygicMaps
 
 public class SYMKRemainingDistanceInfobarItem: SYMKInfobarItem {
     public var type: SYMKInfobarItemType = .remainingDistance(0)
@@ -30,22 +30,17 @@ public class SYMKRemainingDistanceInfobarItem: SYMKInfobarItem {
     
     public func update(with valueType: SYMKInfobarItemType) {
         switch valueType {
-        case .remainingDistance(let distance):
+        case .remainingDistance(let distance, let units):
             type = valueType
             guard let label = view as? SYUIInfobarLabel else { return }
-            label.text = formattedValue(distance)
+            label.text = formattedValue(distance, units)
         default:
             break
         }
     }
 
-    private func formattedValue(_ distance: UInt) -> String {
-        if distance >= 2000 {
-            return String(format: "%.0fkm", Float(distance)/1000.0)
-        } else if distance >= 1000 {
-            return String(format: "%.2fkm", Float(distance)/1000.0)
-        } else {
-            return "\(distance)m"
-        }
+    private func formattedValue(_ distance: SYDistance, _ units: SYUIDistanceUnits) -> String {
+        let formatted = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
+        return "\(formatted.formattedDistance)\(formatted.units)"
     }
 }

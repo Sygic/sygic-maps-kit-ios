@@ -34,7 +34,7 @@ public class SYMKAltitudeInfobarItem: SYMKInfobarItem {
     
     public func update(with valueType: SYMKInfobarItemType) {
         switch valueType {
-        case .altitude(let altitude):
+        case .altitude(let altitude, let units):
             type = valueType
             guard let label = view as? SYUIInfobarLabel else { return }
             label.text = formattedValue(altitude)
@@ -44,6 +44,6 @@ public class SYMKAltitudeInfobarItem: SYMKInfobarItem {
     }
 
     private func formattedValue(_ altitude: Double) -> String {
-        return "\(altitude)mnm" //TODO: LS
+        return "\(altitude)masl" // TODO: localize
     }
 }

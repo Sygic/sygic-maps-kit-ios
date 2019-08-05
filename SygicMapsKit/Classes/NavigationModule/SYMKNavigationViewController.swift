@@ -102,6 +102,14 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Distance units. Default value is metric units.
+    public var units: SYUIDistanceUnits = .kilometers {
+        didSet {
+            instructionsController?.units = units
+            infobarController?.units = units
+        }
+    }
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -126,6 +134,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
                 (view as? SYMKNavigationView)?.setupInstructionView(nil)
                 return
             }
+            instructionsController.units = units
             navigationView.setupInstructionView(instructionsController.view)
         }
     }
@@ -149,12 +158,14 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let lockButton = SYUIActionButton()
         lockButton.style = .primary13
         lockButton.icon = SYUIIcon.positionIos
+        lockButton.height = 48
         lockButton.addTarget(self, action: #selector(lockPosition), for: .touchUpInside)
         leftInfobarButton = lockButton
         
         let cancelRouteButton = SYUIActionButton()
         cancelRouteButton.style = .error13
         cancelRouteButton.icon = SYUIIcon.close
+        cancelRouteButton.height = 48
         cancelRouteButton.addTarget(self, action: #selector(stopNavigation), for: .touchUpInside)
         rightInfobarButton = cancelRouteButton
     }
@@ -230,6 +241,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
             return
         }
         infobarController = SYMKInfobarController()
+        infobarController?.units = units
         infobarController?.infobarView.leftButton = leftInfobarButton
         infobarController?.infobarView.rightButton = rightInfobarButton
         navigationView.setupInfobarView(infobarController!.infobarView)
