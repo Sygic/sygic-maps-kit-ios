@@ -106,6 +106,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         didSet {
             instructionsController?.units = units
             infobarController?.units = units
+            speedController.units = units
         }
     }
     
@@ -270,7 +271,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
             }
             guard timer.isValid else { return }
             guard let speed = SYPositioning.shared().lastKnownLocation?.speed else { return }
-            weakSelf.speedController.currentSpeed = Int(speed)
+            weakSelf.speedController.currentSpeed = speed
         }
     }
     

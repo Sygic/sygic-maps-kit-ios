@@ -27,25 +27,47 @@ import SygicUIKit
 /// Controller for current speed and speed limit.
 public class SYMKSpeedController {
     
-    public init() { }
+    // MARK: - Public Properties
     
     /// Speed controllers view.
     public let view = SYUISpeedControlView()
     
     /// Updates current speed.
-    public var currentSpeed = 0 {
+    public var currentSpeed: Double = 0 {
         didSet {
-            view.updateCurrentSpeed(with: currentSpeed)
+            var speeding = false
+            if let speedLimit = actualSpeedLimit {
+                speeding = currentSpeed > speedLimit
+            }
+            let formattedSpeed = SYUIGeneralFormatter.format(currentSpeed, from: .kilometers, to: units)
+            view.updateCurrentSpeed(with: Int(formattedSpeed), speeding: speeding)
         }
     }
+    
+    /// Distance units shown in distance labels
+    public var units: SYUIDistanceUnits = .kilometers {
+        didSet {
+            view.updateUnits(units)
+        }
+    }
+    
+    // MARK: - Private Properties
+    
+    private var actualSpeedLimit: Double?
+    
+    // MARK: - Public Methods
+    
+    public init() { }
     
     /// Updates speed limit and type of speed limit.
     /// - Parameter speedLimit: Speed limit info.
     public func update(with speedLimit: SYSpeedLimit?) {
         guard let speedLimit = speedLimit else {
+            actualSpeedLimit = nil
             view.updateSpeedLimit(with: 0, isAmerica: false)
             return
         }
+        actualSpeedLimit = speedLimit.speedLimit
         view.updateSpeedLimit(with: Int(speedLimit.speedLimit), isAmerica: speedLimit.country == .america)
     }
     
