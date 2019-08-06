@@ -29,11 +29,7 @@ import SygicUIKit
 class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
-    let navigationModule: SYMKNavigationViewController = {
-        let module = SYMKNavigationViewController()
-        module.useSpeedControls = true
-        return module
-    }()
+    let navigationModule = SYMKNavigationViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()

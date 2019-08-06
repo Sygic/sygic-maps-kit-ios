@@ -45,6 +45,13 @@ public class SYMKModuleViewController: UIViewController {
         }
     }
     
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 12.0, *), mapState.mapSkin == .device, traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle {
+            mapState.map?.activeSkins = mapState.activeSkins
+        }
+    }
+    
     /// Method called after Sygic SDK is succesfully initialized.
     ///
     /// Override this method in subclass. Use this override like `viewDidLoad`

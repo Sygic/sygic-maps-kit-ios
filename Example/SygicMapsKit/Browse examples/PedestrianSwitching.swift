@@ -66,12 +66,12 @@ class BrowseMapPedestrianExampleViewController: UIViewController, SYMKModulePres
     
     @objc private func tapped() {
         guard let browseModule = browseMap else { return }
-        let isPedestrian = browseModule.userLocationSkin == .pedestrian
+        let isPedestrian = browseModule.mapState.userLocationSkin == .pedestrian
         if isPedestrian {
-            browseModule.userLocationSkin = .car
+            browseModule.mapState.userLocationSkin = .car
             pedestrianButton?.icon = SYUIIcon.walk
         } else {
-            browseModule.userLocationSkin = .pedestrian
+            browseModule.mapState.userLocationSkin = .pedestrian
             pedestrianButton?.icon = SYUIIcon.vehicle
         }
     }

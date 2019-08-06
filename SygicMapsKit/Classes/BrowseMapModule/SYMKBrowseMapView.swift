@@ -93,12 +93,8 @@ public class SYMKBrowseMapView: UIView {
         addSubview(zoomControl)
         bringSubviewToFront(zoomControl)
         zoomControl.translatesAutoresizingMaskIntoConstraints = false
-        zoomControl.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
-        if let recenterButton = recenterButton {
-            zoomControl.bottomAnchor.constraint(equalTo: recenterButton.topAnchor, constant: -margin).isActive = true
-        } else {
-            zoomControl.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
-        }
+        zoomControl.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        zoomControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
     /// Setup recenter button on scene.

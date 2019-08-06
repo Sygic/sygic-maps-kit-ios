@@ -78,17 +78,81 @@ public class SYMKMapState: NSCopying {
     }
     
     /// Camera movement mode. Default is `.free`.
-    public var cameraMovementMode: SYCameraMovement = .free
+    public var cameraMovementMode: SYCameraMovement = .free {
+        didSet {
+            if map?.camera.movementMode != cameraMovementMode {
+                map?.camera.movementMode = cameraMovementMode
+            }
+        }
+    }
     
     /// Camera rotation mode. Default is `.free`.
-    public var cameraRotationMode: SYCameraRotation = .free
+    public var cameraRotationMode: SYCameraRotation = .free {
+        didSet {
+            if map?.camera.rotationMode != cameraRotationMode {
+                map?.camera.rotationMode = cameraRotationMode
+            }
+        }
+    }
     
     /// Returns, whether tilt is 3D or not.
     public var isTilt3D: Bool {
         return tilt >= 0.01
     }
     
+    // MARK: Skins
+    
+    public enum MapSkins: String {
+        /// Light map appearance
+        case day
+        /// Dark map appearance
+        case night
+        /// Day / night map skin is chosen by device appearance light / dark setting
+        case device
+    }
+    
+    public enum UsersLocationSkins: String {
+        case pedestrian
+        case car
+    }
+    
+    /// Map appearance
+    public var mapSkin: MapSkins = .device {
+        didSet {
+            map?.activeSkins = activeSkins
+        }
+    }
+    
+    /// User location indicator appearance
+    public var userLocationSkin: UsersLocationSkins = .car {
+        didSet {
+            map?.activeSkins = activeSkins
+        }
+    }
+    
+    // MARK: - Private properties
+    
+    internal var activeSkins: [String] {
+        var skins: [String] = []
+        guard let map = map else { return [] }
+        if #available(iOS 12.0, *) {
+            if mapSkin == .night || (mapSkin == .device && map.traitCollection.userInterfaceStyle == .dark) {
+                skins.append(MapSkins.night.rawValue)
+            } else {
+                skins.append(MapSkins.day.rawValue)
+            }
+        } else {
+            skins.append(mapSkin.rawValue)
+        }
+        if userLocationSkin == .pedestrian {
+            skins.append(userLocationSkin.rawValue)
+        }
+        return skins
+    }
+    
     var boundingBoxSetting: SYGeoBoundingBox?
+    
+    // MARK: - Public methods
     
     /// Initializes and returns map. If map isn't already initialized, returns new map instance with defined state values.
     ///
@@ -100,6 +164,7 @@ public class SYMKMapState: NSCopying {
         } else {
             map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
             map?.accessibilityLabel = "Map"
+            map?.setup(with: self)
             return map!
         }
     }
@@ -130,6 +195,8 @@ public class SYMKMapState: NSCopying {
         copy.tilt = tilt
         copy.cameraMovementMode = cameraMovementMode
         copy.cameraRotationMode = cameraRotationMode
+        copy.userLocationSkin = userLocationSkin
+        copy.mapSkin = mapSkin
         return copy
     }
 
@@ -148,6 +215,7 @@ extension SYMapView {
         camera.tilt = mapState.tilt
         camera.movementMode = mapState.cameraMovementMode
         camera.rotationMode = mapState.cameraRotationMode
+        activeSkins = mapState.activeSkins
     }
     
 }
