@@ -110,6 +110,14 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Setting enables playing instruction voices and other navigation alert sounds
+    public var audioEnabled: Bool = true {
+        didSet {
+            guard !audioEnabled, SYMKSdkManager.shared.isSdkInitialized else { return }
+            SYAudioManager.shared().stopOutputAndClearQueue()
+        }
+    }
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -123,6 +131,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
             }
         }
     }
+    
+    private var mapController: SYMKMapController?
     
     private var infobarController: SYMKInfobarController?
 
@@ -139,6 +149,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    private let leftInfobarButtonDefaultIdentifier = "NavigationMapInfobarLeftActionButton"
+    
     // MARK: - Public Methods
     
     public init(with route: SYRoute? = nil) {
@@ -149,9 +161,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        mapState.cameraMovementMode = .followGpsPositionWithAutozoom
-        mapState.cameraRotationMode = .vehicle
-        mapState.tilt = 60.0
+        mapState = SYMKMapState.navigationMapState()
         
         routePreviewController.previewDelegate = self
         
@@ -159,7 +169,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         lockButton.style = .primary13
         lockButton.icon = SYUIIcon.positionIos
         lockButton.height = 48
-        lockButton.addTarget(self, action: #selector(lockPosition), for: .touchUpInside)
+        lockButton.accessibilityIdentifier = leftInfobarButtonDefaultIdentifier
+        lockButton.addTarget(self, action: #selector(leftInfobarButtonPressed), for: .touchUpInside)
         leftInfobarButton = lockButton
         
         let cancelRouteButton = SYUIActionButton()
@@ -195,20 +206,24 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         super.viewDidAppear(animated)
     }
     
-    override func sygicSDKInitialized() {
-        guard let navigationView = view as? SYMKNavigationView else { return }
-        let map = mapState.loadMap(with: view.bounds)
-        navigationView.setupMapView(map)
+    public override func sygicSDKInitialized() {
         triggerUserLocation(true)
-        
+        setupMapController()
         setupInfobarController()
         
+        mapState.updateLandscapeMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         SYNavigation.shared().delegate = self
+        SYNavigation.shared().audioFeedbackDelegate = self
         
-        guard let route = route, let mapRoute = mapRoute else { return }
+        guard let route = route, let mapRoute = mapRoute, let map = mapState.map else { return }
         map.remove(mapRoute)
         map.add(mapRoute)
         SYNavigation.shared().start(with: route)
+    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        mapState.updateLandscapeMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
     }
     
     /// Start navigation
@@ -232,6 +247,13 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     // MARK: - Private Methods
+    
+    private func setupMapController() {
+        mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
+        mapController?.delegate = self
+        guard let navigationView = view as? SYMKNavigationView, let map = mapController?.mapView else { return }
+        navigationView.setupMapView(map)
+    }
     
     private func setupInfobarController() {
         guard let navigationView = view as? SYMKNavigationView else { return }
@@ -260,9 +282,31 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         navigationView.routePreviewView?.removeFromSuperview()
     }
     
-    @objc private func lockPosition() {
+    @objc private func leftInfobarButtonPressed() {
+        if mapState.cameraMovementMode == .free {
+            lockPosition()
+        } else {
+            showContextMenu()
+        }
+    }
+    
+    private func lockPosition() {
         mapState.cameraMovementMode = .followGpsPositionWithAutozoom
         mapState.cameraRotationMode = .vehicle
+    }
+    
+    private func showContextMenu() {
+        let menu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        menu.popoverPresentationController?.sourceView = leftInfobarButton
+        
+        let audioSetting = audioEnabled ? LS("off") : LS("on")
+        let soundAction = UIAlertAction(title: "\(LS("Sounds")) \(audioSetting.uppercased())", style: .default) { (_) in
+            self.audioEnabled = !self.audioEnabled
+        }
+        menu.addAction(soundAction)
+        menu.addAction(UIAlertAction(title: LS("Cancel"), style: .cancel, handler: nil))
+        
+        present(menu, animated: true, completion: nil)
     }
 }
 
@@ -302,5 +346,39 @@ extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
     public func routePreviewDidStop(_ controller: SYMKRoutePreviewController) {
         preview = false
     }
+}
+
+extension SYMKNavigationViewController: SYMKMapControllerDelegate {
     
+    public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState) {
+        guard let defaultButton = leftInfobarButton, defaultButton.accessibilityIdentifier == leftInfobarButtonDefaultIdentifier else { return }
+        let unlocked = mapState.cameraMovementMode == .free
+        defaultButton.icon = unlocked ? SYUIIcon.positionIos : SYUIIcon.contextMenuIos
+    }
+    
+    public func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView {
+        return SYAnnotationView()
+    }
+}
+
+extension SYMKNavigationViewController: SYNavigationAudioFeedbackDelegate {
+    public func navigation(_ navigation: SYNavigation, shouldPlayWarningAudioFeedback warning: SYWarning) -> Bool {
+        return audioEnabled
+    }
+    
+    public func navigation(_ navigation: SYNavigation, shouldPlayTrafficAudioFeedback traffic: SYTrafficInfo) -> Bool {
+        return audioEnabled
+    }
+    
+    public func navigation(_ navigation: SYNavigation, shouldPlaySpeedLimitAudioFeedback speedLimit: SYSpeedLimit) -> Bool {
+        return audioEnabled
+    }
+    
+    public func navigation(_ navigation: SYNavigation, shouldPlayBetterRouteAudioFeedback route: SYAlternativeRoute) -> Bool {
+        return audioEnabled
+    }
+    
+    public func navigation(_ navigation: SYNavigation, shouldPlayInstructionAudioFeedback instruction: SYInstruction) -> Bool {
+        return audioEnabled
+    }
 }
