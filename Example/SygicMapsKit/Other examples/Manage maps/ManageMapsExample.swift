@@ -83,7 +83,7 @@ class ManageMapsPackagesViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Offline maps", style: .plain, target: self, action: #selector(shortcutToMap))
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(UINib(nibName: "MapPackageCell", bundle: nil), forCellReuseIdentifier: "MapPackageCell")
         
         SYMapLoader.shared().delegate = self
         SYMapLoader.shared().getMapPackages(for: group)
@@ -94,20 +94,36 @@ class ManageMapsPackagesViewController: UITableViewController {
         navigationController?.pushViewController(SYMKBrowseMapViewController(), animated: true)
     }
     
+    func formattedSize(_ size: UInt) -> String {
+        var mapSize = Double(size)
+        if mapSize < 1024 {
+            return String(format: "%.0fB", mapSize)
+        }
+        mapSize = mapSize/1024
+        if mapSize < 1024 {
+            return String(format: "%.0fkB", mapSize)
+        }
+        mapSize = mapSize/1024
+        return String(format: "%.1fMB", mapSize)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return packages.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MapPackageCell") as? MapPackageCell else { return UITableViewCell() }
         let package = packages[indexPath.row]
-        cell?.textLabel?.text = package.title
-        cell?.detailTextLabel?.text = "\(package.sizeOnDisk)"
-        cell?.accessoryType = (package.status() == SYMapLoaderMapPackageStatus.loaded ? UITableViewCell.AccessoryType.checkmark : UITableViewCell.AccessoryType.none)
-        return cell!
+        cell.mapTitleLabel.text = package.title
+        cell.mapSizeLabel.text = formattedSize(package.sizeOnDisk)
+        let mapStatus = package.status()
+        cell.progress.isHidden = mapStatus == .loaded || mapStatus == .notInstalled
+        cell.accessoryType = (mapStatus == SYMapLoaderMapPackageStatus.loaded ? UITableViewCell.AccessoryType.checkmark : UITableViewCell.AccessoryType.none)
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         SYMapLoader.shared().installMapPackage(packages[indexPath.row])
     }
 }
@@ -120,9 +136,14 @@ extension ManageMapsPackagesViewController: SYMapLoaderDelegate {
     
     func mapLoader(_ maploader: SYMapLoader, didUpdateMapPackageInstallProgress progress: SYPackageInstallProgress, for package: SYMapLoaderMapPackage, from task: SYTask) {
         guard progress.totalSize != 0 else { assert(true); return }
-        let progress = Float(progress.downloadedSize)/Float(progress.totalSize)
-        print("progresss \(package.title): \(package.status().rawValue) (\(progress))")
-        tableView.reloadData()
+        let prog = Float(progress.downloadedSize)/Float(progress.totalSize)
+        print("progresss \(package.title): \(package.status().rawValue) (\(prog))")
+        
+        if let index = packages.index(of: package), let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? MapPackageCell {
+            cell.progress.isHidden = false
+            cell.progress.progress = prog
+            cell.mapSizeLabel.text = "\(formattedSize(progress.downloadedSize))/\(formattedSize(progress.totalSize))"
+        }
     }
     
     func mapLoader(_ maploader: SYMapLoader, didInstallMapPackage package: SYMapLoaderMapPackage, from task: SYTask) {
@@ -138,4 +159,10 @@ extension ManageMapsPackagesViewController: SYMapLoaderDelegate {
         }
         tableView.reloadData()
     }
+}
+
+class MapPackageCell: UITableViewCell {
+    @IBOutlet weak var mapTitleLabel: UILabel!
+    @IBOutlet weak var mapSizeLabel: UILabel!
+    @IBOutlet weak var progress: UIProgressView!
 }
