@@ -28,20 +28,20 @@ public class SYMKLaneAssistController {
     public let view = SYMKLaneAssistView()
     
     public func update(with lanesInfo: SYLanesInformation?) {
-        guard let lanesInfo = lanesInfo, !lanesInfo.simpleLaneInformation.isEmpty else {
+        guard let lanesInfo = lanesInfo, lanesInfo.isActive, !lanesInfo.simpleLaneInformation.isEmpty else {
             view.updateLaneArrows([])
             view.isHidden = true
             return
         }
         var lanes = [(arrows: [String], highlighted: Bool)]()
-        for lane in lanesInfo.simpleLaneInformation {
+        for lane in lanesInfo.comlpexLaneInformation.lanes {
             let arrowImageNames = lane.toArrowImageNames()
             if !arrowImageNames.isEmpty {
                 lanes.append((arrows: arrowImageNames, highlighted: lane.highlighted))
             }
         }
         guard !lanes.isEmpty else { return }
-        view.updateLaneArrows(lanes)
+        view.updateLaneArrows(lanes.reversed())
         view.isHidden = false
     }
     
