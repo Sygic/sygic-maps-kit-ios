@@ -40,16 +40,22 @@ public class SYMKNavigationView: UIView {
     public private(set) weak var infobarView: UIView?
     
     /// Instruction view.
-    public private(set) weak var instructionView: SYMKInstructionView?
+    public private(set) weak var instructionView: UIView?
+    
+    /// Lane assist view.
+    public private(set) weak var laneAssistView: UIView?
     
     // MARK: - Private Properties
     
     private let margin: CGFloat = 16
+    private let landscapeWidthMultiplier: CGFloat = 0.4
     private var actionButtonActionBlock: (()->())?
     private var infobarTrailingConstraint: NSLayoutConstraint?
     private var infobarWidthConstraint: NSLayoutConstraint?
     private var instructionTrailingConstraint: NSLayoutConstraint?
     private var instrunctionWidthConstraint: NSLayoutConstraint?
+    private var laneAssistTrailingConstraint: NSLayoutConstraint?
+    private var laneAssistWidthConstraint: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -70,11 +76,12 @@ public class SYMKNavigationView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         updateInfobarLayoutConstraints()
         updateInstructionLayoutConstraints()
+        updateLaneAssistLayoutConstraints()
     }
     
     /// Setup map view on whole scene.
     ///
-    /// - Parameter mapView: Map view to set up
+    /// - Parameter mapView: Map view to set up.
     public func setupMapView(_ mapView: UIView) {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,9 +90,9 @@ public class SYMKNavigationView: UIView {
         mapView.coverWholeSuperview()
     }
     
-    /// Setup route preview control view
+    /// Setup route preview control view.
     ///
-    /// - Parameter routePreview: route preview control view
+    /// - Parameter routePreview: Route preview control view.
     public func setupRoutePreviewView(_ routePreview: UIView) {
         self.routePreviewView?.removeFromSuperview()
         self.routePreviewView = routePreview
@@ -100,9 +107,9 @@ public class SYMKNavigationView: UIView {
         }
     }
     
-    /// Setup route preview control view
+    /// Setup route preview control view.
     ///
-    /// - Parameter routePreview: route preview control view
+    /// - Parameter routePreview: Route preview control view.
     public func setupInfobarView(_ infobar: UIView?) {
         self.infobarView?.removeFromSuperview()
         self.infobarView = infobar
@@ -112,14 +119,14 @@ public class SYMKNavigationView: UIView {
         infobar.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         infobar.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
         infobarTrailingConstraint = infobar.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
-        infobarWidthConstraint = infobar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
+        infobarWidthConstraint = infobar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
         updateInfobarLayoutConstraints()
     }
     
     /// Setup instruction view for navigation module.
     ///
-    /// - Parameter instructionView: view with navigating instructions.
-    public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
+    /// - Parameter instructionView: View with navigating instructions.
+    public func setupInstructionView(_ instructionView: UIView?) {
         self.instructionView?.removeFromSuperview()
         self.instructionView = instructionView
         guard let instructionView = instructionView else { return }
@@ -127,9 +134,25 @@ public class SYMKNavigationView: UIView {
         addSubview(instructionView)
         instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
-        instrunctionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
         instructionTrailingConstraint = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        instrunctionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
         updateInstructionLayoutConstraints()
+    }
+    
+    /// Setup lane assist view for navigation module.
+    ///
+    /// - Parameter laneAssistView: View with lane directions.
+    public func setupLaneAssistView(_ laneAssistView: UIView) {
+        self.laneAssistView = laneAssistView
+        guard let directionView = instructionView else { return }
+        addSubview(laneAssistView)
+        laneAssistView.translatesAutoresizingMaskIntoConstraints = false
+        laneAssistView.topAnchor.constraint(equalTo: directionView.bottomAnchor, constant: margin/2).isActive = true
+        laneAssistView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        laneAssistTrailingConstraint = laneAssistView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        laneAssistWidthConstraint = laneAssistView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
+        updateLaneAssistLayoutConstraints()
+        laneAssistView.isHidden = true
     }
 
     // MARK: - Private Methods
@@ -140,14 +163,21 @@ public class SYMKNavigationView: UIView {
     }
     
     private func updateInfobarLayoutConstraints() {
-        let isPortrait = SYUIDeviceOrientationUtils.isPortraitLayout(traitCollection)
-        infobarWidthConstraint?.isActive = !isPortrait
-        infobarTrailingConstraint?.isActive = isPortrait
+        updateLandscapeWidthLayoutConstraints(trailingConstraint: infobarTrailingConstraint, widthConstraint: infobarWidthConstraint)
     }
     
     private func updateInstructionLayoutConstraints() {
-        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
-        instructionTrailingConstraint?.isActive = !isLandscape
-        instrunctionWidthConstraint?.isActive = isLandscape
+        updateLandscapeWidthLayoutConstraints(trailingConstraint: instructionTrailingConstraint, widthConstraint: instrunctionWidthConstraint)
     }
+    
+    private func updateLaneAssistLayoutConstraints() {
+        updateLandscapeWidthLayoutConstraints(trailingConstraint: laneAssistTrailingConstraint, widthConstraint: laneAssistWidthConstraint)
+    }
+    
+    private func updateLandscapeWidthLayoutConstraints(trailingConstraint: NSLayoutConstraint?, widthConstraint: NSLayoutConstraint?) {
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
+        trailingConstraint?.isActive = !isLandscape
+        widthConstraint?.isActive = isLandscape
+    }
+    
 }

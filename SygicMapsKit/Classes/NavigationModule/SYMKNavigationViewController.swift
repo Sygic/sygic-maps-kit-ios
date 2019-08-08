@@ -67,6 +67,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    public var useLaneAssist: Bool = true
+    
     /// Enables infobar functionality
     public var useInfobar: Bool = true {
         didSet {
@@ -123,6 +125,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
             }
         }
     }
+    
+    private var laneAssistController = SYMKLaneAssistController()
     
     private var infobarController: SYMKInfobarController?
 
@@ -182,6 +186,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let navigationView = SYMKNavigationView()
         if let instructionsController = instructionsController {
             navigationView.setupInstructionView(instructionsController.view)
+        }
+        if useLaneAssist {
+            navigationView.setupLaneAssistView(laneAssistController.view)
         }
         view = navigationView
     }
@@ -295,6 +302,12 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
         guard let info = info else { return }
         infobarController?.updateRouteInfo(info)
     }
+    
+    public func navigation(_ navigation: SYNavigation, didUpdate lanesInfo: SYLanesInformation?) {
+        guard useLaneAssist else { return }
+        laneAssistController.update(with: lanesInfo)
+    }
+    
 }
 
 extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
