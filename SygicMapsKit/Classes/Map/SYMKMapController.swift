@@ -42,6 +42,12 @@ public protocol SYMKMapControllerDelegate: class {
     func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView
 }
 
+public extension SYMKMapControllerDelegate {
+    func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView {
+        return SYAnnotationView()
+    }
+}
+
 /// Controller that managing map view.
 public class SYMKMapController: NSObject {
     

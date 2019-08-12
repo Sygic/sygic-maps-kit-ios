@@ -311,7 +311,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
-    
     public func navigation(_ navigation: SYNavigation, didUpdate route: SYRoute?) {
         print("navigation updated route")
     }
@@ -342,22 +341,16 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
 }
 
 extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
-    
     public func routePreviewDidStop(_ controller: SYMKRoutePreviewController) {
         preview = false
     }
 }
 
 extension SYMKNavigationViewController: SYMKMapControllerDelegate {
-    
     public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState) {
         guard let defaultButton = leftInfobarButton, defaultButton.accessibilityIdentifier == leftInfobarButtonDefaultIdentifier else { return }
         let unlocked = mapState.cameraMovementMode == .free
         defaultButton.icon = unlocked ? SYUIIcon.positionIos : SYUIIcon.contextMenuIos
-    }
-    
-    public func mapControllerWantsView(for annotation: SYAnnotation) -> SYAnnotationView {
-        return SYAnnotationView()
     }
 }
 
