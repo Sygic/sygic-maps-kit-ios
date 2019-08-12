@@ -67,8 +67,11 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
-    /// Enables current speed and speed limit.
-    public var useSpeedControls = true
+    /// Enables current speed.
+    public var useCurrentSpeed = true
+    
+    /// Enables speed limit. If both current speed and speed limit are enabled, speed limit is showed on top of current speed.
+    public var useSpeedLimit = true
 
     /// Enables infobar functionality
     public var useInfobar: Bool = true
@@ -106,7 +109,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         didSet {
             instructionsController?.units = units
             infobarController?.units = units
-            speedController.units = units
+            speedController?.units = units
         }
     }
     
@@ -125,8 +128,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     private var infobarController: SYMKInfobarController?
+    private var speedController: SYMKSpeedController?
     private let routePreviewController = SYMKRoutePreviewController()
-    private let speedController = SYMKSpeedController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
         didSet {
@@ -189,8 +192,11 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
                 navigationView.setupInfobarView(infobarController.infobarView)
             }
         }
-        if useSpeedControls {
-            navigationView.setupSpeedControlView(speedController.view)
+        if useCurrentSpeed || useSpeedLimit {
+            speedController = SYMKSpeedController(currentSpeed: useCurrentSpeed, speedLimit: useSpeedLimit)
+            if let speedController = speedController, let speedControlsView = speedController.view {
+                navigationView.setupSpeedControlView(speedControlsView)
+            }
         }
         view = navigationView
     }
@@ -209,7 +215,10 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let map = mapState.loadMap(with: view.bounds)
         navigationView.setupMapView(map)
         triggerUserLocation(true)
-        setupSpeedUpdater()
+        
+        if useCurrentSpeed {
+            speedController?.setupSpeedUpdater()
+        }
         
         SYNavigation.shared().delegate = self
     
@@ -261,20 +270,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         navigationView.routePreviewView?.removeFromSuperview()
     }
     
-    private func setupSpeedUpdater() {
-        guard useSpeedControls else { return }
-        
-        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-            guard let weakSelf = self else {
-                timer.invalidate()
-                return
-            }
-            guard timer.isValid else { return }
-            guard let speed = SYPositioning.shared().lastKnownLocation?.speed else { return }
-            weakSelf.speedController.currentSpeed = speed
-        }
-    }
-    
     @objc private func lockPosition() {
         mapState.cameraMovementMode = .followGpsPositionWithAutozoom
         mapState.cameraRotationMode = .vehicle
@@ -294,7 +289,9 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate limit: SYSpeedLimit?) {
-        speedController.update(with: limit)
+        if useSpeedLimit {
+            speedController?.update(with: limit)
+        }
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdateSignpost signpostInfo: [SYSignpost]?) {

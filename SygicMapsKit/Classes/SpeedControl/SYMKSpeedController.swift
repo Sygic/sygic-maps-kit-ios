@@ -30,7 +30,7 @@ public class SYMKSpeedController {
     // MARK: - Public Properties
     
     /// Speed controllers view.
-    public let view = SYUISpeedControlView()
+    public var view: SYUISpeedControlView?
     
     /// Updates current speed.
     public var currentSpeed: Double = 0 {
@@ -40,14 +40,14 @@ public class SYMKSpeedController {
                 speeding = currentSpeed > speedLimit
             }
             let formattedSpeed = SYUIGeneralFormatter.format(currentSpeed, from: .kilometers, to: units)
-            view.updateCurrentSpeed(with: Int(formattedSpeed), speeding: speeding)
+            view?.updateCurrentSpeed(with: Int(formattedSpeed), speeding: speeding)
         }
     }
     
     /// Distance units shown in distance labels
     public var units: SYUIDistanceUnits = .kilometers {
         didSet {
-            view.updateUnits(units)
+            view?.updateUnits(units)
         }
     }
     
@@ -57,18 +57,34 @@ public class SYMKSpeedController {
     
     // MARK: - Public Methods
     
-    public init() { }
+    public init(currentSpeed: Bool, speedLimit: Bool) {
+        view = SYUISpeedControlView(currentSpeed: currentSpeed, speedLimit: speedLimit)
+    }
     
     /// Updates speed limit and type of speed limit.
+    ///
     /// - Parameter speedLimit: Speed limit info.
     public func update(with speedLimit: SYSpeedLimit?) {
         guard let speedLimit = speedLimit else {
             actualSpeedLimit = nil
-            view.updateSpeedLimit(with: 0, isAmerica: false)
+            view?.updateSpeedLimit(with: 0, isAmerica: false)
             return
         }
         actualSpeedLimit = speedLimit.speedLimit
-        view.updateSpeedLimit(with: Int(speedLimit.speedLimit), isAmerica: speedLimit.country == .america)
+        view?.updateSpeedLimit(with: Int(speedLimit.speedLimit), isAmerica: speedLimit.country == .america)
+    }
+    
+    /// Setup timer for update speed every second based on sdk last known location.
+    public func setupSpeedUpdater() {
+        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let weakSelf = self else {
+                timer.invalidate()
+                return
+            }
+            guard timer.isValid else { return }
+            guard let speed = SYPositioning.shared().lastKnownLocation?.speed else { return }
+            weakSelf.currentSpeed = speed
+        }
     }
     
 }
