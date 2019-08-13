@@ -81,7 +81,6 @@ class NavigationButtonsExampleViewController: UIViewController, SYMKModulePresen
     
     @objc private func customLockButtonPressed(_ button: SYUIActionButton) {
         let isLocked = navigationModule.mapState.cameraMovementMode != .free
-        
         navigationModule.mapState.cameraMovementMode = isLocked ? .free : .followGpsPositionWithAutozoom
         navigationModule.mapState.cameraRotationMode = isLocked ? .free : .vehicle
     }
