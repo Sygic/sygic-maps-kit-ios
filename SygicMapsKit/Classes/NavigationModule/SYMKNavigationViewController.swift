@@ -97,13 +97,16 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// Navigation route
     public private(set) var route: SYRoute? {
         didSet {
-            guard route != oldValue else { return }
+            
+            guard route != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
             if let newRoute = route {
                 mapRoute = SYMapRoute(route: newRoute, type: .primary)
                 SYNavigation.shared().start(with: route)
             } else {
                 mapRoute = nil
-                stopNavigation()
+                if SYNavigation.shared().isNavigating() {
+                    SYNavigation.shared().stop()
+                }
             }
         }
     }
@@ -302,23 +305,15 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     public func startNavigation(with route: SYRoute, preview: Bool = false) {
         self.route = route
         self.preview = preview
-        guard let mapRoute = mapRoute else {
-            assert(self.mapRoute != nil, "MapRoute sould be initialized after navigation starts")
-            return
-        }
+        guard let mapRoute = mapRoute else { return }
         delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
     }
     
     /// Stops current navigation and removes route
     @objc public func stopNavigation() {
-        guard SYMKSdkManager.shared.isSdkInitialized else { return }
-        if SYNavigation.shared().isNavigating() {
-            SYNavigation.shared().stop()
-        }
+        guard route != nil, SYMKSdkManager.shared.isSdkInitialized, SYNavigation.shared().isNavigating() else { return }
         preview = false
-        if route != nil {
-            route = nil
-        }
+        route = nil
         delegate?.navigationControllerDidStopNavigating(self)
     }
     
