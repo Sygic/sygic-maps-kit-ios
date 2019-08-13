@@ -144,8 +144,8 @@ public class SYMKNavigationView: UIView {
     /// - Parameter speedControlView: View with current speed and speed limit.
     public func setupSpeedControlView(_ speedControlView: SYUISpeedControlView) {
         self.speedControlView = speedControlView
-        addSubview(speedControlView)
         speedControlView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedControlView)
         if let infobarView = infobarView {
             speedControlBottomPortraitContraint = speedControlView.bottomAnchor.constraint(equalTo: infobarView.topAnchor, constant: -margin)
         } else {

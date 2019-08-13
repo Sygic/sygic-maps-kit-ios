@@ -78,9 +78,9 @@ public class SYMKBrowseMapView: UIView {
     /// - Parameter compass: Compass to set up.
     public func setupCompass(_ compass: UIView) {
         self.compass = compass
+        compass.translatesAutoresizingMaskIntoConstraints = false
         addSubview(compass)
         bringSubviewToFront(compass)
-        compass.translatesAutoresizingMaskIntoConstraints = false
         compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
         compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
     }
@@ -90,9 +90,9 @@ public class SYMKBrowseMapView: UIView {
     /// - Parameter zoomControl: Zoom Control to set up.
     public func setupZoomControl(_ zoomControl: UIView) {
         self.zoomControl = zoomControl
+        zoomControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(zoomControl)
         bringSubviewToFront(zoomControl)
-        zoomControl.translatesAutoresizingMaskIntoConstraints = false
         zoomControl.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
         zoomControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
@@ -102,9 +102,9 @@ public class SYMKBrowseMapView: UIView {
     /// - Parameter recenter: Recenter button to set up.
     public func setupRecenter(_ recenter: UIView) {
         recenterButton = recenter
+        recenter.translatesAutoresizingMaskIntoConstraints = false
         addSubview(recenter)
         bringSubviewToFront(recenter)
-        recenter.translatesAutoresizingMaskIntoConstraints = false
         recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
     }
