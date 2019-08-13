@@ -67,12 +67,14 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Enables current speed.
+    public var useCurrentSpeed = true
+    
+    /// Enables speed limit. If both current speed and speed limit are enabled, speed limit is showed on top of current speed.
+    public var useSpeedLimit = true
+
     /// Enables infobar functionality
-    public var useInfobar: Bool = true {
-        didSet {
-            setupInfobarController()
-        }
-    }
+    public var useInfobar: Bool = true
     
     /// Button that appears inside infobarView. Default button locks map position on user location
     public var leftInfobarButton: SYUIActionButton? {
@@ -107,6 +109,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         didSet {
             instructionsController?.units = units
             infobarController?.units = units
+            speedController?.units = units
         }
     }
     
@@ -125,7 +128,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     private var infobarController: SYMKInfobarController?
-
+    private var speedController: SYMKSpeedController?
     private let routePreviewController = SYMKRoutePreviewController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
@@ -183,6 +186,18 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         if let instructionsController = instructionsController {
             navigationView.setupInstructionView(instructionsController.view)
         }
+        if useInfobar {
+            setupInfobarController()
+            if let infobarController = infobarController {
+                navigationView.setupInfobarView(infobarController.infobarView)
+            }
+        }
+        if useCurrentSpeed || useSpeedLimit {
+            speedController = SYMKSpeedController(currentSpeed: useCurrentSpeed, speedLimit: useSpeedLimit)
+            if let speedController = speedController, let speedControlsView = speedController.view {
+                navigationView.setupSpeedControlView(speedControlsView)
+            }
+        }
         view = navigationView
     }
     
@@ -201,10 +216,12 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         navigationView.setupMapView(map)
         triggerUserLocation(true)
         
-        setupInfobarController()
+        if useCurrentSpeed {
+            speedController?.setupSpeedUpdater()
+        }
         
         SYNavigation.shared().delegate = self
-        
+    
         guard let route = route, let mapRoute = mapRoute else { return }
         map.remove(mapRoute)
         map.add(mapRoute)
@@ -234,17 +251,10 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     // MARK: - Private Methods
     
     private func setupInfobarController() {
-        guard let navigationView = view as? SYMKNavigationView else { return }
-        guard useInfobar else {
-            infobarController = nil
-            navigationView.setupInfobarView(nil)
-            return
-        }
         infobarController = SYMKInfobarController()
         infobarController?.units = units
         infobarController?.infobarView.leftButton = leftInfobarButton
         infobarController?.infobarView.rightButton = rightInfobarButton
-        navigationView.setupInfobarView(infobarController!.infobarView)
     }
     
     private func startPreview() {
@@ -264,6 +274,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         mapState.cameraMovementMode = .followGpsPositionWithAutozoom
         mapState.cameraRotationMode = .vehicle
     }
+    
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
@@ -278,7 +289,9 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate limit: SYSpeedLimit?) {
-        
+        if useSpeedLimit {
+            speedController?.update(with: limit)
+        }
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdateSignpost signpostInfo: [SYSignpost]?) {

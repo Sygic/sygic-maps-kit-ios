@@ -42,14 +42,20 @@ public class SYMKNavigationView: UIView {
     /// Instruction view.
     public private(set) weak var instructionView: SYMKInstructionView?
     
+    /// Current speed and speed limit view.
+    public private(set) weak var speedControlView: SYUISpeedControlView?
+    
     // MARK: - Private Properties
     
     private let margin: CGFloat = 16
+    private let landscapeWidthMultiplier: CGFloat = 0.4
     private var actionButtonActionBlock: (()->())?
     private var infobarTrailingConstraint: NSLayoutConstraint?
     private var infobarWidthConstraint: NSLayoutConstraint?
     private var instructionTrailingConstraint: NSLayoutConstraint?
-    private var instrunctionWidthConstraint: NSLayoutConstraint?
+    private var instructionWidthConstraint: NSLayoutConstraint?
+    private var speedControlBottomPortraitContraint: NSLayoutConstraint?
+    private var speedControlBottomLandscapeContraint: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -70,11 +76,12 @@ public class SYMKNavigationView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         updateInfobarLayoutConstraints()
         updateInstructionLayoutConstraints()
+        updateSpeedControlLayoutConstraints()
     }
     
     /// Setup map view on whole scene.
     ///
-    /// - Parameter mapView: Map view to set up
+    /// - Parameter mapView: Map view to set up.
     public func setupMapView(_ mapView: UIView) {
         self.mapView = mapView
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,9 +90,9 @@ public class SYMKNavigationView: UIView {
         mapView.coverWholeSuperview()
     }
     
-    /// Setup route preview control view
+    /// Setup route preview control view.
     ///
-    /// - Parameter routePreview: route preview control view
+    /// - Parameter routePreview: Route preview control view.
     public func setupRoutePreviewView(_ routePreview: UIView) {
         self.routePreviewView?.removeFromSuperview()
         self.routePreviewView = routePreview
@@ -112,13 +119,13 @@ public class SYMKNavigationView: UIView {
         infobar.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         infobar.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
         infobarTrailingConstraint = infobar.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
-        infobarWidthConstraint = infobar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
+        infobarWidthConstraint = infobar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
         updateInfobarLayoutConstraints()
     }
     
     /// Setup instruction view for navigation module.
     ///
-    /// - Parameter instructionView: view with navigating instructions.
+    /// - Parameter instructionView: View with navigating instructions.
     public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
         self.instructionView?.removeFromSuperview()
         self.instructionView = instructionView
@@ -127,9 +134,26 @@ public class SYMKNavigationView: UIView {
         addSubview(instructionView)
         instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
-        instrunctionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)
         instructionTrailingConstraint = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        instructionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
         updateInstructionLayoutConstraints()
+    }
+    
+    /// Setup speed cobntrol view for navigation module.
+    ///
+    /// - Parameter speedControlView: View with current speed and speed limit.
+    public func setupSpeedControlView(_ speedControlView: SYUISpeedControlView) {
+        self.speedControlView = speedControlView
+        speedControlView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedControlView)
+        if let infobarView = infobarView {
+            speedControlBottomPortraitContraint = speedControlView.bottomAnchor.constraint(equalTo: infobarView.topAnchor, constant: -margin)
+        } else {
+            speedControlBottomPortraitContraint = speedControlView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin)
+        }
+        speedControlBottomLandscapeContraint = speedControlView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin)
+        speedControlView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        updateSpeedControlLayoutConstraints()
     }
 
     // MARK: - Private Methods
@@ -140,14 +164,21 @@ public class SYMKNavigationView: UIView {
     }
     
     private func updateInfobarLayoutConstraints() {
-        let isPortrait = SYUIDeviceOrientationUtils.isPortraitLayout(traitCollection)
-        infobarWidthConstraint?.isActive = !isPortrait
-        infobarTrailingConstraint?.isActive = isPortrait
+        updateConstraints(portrait: infobarTrailingConstraint, landscape: infobarWidthConstraint)
     }
     
     private func updateInstructionLayoutConstraints() {
-        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
-        instructionTrailingConstraint?.isActive = !isLandscape
-        instrunctionWidthConstraint?.isActive = isLandscape
+        updateConstraints(portrait: instructionTrailingConstraint, landscape: instructionWidthConstraint)
     }
+    
+    private func updateSpeedControlLayoutConstraints() {
+        updateConstraints(portrait: speedControlBottomPortraitContraint, landscape: speedControlBottomLandscapeContraint)
+    }
+    
+    private func updateConstraints(portrait: NSLayoutConstraint?, landscape: NSLayoutConstraint?) {
+        let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
+        landscape?.isActive = isLandscape
+        portrait?.isActive = !isLandscape
+    }
+    
 }

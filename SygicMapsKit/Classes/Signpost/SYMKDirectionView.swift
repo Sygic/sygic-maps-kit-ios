@@ -102,8 +102,8 @@ public class SYMKDirectionView: UIView, SYMKInstructionView {
         actualInstructionStackView.axis = .vertical
         nextInstructionStackView.axis = .vertical
         
-        addSubview(actualInstructionDirection)
         actualInstructionDirection.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(actualInstructionDirection)
         actualInstructionDirection.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
         actualInstructionDirection.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
         actualInstructionDirection.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
@@ -111,8 +111,8 @@ public class SYMKDirectionView: UIView, SYMKInstructionView {
         
         actualInstructionStackView.addArrangedSubview(instructionDistance)
         actualInstructionStackView.addArrangedSubview(actualInstructionText)
-        addSubview(actualInstructionStackView)
         actualInstructionStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(actualInstructionStackView)
         actualInstructionStackView.topAnchor.constraint(equalTo: actualInstructionDirection.topAnchor).isActive = true
         actualInstructionStackView.leadingAnchor.constraint(equalTo: actualInstructionDirection.trailingAnchor, constant: margin/2).isActive = true
         actualInstructionStackView.bottomAnchor.constraint(equalTo: actualInstructionDirection.bottomAnchor).isActive = true
@@ -128,14 +128,14 @@ public class SYMKDirectionView: UIView, SYMKInstructionView {
         nextInstructionText.widthAnchor.constraint(equalToConstant: 40).isActive = true
         nextInstructionText.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
-        addSubview(nextInstructionBackground)
         nextInstructionBackground.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(nextInstructionBackground)
         nextInstructionBackground.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         nextInstructionBackground.topAnchor.constraint(equalTo: topAnchor).isActive = true
         nextInstructionBackground.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        nextInstructionBackground.addSubview(nextInstructionStackView)
         
         nextInstructionStackView.translatesAutoresizingMaskIntoConstraints = false
+        nextInstructionBackground.addSubview(nextInstructionStackView)
         nextInstructionStackView.leadingAnchor.constraint(equalTo: nextInstructionBackground.leadingAnchor, constant: margin/2).isActive = true
         nextInstructionStackView.trailingAnchor.constraint(equalTo: nextInstructionBackground.trailingAnchor, constant: -margin/2).isActive = true
         nextInstructionStackView.topAnchor.constraint(equalTo: nextInstructionBackground.topAnchor, constant: margin).isActive = true
