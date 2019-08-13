@@ -25,6 +25,54 @@ import SygicMaps
 import SygicUIKit
 
 
+/// Navigation module output protocol. Methods are optional with empty default implementation.
+public protocol SYMKNavigationViewControllerDelegate: class {
+    
+    /// Called after map state is changed
+    ///
+    /// - Parameter controller: Navigation module controller
+    /// - Parameter mapState: Map state with current map properties
+    func navigationController(_ controller: SYMKNavigationViewController, didUpdate mapState: SYMKMapState)
+    
+    /// Called after navigation controller starts navigating.
+    ///
+    /// - Parameter controller: Navigation module controller
+    /// - Parameter mapRoute: SYMapObject representing SYRoute on map. Added to mapView automatically when navigation starts.
+    func navigationController(_ controller: SYMKNavigationViewController, didStartNavigatingWith mapRoute: SYMapRoute)
+    
+    /// Called after navigaton is stopped.
+    ///
+    /// - Parameter controller: Navigation module controller
+    func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController)
+    
+    /// Called when better route is found while navigation is running
+    ///
+    /// - Parameter controller: Navigation module controller
+    /// - Parameter route: SYRoute with additional information about route properties
+    func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYAlternativeRoute)
+    
+    /// Called after waypoint on route is passed
+    ///
+    /// - Parameter controller: Navigation module controller
+    /// - Parameter didPassWaypoint: Passed waypoint
+    /// - Parameter index: Index of waypont within route.waypoints (Start and Destination is not counded as waypoints)
+    func navigationController(_ controller: SYMKNavigationViewController, didPassWaypoint: SYWaypoint, at index: UInt)
+    
+    /// Called after navigaton reach finish position.
+    ///
+    /// - Parameter controller: Navigation module controller
+    func navigationControllerDidReachFinish(_ controller: SYMKNavigationViewController)
+}
+
+public extension SYMKNavigationViewControllerDelegate {
+    func navigationController(_ controller: SYMKNavigationViewController, didUpdate mapState: SYMKMapState) {}
+    func navigationController(_ controller: SYMKNavigationViewController, didStartNavigatingWith mapRoute: SYMapRoute) {}
+    func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {}
+    func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYAlternativeRoute) {}
+    func navigationController(_ controller: SYMKNavigationViewController, didPassWaypoint: SYWaypoint, at index: UInt) {}
+    func navigationControllerDidReachFinish(_ controller: SYMKNavigationViewController) {}
+}
+
 /// Type of view with navigation instructions.
 ///
 /// - direction: Instructions using arrow direction with distance and road street names.
@@ -37,9 +85,14 @@ public enum SYMKInstructionType {
 }
 
 /// Navigation module
+///
+/// Navigation can be started with only one primary route. Creating multiple navigation module cannot start navigating on multiple routes.
 public class SYMKNavigationViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
+    
+    /// Delegate output for browse map controller.
+    public weak var delegate: SYMKNavigationViewControllerDelegate?
     
     /// Navigation route
     public private(set) var route: SYRoute? {
@@ -219,6 +272,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         map.remove(mapRoute)
         map.add(mapRoute)
         SYNavigation.shared().start(with: route)
+        delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -232,6 +286,11 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     public func startNavigation(with route: SYRoute, preview: Bool = false) {
         self.route = route
         self.preview = preview
+        guard let mapRoute = mapRoute else {
+            assert(self.mapRoute != nil, "MapRoute sould be initialized after navigation starts")
+            return
+        }
+        delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
     }
     
     /// Stops current navigation and removes route
@@ -244,6 +303,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         if route != nil {
             route = nil
         }
+        delegate?.navigationControllerDidStopNavigating(self)
     }
     
     // MARK: - Private Methods
@@ -311,8 +371,19 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
-    public func navigation(_ navigation: SYNavigation, didUpdate route: SYRoute?) {
-        print("navigation updated route")
+    public func navigation(_ navigation: SYNavigation, didPassWaypointWith index: UInt) {
+        guard let wps = navigation.waypoints else { return }
+        let waypointPassed = wps[Int(index)]
+        delegate?.navigationController(self, didPassWaypoint: waypointPassed, at: index)
+    }
+    
+    public func navigation(_ navigation: SYNavigation, didFindBetterRoute alterRoute: SYAlternativeRoute?) {
+        guard let alterRoute = alterRoute else { return }
+        delegate?.navigationController(self, didFindBetterRoute: alterRoute)
+    }
+    
+    public func navigationManagerDidReachFinish(_ navigation: SYNavigation) {
+        delegate?.navigationControllerDidReachFinish(self)
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate positionInfo: SYPositionInfo?) {
@@ -348,6 +419,8 @@ extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
 
 extension SYMKNavigationViewController: SYMKMapControllerDelegate {
     public func mapController(_ controller: SYMKMapController, didUpdate mapState: SYMKMapState) {
+        delegate?.navigationController(self, didUpdate: mapState)
+        
         guard let defaultButton = leftInfobarButton, defaultButton.accessibilityIdentifier == leftInfobarButtonDefaultIdentifier else { return }
         let unlocked = mapState.cameraMovementMode == .free
         defaultButton.icon = unlocked ? SYUIIcon.positionIos : SYUIIcon.contextMenuIos

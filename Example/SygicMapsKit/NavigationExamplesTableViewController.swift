@@ -30,7 +30,8 @@ class NavigationExamplesTableViewController: UITableViewController {
     let modulesData = [
         ModuleData(title: "Navigation demo", subtitle: "Navigation module with predefined route preview", image: "preview-browsemap-default"),
         ModuleData(title: "Navigation from current location", subtitle: "Navigation module with route computed to current location", image: "preview-browsemap-default"),
-        ModuleData(title: "Navigation instructions type", subtitle: "Instruction types for navigation", image: "preview-browsemap-default")
+        ModuleData(title: "Navigation instructions type", subtitle: "Instruction types for navigation", image: "preview-browsemap-default"),
+        ModuleData(title: "Custom infobar buttons", subtitle: "Switching control buttons inside infobar", image: "preview-browsemap-default"),
     ]
     
     private let cellHeight: CGFloat = 330
@@ -66,6 +67,8 @@ class NavigationExamplesTableViewController: UITableViewController {
             navigationController?.pushViewController(CurrentLocationNavigationExampleViewController(), animated: true)
         case 2:
             navigationController?.pushViewController(NavigationSignpostsExampleViewController(), animated: true)
+        case 3:
+            navigationController?.pushViewController(NavigationButtonsExampleViewController(), animated: true)
         default:
             break
         }
