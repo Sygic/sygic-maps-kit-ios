@@ -133,43 +133,43 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         
         nextInstructionBackground.backgroundColor = UIColor(argb: 0xff1B1B1B)
         
-        addSubview(instructionDistance)
         instructionDistance.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(instructionDistance)
         instructionDistance.topAnchor.constraint(equalTo: topAnchor, constant: margin/2).isActive = true
         instructionDistance.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
         
-        addSubview(actualInstructionDirection)
         actualInstructionDirection.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(actualInstructionDirection)
         actualInstructionDirection.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         actualInstructionDirection.centerYAnchor.constraint(equalTo: instructionDistance.centerYAnchor).isActive = true
         NSLayoutConstraint.activate(actualInstructionDirection.widthAndHeightConstraints(with: CGSize(width: actualInstructionSize, height: actualInstructionSize)))
         
-        addSubview(actualInstructionText)
         actualInstructionText.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(actualInstructionText)
         actualInstructionText.topAnchor.constraint(equalTo: instructionDistance.bottomAnchor, constant: margin/2).isActive = true
         actualInstructionText.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
         
-        addSubview(symbolsStackView)
         symbolsStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(symbolsStackView)
         symbolsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         symbolsStackView.centerYAnchor.constraint(equalTo: actualInstructionText.centerYAnchor).isActive = true
         
         actualInstructionText.trailingAnchor.constraint(equalTo: symbolsStackView.leadingAnchor, constant: -margin).isActive = true
         
-        addSubview(nextInstructionBackground)
         nextInstructionBackground.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(nextInstructionBackground)
         nextInstructionBackground.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         nextInstructionBackground.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         nextInstructionBackground.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         nextInstructionBackground.topAnchor.constraint(equalTo: actualInstructionText.bottomAnchor, constant: margin/2).isActive = true
         
-        nextInstructionBackground.addSubview(nextInstructionText)
         nextInstructionText.translatesAutoresizingMaskIntoConstraints = false
+        nextInstructionBackground.addSubview(nextInstructionText)
         nextInstructionText.leadingAnchor.constraint(equalTo: nextInstructionBackground.leadingAnchor, constant: margin).isActive = true
         nextInstructionText.centerYAnchor.constraint(equalTo: nextInstructionBackground.centerYAnchor).isActive = true
         
-        nextInstructionBackground.addSubview(nextInstructionDirection)
         nextInstructionDirection.translatesAutoresizingMaskIntoConstraints = false
+        nextInstructionBackground.addSubview(nextInstructionDirection)
         nextInstructionDirection.trailingAnchor.constraint(equalTo: nextInstructionBackground.trailingAnchor, constant: -margin).isActive = true
         nextInstructionDirection.topAnchor.constraint(equalTo: nextInstructionBackground.topAnchor, constant: margin/2).isActive = true
         nextInstructionDirection.bottomAnchor.constraint(equalTo: nextInstructionBackground.bottomAnchor, constant: -margin/2).isActive = true
