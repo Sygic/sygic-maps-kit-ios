@@ -45,6 +45,9 @@ public class SYMKNavigationView: UIView {
     /// Lane assist view.
     public private(set) weak var laneAssistView: UIView?
     
+    /// Current speed and speed limit view.
+    public private(set) weak var speedControlView: SYUISpeedControlView?
+    
     // MARK: - Private Properties
     
     private let margin: CGFloat = 16
@@ -53,9 +56,11 @@ public class SYMKNavigationView: UIView {
     private var infobarTrailingConstraint: NSLayoutConstraint?
     private var infobarWidthConstraint: NSLayoutConstraint?
     private var instructionTrailingConstraint: NSLayoutConstraint?
-    private var instrunctionWidthConstraint: NSLayoutConstraint?
+    private var instructionWidthConstraint: NSLayoutConstraint?
     private var laneAssistTrailingConstraint: NSLayoutConstraint?
     private var laneAssistWidthConstraint: NSLayoutConstraint?
+    private var speedControlBottomPortraitContraint: NSLayoutConstraint?
+    private var speedControlBottomLandscapeContraint: NSLayoutConstraint?
     
     // MARK: - Public Methods
     
@@ -77,6 +82,7 @@ public class SYMKNavigationView: UIView {
         updateInfobarLayoutConstraints()
         updateInstructionLayoutConstraints()
         updateLaneAssistLayoutConstraints()
+        updateSpeedControlLayoutConstraints()
     }
     
     /// Setup map view on whole scene.
@@ -135,7 +141,7 @@ public class SYMKNavigationView: UIView {
         instructionView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
         instructionView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         instructionTrailingConstraint = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
-        instrunctionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
+        instructionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
         updateInstructionLayoutConstraints()
     }
     
@@ -154,6 +160,23 @@ public class SYMKNavigationView: UIView {
         updateLaneAssistLayoutConstraints()
         laneAssistView.isHidden = true
     }
+    
+    /// Setup speed cobntrol view for navigation module.
+    ///
+    /// - Parameter speedControlView: View with current speed and speed limit.
+    public func setupSpeedControlView(_ speedControlView: SYUISpeedControlView) {
+        self.speedControlView = speedControlView
+        speedControlView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedControlView)
+        if let infobarView = infobarView {
+            speedControlBottomPortraitContraint = speedControlView.bottomAnchor.constraint(equalTo: infobarView.topAnchor, constant: -margin)
+        } else {
+            speedControlBottomPortraitContraint = speedControlView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin)
+        }
+        speedControlBottomLandscapeContraint = speedControlView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin)
+        speedControlView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        updateSpeedControlLayoutConstraints()
+    }
 
     // MARK: - Private Methods
     
@@ -163,21 +186,25 @@ public class SYMKNavigationView: UIView {
     }
     
     private func updateInfobarLayoutConstraints() {
-        updateLandscapeWidthLayoutConstraints(trailingConstraint: infobarTrailingConstraint, widthConstraint: infobarWidthConstraint)
-    }
-    
-    private func updateInstructionLayoutConstraints() {
-        updateLandscapeWidthLayoutConstraints(trailingConstraint: instructionTrailingConstraint, widthConstraint: instrunctionWidthConstraint)
+        updateConstraints(portrait: infobarTrailingConstraint, landscape: infobarWidthConstraint)
     }
     
     private func updateLaneAssistLayoutConstraints() {
-        updateLandscapeWidthLayoutConstraints(trailingConstraint: laneAssistTrailingConstraint, widthConstraint: laneAssistWidthConstraint)
+        updateConstraints(portrait: laneAssistTrailingConstraint, landscape: laneAssistWidthConstraint)
+    }
+
+    private func updateInstructionLayoutConstraints() {
+        updateConstraints(portrait: instructionTrailingConstraint, landscape: instructionWidthConstraint)
     }
     
-    private func updateLandscapeWidthLayoutConstraints(trailingConstraint: NSLayoutConstraint?, widthConstraint: NSLayoutConstraint?) {
+    private func updateSpeedControlLayoutConstraints() {
+        updateConstraints(portrait: speedControlBottomPortraitContraint, landscape: speedControlBottomLandscapeContraint)
+    }
+    
+    private func updateConstraints(portrait: NSLayoutConstraint?, landscape: NSLayoutConstraint?) {
         let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
-        trailingConstraint?.isActive = !isLandscape
-        widthConstraint?.isActive = isLandscape
+        landscape?.isActive = isLandscape
+        portrait?.isActive = !isLandscape
     }
     
 }
