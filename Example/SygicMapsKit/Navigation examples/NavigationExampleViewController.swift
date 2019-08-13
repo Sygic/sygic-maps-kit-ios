@@ -61,7 +61,6 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
 
 extension NavigationExampleViewController: SYMKNavigationViewControllerDelegate {
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {
-        navigationModule.delegate = nil
         navigationController?.popViewController(animated: true)
     }
 }

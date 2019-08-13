@@ -97,7 +97,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// Navigation route
     public private(set) var route: SYRoute? {
         didSet {
-            
             guard route != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
             if let newRoute = route {
                 mapRoute = SYMapRoute(route: newRoute, type: .primary)
