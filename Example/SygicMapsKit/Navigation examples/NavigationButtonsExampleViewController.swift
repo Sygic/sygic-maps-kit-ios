@@ -24,6 +24,7 @@ import UIKit
 import SygicMapsKit
 import SygicMaps
 import SygicUIKit
+import AVFoundation
 
 
 class NavigationButtonsExampleViewController: UIViewController, SYMKModulePresenter {
@@ -31,13 +32,15 @@ class NavigationButtonsExampleViewController: UIViewController, SYMKModulePresen
     var presentedModules = [SYMKModuleViewController]()
     let navigationModule = SYMKNavigationViewController()
     
+    var player: AVAudioPlayer?
+    
     var defaultButton: SYUIActionButton?
     
     var superCustomLockButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.style = .secondary
         button.height = 48.0
-        button.icon = SYUIIcon.positionLockIos
+        button.title = "🎺"
         button.addTarget(self, action: #selector(customLockButtonPressed(_:)), for: .touchUpInside)
         return button
     }()
@@ -81,8 +84,24 @@ class NavigationButtonsExampleViewController: UIViewController, SYMKModulePresen
     
     @objc private func customLockButtonPressed(_ button: SYUIActionButton) {
         let isLocked = navigationModule.mapState.cameraMovementMode != .free
-        navigationModule.mapState.cameraMovementMode = isLocked ? .free : .followGpsPositionWithAutozoom
-        navigationModule.mapState.cameraRotationMode = isLocked ? .free : .vehicle
+        if isLocked {
+            playSound()
+        } else {
+            navigationModule.mapState.cameraMovementMode = isLocked ? .free : .followGpsPositionWithAutozoom
+            navigationModule.mapState.cameraRotationMode = isLocked ? .free : .vehicle
+        }
+    }
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "fanfare", withExtension: "mp3") else { return }
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            player.prepareToPlay()
+            player.play()
+        } catch let error as NSError {
+            print(error.description)
+        }
     }
 }
 
@@ -90,8 +109,10 @@ extension NavigationButtonsExampleViewController: SYMKNavigationViewControllerDe
     func navigationController(_ controller: SYMKNavigationViewController, didUpdate mapState: SYMKMapState) {
         if mapState.cameraMovementMode == .free {
             superCustomLockButton.icon = SYUIIcon.positionIos
+            superCustomLockButton.title = nil
         } else {
-            superCustomLockButton.icon = SYUIIcon.positionLockIos
+            superCustomLockButton.icon = nil
+            superCustomLockButton.title = "🎺"
         }
     }
 }
