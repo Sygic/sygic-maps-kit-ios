@@ -34,6 +34,7 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        navigationModule.delegate = self
         presentModule(navigationModule)
         
         RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788)!, to: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420)!) { [weak self] (result) in
@@ -45,5 +46,21 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
                 self?.showErrorMessageAlert(message)
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+}
+
+extension NavigationExampleViewController: SYMKNavigationViewControllerDelegate {
+    func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {
+        navigationController?.popViewController(animated: true)
     }
 }

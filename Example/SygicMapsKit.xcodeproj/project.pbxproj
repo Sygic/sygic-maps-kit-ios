@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */; };
+		43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43161C17230425FD00E00BDF /* fanfare.mp3 */; };
 		436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */; };
 		43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAC22CB7034002C09C2 /* RoutingHelper.swift */; };
 		43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */; };
@@ -78,6 +80,8 @@
 		2307BFC503B9F13E42BDC3BE /* Pods-SygicMapsKit_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		25213E643DAD110E70076C31 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButtonsExampleViewController.swift; sourceTree = "<group>"; };
+		43161C17230425FD00E00BDF /* fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fanfare.mp3; sourceTree = "<group>"; };
 		436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExamplesTableViewController.swift; sourceTree = "<group>"; };
 		43854DAC22CB7034002C09C2 /* RoutingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingHelper.swift; sourceTree = "<group>"; };
 		43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationNavigationExampleViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 				43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */,
 				43854DAC22CB7034002C09C2 /* RoutingHelper.swift */,
 				5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */,
+				43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */,
 			);
 			path = "Navigation examples";
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 				5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */,
 				5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
+				43161C17230425FD00E00BDF /* fanfare.mp3 */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -539,6 +545,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				438D181F22FAE4D6002DF224 /* MapPackageCell.xib in Resources */,
+				43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -762,6 +769,7 @@
 				43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */,
+				43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
