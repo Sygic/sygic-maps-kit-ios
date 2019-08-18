@@ -129,20 +129,21 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
-    private var laneAssistController = SYMKLaneAssistController()
-    
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
     private let routePreviewController = SYMKRoutePreviewController()
+    private let laneAssistController = SYMKLaneAssistController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
         didSet {
             guard let navigationView = view as? SYMKNavigationView, let instructionsController = instructionsController else {
                 (view as? SYMKNavigationView)?.setupInstructionView(nil)
+                (view as? SYMKNavigationView)?.setupLaneAssistView(nil)
                 return
             }
             instructionsController.units = units
             navigationView.setupInstructionView(instructionsController.view)
+            navigationView.setupLaneAssistView(laneAssistController.view)
         }
     }
     
@@ -314,11 +315,6 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
         guard let info = info else { return }
         infobarController?.updateRouteInfo(info)
-    }
-    
-    public func navigation(_ navigation: SYNavigation, didUpdate lanesInfo: SYLanesInformation?) {
-        guard useLaneAssist else { return }
-        laneAssistController.update(with: lanesInfo)
     }
     
 }

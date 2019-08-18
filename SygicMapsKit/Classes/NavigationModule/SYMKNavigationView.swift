@@ -148,9 +148,10 @@ public class SYMKNavigationView: UIView {
     /// Setup lane assist view for navigation module.
     ///
     /// - Parameter laneAssistView: View with lane directions.
-    public func setupLaneAssistView(_ laneAssistView: UIView) {
+    public func setupLaneAssistView(_ laneAssistView: UIView?) {
+        self.laneAssistView?.removeFromSuperview()
         self.laneAssistView = laneAssistView
-        guard let directionView = instructionView else { return }
+        guard let directionView = instructionView, let laneAssistView = laneAssistView else { return }
         addSubview(laneAssistView)
         laneAssistView.translatesAutoresizingMaskIntoConstraints = false
         laneAssistView.topAnchor.constraint(equalTo: directionView.bottomAnchor, constant: margin/2).isActive = true
@@ -177,7 +178,7 @@ public class SYMKNavigationView: UIView {
         speedControlView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
         updateSpeedControlLayoutConstraints()
     }
-
+    
     // MARK: - Private Methods
     
     private func setupUI() {

@@ -24,8 +24,9 @@
 public class SYMKLaneAssistView: UIView {
     
     private let bundle = Bundle(for: SYMKLaneAssistView.self)
+    private let arrowImageSize: CGFloat = 24
     
-    private let laneStack: UIStackView = {
+    private let lanesStack: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 8
         return stack
@@ -41,23 +42,23 @@ public class SYMKLaneAssistView: UIView {
     }
     
     public func updateLaneArrows(_ lanes: [(arrows: [String], highlighted: Bool)]) {
-        laneStack.removeAll()
+        lanesStack.removeAll()
         
         for lane in lanes {
             let arrowImagesView = UIView()
             arrowImagesView.translatesAutoresizingMaskIntoConstraints = false
-            arrowImagesView.widthAnchor.constraint(equalToConstant: 24).isActive = true
-            arrowImagesView.heightAnchor.constraint(equalToConstant: 24).isActive = true
+            arrowImagesView.widthAnchor.constraint(equalToConstant: arrowImageSize).isActive = true
+            arrowImagesView.heightAnchor.constraint(equalToConstant: arrowImageSize).isActive = true
             
             for arrow in lane.arrows {
                 let arrowImage = UIImageView(image: UIImage(named: arrow, in: bundle, compatibleWith: nil))
-                arrowImage.tintColor = lane.highlighted ? .systemGray : .white
+                arrowImage.tintColor = lane.highlighted ? .white : .systemGray
                 arrowImagesView.addSubview(arrowImage)
                 arrowImage.translatesAutoresizingMaskIntoConstraints = false
                 arrowImage.coverWholeSuperview()
             }
             
-            laneStack.addArrangedSubview(arrowImagesView)
+            lanesStack.addArrangedSubview(arrowImagesView)
         }
     }
     
@@ -65,13 +66,13 @@ public class SYMKLaneAssistView: UIView {
         heightAnchor.constraint(equalToConstant: 40).isActive = true
         layer.cornerRadius = 8
         backgroundColor = .black
-        setupLaneStack()
+        setupLanesStack()
     }
     
-    private func setupLaneStack() {
-        addSubview(laneStack)
-        laneStack.translatesAutoresizingMaskIntoConstraints = false
-        laneStack.centerInSuperview()
+    private func setupLanesStack() {
+        addSubview(lanesStack)
+        lanesStack.translatesAutoresizingMaskIntoConstraints = false
+        lanesStack.centerInSuperview()
     }
     
 }

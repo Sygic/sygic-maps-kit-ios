@@ -23,10 +23,14 @@
 import SygicMaps
 
 
+/// Controller that manages lanes instruction information.
 public class SYMKLaneAssistController {
     
     public let view = SYMKLaneAssistView()
     
+    /// Update lanes assistance information.
+    ///
+    /// - Parameter lanesInfo: SDK lanes information.
     public func update(with lanesInfo: SYLanesInformation?) {
         guard let lanesInfo = lanesInfo, lanesInfo.isActive, !lanesInfo.simpleLaneInformation.isEmpty else {
             view.updateLaneArrows([])
@@ -34,13 +38,11 @@ public class SYMKLaneAssistController {
             return
         }
         var lanes = [(arrows: [String], highlighted: Bool)]()
-        for lane in lanesInfo.comlpexLaneInformation.lanes {
+        for lane in lanesInfo.simpleLaneInformation {
             let arrowImageNames = lane.toArrowImageNames()
-            if !arrowImageNames.isEmpty {
-                lanes.append((arrows: arrowImageNames, highlighted: lane.highlighted))
-            }
+            lanes.append((arrows: arrowImageNames, highlighted: lane.highlighted))
         }
-        guard !lanes.isEmpty else { return }
+        
         view.updateLaneArrows(lanes.reversed())
         view.isHidden = false
     }

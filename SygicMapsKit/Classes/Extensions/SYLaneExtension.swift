@@ -28,7 +28,7 @@ extension SYLane {
     func toArrowImageNames() -> [String] {
         
         if arrows.isEmpty {
-            return []
+            return ["laneassist_straight"]
         }
         
         var arrowImageNames = [String]()
