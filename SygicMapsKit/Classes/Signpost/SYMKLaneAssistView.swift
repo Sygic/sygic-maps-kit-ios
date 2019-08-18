@@ -21,7 +21,10 @@
 // THE SOFTWARE.
 
 
+/// View for lane asistance. It shows lanes directions for navigation.
 public class SYMKLaneAssistView: UIView {
+    
+    // MARK: - Private Properties
     
     private let bundle = Bundle(for: SYMKLaneAssistView.self)
     private let arrowImageSize: CGFloat = 24
@@ -32,6 +35,8 @@ public class SYMKLaneAssistView: UIView {
         return stack
     }()
     
+    // MARK: - Public Methods
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initDefaults()
@@ -41,6 +46,9 @@ public class SYMKLaneAssistView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Updates lane direction images. One lane contains multiple arrows stacked on top of each other.
+    ///
+    /// - Parameter lanes: Array of arrows for lane along with highligted information.
     public func updateLaneArrows(_ lanes: [(arrows: [String], highlighted: Bool)]) {
         lanesStack.removeAll()
         
@@ -61,6 +69,8 @@ public class SYMKLaneAssistView: UIView {
             lanesStack.addArrangedSubview(arrowImagesView)
         }
     }
+    
+    // MARK: - Private Methods
     
     private func initDefaults() {
         heightAnchor.constraint(equalToConstant: 40).isActive = true

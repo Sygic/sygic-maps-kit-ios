@@ -122,6 +122,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Enables lane assistance.
     public var useLaneAssist: Bool = true
     
     /// Enables current speed.
