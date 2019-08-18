@@ -154,6 +154,15 @@ public class SYMKMapState: NSCopying {
     
     // MARK: - Public methods
     
+    /// Returns SYMKMapState instance with default values for navigation map module
+    public static func navigationMapState() -> SYMKMapState {
+        let mapState = SYMKMapState()
+        mapState.cameraMovementMode = .followGpsPositionWithAutozoom
+        mapState.cameraRotationMode = .vehicle
+        mapState.tilt = 60.0
+        return mapState
+    }
+    
     /// Initializes and returns map. If map isn't already initialized, returns new map instance with defined state values.
     ///
     /// - Parameter frame: Initial frame of a map. Default is `CGRect.zero`.
@@ -184,6 +193,18 @@ public class SYMKMapState: NSCopying {
                 completion?(success)
             }
         }
+    }
+    
+    public func updateLandscapeMapCenter(_ landscape: Bool) {
+        guard let camera = map?.camera else { return }
+        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.4)
+        let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
+                                                      animationCurveFree: .linear,
+                                                      animationDurationFree: 0,
+                                                      transformCenterFollowGps: point,
+                                                      animationCurveFollowGps: .linear,
+                                                      animationDurationFollowGps: 0)
+        camera.setTransformCenterSettings(offsetSetting, withDuration: 1, curve: .accelerateDecelerate)
     }
     
     public func copy(with zone: NSZone? = nil) -> Any {
