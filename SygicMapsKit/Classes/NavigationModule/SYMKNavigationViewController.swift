@@ -383,6 +383,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
+    
     public func navigation(_ navigation: SYNavigation, didPassWaypointWith index: UInt) {
         guard let wps = navigation.waypoints else { return }
         let waypointPassed = wps[Int(index)]
@@ -422,6 +423,15 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
         guard let info = info else { return }
         infobarController?.updateRouteInfo(info)
+    }
+    
+    public func navigation(_ navigation: SYNavigation, didUpdate lanesInfo: SYLanesInformation?) {
+        guard useLaneAssist else { return }
+        if let signpostInstructions = instructionsController as? SYMKSignpostController {
+            signpostInstructions.update(with: lanesInfo)
+        } else {
+            laneAssistController.update(with: lanesInfo)
+        }
     }
     
 }
