@@ -94,16 +94,16 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
     ///
     /// - Parameter place: map place provided by SYMapView
     public convenience init(with place: SYPlace) {
-        self.init(with: place.coordinate)
+        self.init(with: place.location)
         
-        street = place.locationInfo?.street
-        houseNumber = place.locationInfo?.houseNumber
-        postal = place.locationInfo?.postal
-        city = place.locationInfo?.city
+        street = place.street
+        houseNumber = place.houseNumber
+        postal = place.postal
+        city = place.city
         
-        phone = place.locationInfo?.phone
-        email = place.locationInfo?.email
-        website = place.locationInfo?.website
+        phone = place.phone
+        email = place.email
+        website = place.website
         
         if !place.name.isEmpty {
             name = place.name
@@ -147,19 +147,19 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
     /// Initializer used with search poi data
     ///
     /// - Parameter poiDetail: search result detail provided by SYSearch for detail request on SYMapSearchResult
-    public convenience init(with poiDetail: SYSearchResultDetailPoi) {
+    public convenience init(with poiDetail: SYSearchResultDetailPlace) {
         self.init(with: poiDetail.coordinate ?? SYGeoCoordinate())
         
-        name = poiDetail.name
+        name = poiDetail.place.name
         
-        street = poiDetail.locationInfo.street
-        houseNumber = poiDetail.locationInfo.houseNumber
-        postal = poiDetail.locationInfo.postal
-        city = poiDetail.locationInfo.city
+        street = poiDetail.place.street
+        houseNumber = poiDetail.place.houseNumber
+        postal = poiDetail.place.postal
+        city = poiDetail.place.city
         
-        phone = poiDetail.locationInfo.phone
-        email = poiDetail.locationInfo.email
-        website = poiDetail.locationInfo.website
+        phone = poiDetail.place.phone
+        email = poiDetail.place.email
+        website = poiDetail.place.website
     }
     
     public required init?(coder aDecoder: NSCoder) {

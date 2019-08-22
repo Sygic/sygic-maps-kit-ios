@@ -99,9 +99,9 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     
     private func addMarker(from poiResult: SYMapSearchResultPoi) {
         poiResult.detail { resultDetail in
-            guard let poiDetail = resultDetail as? SYSearchResultDetailPoi else { return }
+            guard let poiDetail = resultDetail as? SYSearchResultDetailPlace else { return }
             let poiData = SYMKPoiData(with: poiDetail)
-            let category = SYMKPoiCategory.with(syPoiCategory: poiDetail.category)
+            let category = SYMKPlaceCategory.with(sdkPlaceCategory: poiDetail.place.category)
             let pin = SYMapMarker(with: poiData, icon: category.icon, color: category.color)
             self.addMarkers(markers: [pin])
         }
@@ -119,7 +119,7 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
             guard let poiData = SYMKPoiData(with: result) else { continue }
             let marker: SYMapMarker
             if let poiResult = result as? SYMapSearchResultPoi {
-                let category = SYMKPoiCategory.with(syPoiCategory: poiResult.category)
+                let category = SYMKPlaceCategory.with(sdkPlaceCategory: poiResult.category)
                 marker = SYMapMarker(with: poiData, icon: category.icon, color: category.color)
             } else {
                 marker = SYMapMarker(with: poiData)
@@ -132,16 +132,16 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     private func resultSheetWithPoisFromCategoryOrGroup(result: SYMapSearchResult) {
         // TODO: [MS-5629] bug - search filtruje resulty, ktore nemaju coordinaty (teda kategorie a groupy)
         //                result.detail { resultDetail in
-        //                    if let categoryDetail = resultDetail as? SYSearchResultDetailPoiCategory {
+        //                    if let categoryDetail = resultDetail as? SYSearchResultDetailPlaceCategory {
         //                        var pins = [SYMKMapPin]()
         //                        categoryDetail.pois.forEach { detailPoi in
         //                            guard let coordinate = detailPoi.coordinate else { return }
-        //                            let category = SYMKPoiCategory.with(syPoiCategory: detailPoi.category)
+        //                            let category = SYMKPlaceCategory.with(syPoiCategory: detailPoi.category)
         //                            guard let pin = SYMKMapPin(coordinate: coordinate, icon: category.icon, color: category.color, highlighted: false) else { return }
         //                            pins.append(pin)
         //                            browseMap.customMarkers = pins
         //                        }
-        //                    } else if let groupDetail = resultDetail as? SYSearchResultDetailPoiCategoryGroup {
+        //                    } else if let groupDetail = resultDetail as? SYSearchResultDetailPlaceCategoryGroup {
         //                        var pins = [SYMKMapPin]()
         //                        groupDetail.pois.forEach { detailPoi in
         //                            guard let coordinate = detailPoi.coordinate else { return }

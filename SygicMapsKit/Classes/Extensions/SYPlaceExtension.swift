@@ -24,7 +24,13 @@ import Foundation
 import SygicMaps
 
 
-public extension SYLocationInfo {
+public extension SYPlace {
+    
+    // MARK: Basic Info
+    
+    var location: SYGeoCoordinate { return link.coordinate }
+    var name: String { return link.name }
+    var category: String { return link.category }
     
     /// Formatted string containing street and house number from place address
     var streetAndHouseNumber: String? {
@@ -69,24 +75,26 @@ public extension SYLocationInfo {
     ///
     /// - Parameter field: desired location info type
     /// - Returns: Location info value string. If empty, returns nil.
-    func unemptyLocationInfo(for field: SYLocationInfoField) -> String? {
-        if let info = values(for: field)?.first, !info.isEmpty {
-            return info
+    func unemptyLocationInfo(for key: String) -> String? {
+        let values = details.filter({ (pair) -> Bool in
+            return pair.key as String == key
+        })
+        if values.count > 0 {
+            return values.first?.value as String?
         }
         return nil
     }
     
     // MARK: Address
     
-    var street: String? { return unemptyLocationInfo(for: .street) }
-    var houseNumber: String? { return unemptyLocationInfo(for: .houseNum) }
-    var city: String? { return unemptyLocationInfo(for: .city) }
-    var postal: String? { return unemptyLocationInfo(for: .postal) }
+    var street: String? { return unemptyLocationInfo(for: "street") }
+    var houseNumber: String? { return unemptyLocationInfo(for: "houseNum") }
+    var city: String? { return unemptyLocationInfo(for: "city") }
+    var postal: String? { return unemptyLocationInfo(for: "postal") }
     
     // MARK: Contacts
     
-    var phone: String? { return unemptyLocationInfo(for: .phone) }
-    var email: String? { return unemptyLocationInfo(for: .mail) }
-    var website: String? { return unemptyLocationInfo(for: .url) }
-    
+    var phone: String? { return unemptyLocationInfo(for: "phone") }
+    var email: String? { return unemptyLocationInfo(for: "mail") }
+    var website: String? { return unemptyLocationInfo(for: "url") }
 }

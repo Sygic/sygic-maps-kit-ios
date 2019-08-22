@@ -188,7 +188,7 @@ public class SYMKMapSelectionManager {
     
     private func selectViewObject(_ object: SYViewObject) {
         delegate?.mapSelectionWillSelectData(self)
-        if let poi = object as? SYPoiObject, poi.type == .poi, mapSelectionMode == .all {
+        if let poi = object as? SYProxyPlace, poi.type == .poi, mapSelectionMode == .all {
             selectMapPoi(poi)
         } else if let marker = object as? SYMapMarker {
             selectCustomMarker(marker)
@@ -197,9 +197,11 @@ public class SYMKMapSelectionManager {
         }
     }
     
-    private func selectMapPoi(_ poi: SYPoiObject) {
-        SYPlaces.shared().loadPoiObjectPlace(poi) { [weak self] (place: SYPlace) in
-            self?.selectPlace(with: SYMKPoiData(with: place), category: SYMKPoiCategory.with(syPoiCategory: place.category))
+    private func selectMapPoi(_ proxyPlace: SYProxyPlace) {
+        SYProxyObjectsManager.loadPlaceLink(from: proxyPlace) { [weak self] (link) in
+            SYPlacesManager.sharedPlaces().loadPlace(link, withCompletion: { (place) in
+                self?.selectPlace(with: SYMKPoiData(with: place), category: SYMKPlaceCategory.with(sdkPlaceCategory: place.category))
+            })
         }
     }
     
@@ -210,7 +212,7 @@ public class SYMKMapSelectionManager {
         }
     }
     
-    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPoiCategory = SYMKPoiCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
+    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPlaceCategory = SYMKPlaceCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
         delegate?.mapSelection(didSelect: poiData)
     }
     

@@ -392,6 +392,7 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     public func navigation(_ navigation: SYNavigation, didUpdate positionInfo: SYPositionInfo?) {
         guard let info = positionInfo else { return }
         infobarController?.updatePositionInfo(info)
+        infobarController?.updateRouteProgress(navigation.getRouteProgress())
     }
     
     public func navigation(_ navigation: SYNavigation, didUpdate limit: SYSpeedLimit?) {
@@ -408,11 +409,6 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     public func navigation(_ navigation: SYNavigation, didUpdateDirection instruction: SYInstruction?) {
         guard let instruction = instruction, let instructionsController = instructionsController else { return }
         instructionsController.update(with: instruction)
-    }
-    
-    public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
-        guard let info = info else { return }
-        infobarController?.updateRouteInfo(info)
     }
 }
 

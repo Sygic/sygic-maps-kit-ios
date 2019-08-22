@@ -69,7 +69,7 @@ public class SYMKRoutePreviewController {
         guard let simulator = SYRoutePositionSimulator(route: route) else { return }
         self.simulator = simulator
         
-        SYPositioning.shared().dataSource = simulator
+        SYPositioningManager.shared().dataSource = simulator
         simulator.start()
         
         speed = simulator.speedMultiplier
@@ -81,9 +81,9 @@ public class SYMKRoutePreviewController {
     
     /// Stops route preview. Destroys all position simulators and restores default GPS position provider.
     public func stopPreview() {
-        guard let simulator = SYPositioning.shared().dataSource as? SYRoutePositionSimulator else { return }
+        guard let simulator = SYPositioningManager.shared().dataSource as? SYRoutePositionSimulator else { return }
         simulator.stop()
-        SYPositioning.shared().dataSource = nil
+        SYPositioningManager.shared().dataSource = nil
         previewDelegate?.routePreviewDidStop(self)
     }
     

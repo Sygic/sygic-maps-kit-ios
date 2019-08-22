@@ -25,7 +25,7 @@ import SygicUIKit
 
 
 /// Controller for current speed and speed limit.
-public class SYMKSpeedController {
+public class SYMKSpeedController: NSObject {
     
     // MARK: - Public Properties
     
@@ -54,6 +54,7 @@ public class SYMKSpeedController {
     // MARK: - Private Properties
     
     private var actualSpeedLimit: Double?
+    private var positioning: SYPositioning?
     
     // MARK: - Public Methods
     
@@ -76,15 +77,14 @@ public class SYMKSpeedController {
     
     /// Setup timer for update speed every second based on sdk last known location.
     public func setupSpeedUpdater() {
-        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-            guard let weakSelf = self else {
-                timer.invalidate()
-                return
-            }
-            guard timer.isValid else { return }
-            guard let speed = SYPositioning.shared().lastKnownLocation?.speed else { return }
-            weakSelf.currentSpeed = speed
-        }
+        positioning = SYPositioning()
+        positioning?.delegate = self
+        positioning?.startUpdatingPosition()
     }
-    
+}
+
+extension SYMKSpeedController: SYPositioningDelegate {
+    public func positioning(_ positioning: SYPositioning, didUpdate position: SYPosition) {
+        currentSpeed = position.speed
+    }
 }

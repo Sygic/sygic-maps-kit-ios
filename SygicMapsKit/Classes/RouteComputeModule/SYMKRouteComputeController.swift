@@ -47,8 +47,7 @@ public class SYMKRouteComputeController: SYMKModuleViewController {
     }
     
     override internal func sygicSDKInitialized() {
-        SYPositioning.shared().startUpdatingPosition()
-        
+        triggerUserLocation(true)
         setupMapController()
     }
     

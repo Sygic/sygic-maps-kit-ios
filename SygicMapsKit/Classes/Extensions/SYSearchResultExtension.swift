@@ -78,11 +78,11 @@ extension SYSearchResult: SYUIDetailCellDataSource {
         var color: UIColor = .textBody
         
         if let category = self as? SYMapSearchResultPoiCategory {
-            let poiCategory = SYMKPoiCategory.with(syPoiCategory: category.category)
+            let poiCategory = SYMKPlaceCategory.with(sdkPlaceCategory: category.category)
             icon = poiCategory.icon
             color = poiCategory.color
         } else if let group = self as? SYMapSearchResultPoiGroup {
-            let poiGroup = SYMKPoiGroup.with(syPoiGroup: group.group)
+            let poiGroup = SYMKPlaceGroup.with(sdkPlaceGroup: group.group)
             icon = poiGroup.icon
             color = poiGroup.color
         }

@@ -33,7 +33,7 @@ extension SYMapSearchResult {
     ///   - data: Result closure callback
     ///   - result: Detail result of a `SYSearchResult`.
     public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
-        let location = self.coordinate ?? coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
+        let location = self.coordinate ?? coordinates ?? SYPosition.lastKnownLocation()?.coordinate ?? SYGeoCoordinate()
         let search = SYSearch()
         search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
             _ = search // reference to search instance, so completion block is executed

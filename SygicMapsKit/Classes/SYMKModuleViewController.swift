@@ -33,6 +33,7 @@ public class SYMKModuleViewController: UIViewController {
     /// You can pass state by reference or create copy with `SYMKMapState` `copy()` method and
     /// pass new instance. So you just change state of new module.
     public var mapState: SYMKMapState = SYMKMapState()
+    private var positioning: SYPositioning?
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -73,9 +74,13 @@ public class SYMKModuleViewController: UIViewController {
     public func triggerUserLocation(_ startUpdating: Bool) {
         guard SYMKSdkManager.shared.isSdkInitialized else { return }
         if startUpdating {
-            SYPositioning.shared().startUpdatingPosition()
+            guard positioning == nil else { return }
+            SYPositioningManager.shared().dataSource = SYDevicePositionSource() // TODO: remove after SDK fix
+            positioning = SYPositioning()
+            positioning?.startUpdatingPosition()
         } else {
-            SYPositioning.shared().stopUpdatingPosition()
+            positioning?.stopUpdatingPosition()
+            positioning = nil
         }
     }
 }
