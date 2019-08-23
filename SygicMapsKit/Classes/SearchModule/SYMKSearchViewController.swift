@@ -48,12 +48,12 @@ public protocol SYMKSearchViewControllerDelegate: class {
     ///   - searchController: Search module controller.
     ///   - searchState: state to handle
     /// - Returns: String message to display for received search state. Return nil if you don't what to display any message.
-    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchState: SYRequestResultState) -> String?
+    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchError: Error) -> String?
 }
 
 public extension SYMKSearchViewControllerDelegate {
-    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchState: SYRequestResultState) -> String? {
-        return searchState.stringMessage()
+    func searchController(_ searchController: SYMKSearchViewController, willShowMessageFor searchError: Error) -> String? {
+        return searchError.searchErrorMessage()
     }
 }
 
@@ -151,12 +151,13 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         }
     }
     
-    private func errorMessage(for results: [SYSearchResult], _ state: SYRequestResultState) -> String? {
+    private func errorMessage(for results: [SYSearchResult], _ error: Error?) -> String? {
         guard results.count == 0 else { return nil }
-        if state == .success && !searchBarController.searchText.isEmpty {
+        let error = error as NSError?
+        if (error == nil || error!.code == NSRequestResultErrorSuccess) && !searchBarController.searchText.isEmpty {
             return LS("No results found")
         } else {
-            return state.stringMessage()
+            return error?.searchErrorMessage()
         }
     }
     

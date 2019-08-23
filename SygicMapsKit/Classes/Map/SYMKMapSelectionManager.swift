@@ -198,8 +198,10 @@ public class SYMKMapSelectionManager {
     }
     
     private func selectMapPoi(_ proxyPlace: SYProxyPlace) {
-        SYProxyObjectsManager.loadPlaceLink(from: proxyPlace) { [weak self] (link) in
-            SYPlacesManager.sharedPlaces().loadPlace(link, withCompletion: { (place) in
+        SYProxyObjectsManager.loadPlaceLink(from: proxyPlace) { [weak self] (link, _) in
+            guard let link = link else { return }
+            SYPlacesManager.sharedPlaces().loadPlace(link, withCompletion: { (place, _) in
+                guard let place = place else { return }
                 self?.selectPlace(with: SYMKPoiData(with: place), category: SYMKPlaceCategory.with(sdkPlaceCategory: place.category))
             })
         }

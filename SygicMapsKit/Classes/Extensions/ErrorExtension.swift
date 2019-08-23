@@ -23,18 +23,20 @@
 import SygicMaps
 import SygicUIKit
 
-public extension SYRequestResultState {
-    func stringMessage() -> String? {
-        switch self {
-        case .error:
+public extension Error {
+    func searchErrorMessage() -> String? {
+        let error = self as NSError
+        guard error.domain == NSRequestResultErrorDomain else { return nil }
+        switch error.code {
+        case NSRequestResultErrorError:
             return LS("Search error")
-        case .notAvailable:
+        case NSRequestResultErrorNotAvailable:
             return LS("Search not available")
-        case .cancelled:
+        case NSRequestResultErrorCancelled:
             return LS("Search canceled")
-        case .wrongResponse:
+        case NSRequestResultErrorWrongResponse:
             return LS("Wrong response from search")
-        case .timeout:
+        case NSRequestResultErrorTimeout:
             return LS("Search timeout")
         default:
             return nil
