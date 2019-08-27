@@ -27,7 +27,7 @@ pod 'SygicMapsKit'
 
 ### Bitcode
 
-Unfortunately SygicMaps framework dose not support bitcode yet.
+Unfortunately SygicMaps framework does not support bitcode yet.
 In the meantime you have to disable bitcode in your application as well, or use [post_install script][samplePodfile] in podfile to disable bitcode in all targets.
 
 ### Permissions
