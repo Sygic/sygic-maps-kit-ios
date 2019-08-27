@@ -25,6 +25,15 @@ it, simply add the following line to your Podfile:
 pod 'SygicMapsKit'
 ```
 
+### Bitcode
+
+Unfortunately SygicMaps framework dose not support bitcode yet.
+In the meantime you have to disable bitcode in your application as well, or use [post_install script][samplePodfile] in podfile to disable bitcode in all targets.
+
+### Permissions
+
+If you would like to use location based features from framework, please make sure your application Information Property List Key (Info.plist) contains necessary permission keys ([NSLocationWhenInUseUsageDescription][LocationInUse] or [NSLocationAlwaysAndWhenInUseUsageDescription][LocationAllways]) 
+
 ## Help
 
 First read the [Wiki][MapsKitWiki] page, then try to search on [Stackoverflow][SygicMobileSDKiOS] or visit the GitHub [issues][MapsKitIssues] page.
@@ -78,3 +87,7 @@ limitations under the License.
 [Example2Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example2_thumbnail.png>
 [Example3Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example3_thumbnail.png>
 [Example4Thumbnail]: <https://raw.githubusercontent.com/Sygic/sygic-maps-kit-ios/master/Assets/example4_thumbnail.png>
+
+[LocationInUse]: <https://developer.apple.com/documentation/corelocation/choosing_the_authorization_level_for_location_services/requesting_when-in-use_authorization>
+[LocationAllways]: <https://developer.apple.com/documentation/corelocation/choosing_the_authorization_level_for_location_services/requesting_always_authorization>
+[samplePodfile]: <https://github.com/Sygic/sygic-maps-kit-ios/blob/develop/Example/Podfile>
