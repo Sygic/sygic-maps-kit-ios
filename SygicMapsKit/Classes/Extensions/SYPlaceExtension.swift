@@ -87,14 +87,14 @@ public extension SYPlace {
     
     // MARK: Address
     
-    var street: String? { return unemptyLocationInfo(for: "street") }
-    var houseNumber: String? { return unemptyLocationInfo(for: "houseNum") }
-    var city: String? { return unemptyLocationInfo(for: "city") }
-    var postal: String? { return unemptyLocationInfo(for: "postal") }
+    var street: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeStreet) }
+    var houseNumber: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeHouseNum) }
+    var city: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeCity) }
+    var postal: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributePostal) }
     
     // MARK: Contacts
     
-    var phone: String? { return unemptyLocationInfo(for: "phone") }
-    var email: String? { return unemptyLocationInfo(for: "mail") }
-    var website: String? { return unemptyLocationInfo(for: "url") }
+    var phone: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributePhone) }
+    var email: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeMail) }
+    var website: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeUrl) }
 }
