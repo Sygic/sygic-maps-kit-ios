@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "laneassist_sharp_left.pdf"
+      "filename" : "SYLaneDirectionLeft.pdf"
     }
   ],
   "info" : {
@@ -10,7 +10,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "template-rendering-intent" : "template",
     "preserves-vector-representation" : true
   }
 }
