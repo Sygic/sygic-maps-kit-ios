@@ -37,6 +37,7 @@ public class SYMKSignpostController: SYMKDirectionController {
     // MARK: - Private Properties
 
     private let signpostView = SYMKSignpostView()
+    private let laneAssistController = SYMKLaneAssistController()
     private var latestUpdate: (instruction: SYInstruction?, signposts: [SYSignpost]?) = (instruction: nil, signposts: nil) {
         didSet {
             if let instruction = latestUpdate.instruction {
@@ -50,6 +51,11 @@ public class SYMKSignpostController: SYMKDirectionController {
     
     // MARK: - Public Methods
     
+    override init() {
+        super.init()
+        signpostView.setupLaneAssist(laneAssistController.view)
+    }
+    
     public override func update(with instruction: SYInstruction) {
         latestUpdate.instruction = instruction
     }
@@ -59,6 +65,13 @@ public class SYMKSignpostController: SYMKDirectionController {
     /// - Parameter signposts: Signposts on the actual road.
     public func update(with signposts: [SYSignpost]) {
         latestUpdate.signposts = signposts
+    }
+    
+    /// Updates lane assistance.
+    ///
+    /// - Parameter lanesInfo: SDK lanes information.
+    public func update(with lanesInfo: SYLanesInformation?) {
+        laneAssistController.update(with: lanesInfo)
     }
     
     // MARK: - Private Methods
