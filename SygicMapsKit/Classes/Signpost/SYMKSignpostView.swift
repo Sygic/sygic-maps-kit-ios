@@ -71,7 +71,9 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
     private let actualInstructionSize = 32
     private let nextInstructionSize = 24
     private let nextInstructionAnimationDuration = 0.2
+    private let nextInstructionLaneAssistBackgroundColor = UIColor(argb: 0xff1B1B1B)
     private let nextInstructionBackground = UIView()
+    private var laneAssist: UIView?
     private var actualRouteNumbers = [SYRouteNumberFormat]()
     private var actualPictograms = [SYSignpostElementPictogramType]()
     
@@ -124,6 +126,18 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         }
     }
     
+    /// Setup lane assist for signpost instruction view. When lane assist is available, it's showed instead of next instruction.
+    ///
+    /// - Parameter laneAssist: Lane assist view.
+    public func setupLaneAssist(_ laneAssist: UIView) {
+        self.laneAssist = laneAssist
+        laneAssist.translatesAutoresizingMaskIntoConstraints = false
+        nextInstructionBackground.addSubview(laneAssist)
+        laneAssist.backgroundColor = nextInstructionLaneAssistBackgroundColor
+        laneAssist.coverWholeSuperview()
+        laneAssist.isHidden = true
+    }
+    
     // MARK: - Private Methods
     
     private func initDefaults() {
@@ -131,7 +145,7 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
         clipsToBounds = true
         layer.cornerRadius = 8
         
-        nextInstructionBackground.backgroundColor = UIColor(argb: 0xff1B1B1B)
+        nextInstructionBackground.backgroundColor = nextInstructionLaneAssistBackgroundColor
         
         instructionDistance.translatesAutoresizingMaskIntoConstraints = false
         addSubview(instructionDistance)

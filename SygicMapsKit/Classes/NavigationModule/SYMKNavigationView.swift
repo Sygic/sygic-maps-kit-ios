@@ -40,7 +40,10 @@ public class SYMKNavigationView: UIView {
     public private(set) weak var infobarView: UIView?
     
     /// Instruction view.
-    public private(set) weak var instructionView: SYMKInstructionView?
+    public private(set) weak var instructionView: UIView?
+    
+    /// Lane assist view.
+    public private(set) weak var laneAssistView: UIView?
     
     /// Current speed and speed limit view.
     public private(set) weak var speedControlView: SYUISpeedControlView?
@@ -54,6 +57,8 @@ public class SYMKNavigationView: UIView {
     private var infobarWidthConstraint: NSLayoutConstraint?
     private var instructionTrailingConstraint: NSLayoutConstraint?
     private var instructionWidthConstraint: NSLayoutConstraint?
+    private var laneAssistTrailingConstraint: NSLayoutConstraint?
+    private var laneAssistWidthConstraint: NSLayoutConstraint?
     private var speedControlBottomPortraitContraint: NSLayoutConstraint?
     private var speedControlBottomLandscapeContraint: NSLayoutConstraint?
     
@@ -76,6 +81,7 @@ public class SYMKNavigationView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         updateInfobarLayoutConstraints()
         updateInstructionLayoutConstraints()
+        updateLaneAssistLayoutConstraints()
         updateSpeedControlLayoutConstraints()
     }
     
@@ -107,9 +113,9 @@ public class SYMKNavigationView: UIView {
         }
     }
     
-    /// Setup route preview control view
+    /// Setup route preview control view.
     ///
-    /// - Parameter routePreview: route preview control view
+    /// - Parameter routePreview: Route preview control view.
     public func setupInfobarView(_ infobar: UIView?) {
         self.infobarView?.removeFromSuperview()
         self.infobarView = infobar
@@ -126,7 +132,7 @@ public class SYMKNavigationView: UIView {
     /// Setup instruction view for navigation module.
     ///
     /// - Parameter instructionView: View with navigating instructions.
-    public func setupInstructionView(_ instructionView: SYMKInstructionView?) {
+    public func setupInstructionView(_ instructionView: UIView?) {
         self.instructionView?.removeFromSuperview()
         self.instructionView = instructionView
         guard let instructionView = instructionView else { return }
@@ -137,6 +143,23 @@ public class SYMKNavigationView: UIView {
         instructionTrailingConstraint = instructionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
         instructionWidthConstraint = instructionView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
         updateInstructionLayoutConstraints()
+    }
+    
+    /// Setup lane assist view for navigation module.
+    ///
+    /// - Parameter laneAssistView: View with lane directions.
+    public func setupLaneAssistView(_ laneAssistView: UIView?) {
+        self.laneAssistView?.removeFromSuperview()
+        self.laneAssistView = laneAssistView
+        guard let directionView = instructionView, let laneAssistView = laneAssistView else { return }
+        addSubview(laneAssistView)
+        laneAssistView.translatesAutoresizingMaskIntoConstraints = false
+        laneAssistView.topAnchor.constraint(equalTo: directionView.bottomAnchor, constant: margin/2).isActive = true
+        laneAssistView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        laneAssistTrailingConstraint = laneAssistView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
+        laneAssistWidthConstraint = laneAssistView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
+        updateLaneAssistLayoutConstraints()
+        laneAssistView.isHidden = true
     }
     
     /// Setup speed cobntrol view for navigation module.
@@ -155,7 +178,7 @@ public class SYMKNavigationView: UIView {
         speedControlView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
         updateSpeedControlLayoutConstraints()
     }
-
+    
     // MARK: - Private Methods
     
     private func setupUI() {
@@ -167,6 +190,10 @@ public class SYMKNavigationView: UIView {
         updateConstraints(portrait: infobarTrailingConstraint, landscape: infobarWidthConstraint)
     }
     
+    private func updateLaneAssistLayoutConstraints() {
+        updateConstraints(portrait: laneAssistTrailingConstraint, landscape: laneAssistWidthConstraint)
+    }
+
     private func updateInstructionLayoutConstraints() {
         updateConstraints(portrait: instructionTrailingConstraint, landscape: instructionWidthConstraint)
     }

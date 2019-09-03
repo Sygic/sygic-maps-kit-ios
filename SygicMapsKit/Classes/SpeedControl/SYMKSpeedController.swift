@@ -37,12 +37,15 @@ public class SYMKSpeedController: NSObject {
         didSet {
             var speeding = false
             if let speedLimit = actualSpeedLimit {
-                speeding = currentSpeed > speedLimit
+                speeding = currentSpeed > speedLimit*speedingTreshold
             }
             let formattedSpeed = SYUIGeneralFormatter.format(currentSpeed, from: .kilometers, to: units)
             view?.updateCurrentSpeed(with: Int(formattedSpeed), speeding: speeding)
         }
     }
+    
+    /// Speed treshold multiplier when speeding apperence should change
+    public var speedingTreshold: Double = 1.06
     
     /// Distance units shown in distance labels
     public var units: SYUIDistanceUnits = .kilometers {

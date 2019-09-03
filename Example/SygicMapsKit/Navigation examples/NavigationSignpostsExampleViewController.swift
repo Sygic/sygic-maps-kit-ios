@@ -39,7 +39,7 @@ class NavigationSignpostsExampleViewController: UIViewController, SYMKModulePres
         
         presentModule(navigationModule)
         
-        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 49.211638, longitude: 18.549533)!, to: SYGeoCoordinate(latitude: 48.142441, longitude: 17.143728)!) { [weak self] result in
+        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 48.138610, longitude: 17.145188)!, to: SYGeoCoordinate(latitude: 48.144466, longitude: 17.152621)!) { [weak self] result in
             switch result {
             case .success(route: let testRoute):
                 self?.navigationModule.startNavigation(with: testRoute, preview: true)

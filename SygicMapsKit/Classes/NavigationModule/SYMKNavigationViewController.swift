@@ -122,6 +122,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Enables lane assistance.
+    public var useLaneAssist: Bool = true
+    
     /// Enables current speed.
     public var useCurrentSpeed = true
     
@@ -195,15 +198,18 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
     private let routePreviewController = SYMKRoutePreviewController()
+    private let laneAssistController = SYMKLaneAssistController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
         didSet {
             guard let navigationView = view as? SYMKNavigationView, let instructionsController = instructionsController else {
                 (view as? SYMKNavigationView)?.setupInstructionView(nil)
+                (view as? SYMKNavigationView)?.setupLaneAssistView(nil)
                 return
             }
             instructionsController.units = units
             navigationView.setupInstructionView(instructionsController.view)
+            navigationView.setupLaneAssistView(laneAssistController.view)
         }
     }
     
@@ -251,6 +257,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let navigationView = SYMKNavigationView()
         if let instructionsController = instructionsController {
             navigationView.setupInstructionView(instructionsController.view)
+        }
+        if useLaneAssist {
+            navigationView.setupLaneAssistView(laneAssistController.view)
         }
         if useInfobar {
             setupInfobarController()
@@ -374,6 +383,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
+    
     public func navigation(_ navigation: SYNavigation, didPassWaypointWith index: UInt) {
         guard let wps = navigation.waypoints else { return }
         let waypointPassed = wps[Int(index)]
@@ -410,6 +420,16 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
         guard let instruction = instruction, let instructionsController = instructionsController else { return }
         instructionsController.update(with: instruction)
     }
+    
+    public func navigation(_ navigation: SYNavigation, didUpdate lanesInfo: SYLanesInformation?) {
+        guard useLaneAssist else { return }
+        if let signpostInstructions = instructionsController as? SYMKSignpostController {
+            signpostInstructions.update(with: lanesInfo)
+        } else {
+            laneAssistController.update(with: lanesInfo)
+        }
+    }
+
 }
 
 extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
