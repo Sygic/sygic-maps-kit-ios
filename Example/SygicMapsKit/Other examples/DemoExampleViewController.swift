@@ -104,6 +104,8 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         navigationModule.mapState.cameraRotationMode = .vehicle
         navigationModule.mapState.tilt = 60
         presentModule(navigationModule)
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
 
@@ -156,6 +158,7 @@ extension DemoViewController: SYMKNavigationViewControllerDelegate {
         if presentedModules.last == controller {
             browseModule.mapState = controller.mapState
             dismissModule()
+            navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
 }
