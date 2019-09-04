@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */; };
 		43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43161C17230425FD00E00BDF /* fanfare.mp3 */; };
+		436475E0231FCF5C00587354 /* DemoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436475DF231FCF5C00587354 /* DemoExampleViewController.swift */; };
 		436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */; };
 		43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAC22CB7034002C09C2 /* RoutingHelper.swift */; };
 		43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */; };
@@ -82,6 +83,7 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButtonsExampleViewController.swift; sourceTree = "<group>"; };
 		43161C17230425FD00E00BDF /* fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fanfare.mp3; sourceTree = "<group>"; };
+		436475DF231FCF5C00587354 /* DemoExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExampleViewController.swift; sourceTree = "<group>"; };
 		436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExamplesTableViewController.swift; sourceTree = "<group>"; };
 		43854DAC22CB7034002C09C2 /* RoutingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingHelper.swift; sourceTree = "<group>"; };
 		43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationNavigationExampleViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 			children = (
 				438D181D22FAE49C002DF224 /* Manage maps */,
 				583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */,
+				436475DF231FCF5C00587354 /* DemoExampleViewController.swift */,
 			);
 			path = "Other examples";
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
 				583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */,
+				436475E0231FCF5C00587354 /* DemoExampleViewController.swift in Sources */,
 				43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,

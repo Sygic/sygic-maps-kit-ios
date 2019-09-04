@@ -35,7 +35,7 @@ public enum SYMKPoiDetailContact {
     case website(_ value: String)
     
     /// Title for contact detail
-    var title: String {
+    public var title: String {
         switch self {
         case .phone:
             return LS("detail.contact.phone")
@@ -47,7 +47,7 @@ public enum SYMKPoiDetailContact {
     }
     
     /// Value for contact detail
-    var value: String {
+    public var value: String {
         switch self {
         case .phone(let value):
             return value
@@ -59,7 +59,7 @@ public enum SYMKPoiDetailContact {
     }
     
     /// Icon for contact detail
-    var icon: String {
+    public var icon: String {
         switch self {
         case .phone:
             return SYUIIcon.call

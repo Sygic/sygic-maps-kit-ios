@@ -76,11 +76,12 @@ public extension SYPlace {
     /// - Parameter field: desired location info type
     /// - Returns: Location info value string. If empty, returns nil.
     func unemptyLocationInfo(for key: String) -> String? {
-        let values = details.filter({ (pair) -> Bool in
-            return pair.key as String == key
-        })
-        if values.count > 0 {
-            return values.first?.value as String?
+        let detail = details[key]
+        if let text = detail as? String {
+            return text
+        }
+        if let multiple: [String] = detail as? Array, let text = multiple.first {
+            return text
         }
         return nil
     }
