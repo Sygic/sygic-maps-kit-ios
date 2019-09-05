@@ -151,10 +151,14 @@ public class SYMKNavigationView: UIView {
     public func setupLaneAssistView(_ laneAssistView: UIView?) {
         self.laneAssistView?.removeFromSuperview()
         self.laneAssistView = laneAssistView
-        guard let directionView = instructionView, let laneAssistView = laneAssistView else { return }
-        addSubview(laneAssistView)
+        guard let laneAssistView = laneAssistView, (instructionView as? SYMKSignpostView) == nil else { return }
         laneAssistView.translatesAutoresizingMaskIntoConstraints = false
-        laneAssistView.topAnchor.constraint(equalTo: directionView.bottomAnchor, constant: margin/2).isActive = true
+        addSubview(laneAssistView)
+        if let directionView = instructionView as? SYMKDirectionView {
+            laneAssistView.topAnchor.constraint(equalTo: directionView.bottomAnchor, constant: margin/2).isActive = true
+        } else {
+            laneAssistView.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
+        }
         laneAssistView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
         laneAssistTrailingConstraint = laneAssistView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin)
         laneAssistWidthConstraint = laneAssistView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: landscapeWidthMultiplier)
