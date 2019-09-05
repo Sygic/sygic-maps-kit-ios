@@ -45,6 +45,6 @@ public class SYMKAltitudeInfobarItem: SYMKInfobarItem {
     }
 
     private func formattedValue(_ altitude: Double) -> String {
-        return "\(altitude)masl" // TODO: localize
+        return "\(altitude)\(LS("masl"))"
     }
 }

@@ -100,7 +100,7 @@ public class SYMKInfobarController {
         if let altitude = position.coordinate?.altitude {
             updateItemView(of: .altitude(altitude, units: units))
         }
-        updateItemView(of: .currentSpeed(position.speed, units: units ))
+        updateItemView(of: .currentSpeed(position.speed, units: units))
         infobarView.setNeedsLayout()
     }
     
