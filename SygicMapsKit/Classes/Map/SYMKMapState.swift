@@ -23,6 +23,44 @@
 import Foundation
 import SygicMaps
 
+/// Map zoom constants
+public enum SYMKMapZoomLevels: CGFloat {
+    /// Earth level
+    case level0 = 0
+    case level1 = 1
+    case level2 = 2
+    case level3 = 3
+    case level4 = 4
+    case level5 = 5
+    case level6 = 6
+    case level7 = 7
+    case level8 = 8
+    case level9 = 9
+    /// City
+    case level10 = 10
+    case level11 = 11
+    case level12 = 12
+    case level13 = 13
+    case level14 = 14
+    case level15 = 15
+    case level16 = 16
+    /// Street level
+    case level17 = 17
+    case level18 = 18
+    case level19 = 19
+    case level20 = 20
+    case level21 = 21
+    case level22 = 22
+    
+    /// Default initial zoom level
+    public static var cityZoom: CGFloat {
+        return SYMKMapZoomLevels.level10.rawValue
+    }
+    
+    public static var streetsZoom: CGFloat {
+        return SYMKMapZoomLevels.level17.rawValue
+    }
+}
 
 /// Implement MapControl protocol for update components with new state based on map changes.
 internal protocol MapControl {
@@ -188,7 +226,7 @@ public class SYMKMapState: NSCopying {
                                                                transformCenter: CGPoint(x: 0.5, y: 0.5),
                                                                rotation: 0,
                                                                tilt: 0,
-                                                               maxZoomLevel: 17,
+                                                               maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
                                                                edgeInsets: edgeInsets), properties.geoCenter.isValid() else { return }
         geoCenter = properties.geoCenter
         tilt = properties.tilt
