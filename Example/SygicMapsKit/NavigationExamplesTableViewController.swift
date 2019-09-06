@@ -28,10 +28,10 @@ import SygicMapsKit
 class NavigationExamplesTableViewController: UITableViewController {
     
     let modulesData = [
-        ModuleData(title: "Navigation demo", subtitle: "Navigation module with predefined route preview", image: "preview-browsemap-default"),
-        ModuleData(title: "Navigation from current location", subtitle: "Navigation module with route computed to current location", image: "preview-browsemap-default"),
-        ModuleData(title: "Navigation instructions type", subtitle: "Instruction types for navigation", image: "preview-browsemap-default"),
-        ModuleData(title: "Custom infobar buttons", subtitle: "Switching control buttons inside infobar", image: "preview-browsemap-default"),
+        ModuleData(title: "Navigation demo", subtitle: "Navigation module with predefined route preview", image: "preview-navigation-demo"),
+        ModuleData(title: "Navigation from current location", subtitle: "Navigation module with route computed to current location", image: "preview-navigation-currentLocation"),
+        ModuleData(title: "Navigation instructions type", subtitle: "Instruction types for navigation", image: "preview-navigation-directions"),
+        ModuleData(title: "Custom infobar buttons", subtitle: "Switching control buttons inside infobar", image: "preview-navigation-infobar"),
     ]
     
     private let cellHeight: CGFloat = 330
