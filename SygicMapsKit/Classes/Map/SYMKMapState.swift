@@ -150,8 +150,6 @@ public class SYMKMapState: NSCopying {
         return skins
     }
     
-    var boundingBoxSetting: SYGeoBoundingBox?
-    
     // MARK: - Public methods
     
     /// Returns SYMKMapState instance with default values for navigation map module
@@ -186,13 +184,16 @@ public class SYMKMapState: NSCopying {
     ///   - duration: map transition animation duration
     ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
     public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
-        self.boundingBoxSetting = boundingBox
-        if map?.camera.boundingBox != boundingBox {
-            map?.camera.setViewBoundingBox(boundingBox, with: edgeInsets, duration: duration, curve: .accelerateDecelerate) { [weak self] (animId, success) in
-                self?.boundingBoxSetting = nil
-                completion?(success)
-            }
-        }
+        guard let properties = map?.camera.calculateProperties(for: boundingBox,
+                                                               transformCenter: CGPoint(x: 0.5, y: 0.5),
+                                                               rotation: 0,
+                                                               tilt: 0,
+                                                               maxZoomLevel: 17,
+                                                               edgeInsets: edgeInsets), properties.geoCenter.isValid() else { return }
+        geoCenter = properties.geoCenter
+        tilt = properties.tilt
+        rotation = properties.rotation
+        zoom = properties.zoom
     }
     
     public func updateLandscapeMapCenter(_ landscape: Bool) {
@@ -229,7 +230,6 @@ extension SYMapView {
     ///
     /// - Parameter mapState: State for map.
     public func setup(with mapState: SYMKMapState) {
-        guard mapState.boundingBoxSetting == nil else { return }
         camera.geoCenter = mapState.geoCenter
         camera.zoom = mapState.zoom
         camera.rotation = mapState.rotation
