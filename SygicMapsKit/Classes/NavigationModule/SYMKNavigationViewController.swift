@@ -194,7 +194,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     private var mapController: SYMKMapController?
-    
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
     private let routePreviewController = SYMKRoutePreviewController()
@@ -204,12 +203,16 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         didSet {
             guard let navigationView = view as? SYMKNavigationView, let instructionsController = instructionsController else {
                 (view as? SYMKNavigationView)?.setupInstructionView(nil)
-                (view as? SYMKNavigationView)?.setupLaneAssistView(nil)
+                if useLaneAssist {
+                    (view as? SYMKNavigationView)?.setupLaneAssistView(laneAssistController.view)
+                }
                 return
             }
             instructionsController.units = units
             navigationView.setupInstructionView(instructionsController.view)
-            navigationView.setupLaneAssistView(laneAssistController.view)
+            if useLaneAssist {
+                navigationView.setupLaneAssistView(laneAssistController.view)
+            }
         }
     }
     
