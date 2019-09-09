@@ -44,7 +44,7 @@ public class SYMKBrowseMapView: UIView {
     
     // MARK: - Private Properties
     
-    private let sideMargin: CGFloat = 16
+    private let margin: CGFloat = 16
     private var actionButtonActionBlock: (()->())?
     
     // MARK: - Public Methods
@@ -78,11 +78,11 @@ public class SYMKBrowseMapView: UIView {
     /// - Parameter compass: Compass to set up.
     public func setupCompass(_ compass: UIView) {
         self.compass = compass
+        compass.translatesAutoresizingMaskIntoConstraints = false
         addSubview(compass)
         bringSubviewToFront(compass)
-        compass.translatesAutoresizingMaskIntoConstraints = false
-        compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
-        compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
+        compass.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        compass.topAnchor.constraint(equalTo: safeTopAnchor, constant: margin).isActive = true
     }
     
     /// Setup zoom control on scene.
@@ -90,15 +90,11 @@ public class SYMKBrowseMapView: UIView {
     /// - Parameter zoomControl: Zoom Control to set up.
     public func setupZoomControl(_ zoomControl: UIView) {
         self.zoomControl = zoomControl
+        zoomControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(zoomControl)
         bringSubviewToFront(zoomControl)
-        zoomControl.translatesAutoresizingMaskIntoConstraints = false
-        zoomControl.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
-        if let recenterButton = recenterButton {
-            zoomControl.bottomAnchor.constraint(equalTo: recenterButton.topAnchor, constant: -sideMargin).isActive = true
-        } else {
-            zoomControl.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
-        }
+        zoomControl.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        zoomControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
     /// Setup recenter button on scene.
@@ -106,11 +102,11 @@ public class SYMKBrowseMapView: UIView {
     /// - Parameter recenter: Recenter button to set up.
     public func setupRecenter(_ recenter: UIView) {
         recenterButton = recenter
+        recenter.translatesAutoresizingMaskIntoConstraints = false
         addSubview(recenter)
         bringSubviewToFront(recenter)
-        recenter.translatesAutoresizingMaskIntoConstraints = false
-        recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
-        recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
+        recenter.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: margin).isActive = true
+        recenter.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
     }
     
     /// Setup action button with passed attributes and action and add it in bottom right corner
@@ -129,8 +125,8 @@ public class SYMKBrowseMapView: UIView {
         button.addTarget(self, action: #selector(actionButtonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         addSubview(button)
-        button.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
-        button.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
+        button.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -margin).isActive = true
+        button.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -margin).isActive = true
         
         actionButton?.removeFromSuperview()
         actionButton = button

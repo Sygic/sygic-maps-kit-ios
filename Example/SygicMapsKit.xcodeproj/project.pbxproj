@@ -7,11 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */; };
+		43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43161C17230425FD00E00BDF /* fanfare.mp3 */; };
+		436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */; };
+		43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAC22CB7034002C09C2 /* RoutingHelper.swift */; };
+		43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */; };
+		438D181F22FAE4D6002DF224 /* MapPackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 438D181E22FAE4D6002DF224 /* MapPackageCell.xib */; };
+		43DF1C8322C3825600F930C2 /* NavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */; };
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
 		5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */; };
 		582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582E343A22845E6F007E58CF /* PedestrianSwitching.swift */; };
 		5839700E21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */; };
 		583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */; };
+		583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EE95922525C9100A7592A /* ManageMapsExample.swift */; };
 		5852283022427F65000385ED /* BrowseModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852282F22427F65000385ED /* BrowseModule_UITests.swift */; };
 		5852283822428118000385ED /* SearchModule_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5852283722428118000385ED /* SearchModule_UITests.swift */; };
 		585E80F6221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E80F5221D9A5C00B7D6C7 /* SygicMapsKit_ExampleUITests.swift */; };
@@ -31,6 +39,7 @@
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
 		5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */; };
 		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
+		5CFA3A6722E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* RootTableViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -71,11 +80,20 @@
 		2307BFC503B9F13E42BDC3BE /* Pods-SygicMapsKit_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_UITests.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		25213E643DAD110E70076C31 /* Pods-SygicMapsKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButtonsExampleViewController.swift; sourceTree = "<group>"; };
+		43161C17230425FD00E00BDF /* fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fanfare.mp3; sourceTree = "<group>"; };
+		436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExamplesTableViewController.swift; sourceTree = "<group>"; };
+		43854DAC22CB7034002C09C2 /* RoutingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingHelper.swift; sourceTree = "<group>"; };
+		43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationNavigationExampleViewController.swift; sourceTree = "<group>"; };
+		438D181E22FAE4D6002DF224 /* MapPackageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapPackageCell.xib; sourceTree = "<group>"; };
+		43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationExampleViewController.swift; sourceTree = "<group>"; };
+		43DF1C8A22C3A5F200F930C2 /* SimulatorLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatorLocation.gpx; sourceTree = "<group>"; };
 		4D8A6AE87FF78F80A4D42E49 /* Pods-SygicMapsKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchExamplesTableViewController.swift; sourceTree = "<group>"; };
 		582E343A22845E6F007E58CF /* PedestrianSwitching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedestrianSwitching.swift; sourceTree = "<group>"; };
 		5839700D21F0B8D9003CADA6 /* SYMKMapSelectionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYMKMapSelectionManagerTests.swift; sourceTree = "<group>"; };
 		583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleMapViewController.swift; sourceTree = "<group>"; };
+		583EE95922525C9100A7592A /* ManageMapsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageMapsExample.swift; sourceTree = "<group>"; };
 		5852282D22427F65000385ED /* SygicMapsKit_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SygicMapsKit_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5852282F22427F65000385ED /* BrowseModule_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModule_UITests.swift; sourceTree = "<group>"; };
 		5852283122427F65000385ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,6 +119,7 @@
 		5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModes.swift; sourceTree = "<group>"; };
 		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
 		5CE66C9BA3342341A8EC63D3 /* Pods-SygicMapsKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.release.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.release.xcconfig"; sourceTree = "<group>"; };
+		5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSignpostsExampleViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -177,10 +196,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		438D181D22FAE49C002DF224 /* Manage maps */ = {
+			isa = PBXGroup;
+			children = (
+				583EE95922525C9100A7592A /* ManageMapsExample.swift */,
+				438D181E22FAE4D6002DF224 /* MapPackageCell.xib */,
+			);
+			path = "Manage maps";
+			sourceTree = "<group>";
+		};
+		43DF1C8422C3826200F930C2 /* Other examples */ = {
+			isa = PBXGroup;
+			children = (
+				438D181D22FAE49C002DF224 /* Manage maps */,
+				583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */,
+			);
+			path = "Other examples";
+			sourceTree = "<group>";
+		};
 		583EE956224E5D8E00A7592A /* Navigation examples */ = {
 			isa = PBXGroup;
 			children = (
-				583EE957224E5D8E00A7592A /* DoubleMapViewController.swift */,
+				43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */,
+				43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */,
+				43854DAC22CB7034002C09C2 /* RoutingHelper.swift */,
+				5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */,
+				43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */,
 			);
 			path = "Navigation examples";
 			sourceTree = "<group>";
@@ -257,16 +298,19 @@
 		607FACD21AFB9204008FA782 /* Example for SygicMapsKit */ = {
 			isa = PBXGroup;
 			children = (
-				5C9B71E922293C6D00896FCD /* Search examples */,
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				583EE956224E5D8E00A7592A /* Navigation examples */,
+				5C9B71E922293C6D00896FCD /* Search examples */,
+				43DF1C8422C3826200F930C2 /* Other examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
 				589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */,
 				5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */,
+				436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */,
 				5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */,
 				5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
+				43161C17230425FD00E00BDF /* fanfare.mp3 */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -279,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD41AFB9204008FA782 /* Info.plist */,
+				43DF1C8A22C3A5F200F930C2 /* SimulatorLocation.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -499,6 +544,8 @@
 				5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				438D181F22FAE4D6002DF224 /* MapPackageCell.xib in Resources */,
+				43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,14 +567,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -562,7 +607,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_Tests/Pods-SygicMapsKit_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
@@ -571,7 +615,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -626,7 +669,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_UITests/Pods-SygicMapsKit_UITests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
@@ -634,7 +676,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -670,14 +711,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SygicMapsKit_ExampleUITests/Pods-SygicMapsKit_ExampleUITests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
 				"${PODS_ROOT}/SygicMaps/SygicMaps.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicMapsKit/SygicMapsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMaps.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicMapsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SygicUIKit.framework",
@@ -716,8 +755,13 @@
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
 				5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */,
 				582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */,
+				436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */,
 				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
+				5CFA3A6722E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift in Sources */,
+				43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */,
 				589CB07C21EE16890082F7C4 /* Skins.swift in Sources */,
+				583EE95A22525C9100A7592A /* ManageMapsExample.swift in Sources */,
+				43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
@@ -725,9 +769,11 @@
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
 				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
+				43DF1C8322C3825600F930C2 /* NavigationExampleViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
 				5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* Markers.swift in Sources */,
+				43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -801,7 +847,7 @@
 				DEVELOPMENT_TEAM = LHXY425M9Z;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SygicMapsKit_UITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -832,7 +878,7 @@
 				DEVELOPMENT_TEAM = LHXY425M9Z;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SygicMapsKit_UITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sygic.SygicMapsKit-UITests";
@@ -861,7 +907,7 @@
 				DEVELOPMENT_TEAM = LHXY425M9Z;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SygicMapsKit_ExampleUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -891,7 +937,7 @@
 				DEVELOPMENT_TEAM = LHXY425M9Z;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SygicMapsKit_ExampleUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sygic.SygicMapsKit-ExampleUITests";
@@ -947,7 +993,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -994,7 +1040,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1011,7 +1057,7 @@
 				DEVELOPMENT_TEAM = LHXY425M9Z;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SygicMapsKit/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1029,7 +1075,7 @@
 				DEVELOPMENT_TEAM = LHXY425M9Z;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SygicMapsKit/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1053,7 +1099,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1072,7 +1118,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

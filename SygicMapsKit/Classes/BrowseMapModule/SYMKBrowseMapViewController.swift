@@ -23,6 +23,7 @@
 import SygicMaps
 import SygicUIKit
 
+
 /// Browse map module output protocol.
 ///
 /// Adopting of this protocol overrides default behaviour, which means, bottom sheet
@@ -105,16 +106,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
-    public enum MapSkins: String {
-        case day
-        case night
-    }
-    
-    public enum UsersLocationSkins: String {
-        case pedestrian
-        case car
-    }
-    
     /// Delegate output for browse map controller.
     public weak var delegate: SYMKBrowseMapViewControllerDelegate?
     /// Annotation delegate for browse map controller.
@@ -171,25 +162,17 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
-    public var mapSkin: MapSkins = .day {
-        didSet {
-            mapController?.mapView.activeSkins = activeSkins
-        }
-    }
-    
-    public var userLocationSkin: UsersLocationSkins = .car {
-        didSet {
-            mapController?.mapView.activeSkins = activeSkins
-        }
-    }
-    
     // MARK: - Private Properties
     
     private var mapController: SYMKMapController?
     private var compassController = SYMKCompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
-    private var zoomController = SYMKZoomController()
     private var poiDetailViewController: SYMKPoiDetailViewController?
+    private var zoomController: SYMKZoomController = {
+        let zoomController = SYMKZoomController()
+        zoomController.expandableButtonsView.direction = .top
+        return zoomController
+    }()
     
     private var mapControls = [MapControl]()
     
@@ -227,6 +210,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         super.viewWillDisappear(animated)
     }
     
+    
     /// Setup action button with passed attributes and action and add it in bottom right corner of view
     ///
     /// - Parameters:
@@ -250,7 +234,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     ///
     /// - Parameter annotations: Array of annotations added on a map.
     public func addAnnotations(_ annotations: [SYAnnotation]) {
-        mapController?.mapView.addAnnotations(annotations)
+        for annotation in annotations {
+            mapController?.mapView.addAnnotation(annotation)
+        }
     }
     
     /// Returns a reusable annotation view object located by its identifier.
@@ -272,7 +258,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     ///
     /// - Parameter annotations: Annotations removed from a map.
     public func removeAnnotations(_ annotations: [SYAnnotation]) {
-        mapController?.mapView.removeAnnotations(annotations)
+        for annotation in annotations {
+            mapController?.mapView.removeAnnotation(annotation)
+        }
     }
         
     // MARK: - Private Methods
@@ -294,7 +282,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
         mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
         mapController.selectionManager?.delegate = self
-        mapController.mapView.activeSkins = activeSkins
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap(customMarkers)
@@ -304,8 +291,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         compassController.delegate = mapController
         recenterController.delegate = mapController
         zoomController.delegate = mapController
-        mapController?.delegate = self
-        
+        mapController?.delegate = self        
     }
     
     private func addCustomMarkersToMap(_ markers: [SYMapMarker]?) {
@@ -322,14 +308,6 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         }
     }
     
-    private var activeSkins: [String] {
-        var skins = [mapSkin.rawValue]
-        if userLocationSkin == .pedestrian {
-            skins.append(userLocationSkin.rawValue)
-        }
-        return skins
-    }
-
     // MARK: PoiDetail
     
     private func updatePoiDetail(with data: SYMKPoiDetailModel) {

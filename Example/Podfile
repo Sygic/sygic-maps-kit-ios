@@ -1,6 +1,6 @@
 source "https://github.com/CocoaPods/Specs.git"
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 use_frameworks!
 
 def shared_pods
@@ -24,8 +24,8 @@ target 'SygicMapsKit_ExampleUITests' do
 end
 
 target 'SygicMapsKit_UITests' do
-  shared_pods
-  pod 'KIF', :configurations => ['Debug']
+    shared_pods
+    pod 'KIF', :configurations => ['Debug']
 end
 
 post_install do |installer|

@@ -47,7 +47,6 @@ public class SYMKRouteComputeController: SYMKModuleViewController {
     }
     
     override internal func sygicSDKInitialized() {
-        SYOnlineSession.shared().onlineMapsEnabled = true
         SYPositioning.shared().startUpdatingPosition()
         
         setupMapController()

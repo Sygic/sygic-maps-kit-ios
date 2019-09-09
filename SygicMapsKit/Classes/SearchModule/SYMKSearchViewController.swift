@@ -106,8 +106,8 @@ public class SYMKSearchViewController: SYMKModuleViewController {
             _ = self?.searchBarController.resignFirstResponder()
         }
         resultsViewController.selectionBlock = { [weak self] searchResult in
-            guard let weakSelf = self else { return }
-            weakSelf.delegate?.searchController(weakSelf, didSearched: [searchResult])
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.searchController(strongSelf, didSearched: [searchResult])
         }
     }
     
