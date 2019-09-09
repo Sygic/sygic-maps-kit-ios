@@ -32,7 +32,8 @@ In the meantime you have to disable bitcode in your application as well, or use 
 
 ### Permissions
 
-If you would like to use location based features from framework, please make sure your application Information Property List Key (Info.plist) contains necessary permission keys ([NSLocationWhenInUseUsageDescription][LocationInUse] or [NSLocationAlwaysAndWhenInUseUsageDescription][LocationAllways]) 
+If you would like to use location based features from framework, please make sure your application Information Property List Key (Info.plist) contains necessary permission keys ([NSLocationWhenInUseUsageDescription][
+] or [NSLocationAlwaysAndWhenInUseUsageDescription][LocationAllways]) 
 
 ## Help
 
