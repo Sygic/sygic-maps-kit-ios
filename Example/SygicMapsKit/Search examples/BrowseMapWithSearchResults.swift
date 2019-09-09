@@ -60,7 +60,11 @@ class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter {
             browseMap.mapState.geoCenter = marker.coordinate!
             browseMap.mapState.zoom = 14
         } else if markers.count > 1 {
-            var boundingBox = SYGeoBoundingBox(bottomLeft: marker.coordinate!, topRight: markers[1].coordinate!)
+            guard let coord1 = marker.coordinate, let coord2 = markers[1].coordinate, coord1.isValid(), coord2.isValid() else { return }
+            var boundingBox = SYGeoBoundingBox(bottomLeft: SYGeoCoordinate(latitude: min(coord1.latitude, coord2.latitude),
+                                                                           longitude: min(coord1.longitude, coord2.longitude))!,
+                                               topRight: SYGeoCoordinate(latitude: max(coord1.latitude, coord2.latitude),
+                                                                         longitude: max(coord1.longitude, coord2.longitude))!)
             for mark in markers {
                 if let biggerBox = boundingBox.union(with: SYGeoBoundingBox(bottomLeft: mark.coordinate!, topRight: mark.coordinate!)) {
                     boundingBox = biggerBox
