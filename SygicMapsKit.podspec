@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SygicMapsKit'
-  s.version          = '2.0.0'
+  s.version          = '3.0.0'
   s.summary          = 'Library based on SygicMaps SDK. It provides ready to use components to build map-based application. Example app included.'
   s.swift_version    = '4.2'
 
@@ -26,8 +26,8 @@ Pod::Spec.new do |s|
   s.source_files = 'SygicMapsKit/Classes/**/*'
   s.resources = 'SygicMapsKit/Resources/**/*.{xcassets}'
 
-  s.dependency 'SygicMaps'#, '~> 13.0'
-  s.dependency 'SygicUIKit', '~> 2.0'
+  s.dependency 'SygicMaps', '~> 14.0'
+  s.dependency 'SygicUIKit', '~> 3.0'
 
   s.xcconfig = {
     'VALID_ARCHS' =>  'arm64 x86_64',
