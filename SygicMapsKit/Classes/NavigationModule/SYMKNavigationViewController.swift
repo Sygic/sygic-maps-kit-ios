@@ -306,7 +306,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         
         SYNavigationManager.sharedNavigation().audioFeedbackDelegate = self
         
-        guard let route = route, let mapRoute = mapRoute, let map = mapState.map else { return }
+        guard route != nil, let mapRoute = mapRoute, let map = mapState.map else { return }
         map.remove(mapRoute)
         map.add(mapRoute)
         startNavigation()
@@ -315,7 +315,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        mapState.updateLandscapeMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
+        let isLandscape = size.width > size.height
+        mapState.updateLandscapeMapCenter(isLandscape)
     }
     
     /// Start navigation
