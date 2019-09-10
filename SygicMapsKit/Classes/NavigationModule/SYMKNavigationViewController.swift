@@ -100,9 +100,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
             guard route != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
             if let newRoute = route {
                 mapRoute = SYMapRoute(route: newRoute, type: .primary)
-                navigationObserver = SYNavigationObserver(delegate: self)
-                SYNavigationManager.sharedNavigation().startNavigation(with: route)
-                scheduleNavigationInfoUpdateTimer()
+                startNavigation()
             } else {
                 mapRoute = nil
                 if SYNavigationManager.sharedNavigation().isNavigating() {
@@ -311,8 +309,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         guard let route = route, let mapRoute = mapRoute, let map = mapState.map else { return }
         map.remove(mapRoute)
         map.add(mapRoute)
-        navigationObserver = SYNavigationObserver(delegate: self)
-        SYNavigationManager.sharedNavigation().startNavigation(with: route)
+        startNavigation()
         delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
     }
     
@@ -366,6 +363,13 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         routePreviewController.stopPreview()
         guard let navigationView = view as? SYMKNavigationView else { return }
         navigationView.routePreviewView?.removeFromSuperview()
+    }
+    
+    private func startNavigation() {
+        guard let route = route else { return }
+        navigationObserver = SYNavigationObserver(delegate: self)
+        SYNavigationManager.sharedNavigation().startNavigation(with: route)
+        scheduleNavigationInfoUpdateTimer()
     }
     
     @objc private func leftInfobarButtonPressed() {

@@ -72,6 +72,10 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
             self?.navigate(to: data)
             self?.hidePlaceDetail()
         }
+        placeDetailDataSource?.preview = { [weak self] in
+            self?.navigate(to: data, preview: true)
+            self?.hidePlaceDetail()
+        }
         placeDetailViewController = SYMKPoiDetailViewController(with: data)
         placeDetailViewController?.presentPoiDetailAsChildViewController(to: browseModule, completion: nil)
         placeDetailViewController?.dataSource = placeDetailDataSource
@@ -84,25 +88,26 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         browseModule.customMarkers = []
     }
     
-    func navigate(to placeData: SYMKPoiData) {
+    func navigate(to placeData: SYMKPoiData, preview: Bool = false) {
         guard let myPosition = SYPosition.lastKnownLocation(), let myLocation = myPosition.coordinate else { return }
         RoutingHelper.shared.computeRoute(from: myLocation, to: placeData.location) { [weak self] (result) in
             switch result {
             case .success(route: let route):
-                self?.switchToNavigation(with: route)
+                self?.switchToNavigation(with: route, preview: preview)
             case .error(errorMessage: let errorMessage):
                 self?.showErrorMessageAlert(errorMessage)
             }
         }
     }
     
-    func switchToNavigation(with route: SYRoute) {
+    func switchToNavigation(with route: SYRoute, preview: Bool) {
         let navigationModule = SYMKNavigationViewController(with: route)
         navigationModule.delegate = self
         navigationModule.mapState = browseModule.mapState
         navigationModule.mapState.cameraMovementMode = .followGpsPositionWithAutozoom
         navigationModule.mapState.cameraRotationMode = .vehicle
         navigationModule.mapState.tilt = 60
+        navigationModule.preview = preview
         presentModule(navigationModule)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -168,12 +173,24 @@ class NaviPlaceDataSource: SYUIPoiDetailDataSource {
     private let topOffset: CGFloat = 100
     
     public var action: (()->())?
+    public var preview: (()->())?
     
     private lazy var navigationButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.title = "Navigate"
         button.icon = SYUIIcon.directions
+        button.height = 44
         button.addTarget(self, action: #selector(performAction), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var previewButton: SYUIActionButton = {
+        let button = SYUIActionButton()
+        button.title = "Preview"
+        button.style = .secondary
+        button.icon = SYUIIcon.vehicle
+        button.height = 44
+        button.addTarget(self, action: #selector(performPreview), for: .touchUpInside)
         return button
     }()
     
@@ -183,6 +200,10 @@ class NaviPlaceDataSource: SYUIPoiDetailDataSource {
     
     @objc func performAction() {
         action?()
+    }
+    
+    @objc func performPreview() {
+        preview?()
     }
     
     public var poiDetailMaxTopOffset: CGFloat {
@@ -198,10 +219,13 @@ class NaviPlaceDataSource: SYUIPoiDetailDataSource {
     }
     
     public var poiDetailNumberOfActionButtons: Int {
-        return 1
+        return 2
     }
     
     public func poiDetailActionButton(for index: Int) -> SYUIActionButton {
+        if index == 1 {
+            return previewButton
+        }
         return navigationButton
     }
     
