@@ -41,7 +41,7 @@ class BrowseMapSelectionModesExampleViewController: UIViewController, SYMKModule
         browseMapModule.useRecenterButton = true
         browseMapModule.mapSelectionMode = .all
         browseMapModule.customMarkers = customMarkers()
-        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMapModule.mapState.zoom = 16
         browseMap = browseMapModule
         
@@ -51,8 +51,8 @@ class BrowseMapSelectionModesExampleViewController: UIViewController, SYMKModule
     }
     
     private func customMarkers() -> [SYMapMarker] {
-        let pin1 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!), icon: SYUIIcon.apple, color: .gray)
-        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!), icon: SYUIIcon.sygic, color: .red)
+        let pin1 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)), icon: SYUIIcon.apple, color: .gray)
+        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)), icon: SYUIIcon.sygic, color: .red)
         return [pin1, pin2]
     }
     

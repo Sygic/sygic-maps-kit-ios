@@ -56,7 +56,7 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     }
     
     func computeRoute(from location: SYGeoCoordinate) {
-        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.8899, longitude: 12.49489)!) { [weak self] (result) in
+        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.8899, longitude: 12.49489)) { [weak self] (result) in
             
             guard let navigationModule = self?.presentedModules.first as? SYMKNavigationViewController else { return }
             

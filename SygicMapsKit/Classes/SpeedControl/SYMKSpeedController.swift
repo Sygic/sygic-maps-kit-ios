@@ -68,7 +68,7 @@ public class SYMKSpeedController: NSObject {
     /// Updates speed limit and type of speed limit.
     ///
     /// - Parameter speedLimit: Speed limit info.
-    public func update(with speedLimit: SYSpeedLimit?) {
+    public func update(with speedLimit: SYSpeedLimitInfo?) {
         guard let speedLimit = speedLimit else {
             actualSpeedLimit = nil
             view?.updateSpeedLimit(with: 0, isAmerica: false)

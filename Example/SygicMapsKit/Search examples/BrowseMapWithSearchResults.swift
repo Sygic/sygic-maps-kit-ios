@@ -62,9 +62,9 @@ class BrowseMapWithSearchResults: UIViewController, SYMKModulePresenter {
         } else if markers.count > 1 {
             guard let coord1 = marker.coordinate, let coord2 = markers[1].coordinate, coord1.isValid(), coord2.isValid() else { return }
             var boundingBox = SYGeoBoundingBox(bottomLeft: SYGeoCoordinate(latitude: min(coord1.latitude, coord2.latitude),
-                                                                           longitude: min(coord1.longitude, coord2.longitude))!,
+                                                                           longitude: min(coord1.longitude, coord2.longitude)),
                                                topRight: SYGeoCoordinate(latitude: max(coord1.latitude, coord2.latitude),
-                                                                         longitude: max(coord1.longitude, coord2.longitude))!)
+                                                                         longitude: max(coord1.longitude, coord2.longitude)))
             for mark in markers {
                 if let biggerBox = boundingBox.union(with: SYGeoBoundingBox(bottomLeft: mark.coordinate!, topRight: mark.coordinate!)) {
                     boundingBox = biggerBox

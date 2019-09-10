@@ -95,8 +95,7 @@ public class SYMKInfobarController {
     
     /// Updates infobar items with position data
     /// - Parameter info: position info
-    public func updatePositionInfo(_ info: SYPositionInfo) {
-        guard let position = SYPosition.lastKnownLocation() else { return }
+    public func updatePositionInfo(_ position: SYPosition) {
         if let altitude = position.coordinate?.altitude {
             updateItemView(of: .altitude(altitude, units: units))
         }

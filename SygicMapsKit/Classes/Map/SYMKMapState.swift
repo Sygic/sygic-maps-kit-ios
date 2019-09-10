@@ -80,7 +80,7 @@ public class SYMKMapState: NSCopying {
     public var map: SYMapView?
     
     /// Center of a map
-    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)! {
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0) {
         didSet {
             if map?.camera.geoCenter != geoCenter {
                 map?.camera.geoCenter = geoCenter

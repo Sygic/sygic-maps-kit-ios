@@ -38,7 +38,7 @@ public class SYMKSignpostController: SYMKDirectionController {
 
     private let signpostView = SYMKSignpostView()
     private let laneAssistController = SYMKLaneAssistController()
-    private var latestUpdate: (instruction: SYInstruction?, signposts: [SYSignpost]?) = (instruction: nil, signposts: nil) {
+    private var latestUpdate: (instruction: SYDirectionInfo?, signposts: [SYSignpostInfo]?) = (instruction: nil, signposts: nil) {
         didSet {
             if let instruction = latestUpdate.instruction {
                 updateUI(with: instruction)
@@ -56,27 +56,27 @@ public class SYMKSignpostController: SYMKDirectionController {
         signpostView.setupLaneAssist(laneAssistController.view)
     }
     
-    public override func update(with instruction: SYInstruction) {
+    public override func update(with instruction: SYDirectionInfo) {
         latestUpdate.instruction = instruction
     }
     
     /// Updates signpost.
     ///
     /// - Parameter signposts: Signposts on the actual road.
-    public func update(with signposts: [SYSignpost]) {
+    public func update(with signposts: [SYSignpostInfo]) {
         latestUpdate.signposts = signposts
     }
     
     /// Updates lane assistance.
     ///
     /// - Parameter lanesInfo: SDK lanes information.
-    public func update(with lanesInfo: SYLanesInformation?) {
+    public func update(with lanesInfo: SYLaneInfo?) {
         laneAssistController.update(with: lanesInfo)
     }
     
     // MARK: - Private Methods
 
-    private func updateUI(with signposts: [SYSignpost]) {
+    private func updateUI(with signposts: [SYSignpostInfo]) {
         guard !signposts.isEmpty else {
             clearSignpostInfo()
             return

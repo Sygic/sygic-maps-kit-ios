@@ -37,7 +37,7 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
         let browseMapModule = SYMKBrowseMapViewController()
         browseMapModule.mapSelectionMode = .markers
         browseMapModule.customMarkers = customMarkers()
-        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147328, longitude: 17.102631)!
+        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147328, longitude: 17.102631)
         browseMapModule.mapState.zoom = 16
     
         presentModule(browseMapModule)
@@ -45,13 +45,13 @@ class CustomMarkersExampleViewController: UIViewController, SYMKModulePresenter 
     
     private func customMarkers() -> [SYMapMarker] {
         let pin1 = markerWithEverything()
-        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!), icon: SYUIIcon.android, color: .green)
-        let pin3 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)!), icon: SYUIIcon.sygic, color: .red)
+        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)), icon: SYUIIcon.android, color: .green)
+        let pin3 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)), icon: SYUIIcon.sygic, color: .red)
         return [pin1, pin2, pin3]
     }
     
     private func markerWithEverything() -> SYMapMarker {
-        let data = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631)!)
+        let data = SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.102631))
         data.name = "Super custom POI"
         data.street = "Mlynske Nivy"
         data.houseNumber = "16"

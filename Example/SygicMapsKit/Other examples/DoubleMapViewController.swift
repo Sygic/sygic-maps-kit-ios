@@ -59,7 +59,7 @@ class DoubleMapViewController: UIViewController {
         let browseMapVC = SYMKBrowseMapViewController()
         browseMapVC.showUserLocation = true
         browseMapVC.mapSelectionMode = .none
-        browseMapVC.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapVC.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMapVC.mapState.tilt = 70
         browseMapVC.mapState.zoom = 20
         browseMapVC.mapState.cameraRotationMode = .vehicle
@@ -74,7 +74,7 @@ class DoubleMapViewController: UIViewController {
         browseMapVC.useRecenterButton = true
         browseMapVC.mapSelectionMode = .all
         browseMapVC.bounceDefaultPoiDetailFirstTime = true
-        browseMapVC.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapVC.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMapVC.mapState.zoom = 16
         return browseMapVC
     }

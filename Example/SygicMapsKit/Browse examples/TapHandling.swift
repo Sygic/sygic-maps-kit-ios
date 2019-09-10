@@ -35,7 +35,7 @@ class CustomDataHandlingViewController: UIViewController, SYMKModulePresenter {
         title = "Custom Tap Handling Example"
         
         let browseMap = SYMKBrowseMapViewController()
-        browseMap.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMap.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMap.mapState.zoom = 16
         browseMap.delegate = self
         browseMap.mapSelectionMode = .all

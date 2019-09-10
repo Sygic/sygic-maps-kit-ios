@@ -44,7 +44,7 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
         browseMap.delegate = self
         browseMap.annotationDelegate = self
         browseMap.mapSelectionMode = .all
-        browseMap.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMap.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMap.mapState.zoom = 16
         browseMapModule = browseMap
         
