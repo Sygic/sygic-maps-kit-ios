@@ -111,7 +111,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     /// Indicates if navigation should simulate device position through route. Default: false
-    public var preview: Bool = false {
+    public var preview = false {
         didSet {
             guard preview != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
             if preview {
@@ -123,7 +123,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     /// Enables lane assistance.
-    public var useLaneAssist: Bool = true
+    public var useLaneAssist = true
     
     /// Enables current speed.
     public var useCurrentSpeed = true
@@ -132,7 +132,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     public var useSpeedLimit = true
 
     /// Enables infobar functionality
-    public var useInfobar: Bool = true
+    public var useInfobar = true
     
     /// Button that appears inside infobarView. Default button locks map position on user location
     public var leftInfobarButton: SYUIActionButton? {
@@ -172,7 +172,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     /// Setting enables playing instruction voices and other navigation alert sounds
-    public var audioEnabled: Bool = true {
+    public var audioEnabled = true {
         didSet {
             guard !audioEnabled, SYMKSdkManager.shared.isSdkInitialized else { return }
             SYAudioManager.shared().stopOutputAndClearQueue()
