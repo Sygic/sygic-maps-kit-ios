@@ -370,7 +370,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         guard let route = route else { return }
         navigationObserver = SYNavigationObserver(delegate: self)
         SYNavigationManager.sharedNavigation().startNavigation(with: route)
-        scheduleNavigationInfoUpdateTimer()
     }
     
     @objc private func leftInfobarButtonPressed() {
@@ -399,17 +398,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         
         present(menu, animated: true, completion: nil)
     }
-    
-    private func scheduleNavigationInfoUpdateTimer() {
-        guard navigationInfoTimer == nil else { return }
-        navigationInfoTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] (timer) in
-            guard SYNavigationManager.sharedNavigation().isNavigating(), let weakSelf = self else {
-                timer.invalidate()
-                return
-            }
-            weakSelf.infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
-        })
-    }
 }
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
@@ -430,9 +418,8 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ observer: SYNavigationObserver, didUpdateSpeedLimit limit: SYSpeedLimitInfo?) {
-        if useSpeedLimit {
-            speedController?.update(with: limit)
-        }
+        guard useSpeedLimit else { return }
+        speedController?.update(with: limit)
     }
     
     public func navigation(_ observer: SYNavigationObserver, didUpdateSignpost signpostInfo: [SYSignpostInfo]?) {
@@ -453,7 +440,15 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
             laneAssistController.update(with: lane)
         }
     }
-
+    
+    public func navigation(_ observer: SYNavigationObserver, didUpdateTraffic trafficInfo: SYTrafficInfo?) {
+        infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
+    }
+    
+    public func navigation(_ observer: SYNavigationObserver, didUpdate route: SYRoute?) {
+        guard let newRoute = route, newRoute == self.route else { return }
+        infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
+    }
 }
 
 extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
@@ -505,5 +500,6 @@ extension SYMKNavigationViewController: SYNavigationAudioFeedbackDelegate {
 extension SYMKNavigationViewController: SYPositioningDelegate {
     public func positioning(_ positioning: SYPositioning, didUpdate position: SYPosition) {
         infobarController?.updatePositionInfo(position)
+        infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
     }
 }

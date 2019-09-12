@@ -45,6 +45,6 @@ public class SYMKAltitudeInfobarItem: SYMKInfobarItem {
     }
 
     private func formattedValue(_ altitude: Double) -> String {
-        return "\(altitude)\(LS("masl"))"
+        return String(format: "%.0f%@", altitude, LS("masl"))
     }
 }
