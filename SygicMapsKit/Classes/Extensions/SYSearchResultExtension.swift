@@ -38,9 +38,9 @@ extension SYSearchResult: SYUIDetailCellDataSource {
         }
         
         if mapResult.mapResultType == .poiCategory || mapResult.mapResultType == .poiCategoryGroup {
-            if let poiCategory = mapResult.resultLabels.poiCategory?.value {
+            if let poiCategory = mapResult.resultLabels.poiCategory?.value, !poiCategory.isEmpty {
                 title = poiCategory
-            } else if let poiGroup = mapResult.resultLabels.poiCategoryGroup?.value {
+            } else if let poiGroup = mapResult.resultLabels.poiCategoryGroup?.value, !poiGroup.isEmpty {
                 title = poiGroup
             }
         } else if mapResult.mapResultType == .poi {
@@ -48,7 +48,7 @@ extension SYSearchResult: SYUIDetailCellDataSource {
                 title = poi
             }
         } else {
-            if let street = mapResult.resultLabels.street?.value, street.count > 0 {
+            if let street = mapResult.resultLabels.street?.value, !street.isEmpty {
                 title = street
                 if let addressPoint = mapResult.resultLabels.addressPoint?.value, addressPoint.count > 0 {
                     title += " \(addressPoint)"
@@ -65,6 +65,9 @@ extension SYSearchResult: SYUIDetailCellDataSource {
     public var subtitle: NSMutableAttributedString? {
         var title: String? = nil
         if let mapResult = self as? SYMapSearchResult {
+            if mapResult.mapResultType == .poiCategory || mapResult.mapResultType == .poiCategoryGroup {
+                return nil
+            }
             if let city = mapResult.resultLabels.city?.value, let country = mapResult.resultLabels.country?.value {
                 title = "\(city), \(country)"
             }
