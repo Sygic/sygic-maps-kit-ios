@@ -161,7 +161,9 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
 extension DemoViewController: SYMKNavigationViewControllerDelegate {
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {
         if presentedModules.last == controller {
-            browseModule.mapState = controller.mapState
+            let mapState = controller.mapState
+            mapState.resetMapCenter()
+            browseModule.mapState = mapState
             dismissModule()
             navigationController?.setNavigationBarHidden(false, animated: true)
         }

@@ -209,6 +209,7 @@ public class SYMKMapState: NSCopying {
         } else {
             map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
             map?.accessibilityLabel = "Map"
+            resetMapCenter(duration: 0)
             map?.setup(with: self)
             return map!
         }
@@ -234,7 +235,9 @@ public class SYMKMapState: NSCopying {
         zoom = properties.zoom
     }
     
-    public func updateLandscapeMapCenter(_ landscape: Bool) {
+    /// Updates map camera offset to optimize view for navigating
+    /// - Parameter landscape: layout orientation
+    public func updateNavigatingMapCenter(_ landscape: Bool) {
         guard let camera = map?.camera else { return }
         let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.4)
         let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
@@ -244,6 +247,19 @@ public class SYMKMapState: NSCopying {
                                                       animationCurveFollowGps: .linear,
                                                       animationDurationFollowGps: 0)
         camera.setTransformCenterSettings(offsetSetting, withDuration: 1, curve: .accelerateDecelerate)
+    }
+    
+    /// Resets map camera offset to standard map center in the middle of SYMapView
+    public func resetMapCenter(duration: TimeInterval = 1) {
+        guard let camera = map?.camera else { return }
+        let defaultOffset = CGPoint(x: 0.5, y: 0.5)
+        let offsetSetting = SYTransformCenterSettings(transformCenterFree: defaultOffset,
+                                                      animationCurveFree: .linear,
+                                                      animationDurationFree: 0,
+                                                      transformCenterFollowGps: defaultOffset,
+                                                      animationCurveFollowGps: .linear,
+                                                      animationDurationFollowGps: 0)
+        camera.setTransformCenterSettings(offsetSetting, withDuration: duration, curve: .accelerateDecelerate)
     }
     
     public func copy(with zone: NSZone? = nil) -> Any {

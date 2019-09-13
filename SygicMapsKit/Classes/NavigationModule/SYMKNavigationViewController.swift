@@ -298,7 +298,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         if useCurrentSpeed {
             speedController?.setupSpeedUpdater()
         }
-        mapState.updateLandscapeMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
+        mapState.updateNavigatingMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         
         positioningObserver = SYPositioning()
         positioningObserver?.delegate = self
@@ -316,7 +316,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let isLandscape = size.width > size.height
-        mapState.updateLandscapeMapCenter(isLandscape)
+        mapState.updateNavigatingMapCenter(isLandscape)
     }
     
     /// Start navigation

@@ -195,14 +195,14 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         view = browseView
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         if let map = mapState.map {
             (view as! SYMKBrowseMapView).setupMapView(map)
             map.delegate = mapController
             map.renderEnabled = true
             map.setup(with: mapState)
         }
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
