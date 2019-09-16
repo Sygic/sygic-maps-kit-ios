@@ -45,6 +45,12 @@ public protocol SYMKNavigationViewControllerDelegate: class {
     /// - Parameter controller: Navigation module controller
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController)
     
+    /// Called when route is updated while navigation is running, e.g. wrong turn and recomputing takes action
+    ///
+    /// - Parameter controller: Navigation module controller
+    /// - Parameter route: SYRoute that replaced old route
+    func navigationController(_ controller: SYMKNavigationViewController, didUpdateRoute newRoute: SYRoute)
+    
     /// Called when better route is found while navigation is running
     ///
     /// - Parameter controller: Navigation module controller
@@ -68,6 +74,7 @@ public extension SYMKNavigationViewControllerDelegate {
     func navigationController(_ controller: SYMKNavigationViewController, didUpdate mapState: SYMKMapState) {}
     func navigationController(_ controller: SYMKNavigationViewController, didStartNavigatingWith mapRoute: SYMapRoute) {}
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {}
+    func navigationController(_ controller: SYMKNavigationViewController, didUpdateRoute newRoute: SYRoute) {}
     func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYBetterRoute) {}
     func navigationController(_ controller: SYMKNavigationViewController, didPassWaypoint: SYWaypoint, at index: UInt) {}
     func navigationControllerDidReachFinish(_ controller: SYMKNavigationViewController) {}
@@ -94,19 +101,13 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// Delegate output for browse map controller.
     public weak var delegate: SYMKNavigationViewControllerDelegate?
     
-    /// Navigation route
+    /// Active navigation route
     public private(set) var route: SYRoute? {
         didSet {
-            guard route != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
             if let newRoute = route {
                 mapRoute = SYMapRoute(route: newRoute, type: .primary)
-                startNavigation()
             } else {
                 mapRoute = nil
-                if SYNavigationManager.sharedNavigation().isNavigating() {
-                    SYNavigationManager.sharedNavigation().stopNavigation()
-                    navigationObserver = nil
-                }
             }
         }
     }
@@ -306,11 +307,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         
         SYNavigationManager.sharedNavigation().audioFeedbackDelegate = self
         
-        guard route != nil, let mapRoute = mapRoute, let map = mapState.map else { return }
-        map.remove(mapRoute)
-        map.add(mapRoute)
-        startNavigation()
-        delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
+        guard let routeToStart = route else { return }
+        startNavigation(with: routeToStart, preview: preview)
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -324,6 +322,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// - Parameter preview: if true, navigation will simulate device position through route (default: false)
     public func startNavigation(with route: SYRoute, preview: Bool = false) {
         self.route = route
+        navigationObserver = SYNavigationObserver(delegate: self)
+        SYNavigationManager.sharedNavigation().startNavigation(with: route)
         self.preview = preview
         guard let mapRoute = mapRoute else { return }
         delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
@@ -334,6 +334,8 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         guard route != nil, SYMKSdkManager.shared.isSdkInitialized, SYNavigationManager.sharedNavigation().isNavigating() else { return }
         preview = false
         route = nil
+        SYNavigationManager.sharedNavigation().stopNavigation()
+        navigationObserver = nil
         delegate?.navigationControllerDidStopNavigating(self)
     }
     
@@ -364,12 +366,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         routePreviewController.stopPreview()
         guard let navigationView = view as? SYMKNavigationView else { return }
         navigationView.routePreviewView?.removeFromSuperview()
-    }
-    
-    private func startNavigation() {
-        guard let route = route else { return }
-        navigationObserver = SYNavigationObserver(delegate: self)
-        SYNavigationManager.sharedNavigation().startNavigation(with: route)
     }
     
     @objc private func leftInfobarButtonPressed() {
@@ -446,8 +442,10 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ observer: SYNavigationObserver, didUpdate route: SYRoute?) {
-        guard let newRoute = route, newRoute == self.route else { return }
+        guard let newRoute = route else { return }
+        self.route = newRoute
         infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
+        delegate?.navigationController(self, didUpdateRoute: newRoute)
     }
 }
 
