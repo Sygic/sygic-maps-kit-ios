@@ -33,7 +33,7 @@ public class SYMKPoiDetailDelegate: SYUIPoiDetailDelegate {
     
     private var mailComposer: SYUIMailComposer?
     
-    init(with model: SYMKPoiDetailModel, controller: UIViewController) {
+    public init(with model: SYMKPoiDetailModel, controller: UIViewController) {
         self.model = model
         self.controller = controller
     }

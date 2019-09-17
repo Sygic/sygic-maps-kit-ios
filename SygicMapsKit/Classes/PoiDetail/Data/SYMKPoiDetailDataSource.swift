@@ -26,7 +26,7 @@ import SygicUIKit
 
 
 /// Provides implementation of SYUIPoiDetailDataSource procotol based on SYMKPoiDetailModel protocol
-class SYMKPoiDetailDataSource {
+public class SYMKPoiDetailDataSource {
     
     private var model: SYMKPoiDetailModel
     private let topOffset: CGFloat = 68
