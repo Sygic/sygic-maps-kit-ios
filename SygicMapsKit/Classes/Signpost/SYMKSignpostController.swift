@@ -87,7 +87,7 @@ public class SYMKSignpostController: SYMKDirectionController {
         
         var instructionText: String?
         var titles = [String]()
-        var routeNumbers = [SYRouteNumberFormat]()
+        var routeNumbers = [SYMapRoadNumberFormat]()
         var exitNames = [String]()
         var pictograms = [SYSignpostElementPictogramType]()
         

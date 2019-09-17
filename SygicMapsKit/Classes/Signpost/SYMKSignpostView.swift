@@ -74,7 +74,7 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
     private let nextInstructionLaneAssistBackgroundColor = UIColor(argb: 0xff1B1B1B)
     private let nextInstructionBackground = UIView()
     private var laneAssist: UIView?
-    private var actualRouteNumbers = [SYRouteNumberFormat]()
+    private var actualRouteNumbers = [SYMapRoadNumberFormat]()
     private var actualPictograms = [SYSignpostElementPictogramType]()
     
     private let symbolsStackView: UIStackView = {
@@ -98,7 +98,7 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
     /// Update signpost symbols. Sum of route numbers and pictograms together must be lower or equal to `maxSymbols`.
     /// - Parameter routeNumbers: Route numbers symbols to update.
     /// - Parameter pictograms: Pictograms symbols to update.
-    public func updateSignpostSymbols(with routeNumbers: [SYRouteNumberFormat], pictograms: [SYSignpostElementPictogramType]) {
+    public func updateSignpostSymbols(with routeNumbers: [SYMapRoadNumberFormat], pictograms: [SYSignpostElementPictogramType]) {
         guard routeNumbers.count + pictograms.count <= maxSymbols else { return }
         if routeNumbers == actualRouteNumbers && pictograms == actualPictograms { return }
         symbolsStackView.removeAll()
@@ -192,10 +192,10 @@ public class SYMKSignpostView: UIView, SYMKInstructionView {
     
 }
 
-extension SYRouteNumberFormat {
+extension SYMapRoadNumberFormat {
     
     open override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? SYRouteNumberFormat else { return false }
+        guard let object = object as? SYMapRoadNumberFormat else { return false }
         return shape == object.shape &&
             insideNumber == object.insideNumber &&
             numberColor == object.numberColor
