@@ -47,8 +47,9 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         return search
     }()
     
-    var placeDetailViewController: SYMKPoiDetailViewController?
+    var placeDetailViewController: SYUIPoiDetailViewController?
     var placeDetailDataSource: NaviPlaceDataSource?
+    var placeDetailDelegate: SYMKPoiDetailDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,10 +77,12 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
             self?.navigate(to: data, preview: true)
             self?.hidePlaceDetail()
         }
-        placeDetailViewController = SYMKPoiDetailViewController(with: data)
-        placeDetailViewController?.presentPoiDetailAsChildViewController(to: browseModule, completion: nil)
+        placeDetailDelegate = SYMKPoiDetailDelegate(with: data, controller: self)
+        
+        placeDetailViewController = SYUIPoiDetailViewController()
         placeDetailViewController?.dataSource = placeDetailDataSource
-        placeDetailViewController?.reloadData()
+        placeDetailViewController?.delegate = placeDetailDelegate
+        placeDetailViewController?.presentPoiDetailAsChildViewController(to: browseModule, completion: nil)
     }
     
     func hidePlaceDetail() {
@@ -104,6 +107,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         let navigationModule = SYMKNavigationViewController(with: route)
         navigationModule.delegate = self
         navigationModule.mapState = browseModule.mapState
+        navigationModule.instructionsType = .signpost
         navigationModule.mapState.cameraMovementMode = .followGpsPositionWithAutozoom
         navigationModule.mapState.cameraRotationMode = .vehicle
         navigationModule.mapState.tilt = 60
@@ -140,16 +144,21 @@ extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
 
 extension DemoViewController: SYMKSearchViewControllerDelegate {
     func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
+        hidePlaceDetail()
+        dismissModule()
+        
         guard results.count == 1, let result = results.first, let coordinate = result.coordinate else { return }
         if let placeResult = result as? SYMapSearchResultPoi {
             SYPlacesManager.sharedPlaces().loadPlace(placeResult.link) { [weak self] (place, error) in
                 guard let place = place else { return }
                 self?.showPlaceDetail(with: SYMKPoiData(with: place))
             }
+        } else if let mapResult = result as? SYMapSearchResult {
+            guard let resultData = SYMKPoiData(with: mapResult) else { return }
+            showPlaceDetail(with: resultData)
         } else {
             showPlaceDetail(with: SYMKPoiData(with: coordinate))
         }
-        dismissModule()
     }
     
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController) {
