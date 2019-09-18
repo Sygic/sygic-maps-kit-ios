@@ -438,13 +438,17 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
     }
     
     public func navigation(_ observer: SYNavigationObserver, didUpdateTraffic trafficInfo: SYTrafficInfo?) {
-        infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
+        if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
+            infobarController?.updateRouteProgress(progress)
+        }
     }
     
     public func navigation(_ observer: SYNavigationObserver, didUpdate route: SYRoute?) {
         guard let newRoute = route else { return }
         self.route = newRoute
-        infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
+        if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
+            infobarController?.updateRouteProgress(progress)
+        }
         delegate?.navigationController(self, didUpdateRoute: newRoute)
     }
 }
@@ -498,6 +502,8 @@ extension SYMKNavigationViewController: SYNavigationAudioFeedbackDelegate {
 extension SYMKNavigationViewController: SYPositioningDelegate {
     public func positioning(_ positioning: SYPositioning, didUpdate position: SYPosition) {
         infobarController?.updatePositionInfo(position)
-        infobarController?.updateRouteProgress(SYNavigationManager.sharedNavigation().getRouteProgress())
+        if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
+            infobarController?.updateRouteProgress(progress)
+        }
     }
 }

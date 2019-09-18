@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import SygicMaps
+import SygicUIKit
 
 
 public protocol SYMKRoutePlannerControllerDelegate: class {
@@ -55,6 +56,8 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
             updateMapObjects()
         }
     }
+    
+    public var units: SYUIDistanceUnits = .kilometers
     
     // MARK: - Private Properties
     
@@ -159,8 +162,17 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     private func addMapRoute(to route: SYRoute, primary: Bool = false) {
         let mapRoute = SYMapRoute(route: route, type: primary ? .primary : .alternative)
-        let labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: primary ? .bold : .regular, textColor: .gray, borderSize: 0, borderColor: nil)
-        let mapRouteLabel = SYMapRouteLabel(text: "\(route.info.durationWithSpeedProfileAndTraffic)", textStyle: labelStyle, placeOn: route)
+        let labelStyle: SYMapObjectTextStyle
+        if primary {
+            labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .bold, textColor: .action, borderSize: 0, borderColor: nil)
+        } else {
+            labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .regular, textColor: .gray, borderSize: 0, borderColor: nil)
+        }
+        
+        let distance = route.info.length as SYDistance
+        let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
+        
+        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance)", textStyle: labelStyle, placeOn: route)
         mapObjects.append(mapRoute)
         mapObjects.append(mapRouteLabel)
     }
