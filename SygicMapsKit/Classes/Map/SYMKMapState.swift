@@ -229,10 +229,17 @@ public class SYMKMapState: NSCopying {
                                                                tilt: 0,
                                                                maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
                                                                edgeInsets: edgeInsets), properties.geoCenter.isValid() else { return }
-        geoCenter = properties.geoCenter
-        tilt = properties.tilt
-        rotation = properties.rotation
-        zoom = properties.zoom
+        
+        if duration > 0 {
+            map?.camera.animate({ [weak self] in
+                self?.applyMapProperties(properties)
+            }, withDuration: duration, curve: .accelerateDecelerate, completion: { (_, success) in
+                completion?(success)
+            })
+        } else {
+            applyMapProperties(properties)
+            completion?(true)
+        }
     }
     
     /// Updates map camera offset to optimize view for navigating
@@ -276,6 +283,14 @@ public class SYMKMapState: NSCopying {
         return copy
     }
 
+    // MARK: - Private methods
+    
+    private func applyMapProperties(_ properties: SYCameraProperties) {
+        geoCenter = properties.geoCenter
+        tilt = properties.tilt
+        rotation = properties.rotation
+        zoom = properties.zoom
+    }
 }
 
 extension SYMapView {

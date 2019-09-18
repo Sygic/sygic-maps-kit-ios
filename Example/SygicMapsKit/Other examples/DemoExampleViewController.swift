@@ -53,6 +53,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "DEMO"
         presentModule(browseModule)
     }
     
@@ -70,11 +71,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         // CUSTOM PLACE DETAIL WITH NAVIGATION BUTTON
         placeDetailDataSource = NaviPlaceDataSource(with: data)
         placeDetailDataSource?.action = { [weak self] in
-            self?.navigate(to: data)
-            self?.hidePlaceDetail()
-        }
-        placeDetailDataSource?.preview = { [weak self] in
-            self?.navigate(to: data, preview: true)
+            self?.computeRoute(to: data)
             self?.hidePlaceDetail()
         }
         placeDetailDelegate = SYMKPoiDetailDelegate(with: data, controller: self)
@@ -91,19 +88,26 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         browseModule.customMarkers = []
     }
     
-    func navigate(to placeData: SYMKPoiData, preview: Bool = false) {
+    func computeRoute(to placeData: SYMKPoiData) {
         guard let myPosition = SYPosition.lastKnownLocation(), let myLocation = myPosition.coordinate else { return }
-        RoutingHelper.shared.computeRoute(from: myLocation, to: placeData.location) { [weak self] (result) in
-            switch result {
-            case .success(route: let route):
-                self?.switchToNavigation(with: route, preview: preview)
-            case .error(errorMessage: let errorMessage):
-                self?.showErrorMessageAlert(errorMessage)
-            }
-        }
+//        RoutingHelper.shared.computeRoute(from: myLocation, to: placeData.location) { [weak self] (result) in
+//            switch result {
+//            case .success(route: let route):
+//                self?.startNavigation(with: route, preview: preview)
+//            case .error(errorMessage: let errorMessage):
+//                self?.showErrorMessageAlert(errorMessage)
+//            }
+//        }
+        let startWP = SYWaypoint(position: myLocation, type: .start, name: "Current location")
+        let endWP = SYWaypoint(position: placeData.location, type: .end, name: placeData.name)
+        let routePlannerModule = SYMKRoutePlannerController()
+        routePlannerModule.mapState = browseModule.mapState
+        routePlannerModule.delegate = self
+        routePlannerModule.waypoints = [startWP, endWP]
+        presentModule(routePlannerModule)
     }
     
-    func switchToNavigation(with route: SYRoute, preview: Bool) {
+    func startNavigation(with route: SYRoute, preview: Bool) {
         let navigationModule = SYMKNavigationViewController(with: route)
         navigationModule.delegate = self
         navigationModule.mapState = browseModule.mapState
@@ -119,6 +123,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
 }
 
 extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
+    
     func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         if placeDetailViewController == nil {
             return true
@@ -143,6 +148,7 @@ extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
 }
 
 extension DemoViewController: SYMKSearchViewControllerDelegate {
+    
     func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
         hidePlaceDetail()
         dismissModule()
@@ -167,7 +173,24 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
     }
 }
 
+extension DemoViewController: SYMKRoutePlannerControllerDelegate {
+    
+    func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool) {
+        if let module = presentedModules.last, module == planner {
+            dismissModule()
+        }
+        startNavigation(with: route, preview: preview)
+    }
+    
+    func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {
+        dismissModule()
+    }
+    
+    
+}
+
 extension DemoViewController: SYMKNavigationViewControllerDelegate {
+    
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {
         if presentedModules.last == controller {
             let mapState = controller.mapState
@@ -180,28 +203,18 @@ extension DemoViewController: SYMKNavigationViewControllerDelegate {
 }
 
 class NaviPlaceDataSource: SYUIPoiDetailDataSource {
+    
     private var model: SYMKPoiDetailModel
     private let topOffset: CGFloat = 100
     
     public var action: (()->())?
-    public var preview: (()->())?
     
     private lazy var navigationButton: SYUIActionButton = {
         let button = SYUIActionButton()
-        button.title = "Navigate"
+        button.title = "Compute route"
         button.icon = SYUIIcon.directions
         button.height = 44
         button.addTarget(self, action: #selector(performAction), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var previewButton: SYUIActionButton = {
-        let button = SYUIActionButton()
-        button.title = "Preview"
-        button.style = .secondary
-        button.icon = SYUIIcon.vehicle
-        button.height = 44
-        button.addTarget(self, action: #selector(performPreview), for: .touchUpInside)
         return button
     }()
     
@@ -211,10 +224,6 @@ class NaviPlaceDataSource: SYUIPoiDetailDataSource {
     
     @objc func performAction() {
         action?()
-    }
-    
-    @objc func performPreview() {
-        preview?()
     }
     
     public var poiDetailMaxTopOffset: CGFloat {
@@ -230,13 +239,10 @@ class NaviPlaceDataSource: SYUIPoiDetailDataSource {
     }
     
     public var poiDetailNumberOfActionButtons: Int {
-        return 2
+        return 1
     }
     
     public func poiDetailActionButton(for index: Int) -> SYUIActionButton {
-        if index == 1 {
-            return previewButton
-        }
         return navigationButton
     }
     
