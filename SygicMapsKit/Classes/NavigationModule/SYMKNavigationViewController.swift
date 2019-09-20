@@ -240,7 +240,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let lockButton = SYUIActionButton()
         lockButton.style = .primary13
         lockButton.icon = SYUIIcon.positionIos
-        lockButton.height = 48
+        lockButton.height = SYUIActionButtonSize.infobar.height
         lockButton.accessibilityIdentifier = leftInfobarButtonDefaultIdentifier
         lockButton.addTarget(self, action: #selector(leftInfobarButtonPressed), for: .touchUpInside)
         leftInfobarButton = lockButton
@@ -248,7 +248,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let cancelRouteButton = SYUIActionButton()
         cancelRouteButton.style = .error13
         cancelRouteButton.icon = SYUIIcon.close
-        cancelRouteButton.height = 48
+        cancelRouteButton.height = SYUIActionButtonSize.infobar.height
         cancelRouteButton.addTarget(self, action: #selector(stopNavigation), for: .touchUpInside)
         rightInfobarButton = cancelRouteButton
     }

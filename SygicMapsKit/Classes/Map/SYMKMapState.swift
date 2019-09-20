@@ -223,15 +223,16 @@ public class SYMKMapState: NSCopying {
     ///   - duration: map transition animation duration
     ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
     public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
-        guard let properties = map?.camera.calculateProperties(for: boundingBox,
-                                                               transformCenter: CGPoint(x: 0.5, y: 0.5),
-                                                               rotation: 0,
-                                                               tilt: 0,
-                                                               maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
-                                                               edgeInsets: edgeInsets), properties.geoCenter.isValid() else { return }
-        
+        guard let map = map, map.bounds != .zero else { return }
+        let properties = map.camera.calculateProperties(for: boundingBox,
+                                                        transformCenter: CGPoint(x: 0.5, y: 0.5),
+                                                        rotation: 0,
+                                                        tilt: 0,
+                                                        maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
+                                                        edgeInsets: edgeInsets)
+        guard properties.geoCenter.isValid() else { return }
         if duration > 0 {
-            map?.camera.animate({ [weak self] in
+            map.camera.animate({ [weak self] in
                 self?.applyMapProperties(properties)
             }, withDuration: duration, curve: .accelerateDecelerate, completion: { (_, success) in
                 completion?(success)

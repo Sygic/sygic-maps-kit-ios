@@ -25,6 +25,7 @@ import SygicMapsKit
 import SygicUIKit
 import SygicMaps
 
+
 class DemoViewController: UIViewController, SYMKModulePresenter {
     var presentedModules = [SYMKModuleViewController]()
     
@@ -47,10 +48,9 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         return search
     }()
     
-    var placeDetailViewController: SYUIPoiDetailViewController?
-    var placeDetailDataSource: NaviPlaceDataSource?
-    var placeDetailDelegate: SYMKPoiDetailDelegate?
-    
+    var placeDetail: SYUIBubbleView?
+    var placeData: SYMKPoiData?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "DEMO"
@@ -69,35 +69,29 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         }
         
         // CUSTOM PLACE DETAIL WITH NAVIGATION BUTTON
-        placeDetailDataSource = NaviPlaceDataSource(with: data)
-        placeDetailDataSource?.action = { [weak self] in
-            self?.computeRoute(to: data)
-            self?.hidePlaceDetail()
-        }
-        placeDetailDelegate = SYMKPoiDetailDelegate(with: data, controller: self)
-        
-        placeDetailViewController = SYUIPoiDetailViewController()
-        placeDetailViewController?.dataSource = placeDetailDataSource
-        placeDetailViewController?.delegate = placeDetailDelegate
-        placeDetailViewController?.presentPoiDetailAsChildViewController(to: browseModule, completion: nil)
+        let placeView = SYUIBubbleView()
+        placeView.descriptionLabel.text = data.poiDetailSubtitle
+        placeView.titleLabel.text = data.poiDetailTitle
+        placeView.actionButton.addTarget(self, action: #selector(placeDetailAction), for: .touchUpInside)
+        placeData = data
+        placeDetail = placeView
+        placeView.addToView(browseModule.view, landscapeLayout: UIApplication.shared.statusBarOrientation.isLandscape, animated: true)
+    }
+    
+    @objc func placeDetailAction() {
+        guard let data = placeData else { return }
+        computeRoute(to: data)
+        hidePlaceDetail()
     }
     
     func hidePlaceDetail() {
-        placeDetailViewController?.dismissPoiDetail(completion: nil)
-        placeDetailViewController = nil
+        placeDetail?.removeFromSuperview()
+        placeDetail = nil
         browseModule.customMarkers = []
     }
     
     func computeRoute(to placeData: SYMKPoiData) {
         guard let myPosition = SYPosition.lastKnownLocation(), let myLocation = myPosition.coordinate else { return }
-//        RoutingHelper.shared.computeRoute(from: myLocation, to: placeData.location) { [weak self] (result) in
-//            switch result {
-//            case .success(route: let route):
-//                self?.startNavigation(with: route, preview: preview)
-//            case .error(errorMessage: let errorMessage):
-//                self?.showErrorMessageAlert(errorMessage)
-//            }
-//        }
         let startWP = SYWaypoint(position: myLocation, type: .start, name: "Current location")
         let endWP = SYWaypoint(position: placeData.location, type: .end, name: placeData.name)
         let routePlannerModule = SYMKRoutePlannerController()
@@ -125,7 +119,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
 extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
     
     func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
-        if placeDetailViewController == nil {
+        if placeDetail == nil {
             return true
         } else {
             hidePlaceDetail()
@@ -176,97 +170,25 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
 extension DemoViewController: SYMKRoutePlannerControllerDelegate {
     
     func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool) {
-        if let module = presentedModules.last, module == planner {
+        if presentedModules.last == planner {
             dismissModule()
         }
         startNavigation(with: route, preview: preview)
     }
     
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {
+        browseModule.mapState.resetMapCenter()
         dismissModule()
     }
-    
-    
 }
 
 extension DemoViewController: SYMKNavigationViewControllerDelegate {
     
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {
         if presentedModules.last == controller {
-            let mapState = controller.mapState
-            mapState.resetMapCenter()
-            browseModule.mapState = mapState
+            browseModule.mapState.resetMapCenter()
             dismissModule()
             navigationController?.setNavigationBarHidden(false, animated: true)
-        }
-    }
-}
-
-class NaviPlaceDataSource: SYUIPoiDetailDataSource {
-    
-    private var model: SYMKPoiDetailModel
-    private let topOffset: CGFloat = 100
-    
-    public var action: (()->())?
-    
-    private lazy var navigationButton: SYUIActionButton = {
-        let button = SYUIActionButton()
-        button.title = "Compute route"
-        button.icon = SYUIIcon.directions
-        button.height = 44
-        button.addTarget(self, action: #selector(performAction), for: .touchUpInside)
-        return button
-    }()
-    
-    init(with model: SYMKPoiDetailModel) {
-        self.model = model
-    }
-    
-    @objc func performAction() {
-        action?()
-    }
-    
-    public var poiDetailMaxTopOffset: CGFloat {
-        return topOffset
-    }
-    
-    public var poiDetailTitle: String {
-        return model.poiDetailTitle
-    }
-    
-    public var poiDetailSubtitle: String? {
-        return model.poiDetailSubtitle
-    }
-    
-    public var poiDetailNumberOfActionButtons: Int {
-        return 1
-    }
-    
-    public func poiDetailActionButton(for index: Int) -> SYUIActionButton {
-        return navigationButton
-    }
-    
-    public func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
-        switch section {
-        case .actions:
-            return 1
-        case .contactInfo:
-            return model.poiDetailContacts.count
-        default:
-            return 0
-        }
-    }
-    
-    public func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
-        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellData(title: "") }
-        switch section {
-        case .actions:
-            return SYUIPoiDetailCellData(title: "GPS", subtitle: model.location.string, icon: SYUIIcon.pinPlace, stringToCopy: model.location.string)
-        case .contactInfo:
-            let contact = model.poiDetailContacts[indexPath.row]
-            return SYUIPoiDetailCellData(title: contact.title, subtitle: contact.value, icon: contact.icon)
-        default:
-            return SYUIPoiDetailCellData(title: "")
         }
     }
 }

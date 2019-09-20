@@ -48,7 +48,7 @@ class SYMKRoutePlannerView: UIView {
     public var backButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.style = .secondary
-        button.icon = SYUIIcon.backAndroid
+        button.icon = SYUIIcon.close
         return button
     }()
     

@@ -27,7 +27,19 @@ import SygicUIKit
 public protocol SYMKRoutePlannerControllerDelegate: class {
     func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool)
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController)
+    
+    /// Called when error occures while route is computed. Override this method to handle showing error message. Return nil if you don't want to show any message.
+    /// - Parameter planner: route planner controller
+    /// - Parameter error: routing error
+    func routePlanner(_ planner: SYMKRoutePlannerController, routingFinishedWith error: SYRoutingError) -> String?
 }
+
+public extension SYMKRoutePlannerControllerDelegate {
+    func routePlanner(_ planner: SYMKRoutePlannerController, routingFinishedWith error: SYRoutingError) -> String? {
+        return error.errorMessage()
+    }
+}
+
 
 public class SYMKRoutePlannerController: SYMKModuleViewController {
     
@@ -79,6 +91,12 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         view = plannerView
     }
     
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        let isLandscape = size.width > size.height
+        mapState.updateNavigatingMapCenter(isLandscape)
+    }
+    
     public override func viewWillDisappear(_ animated: Bool) {
         removeAllMapObjects()
         super.viewWillDisappear(animated)
@@ -100,6 +118,8 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     override internal func sygicSDKInitialized() {
         setupMapController()
+        
+        mapState.updateNavigatingMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         
         routingManager = SYRouting()
         routingManager?.delegate = self
@@ -129,30 +149,18 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         }
         routing.computeRoute(start, to: destination, via: actualWaypoints, with: routingOptions)
         
-        var boundingBox = SYGeoBoundingBox(bottomLeft: start.originalPosition, topRight: start.originalPosition)
-        for wp in waypoints {
-            if let newBox = boundingBox.union(with: SYGeoBoundingBox(bottomLeft: wp.originalPosition, topRight: wp.originalPosition)) {
-                boundingBox = newBox
-            }
-        }
-        mapState.setMapBoundingBox(boundingBox, edgeInsets: mapInsets, duration: 1, completion: nil)
+        zoomMap()
     }
     
     private func updateMapObjects() {
         removeAllMapObjects()
-        
         guard let primaryRoute = primaryRoute else { return }
         addMapRoute(to: primaryRoute, primary: true)
-        var boundingBox = primaryRoute.box
-        
         for route in alternativeRoutes {
             addMapRoute(to: route)
-            if let newBox = boundingBox.union(with: route.box) {
-                boundingBox = newBox
-            }
         }
         mapState.map?.add(mapObjects)
-        mapState.setMapBoundingBox(boundingBox, edgeInsets: mapInsets, duration: 1, completion: nil)
+        zoomMap()
     }
     
     private func removeAllMapObjects() {
@@ -172,9 +180,31 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         let distance = route.info.length as SYDistance
         let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
         
-        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance)", textStyle: labelStyle, placeOn: route)
+        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance.formattedDistance)\(formattedDistance.units)", textStyle: labelStyle, placeOn: route)
         mapObjects.append(mapRoute)
         mapObjects.append(mapRouteLabel)
+    }
+    
+    private func zoomMap() {
+        view.layoutIfNeeded()
+        var boundingBox: SYGeoBoundingBox?
+        if let route = primaryRoute {
+            boundingBox = route.box
+            for alternative in alternativeRoutes {
+                if let newBox = boundingBox!.union(with: alternative.box) {
+                    boundingBox = newBox
+                }
+            }
+        } else if let startWP = waypoints.first, waypoints.count > 1 {
+            boundingBox = SYGeoBoundingBox(bottomLeft: startWP.originalPosition, topRight: startWP.originalPosition)
+            for wp in waypoints {
+                if let newBox = boundingBox!.union(with: SYGeoBoundingBox(bottomLeft: wp.originalPosition, topRight: wp.originalPosition)) {
+                    boundingBox = newBox
+                }
+            }
+        }
+        guard let box = boundingBox else { return }
+        mapState.setMapBoundingBox(box, edgeInsets: mapInsets, duration: 1, completion: nil)
     }
 }
 
@@ -201,6 +231,52 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
     }
     
     public func routing(_ routing: SYRouting, computingFailedWithError error: SYRoutingError) {
-        print("ROUTING ERROR: \(error)")
+        guard let errorMessage = delegate?.routePlanner(self, routingFinishedWith: error) else { return }
+        let alert = UIAlertController(title: LS("Routing error"), message: errorMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+}
+
+public extension SYRoutingError {
+    func errorMessage() -> String? {
+        switch self {
+        case .unspecifiedFault:
+            return LS("Unspecified fault")
+        case .frontEmpty:
+            return LS("Front empty")
+        case .pathReconstructFailed:
+            return LS("Path reconstruction failed")
+        case .wrongFromPoint:
+            return LS("Wrong starting location")
+        case .pathConstructFailed:
+            return LS("Path construction failed")
+        case .pathNotFound:
+            return LS("Path not found")
+        case .unreachableTarget:
+            return LS("Unreachable target")
+        case .invalidSelection:
+            return LS("Invalid selection")
+        case .onlineServiceError:
+            return LS("Online servide error")
+        case .onlineServiceNotAvailable:
+            return LS("Online service not available")
+        case .onlineServiceWrongResponse:
+            return LS("Online service wrong response")
+        case .onlineServiceTimeout:
+            return LS("Online service timeout")
+        case .noComputeCanBeCalled:
+            return LS("No compute can be called")
+        case .couldNotRetrieveSavedRoute:
+            return LS("Could not retrieve saved route")
+        case .mapNotAvailable:
+            return LS("Map not available")
+        case .selectionOutsideOfMap:
+            return LS("Selection outside of map")
+        case .userCanceled:
+            return nil
+        case .alternativeRejected:
+            return LS("Alternative rejected")
+        }
     }
 }
