@@ -25,6 +25,7 @@ import SygicUIKit
 
 
 public protocol SYMKRoutePlannerControllerDelegate: class {
+    func routePlanner(_ planner: SYMKRoutePlannerController, didCompute route: SYRoute, type: SYMapRouteType)
     func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool)
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController)
     
@@ -35,6 +36,7 @@ public protocol SYMKRoutePlannerControllerDelegate: class {
 }
 
 public extension SYMKRoutePlannerControllerDelegate {
+    func routePlanner(_ planner: SYMKRoutePlannerController, didCompute route: SYRoute, type: SYMapRouteType) {}
     func routePlanner(_ planner: SYMKRoutePlannerController, routingFinishedWith error: SYRoutingError) -> String? {
         return error.errorMessage()
     }
@@ -127,6 +129,10 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         startRouting()
     }
     
+    public func cancelComputing() {
+        routingManager?.cancelComputing()
+    }
+    
     // MARK: - Private Methods
     
     private func setupMapController() {
@@ -180,7 +186,10 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         let distance = route.info.length as SYDistance
         let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
         
-        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance.formattedDistance)\(formattedDistance.units)", textStyle: labelStyle, placeOn: route)
+        let duration = route.info.durationWithSpeedProfileAndTraffic
+        let formattedDuration = String(format:"%.0fmin",duration/60.0)
+        
+        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance.formattedDistance)\(formattedDistance.units) / \(formattedDuration)", textStyle: labelStyle, placeOn: route)
         mapObjects.append(mapRoute)
         mapObjects.append(mapRouteLabel)
     }
@@ -211,15 +220,18 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
 extension SYMKRoutePlannerController: SYRoutingDelegate {
     
     public func routing(_ routing: SYRouting, didComputePrimaryRoute route: SYRoute?) {
+        guard let route = route else { return }
         if primaryRoute == nil, let plannerView = view as? SYMKRoutePlannerView {
             plannerView.setupNavigateButtons()
         }
         primaryRoute = route
+        delegate?.routePlanner(self, didCompute: route, type: .primary)
     }
     
     public func routing(_ routing: SYRouting, didComputeAlternativeRoute route: SYRoute?) {
         guard let route = route else { return }
         alternativeRoutes.append(route)
+        delegate?.routePlanner(self, didCompute: route, type: .alternative)
     }
     
     public func routing(_ routing: SYRouting, didUpdateComputingProgress progress: Float, onRoute routeIndex: UInt) {
