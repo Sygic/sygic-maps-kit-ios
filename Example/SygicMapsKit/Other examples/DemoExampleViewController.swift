@@ -34,6 +34,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         browseMap.useCompass = true
         browseMap.useZoomControl = true
         browseMap.useRecenterButton = true
+        browseMap.showUserLocation = true
         browseMap.mapSelectionMode = .all
         browseMap.delegate = self
         browseMap.setupActionButton(with: nil, icon: SYUIIcon.search) { [unowned self] in

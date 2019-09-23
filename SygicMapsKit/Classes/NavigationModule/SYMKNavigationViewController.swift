@@ -201,6 +201,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     private var mapController: SYMKMapController?
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
+    private var idleTimerSetting: Bool = false
     private let routePreviewController = SYMKRoutePreviewController()
     private let laneAssistController = SYMKLaneAssistController()
 
@@ -322,6 +323,10 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// - Parameter preview: if true, navigation will simulate device position through route (default: false)
     public func startNavigation(with route: SYRoute, preview: Bool = false) {
         self.route = route
+        
+        idleTimerSetting = UIApplication.shared.isIdleTimerDisabled
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         navigationObserver = SYNavigationObserver(delegate: self)
         SYNavigationManager.sharedNavigation().startNavigation(with: route)
         self.preview = preview
@@ -336,6 +341,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         route = nil
         SYNavigationManager.sharedNavigation().stopNavigation()
         navigationObserver = nil
+        
+        UIApplication.shared.isIdleTimerDisabled = idleTimerSetting
+        
         delegate?.navigationControllerDidStopNavigating(self)
     }
     
