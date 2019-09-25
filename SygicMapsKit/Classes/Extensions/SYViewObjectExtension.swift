@@ -25,6 +25,7 @@ import SygicMaps
 public enum SYMKSelectionType {
     case marker
     case route
+    case routeLabel
     case poi
     case other
 }
@@ -36,6 +37,7 @@ extension SYViewObject {
             switch mapObject.mapObjectType {
             case .marker: return .marker
             case .route: return .route
+            case .routeLabel: return .routeLabel
             default: return .other
             }
         } else if let proxyObject = self as? SYProxyObject {

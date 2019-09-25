@@ -25,9 +25,13 @@ import SygicUIKit
 
 
 public protocol SYMKRoutePlannerControllerDelegate: class {
-    func routePlanner(_ planner: SYMKRoutePlannerController, didCompute route: SYRoute, type: SYMapRouteType)
+    //MARK: required
     func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool)
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController)
+    
+    //MARK: optional
+    func routePlanner(_ planner: SYMKRoutePlannerController, didCompute route: SYRoute, type: SYMapRouteType)
+    func routePlanner(_ planner: SYMKRoutePlannerController, switch primaryRoute: SYRoute, alternativeRoutes: [SYRoute])
     
     /// Called when error occures while route is computed. Override this method to handle showing error message. Return nil if you don't want to show any message.
     /// - Parameter planner: route planner controller
@@ -37,6 +41,7 @@ public protocol SYMKRoutePlannerControllerDelegate: class {
 
 public extension SYMKRoutePlannerControllerDelegate {
     func routePlanner(_ planner: SYMKRoutePlannerController, didCompute route: SYRoute, type: SYMapRouteType) {}
+    func routePlanner(_ planner: SYMKRoutePlannerController, switch primaryRoute: SYRoute, alternativeRoutes: [SYRoute]) {}
     func routePlanner(_ planner: SYMKRoutePlannerController, routingFinishedWith error: SYRoutingError) -> String? {
         return error.errorMessage()
     }
@@ -120,12 +125,9 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     override internal func sygicSDKInitialized() {
         setupMapController()
-        
         mapState.updateNavigatingMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
-        
         routingManager = SYRouting()
         routingManager?.delegate = self
-        
         startRouting()
     }
     
@@ -137,8 +139,10 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     private func setupMapController() {
         mapState.map?.renderEnabled = true
-        let mapController = SYMKMapController(with: mapState)
-        mapController.selectionManager = SYMKMapSelectionManager(with: .none)
+        let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
+        let routeSelectionManager = SYMKRouteSelectionManager(with: .routeAndRouteLabel)
+        routeSelectionManager.delegate = self
+        mapController.selectionManager = routeSelectionManager
         (view as! SYMKRoutePlannerView).setupMapView(mapController.mapView)
         self.mapController = mapController
     }
@@ -146,7 +150,6 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     private func startRouting() {
         routingManager?.cancelComputing()
         guard waypoints.count >= 2, let routing = routingManager else { return }
-        
         let start = waypoints.first!
         let destination = waypoints.last!
         var actualWaypoints: [SYWaypoint]?
@@ -154,7 +157,6 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
             actualWaypoints = Array(waypoints[1..<waypoints.count])
         }
         routing.computeRoute(start, to: destination, via: actualWaypoints, with: routingOptions)
-        
         zoomMap()
     }
     
@@ -182,16 +184,25 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         } else {
             labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .regular, textColor: .gray, borderSize: 0, borderColor: nil)
         }
-        
-        let distance = route.info.length as SYDistance
-        let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
-        
+        let distance = route.info.length
         let duration = route.info.durationWithSpeedProfileAndTraffic
-        let formattedDuration = String(format:"%.0fmin",duration/60.0)
-        
-        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance.formattedDistance)\(formattedDistance.units) / \(formattedDuration)", textStyle: labelStyle, placeOn: route)
+        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance(distance)) / \(formatedDuration(duration))", textStyle: labelStyle, placeOn: route)
         mapObjects.append(mapRoute)
         mapObjects.append(mapRouteLabel)
+    }
+    
+    private func formatedDuration(_ duration: TimeInterval) -> String {
+        if duration < 60*60 {
+            return String(format: "%i%@", Int(duration/60), LS("min"))
+        } else {
+            let min = Float(duration).truncatingRemainder(dividingBy: 60*60)
+            return String(format: "%i%@%i%@", Int(duration/60/60), LS("h"), Int(min/60), LS("min"))
+        }
+    }
+    
+    private func formattedDistance(_ distance: SYDistance) -> String {
+        let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
+        return "\(formattedDistance.formattedDistance)\(formattedDistance.units)"
     }
     
     private func zoomMap() {
@@ -250,7 +261,20 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
     }
 }
 
+extension SYMKRoutePlannerController: SYMKRouteSelectionDelegate {
+    
+    public func routeSelection(didSelect route: SYRoute) {
+        guard let oldPrimaryRoute = primaryRoute, route != primaryRoute else { return }
+        alternativeRoutes.removeAll { $0 == route }
+        alternativeRoutes.append(oldPrimaryRoute)
+        primaryRoute = route
+        updateMapObjects()
+        delegate?.routePlanner(self, switch: route, alternativeRoutes: alternativeRoutes)
+    }
+}
+
 public extension SYRoutingError {
+    
     func errorMessage() -> String? {
         switch self {
         case .unspecifiedFault:

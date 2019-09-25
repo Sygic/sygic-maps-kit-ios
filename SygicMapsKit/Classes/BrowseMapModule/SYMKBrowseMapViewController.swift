@@ -142,7 +142,8 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /// - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
     public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .markers {
         didSet {
-            mapController?.selectionManager?.mapSelectionMode = mapSelectionMode
+            guard let selectionManager = mapController?.selectionManager as? SYMKMapSelectionManager else { return }
+            selectionManager.mapSelectionMode = mapSelectionMode
         }
     }
     
@@ -280,8 +281,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     private func setupMapController() {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
-        mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
-        mapController.selectionManager?.delegate = self
+        let mapSelectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
+        mapSelectionManager.delegate = self
+        mapController.selectionManager = mapSelectionManager
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap(customMarkers)
