@@ -31,7 +31,7 @@ class RootTableViewController: UITableViewController {
     let mapsKitGithub = "https://github.com/Sygic/sygic-maps-kit-ios"
     let mapsKitWiki = "https://github.com/Sygic/sygic-maps-kit-ios/wiki"
     let sectionsData = [" ", "Modules", "Getting started!"]
-    let rowsData = [["DEMO"],
+    let rowsData = [["Complex demo"],
                     ["Browse Map", "Search", "Route planner", "Navigation", "Double map", "Manage Maps"],
                     ["Source code", "Wiki"]]
     

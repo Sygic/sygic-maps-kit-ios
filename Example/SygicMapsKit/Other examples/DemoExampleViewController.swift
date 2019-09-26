@@ -74,6 +74,23 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         placeView.descriptionLabel.text = data.poiDetailSubtitle
         placeView.titleLabel.text = data.poiDetailTitle
         placeView.actionButton.addTarget(self, action: #selector(placeDetailAction), for: .touchUpInside)
+        if data.poiDetailContacts.count > 0 {
+            if let icon = SYUIIcon.browser {
+                let enabled = data.website != nil && !data.website!.isEmpty
+                placeView.addContentActionButton(title: LS("Web"), icon: icon, enabled: enabled, action: nil)
+            }
+            if let icon = SYUIIcon.phone {
+                let enabled = data.phone != nil && !data.phone!.isEmpty
+                placeView.addContentActionButton(title: LS("Phone"), icon: icon, enabled: enabled, action: nil)
+            }
+            if let icon = SYUIIcon.mailFull {
+                let enabled = data.email != nil && !data.email!.isEmpty
+                placeView.addContentActionButton(title: LS("Mail"), icon: icon, enabled: enabled, action: nil)
+            }
+        }
+        if let icon = SYUIIcon.pointOnMap {
+            placeView.addContent(with: icon, title: LS("GPS coordinates"), subtitle: data.location.string)
+        }
         placeData = data
         placeDetail = placeView
         placeView.addToView(browseModule.view, landscapeLayout: UIApplication.shared.statusBarOrientation.isLandscape, animated: true)
