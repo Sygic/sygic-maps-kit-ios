@@ -49,9 +49,8 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         return search
     }()
     
-    var placeDetail: SYUIBubbleView?
-    var placeData: SYMKPoiData?
-
+    var placeDetail: SYMKPlaceDetailViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "DEMO"
@@ -70,40 +69,28 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         }
         
         // CUSTOM PLACE DETAIL WITH NAVIGATION BUTTON
-        let placeView = SYUIBubbleView()
-        placeView.descriptionLabel.text = data.poiDetailSubtitle
-        placeView.titleLabel.text = data.poiDetailTitle
-        placeView.actionButton.addTarget(self, action: #selector(placeDetailAction), for: .touchUpInside)
-        if data.poiDetailContacts.count > 0 {
-            if let icon = SYUIIcon.browser {
-                let enabled = data.website != nil && !data.website!.isEmpty
-                placeView.addContentActionButton(title: LS("Web"), icon: icon, enabled: enabled, action: nil)
-            }
-            if let icon = SYUIIcon.phone {
-                let enabled = data.phone != nil && !data.phone!.isEmpty
-                placeView.addContentActionButton(title: LS("Phone"), icon: icon, enabled: enabled, action: nil)
-            }
-            if let icon = SYUIIcon.mailFull {
-                let enabled = data.email != nil && !data.email!.isEmpty
-                placeView.addContentActionButton(title: LS("Mail"), icon: icon, enabled: enabled, action: nil)
-            }
-        }
-        if let icon = SYUIIcon.pointOnMap {
-            placeView.addContent(with: icon, title: LS("GPS coordinates"), subtitle: data.location.string)
-        }
-        placeData = data
-        placeDetail = placeView
-        placeView.addToView(browseModule.view, landscapeLayout: UIApplication.shared.statusBarOrientation.isLandscape, animated: true)
+        let placeController = SYMKPlaceDetailViewController(with: data)
+        placeController.placeView.addActionButton(placeDetailActionButton(for: data))
+        placeController.presentPlaceDetailAsChildViewController(to: browseModule, landscapeLayout: UIApplication.shared.statusBarOrientation.isLandscape, animated: true, completion: nil)
+        placeDetail = placeController
     }
     
-    @objc func placeDetailAction() {
-        guard let data = placeData else { return }
-        computeRoute(to: data)
-        hidePlaceDetail()
+    func placeDetailActionButton(for data: SYMKPoiData) -> SYUIActionButton {
+        let button = SYUIActionButton()
+        button.style = .primary13
+        button.title = LS("Get direction")
+        button.icon = SYUIIcon.directions
+        button.height = SYUIActionButtonSize.infobar.height
+        button.action = { [weak self] _ in
+            guard let weakSelf = self else { return }
+            weakSelf.computeRoute(to: data)
+            weakSelf.hidePlaceDetail()
+        }
+        return button
     }
     
     func hidePlaceDetail() {
-        placeDetail?.removeFromSuperview()
+        placeDetail?.dismissPoiDetail(completion: nil)
         placeDetail = nil
         browseModule.customMarkers = []
     }

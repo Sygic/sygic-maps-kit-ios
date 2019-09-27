@@ -70,6 +70,17 @@ public enum SYMKPoiDetailContact {
         }
     }
     
+    public var iconImage: UIImage? {
+        switch self {
+        case .phone:
+            return SYUIIcon.phone
+        case .email:
+            return SYUIIcon.mailFull
+        case .website:
+            return SYUIIcon.browser
+        }
+    }
+    
     /// Contact data source for cell in poi detail
     ///
     /// - Returns: cell data source
