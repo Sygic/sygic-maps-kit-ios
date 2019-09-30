@@ -117,7 +117,7 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         guard let route = primaryRoute else { return }
         delegate?.routePlanner(self, didSelect: route, preview: false)
     }
-    
+
     @objc public func previewButtonTapped() {
         guard let route = primaryRoute else { return }
         delegate?.routePlanner(self, didSelect: route, preview: true)

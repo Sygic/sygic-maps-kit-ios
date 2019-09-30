@@ -87,14 +87,22 @@ public class SYMKRoutePreviewController {
         previewDelegate?.routePreviewDidStop(self)
     }
     
+    /// Pause route preview.
+    public func pausePreview() {
+        guard let simulator = SYPositioningManager.shared().dataSource as? SYRoutePositionSimulator else { return }
+        simulator.pause()
+        view.playButton.setImage(SYUIIcon.play, for: .normal)
+    }
+    
+    // MARK: - Private Methods
+    
     @objc private func playButtonPressed() {
         guard let simulator = simulator else { return }
         if simulator.isPaused {
             simulator.start()
             view.playButton.setImage(SYUIIcon.pause, for: .normal)
         } else {
-            simulator.pause()
-            view.playButton.setImage(SYUIIcon.play, for: .normal)
+            pausePreview()
         }
     }
     

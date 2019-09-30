@@ -181,6 +181,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Route preview controller provides interface to manage route playback without moving the device
+    public let routePreviewController = SYMKRoutePreviewController()
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -202,7 +205,6 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
     private var idleTimerSetting: Bool = false
-    private let routePreviewController = SYMKRoutePreviewController()
     private let laneAssistController = SYMKLaneAssistController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
