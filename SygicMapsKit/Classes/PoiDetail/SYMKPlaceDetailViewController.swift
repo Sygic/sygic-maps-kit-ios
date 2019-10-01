@@ -87,8 +87,7 @@ public class SYMKPlaceDetailViewController: UIViewController {
     // MARK: - Private methods
     
     private func updateViewData() {
-        placeView.descriptionLabel.text = model.poiDetailSubtitle
-        placeView.titleLabel.text = model.poiDetailTitle
+        placeView.addHeader(with: model.poiDetailTitle, model.poiDetailSubtitle)
         if model.poiDetailContacts.count > 0 {
             addContactButton(for: .website(model.website ?? ""))
             addContactButton(for: .phone(model.phone ?? ""))

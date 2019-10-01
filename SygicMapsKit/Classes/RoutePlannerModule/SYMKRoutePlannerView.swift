@@ -30,18 +30,10 @@ class SYMKRoutePlannerView: UIView {
     
     public private(set) weak var mapView: UIView?
     
-    public var navigateButton: SYUIActionButton = {
+    public var optionsButton: SYUIActionButton = {
         let button = SYUIActionButton()
-        button.title = "Start navigation"
-        button.icon = SYUIIcon.directions
-        return button
-    }()
-    
-    public var previewButton: SYUIActionButton = {
-        let button = SYUIActionButton()
-        button.title = "Play route preview"
-        button.icon = SYUIIcon.vehicle
-        button.style = .secondary
+        button.iconImage = SYUIIcon.options
+        button.style = .plain
         return button
     }()
     
@@ -51,6 +43,8 @@ class SYMKRoutePlannerView: UIView {
         button.icon = SYUIIcon.close
         return button
     }()
+    
+    public var routesView: SYUIBubbleView?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,29 +67,29 @@ class SYMKRoutePlannerView: UIView {
         mapView.coverWholeSuperview()
     }
     
-    public func setupBackButton() {
+    public func setupRoutesView(_ view: SYUIBubbleView) {
+        guard routesView == nil else { return }
+        view.addToView(self, landscapeLayout: SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection), animated: true, completion: nil)
+        routesView = view
+    }
+    
+    private func setupUI() {
+        backgroundColor = UIColor.gray
+        setupBackButton()
+        setupOptionsButton()
+    }
+    
+    private func setupBackButton() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backButton)
         backButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
         backButton.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
     }
     
-    public func setupNavigateButtons() {
-        navigateButton.translatesAutoresizingMaskIntoConstraints = false
-        previewButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(navigateButton)
-        addSubview(previewButton)
-        previewButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
-        previewButton.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
-        previewButton.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
-        navigateButton.bottomAnchor.constraint(equalTo: previewButton.topAnchor, constant: -sideMargin).isActive = true
-        navigateButton.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
-        navigateButton.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
+    private func setupOptionsButton() {
+        optionsButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(optionsButton)
+        optionsButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
+        optionsButton.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
     }
-    
-    private func setupUI() {
-        backgroundColor = UIColor.gray
-        setupBackButton()
-    }
-    
 }

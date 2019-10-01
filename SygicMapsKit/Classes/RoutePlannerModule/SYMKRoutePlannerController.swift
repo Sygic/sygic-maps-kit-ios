@@ -48,6 +48,7 @@ public extension SYMKRoutePlannerControllerDelegate {
 }
 
 
+/// Route planner module
 public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     // MARK: - Public Properties
@@ -76,7 +77,11 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         }
     }
     
-    public var units: SYUIDistanceUnits = .kilometers
+    public var units: SYUIDistanceUnits = .kilometers {
+        didSet {
+            routesController.units = units
+        }
+    }
     
     // MARK: - Private Properties
     
@@ -87,14 +92,14 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     private var mapController: SYMKMapController?
     private var routingManager: SYRouting?
     private var mapObjects = [SYMapObject]()
+    private var routesController = SYMKRoutesViewController()
     
     // MARK: - Public Methods
     
     public override func loadView() {
         let plannerView = SYMKRoutePlannerView()
         plannerView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        plannerView.navigateButton.addTarget(self, action: #selector(navigationButtonTapped), for: .touchUpInside)
-        plannerView.previewButton.addTarget(self, action: #selector(previewButtonTapped), for: .touchUpInside)
+        plannerView.optionsButton.addTarget(self, action: #selector(optionsButtonTapped), for: .touchUpInside)
         view = plannerView
     }
     
@@ -113,14 +118,8 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         delegate?.routePlannerDidCancel(self)
     }
     
-    @objc public func navigationButtonTapped() {
-        guard let route = primaryRoute else { return }
-        delegate?.routePlanner(self, didSelect: route, preview: false)
-    }
-
-    @objc public func previewButtonTapped() {
-        guard let route = primaryRoute else { return }
-        delegate?.routePlanner(self, didSelect: route, preview: true)
+    @objc public func optionsButtonTapped() {
+        present(UINavigationController(rootViewController: SYMKRouteOptionsViewController(with: routingOptions)), animated: true, completion: nil)
     }
     
     override internal func sygicSDKInitialized() {
@@ -177,32 +176,16 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     }
     
     private func addMapRoute(to route: SYRoute, primary: Bool = false) {
-        let mapRoute = SYMapRoute(route: route, type: primary ? .primary : .alternative)
         let labelStyle: SYMapObjectTextStyle
         if primary {
             labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .bold, textColor: .action, borderSize: 0, borderColor: nil)
         } else {
             labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .regular, textColor: .gray, borderSize: 0, borderColor: nil)
         }
-        let distance = route.info.length
-        let duration = route.info.durationWithSpeedProfileAndTraffic
-        let mapRouteLabel = SYMapRouteLabel(text: "\(formattedDistance(distance)) / \(formatedDuration(duration))", textStyle: labelStyle, placeOn: route)
+        let mapRouteLabel = SYMapRouteLabel(text: "\(route.formattedDistance(units)) / \(route.formatedDuration())", textStyle: labelStyle, placeOn: route)
+        let mapRoute = SYMapRoute(route: route, type: primary ? .primary : .alternative)
         mapObjects.append(mapRoute)
         mapObjects.append(mapRouteLabel)
-    }
-    
-    private func formatedDuration(_ duration: TimeInterval) -> String {
-        if duration < 60*60 {
-            return String(format: "%i%@", Int(duration/60), LS("min"))
-        } else {
-            let min = Float(duration).truncatingRemainder(dividingBy: 60*60)
-            return String(format: "%i%@%i%@", Int(duration/60/60), LS("h"), Int(min/60), LS("min"))
-        }
-    }
-    
-    private func formattedDistance(_ distance: SYDistance) -> String {
-        let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
-        return "\(formattedDistance.formattedDistance)\(formattedDistance.units)"
     }
     
     private func zoomMap() {
@@ -230,18 +213,23 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
 
 extension SYMKRoutePlannerController: SYRoutingDelegate {
     
+    public func routingDidStartRouteComputing(_ routing: SYRouting) {
+        guard let plannerView = view as? SYMKRoutePlannerView else { return }
+        plannerView.setupRoutesView(routesController.routesView)
+        routesController.delegate = self
+    }
+    
     public func routing(_ routing: SYRouting, didComputePrimaryRoute route: SYRoute?) {
         guard let route = route else { return }
-        if primaryRoute == nil, let plannerView = view as? SYMKRoutePlannerView {
-            plannerView.setupNavigateButtons()
-        }
         primaryRoute = route
+        routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .primary)
     }
     
     public func routing(_ routing: SYRouting, didComputeAlternativeRoute route: SYRoute?) {
         guard let route = route else { return }
         alternativeRoutes.append(route)
+        routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .alternative)
     }
     
@@ -270,6 +258,18 @@ extension SYMKRoutePlannerController: SYMKRouteSelectionDelegate {
         primaryRoute = route
         updateMapObjects()
         delegate?.routePlanner(self, switch: route, alternativeRoutes: alternativeRoutes)
+    }
+}
+
+extension SYMKRoutePlannerController: SYMKRoutesViewControllerDelegate {
+    public func routeViewControllerNavigationPressed() {
+        guard let route = primaryRoute else { return }
+        delegate?.routePlanner(self, didSelect: route, preview: false)
+    }
+    
+    public func routeViewControllerPreviewPressed() {
+        guard let route = primaryRoute else { return }
+        delegate?.routePlanner(self, didSelect: route, preview: true)
     }
 }
 
