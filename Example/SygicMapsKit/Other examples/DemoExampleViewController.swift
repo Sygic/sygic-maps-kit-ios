@@ -79,7 +79,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         let button = SYUIActionButton()
         button.style = .primary13
         button.title = LS("Get direction")
-        button.icon = SYUIIcon.directions
+        button.iconImage = SYUIIcon.getDirection
         button.height = SYUIActionButtonSize.infobar.height
         button.action = { [weak self] _ in
             guard let weakSelf = self else { return }
@@ -191,9 +191,19 @@ extension DemoViewController: SYMKNavigationViewControllerDelegate {
     
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {
         if presentedModules.last == controller {
-            browseModule.mapState.resetMapCenter()
-            dismissModule()
-            navigationController?.setNavigationBarHidden(false, animated: true)
+            finishNavigationAndRestoreBrowseMap()
         }
+    }
+    
+    func navigationControllerDidReachFinish(_ controller: SYMKNavigationViewController) {
+        if presentedModules.last == controller {
+            finishNavigationAndRestoreBrowseMap()
+        }
+    }
+    
+    private func finishNavigationAndRestoreBrowseMap() {
+        browseModule.mapState.resetMapCenter()
+        dismissModule()
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
