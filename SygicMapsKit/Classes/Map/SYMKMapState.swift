@@ -247,7 +247,21 @@ public class SYMKMapState: NSCopying {
     /// - Parameter landscape: layout orientation
     public func updateNavigatingMapCenter(_ landscape: Bool) {
         guard let camera = map?.camera else { return }
-        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.4)
+        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.25)
+        let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
+                                                      animationCurveFree: .linear,
+                                                      animationDurationFree: 0,
+                                                      transformCenterFollowGps: point,
+                                                      animationCurveFollowGps: .linear,
+                                                      animationDurationFollowGps: 0)
+        camera.setTransformCenterSettings(offsetSetting, withDuration: 1, curve: .accelerateDecelerate)
+    }
+    
+    /// Updates map camera offset to optimize view for navigating
+    /// - Parameter landscape: layout orientation
+    public func updateMapCenter(_ landscape: Bool) {
+        guard let camera = map?.camera else { return }
+        let point = landscape ? CGPoint(x: 0.7, y: 0.5) : CGPoint(x: 0.5, y: 0.5)
         let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
                                                       animationCurveFree: .linear,
                                                       animationDurationFree: 0,

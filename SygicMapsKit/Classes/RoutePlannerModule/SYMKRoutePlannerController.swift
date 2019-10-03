@@ -106,7 +106,7 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let isLandscape = size.width > size.height
-        mapState.updateNavigatingMapCenter(isLandscape)
+        mapState.updateMapCenter(isLandscape)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -124,7 +124,7 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     override internal func sygicSDKInitialized() {
         setupMapController()
-        mapState.updateNavigatingMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
+        mapState.updateMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         routingManager = SYRouting()
         routingManager?.delegate = self
         startRouting()

@@ -29,20 +29,25 @@ public class SYMKPlaceDetailViewController: UIViewController {
     
     // MARK: - Public properties
     
+    public var model: SYMKPoiDetailModel? {
+        didSet {
+            updateViewData()
+        }
+    }
+    
     public var placeView: SYUIBubbleView {
         return view as! SYUIBubbleView
     }
     
     // MARK: - Private properties
     
-    private var model: SYMKPoiDetailModel
     private var mailComposer: SYUIMailComposer?
     
     // MARK: - Public methods
     
     /// Default initializer with data model structure
-    /// - Parameter dataModel: place data
-    public required init(with dataModel: SYMKPoiDetailModel) {
+    /// - Parameter dataModel: place data. If nil, loading indicator is shown
+    public required init(with dataModel: SYMKPoiDetailModel?) {
         self.model = dataModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -87,6 +92,11 @@ public class SYMKPlaceDetailViewController: UIViewController {
     // MARK: - Private methods
     
     private func updateViewData() {
+        placeView.headerStackView.removeAll()
+        guard let model = model else {
+            placeView.addHeader(SYUIBubbleLoadingHeader())
+            return
+        }
         placeView.addHeader(with: model.poiDetailTitle, model.poiDetailSubtitle)
         if model.poiDetailContacts.count > 0 {
             addContactButton(for: .website(model.website ?? ""))
@@ -95,6 +105,11 @@ public class SYMKPlaceDetailViewController: UIViewController {
         }
         if let icon = SYUIIcon.pointOnMap {
             placeView.addContent(with: icon, title: LS("GPS coordinates"), subtitle: model.location.string)
+        }
+        for buttonView in placeView.buttonsContainer.arrangedSubviews {
+            if let button = buttonView as? SYUIActionButton {
+                button.isEnabled = true
+            }
         }
     }
     
@@ -113,7 +128,7 @@ public class SYMKPlaceDetailViewController: UIViewController {
     }
     
     private func call() {
-        guard var urlString = model.phone else { return }
+        guard var urlString = model?.phone else { return }
         if urlString.range(of: "tel:") == nil {
             urlString = String(format: "tel://%@", urlString)
         }
@@ -123,7 +138,7 @@ public class SYMKPlaceDetailViewController: UIViewController {
     }
     
     private func sendMail() {
-        guard let mail = model.email, MFMailComposeViewController.canSendMail() else { return }
+        guard let model = model, let mail = model.email, MFMailComposeViewController.canSendMail() else { return }
         mailComposer = SYUIMailComposer()
         mailComposer?.present(from: self, recipient: mail, subject: model.poiDetailTitle, body: "", completion: { [weak self] _ in
             self?.mailComposer?.dismiss(animated: true, completion: nil)
@@ -132,7 +147,7 @@ public class SYMKPlaceDetailViewController: UIViewController {
     }
     
     private func openWebpage() {
-        guard var urlString = model.website else { return }
+        guard var urlString = model?.website else { return }
         if urlString.range(of: "http:") == nil {
             urlString = String(format: "http://%@", urlString)
         }

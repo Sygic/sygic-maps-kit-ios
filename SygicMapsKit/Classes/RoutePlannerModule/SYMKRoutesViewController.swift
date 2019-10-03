@@ -112,10 +112,14 @@ public class SYMKRoutesViewController: UIViewController {
     
     private func updateViewData() {
         routesView.headerStackView.removeAll()
-        for (i, route) in routes.enumerated() {
-            routesView.addHeader(with: "Route\(i+1) (\(route.formatedDuration()))", "\(route.formattedDistance(units)) . Arrival . traffic . options")
+        if routes.count > 0 {
+            for (i, route) in routes.enumerated() {
+                routesView.addHeader(with: "Route\(i+1) (\(route.formatedDuration()))", "\(route.formattedDistance(units)) . Arrival . traffic . options")
+            }
+            navigateButton.isEnabled = routes.count > 0
+            previewButton.isEnabled = routes.count > 0
+        } else {
+            routesView.addHeader(SYUIBubbleLoadingHeader())
         }
-        navigateButton.isEnabled = routes.count > 0
-        previewButton.isEnabled = routes.count > 0
     }
 }
