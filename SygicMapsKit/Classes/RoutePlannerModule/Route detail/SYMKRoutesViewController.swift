@@ -26,8 +26,9 @@ import SygicMaps
 
 
 public protocol SYMKRoutesViewControllerDelegate: class {
-    func routeViewControllerNavigationPressed()
-    func routeViewControllerPreviewPressed()
+    func routesViewControllerNavigationPressed(_ controller: SYMKRoutesViewController)
+    func routesViewControllerPreviewPressed(_ controller: SYMKRoutesViewController)
+    func routesViewController(_ controller: SYMKRoutesViewController, switchRoute selectedRoute: SYRoute)
 }
 
 public class SYMKRoutesViewController: UIViewController {
@@ -38,8 +39,6 @@ public class SYMKRoutesViewController: UIViewController {
         return view as! SYUIBubbleView
     }
     
-    // MARK: - Private properties
-    
     public var routes = [SYRoute]() {
         didSet {
             updateViewData()
@@ -49,6 +48,16 @@ public class SYMKRoutesViewController: UIViewController {
     
     public var units: SYUIDistanceUnits = .kilometers
     
+    // MARK: - Private properties
+    
+    private var currentRouteIndex: Int = 0 {
+        didSet {
+            guard currentRouteIndex != oldValue, routes.count > 0, currentRouteIndex <= routes.count-1 else { return }
+            let route = routes[currentRouteIndex]
+            delegate?.routesViewController(self, switchRoute: route)
+        }
+    }
+    
     private lazy var navigateButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.style = .primary13
@@ -57,7 +66,7 @@ public class SYMKRoutesViewController: UIViewController {
         button.height = SYUIActionButtonSize.infobar.rawValue
         button.isEnabled = routes.count > 0
         button.action = { _ in
-            self.delegate?.routeViewControllerNavigationPressed()
+            self.delegate?.routesViewControllerNavigationPressed(self)
         }
         return button
     }()
@@ -70,7 +79,7 @@ public class SYMKRoutesViewController: UIViewController {
         button.height = SYUIActionButtonSize.infobar.rawValue
         button.isEnabled = routes.count > 0
         button.action = { _ in
-            self.delegate?.routeViewControllerPreviewPressed()
+            self.delegate?.routesViewControllerPreviewPressed(self)
         }
         return button
     }()
@@ -89,6 +98,7 @@ public class SYMKRoutesViewController: UIViewController {
     
     public override func loadView() {
         let bubbleView = SYUIBubbleView()
+        bubbleView.delegate = self
         view = bubbleView
     }
     
@@ -99,13 +109,10 @@ public class SYMKRoutesViewController: UIViewController {
         updateViewData()
     }
     
-    /// Dismiss poiDetail controller and removes him from parentViewController
-    ///
-    /// - Parameter completion: completion block
-    public func dismissPoiDetail(completion: ((_ finished: Bool)->())?) {
-        view.removeFromSuperview()
-        removeFromParent()
-        completion?(true)
+    public func switchCurrentRoute(_ route: SYRoute) {
+        let index = routes.index(of: route)
+        guard let pageIndex = index else { return }
+        routesView.updateHeaderCurrentPage(pageIndex)
     }
     
     // MARK: - Private methods
@@ -121,5 +128,12 @@ public class SYMKRoutesViewController: UIViewController {
         } else {
             routesView.addHeader(SYUIBubbleLoadingHeader())
         }
+    }
+}
+
+extension SYMKRoutesViewController: SYUIBubbleViewDelegate {
+    
+    public func bubbleView(_ view: SYUIBubbleView, didScrollHeader pageIndex: Int) {
+        currentRouteIndex = pageIndex
     }
 }
