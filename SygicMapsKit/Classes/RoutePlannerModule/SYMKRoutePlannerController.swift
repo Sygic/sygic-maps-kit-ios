@@ -209,6 +209,15 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         guard let box = boundingBox else { return }
         mapState.setMapBoundingBox(box, edgeInsets: mapInsets, duration: 1, completion: nil)
     }
+    
+    private func switchPrimaryRoute(_ newPrimaryRoute: SYRoute) {
+        guard let oldPrimaryRoute = primaryRoute, newPrimaryRoute != primaryRoute else { return }
+        alternativeRoutes.removeAll { $0 == newPrimaryRoute }
+        alternativeRoutes.append(oldPrimaryRoute)
+        primaryRoute = newPrimaryRoute
+        updateMapObjects()
+        delegate?.routePlanner(self, switch: newPrimaryRoute, alternativeRoutes: alternativeRoutes)
+    }
 }
 
 extension SYMKRoutePlannerController: SYRoutingDelegate {
@@ -224,21 +233,24 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
         primaryRoute = route
         routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .primary)
+        if !computeMultipleRoutes {
+            routing.cancelComputing()
+        }
     }
     
     public func routing(_ routing: SYRouting, didComputeAlternativeRoute route: SYRoute?) {
-        guard let route = route else { return }
+        guard computeMultipleRoutes, let route = route else { return }
         alternativeRoutes.append(route)
         routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .alternative)
     }
     
     public func routing(_ routing: SYRouting, didUpdateComputingProgress progress: Float, onRoute routeIndex: UInt) {
-        
+        // TODO:
     }
     
     public func routingDidFinishRouteCompute(_ routing: SYRouting) {
-        print("ROUTING finished")
+        // TODO:
     }
     
     public func routing(_ routing: SYRouting, computingFailedWithError error: SYRoutingError) {
@@ -252,24 +264,26 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
 extension SYMKRoutePlannerController: SYMKRouteSelectionDelegate {
     
     public func routeSelection(didSelect route: SYRoute) {
-        guard let oldPrimaryRoute = primaryRoute, route != primaryRoute else { return }
-        alternativeRoutes.removeAll { $0 == route }
-        alternativeRoutes.append(oldPrimaryRoute)
-        primaryRoute = route
-        updateMapObjects()
-        delegate?.routePlanner(self, switch: route, alternativeRoutes: alternativeRoutes)
+        guard route != primaryRoute else { return }
+        routesController.switchCurrentRoute(route)
+        switchPrimaryRoute(route)
     }
 }
 
 extension SYMKRoutePlannerController: SYMKRoutesViewControllerDelegate {
-    public func routeViewControllerNavigationPressed() {
+    
+    public func routesViewControllerNavigationPressed(_ controller: SYMKRoutesViewController) {
         guard let route = primaryRoute else { return }
         delegate?.routePlanner(self, didSelect: route, preview: false)
     }
     
-    public func routeViewControllerPreviewPressed() {
+    public func routesViewControllerPreviewPressed(_ controller: SYMKRoutesViewController) {
         guard let route = primaryRoute else { return }
         delegate?.routePlanner(self, didSelect: route, preview: true)
+    }
+    
+    public func routesViewController(_ controller: SYMKRoutesViewController, switchRoute selectedRoute: SYRoute) {
+        switchPrimaryRoute(selectedRoute)
     }
 }
 
