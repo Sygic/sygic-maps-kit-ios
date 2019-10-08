@@ -57,10 +57,13 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         presentModule(browseModule)
     }
     
-    func showPlaceDetail(with data: SYMKPoiData, loading: Bool) {
+    func showPlaceDetail(with data: SYMKPoiData, loading: Bool, zoom: Bool = false) {
         // MOVE MAP TO PLACE
         browseModule.mapState.cameraMovementMode = .free
         browseModule.mapState.geoCenter = data.location
+        if zoom {
+            browseModule.mapState.zoom = SYMKMapZoomLevels.streetsZoom
+        }
         
         // PIN
         if let pin = SYMKMapPin(data: data) {
@@ -156,7 +159,7 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
         
         guard results.count == 1, let result = results.first, let coordinate = result.coordinate else { return }
         if let placeResult = result as? SYMapSearchResultPoi {
-            showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false)
+            showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false, zoom: true)
             SYPlacesManager.sharedPlaces().loadPlace(placeResult.link) { [weak self] (place, error) in
                 guard let place = place else {
                     self?.hidePlaceDetail()
@@ -166,9 +169,9 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
             }
         } else if let mapResult = result as? SYMapSearchResult {
             guard let resultData = SYMKPoiData(with: mapResult) else { return }
-            showPlaceDetail(with: resultData, loading: false)
+            showPlaceDetail(with: resultData, loading: false, zoom: true)
         } else {
-            showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false)
+            showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false, zoom: true)
         }
     }
     

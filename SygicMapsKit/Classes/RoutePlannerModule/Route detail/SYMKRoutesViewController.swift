@@ -74,7 +74,7 @@ public class SYMKRoutesViewController: UIViewController {
     private lazy var previewButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.style = .secondary13
-        button.title = LS("routeCompute.action.demonstrate")
+        button.title = LS("routeActionMain.preview")
         button.iconImage = SYUIIcon.play
         button.height = SYUIActionButtonSize.infobar.rawValue
         button.isEnabled = routes.count > 0

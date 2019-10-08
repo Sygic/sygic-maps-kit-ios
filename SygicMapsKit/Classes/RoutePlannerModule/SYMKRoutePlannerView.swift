@@ -33,13 +33,13 @@ class SYMKRoutePlannerView: UIView {
     public var optionsButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.iconImage = SYUIIcon.options
-        button.style = .plain
+        button.style = .primary13
         return button
     }()
     
     public var backButton: SYUIActionButton = {
         let button = SYUIActionButton()
-        button.style = .secondary
+        button.style = .secondary13
         button.icon = SYUIIcon.close
         return button
     }()

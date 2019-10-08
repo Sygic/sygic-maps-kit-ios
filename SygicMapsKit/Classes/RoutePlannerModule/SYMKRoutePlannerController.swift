@@ -59,10 +59,13 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         }
     }
     
-    public var routingOptions: SYRoutingOptions?
+    public var routingOptions: SYRoutingOptions? {
+        didSet {
+            startRouting()
+        }
+    }
     
     public var useTraffic = true
-    public var computeMultipleRoutes = true
     
     public weak var delegate: SYMKRoutePlannerControllerDelegate?
     
@@ -119,7 +122,9 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     }
     
     @objc public func optionsButtonTapped() {
-        present(UINavigationController(rootViewController: SYMKRouteOptionsViewController(with: routingOptions)), animated: true, completion: nil)
+        let optionsController = SYMKRouteOptionsViewController(with: routingOptions, currentRoute: primaryRoute)
+        optionsController.delegate = self
+        present(UINavigationController(rootViewController: optionsController), animated: true, completion: nil)
     }
     
     override internal func sygicSDKInitialized() {
@@ -155,6 +160,8 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         if waypoints.count > 2 {
             actualWaypoints = Array(waypoints[1..<waypoints.count])
         }
+        primaryRoute = nil
+        alternativeRoutes.removeAll()
         routing.computeRoute(start, to: destination, via: actualWaypoints, with: routingOptions)
         zoomMap()
     }
@@ -225,6 +232,7 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
     public func routingDidStartRouteComputing(_ routing: SYRouting) {
         guard let plannerView = view as? SYMKRoutePlannerView else { return }
         plannerView.setupRoutesView(routesController.routesView)
+        routesController.routes.removeAll()
         routesController.delegate = self
     }
     
@@ -233,13 +241,10 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
         primaryRoute = route
         routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .primary)
-        if !computeMultipleRoutes {
-            routing.cancelComputing()
-        }
     }
     
     public func routing(_ routing: SYRouting, didComputeAlternativeRoute route: SYRoute?) {
-        guard computeMultipleRoutes, let route = route else { return }
+        guard let route = route else { return }
         alternativeRoutes.append(route)
         routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .alternative)
@@ -284,6 +289,12 @@ extension SYMKRoutePlannerController: SYMKRoutesViewControllerDelegate {
     
     public func routesViewController(_ controller: SYMKRoutesViewController, switchRoute selectedRoute: SYRoute) {
         switchPrimaryRoute(selectedRoute)
+    }
+}
+
+extension SYMKRoutePlannerController: SYMKRouteOptionsViewControllerDelegate {
+    public func routeOptionsController(_ controller: SYMKRouteOptionsViewController, didUpdate options: SYRoutingOptions) {
+        routingOptions = options
     }
 }
 
