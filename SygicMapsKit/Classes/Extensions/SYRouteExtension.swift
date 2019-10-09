@@ -33,17 +33,32 @@ public extension SYRoute {
         } else if useSpeedProfile {
             duration = info.durationWithSpeedProfile
         }
-        if duration < 60*60 {
-            return String(format: "%i%@", Int(duration/60), LS("min"))
-        } else {
-            let min = Float(duration).truncatingRemainder(dividingBy: 60*60)
-            return String(format: "%i%@%i%@", Int(duration/60/60), LS("h"), Int(min/60), LS("min"))
+        return formattedTimeInterval(duration)
+    }
+    
+    func formatedTrafficDelay(useSpeedProfile: Bool = true) -> String? {
+        var duration = info.durationIdeal
+        if useSpeedProfile {
+            duration = info.durationWithSpeedProfile
         }
+        let trafficDelay = info.durationWithSpeedProfileAndTraffic - duration
+        let delayMinutes = Int(trafficDelay/60)
+        guard delayMinutes > 0 else { return nil }
+        return formattedTimeInterval(trafficDelay)
     }
     
     func formattedDistance(_ units: SYUIDistanceUnits = .kilometers) -> String {
         let distance = info.length
         let formattedDistance = distance.format(toShortUnits: true, andRound: distance>1000, usingOtherThenFormattersUnits: units)
         return "\(formattedDistance.formattedDistance)\(formattedDistance.units)"
+    }
+    
+    private func formattedTimeInterval(_ timeInterval: TimeInterval) -> String {
+        if timeInterval < 60*60 {
+            return String(format: "%i%@", Int(timeInterval/60), LS("min"))
+        } else {
+            let min = Float(timeInterval).truncatingRemainder(dividingBy: 60*60)
+            return String(format: "%i%@%i%@", Int(timeInterval/60/60), LS("h"), Int(min/60), LS("min"))
+        }
     }
 }

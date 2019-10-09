@@ -35,14 +35,12 @@ public class SYMKRouteOptionsViewController: UITableViewController {
     public weak var delegate: SYMKRouteOptionsViewControllerDelegate?
     
     private var options = SYRoutingOptions()
-    
     private var transitCountries = [String]()
     private var avoidedCountries = [String]()
+    private var requiredCountries = [String]()
     private var availableAvoidsPerCountry = [String:Set<NSNumber>]()
-    
-    private var allAvodsList: [SYAvoidType] = [.toll, .ferries, .motorway, .specialArea, .unpavedRoads]
-    
     private var modified: Bool = false
+    private let allAvodsList: [SYAvoidType] = [.toll, .ferries, .motorway, .specialArea, .unpavedRoads]
     
     required public init(with options: SYRoutingOptions?, currentRoute: SYRoute?) {
         super.init(nibName: nil, bundle: nil)
@@ -50,15 +48,22 @@ public class SYMKRouteOptionsViewController: UITableViewController {
             self.options = existingOptions
         }
         if let route = currentRoute {
-            let avoidCountries = route.transitCountries
-            self.transitCountries.append(contentsOf: avoidCountries)
-            for country in avoidCountries {
+            let transitCountries = route.transitCountries
+            self.transitCountries.append(contentsOf: transitCountries)
+            for country in transitCountries {
                 availableAvoidsPerCountry[country] = route.availableAvoids(inCountry: country)
             }
+            if let startingCountry = route.maneuvers.first?.road?.country {
+                requiredCountries.append(startingCountry)
+            }
+            if let destinationCountry = route.maneuvers.last?.road?.country {
+                requiredCountries.append(destinationCountry)
+            }
+            print(requiredCountries)
         }
-        if let countryAvoids = options?.countryAvoids {
+        if let existingAvoids = options?.countryAvoids {
             let wholeCountryAvoid = NSNumber(value: SYAvoidType.country.rawValue)
-            for item in countryAvoids {
+            for item in existingAvoids {
                 let country = item.key
                 if item.value.contains(wholeCountryAvoid) {
                     avoidedCountries.append(country)
@@ -115,9 +120,9 @@ public class SYMKRouteOptionsViewController: UITableViewController {
             header.avoidButton.isHidden = true
         }else if section <= transitCountries.count {
             let country = transitCountries[section-1]
-            var canBeAvoided = false//section != 1 && section < transitCountries.count
-            if let avoids = availableAvoidsPerCountry[country] {
-                canBeAvoided = avoids.contains(NSNumber(value: SYAvoidType.country.rawValue))
+            var canBeAvoided = !requiredCountries.contains(country)
+            if canBeAvoided, let avoids = availableAvoidsPerCountry[country], !avoids.contains(NSNumber(value: SYAvoidType.country.rawValue)) {
+                canBeAvoided = false
             }
             header.countryLabel.text = LS("country.\(country.uppercased())")
             header.avoidButton.isHidden = !canBeAvoided
@@ -299,7 +304,6 @@ class SYMKRouteOptionsCountryHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        
         heightAnchor.constraint(equalToConstant: SYUIActionButtonSize.infobar.rawValue).isActive = true
         countryLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(countryLabel)
@@ -313,5 +317,24 @@ class SYMKRouteOptionsCountryHeader: UITableViewHeaderFooterView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public extension SYAvoidType {
+    var icon: String? {
+        switch self {
+        case .ferries:
+            return SYUIIcon.avoidFerry
+        case .motorway:
+            return SYUIIcon.avoidHighways
+        case .toll:
+            return SYUIIcon.avoidTollRoads
+        case .unpavedRoads:
+            return SYUIIcon.avoidUnpaved
+        case .specialArea:
+            return SYUIIcon.avoidCongestion
+        default:
+            return nil
+        }
     }
 }

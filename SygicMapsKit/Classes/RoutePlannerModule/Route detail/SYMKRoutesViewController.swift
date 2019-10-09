@@ -48,6 +48,12 @@ public class SYMKRoutesViewController: UIViewController {
     
     public var units: SYUIDistanceUnits = .kilometers
     
+    private let timeFormatter: DateFormatter = {
+        let timeFormater = DateFormatter()
+        timeFormater.timeStyle = .short
+        return timeFormater
+    }()
+    
     // MARK: - Private properties
     
     private var currentRouteIndex: Int = 0 {
@@ -121,13 +127,56 @@ public class SYMKRoutesViewController: UIViewController {
         routesView.headerStackView.removeAll()
         if routes.count > 0 {
             for (i, route) in routes.enumerated() {
-                routesView.addHeader(with: "Route\(i+1) (\(route.formatedDuration()))", "\(route.formattedDistance(units)) . Arrival . traffic . options")
+                let header = SYUIBubbleHeader()
+                header.titleLabel.attributedText = attributedRouteTitle(for: route, index: i, defaultAttributes: [.font: header.titleLabel.font])
+                header.descriptionLabel.attributedText = attributedRouteDescription(for: route, defaultAttributes: [.font: header.descriptionLabel.font])
+                routesView.addHeader(header)
             }
             navigateButton.isEnabled = routes.count > 0
             previewButton.isEnabled = routes.count > 0
         } else {
             routesView.addHeader(SYUIBubbleLoadingHeader())
         }
+    }
+    
+    private func attributedRouteTitle(for route: SYRoute, index: Int, defaultAttributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
+        let titleText = "Route\(index+1) (\(route.formatedDuration()))"
+        let attributedDescripton = NSMutableAttributedString()
+        attributedDescripton.append(NSAttributedString(string: titleText, attributes: defaultAttributes))
+        if let delay = route.formatedTrafficDelay() {
+            let trafficString = " \(SYUIIcon.traffic) \(delay)"
+            let attributedTraffic = NSAttributedString(string: trafficString, attributes: [.font: SYUIFont.iconFontWith(size: SYUIFontSize.headingOld)!, .foregroundColor: UIColor.error])
+            attributedDescripton.append(attributedTraffic)
+        }
+        return attributedDescripton
+    }
+    
+    private func attributedRouteDescription(for route: SYRoute, defaultAttributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
+        let routeEta = Date(timeIntervalSinceNow: route.info.durationWithSpeedProfileAndTraffic)
+        let text = "\(route.formattedDistance(units)) . \(LS("routeCompute.etaArrival")) \(timeFormatter.string(from: routeEta))"
+        let attributedDescripton = NSMutableAttributedString()
+        attributedDescripton.append(NSAttributedString(string: text, attributes: defaultAttributes))
+        if let avoids = attributedStringFromAvoids(on: route) {
+            attributedDescripton.append(NSAttributedString(string: "・", attributes: defaultAttributes))
+            attributedDescripton.append(avoids)
+        }
+        return attributedDescripton
+    }
+    
+    private func attributedStringFromAvoids(on route: SYRoute) -> NSAttributedString? {
+        var routeAvoids = Set<SYAvoidType>()
+        for transit in route.transitCountries {
+            let countryAvoids = route.availableAvoids(inCountry: transit)
+            for avoidNumber in countryAvoids {
+                guard let avoid = SYAvoidType(rawValue: avoidNumber.intValue) else { continue }
+                routeAvoids.insert(avoid)
+            }
+        }
+        let avoidsIcons = routeAvoids.compactMap { $0.icon }
+        if !avoidsIcons.isEmpty {
+            return NSAttributedString(string: avoidsIcons.compactConcate(), attributes: [.font: SYUIFont.iconFontWith(size: SYUIFontSize.bodyOld)!, .baselineOffset : -2])
+        }
+        return nil
     }
 }
 
