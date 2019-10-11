@@ -117,6 +117,7 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     }
     
     override internal func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         setupMapController()
         mapState.updateMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         routingManager = SYRouting()

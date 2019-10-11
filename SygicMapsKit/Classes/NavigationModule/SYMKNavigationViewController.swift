@@ -297,6 +297,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     public override func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         triggerUserLocation(true)
         setupMapController()
         if useCurrentSpeed {

@@ -273,6 +273,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     }
     
     internal override func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         setupMapController()
         let applyLocationValue = showUserLocation
         showUserLocation = applyLocationValue

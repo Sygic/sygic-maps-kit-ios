@@ -97,6 +97,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     // MARK: - Public methods
     
     override func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         model = SYMKSearchModel(maxResultsCount: maxResultsCount, location: searchLocation)
         searchBarController.delegate = self
         if !searchBarController.searchText.isEmpty {

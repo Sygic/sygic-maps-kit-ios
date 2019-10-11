@@ -33,7 +33,7 @@ public class SYMKModuleViewController: UIViewController {
     /// You can pass state by reference or create copy with `SYMKMapState` `copy()` method and
     /// pass new instance. So you just change state of new module.
     public var mapState: SYMKMapState = SYMKMapState()
-    private var positioning = SYPositioning()
+    private var positioning: SYPositioning?
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +57,9 @@ public class SYMKModuleViewController: UIViewController {
     ///
     /// Override this method in subclass. Use this override like `viewDidLoad`
     /// for module, because `viewDidLoad` is used for SDK initialize.
-    internal func sygicSDKInitialized() { }
+    internal func sygicSDKInitialized() {
+        positioning = SYPositioning()
+    }
     
     /// Method called after Sygic SDK initialization fails.
     ///
@@ -74,9 +76,9 @@ public class SYMKModuleViewController: UIViewController {
     public func triggerUserLocation(_ startUpdating: Bool) {
         guard SYMKSdkManager.shared.isSdkInitialized else { return }
         if startUpdating {
-            positioning.startUpdatingPosition()
+            positioning?.startUpdatingPosition()
         } else {
-            positioning.stopUpdatingPosition()
+            positioning?.stopUpdatingPosition()
         }
     }
 }

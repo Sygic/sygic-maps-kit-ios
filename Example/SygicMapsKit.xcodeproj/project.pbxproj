@@ -11,6 +11,7 @@
 		43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43161C17230425FD00E00BDF /* fanfare.mp3 */; };
 		436475E0231FCF5C00587354 /* DemoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436475DF231FCF5C00587354 /* DemoExampleViewController.swift */; };
 		436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */; };
+		43696AC123509063007A3F46 /* customSkins in Resources */ = {isa = PBXBuildFile; fileRef = 43696AC023509063007A3F46 /* customSkins */; };
 		43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAC22CB7034002C09C2 /* RoutingHelper.swift */; };
 		43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */; };
 		438BCCD423338D20000FB511 /* RoutePlannerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438BCCD323338D20000FB511 /* RoutePlannerExampleViewController.swift */; };
@@ -86,6 +87,7 @@
 		43161C17230425FD00E00BDF /* fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fanfare.mp3; sourceTree = "<group>"; };
 		436475DF231FCF5C00587354 /* DemoExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExampleViewController.swift; sourceTree = "<group>"; };
 		436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExamplesTableViewController.swift; sourceTree = "<group>"; };
+		43696AC023509063007A3F46 /* customSkins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = customSkins; sourceTree = "<group>"; };
 		43854DAC22CB7034002C09C2 /* RoutingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingHelper.swift; sourceTree = "<group>"; };
 		43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationNavigationExampleViewController.swift; sourceTree = "<group>"; };
 		438BCCD323338D20000FB511 /* RoutePlannerExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePlannerExampleViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,16 @@
 				DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		43696ABB23508F1F007A3F46 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43696AC023509063007A3F46 /* customSkins */,
+				43161C17230425FD00E00BDF /* fanfare.mp3 */,
+				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		438BCCD223338C8E000FB511 /* Route planner */ = {
@@ -324,9 +336,8 @@
 				5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */,
 				5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
-				43161C17230425FD00E00BDF /* fanfare.mp3 */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				43696ABB23508F1F007A3F46 /* Resources */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for SygicMapsKit";
@@ -558,6 +569,7 @@
 				5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				43696AC123509063007A3F46 /* customSkins in Resources */,
 				438D181F22FAE4D6002DF224 /* MapPackageCell.xib in Resources */,
 				43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,

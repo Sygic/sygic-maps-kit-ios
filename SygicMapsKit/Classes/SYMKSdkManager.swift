@@ -42,10 +42,15 @@ public class SYMKSdkManager {
         }
     }
     
+    /// Path to custom map skins
+    public var customSkinPath: String?
+    
     /// Boolean value, whether sdk is initialized or not.
     public var isSdkInitialized: Bool {
         return SYContext.isInitialized()
     }
+    
+    public typealias SYMKSdkSettings = [AnyHashable:Any]
     
     // MARK: - Private Properties
     private var initializing = false
@@ -78,7 +83,8 @@ public class SYMKSdkManager {
         }
         guard !initializing else { return }
         initializing = true
-        SYContext.initWithAppKey(SYMKApiKeys.appKey, appSecret: SYMKApiKeys.appSecret, onlineRoutingKey: SYMKApiKeys.routingKey) { initResult in
+        
+        SYContext.initWithConfiguration(customSdkSettings()) { initResult in
             DispatchQueue.main.async {
                 self.lock.wait()
                 let success = initResult == .success
@@ -109,4 +115,14 @@ public class SYMKSdkManager {
         SYContext.terminate()
     }
     
+    private func customSdkSettings() -> SYMKSdkSettings {
+        var settings: SYMKSdkSettings = [:]
+        settings["Authentication"] = ["app_key": SYMKApiKeys.appKey,
+                                      "app_secret": SYMKApiKeys.appSecret]
+        settings["Online"] = ["Routing": ["api_key": SYMKApiKeys.routingKey]]
+        if let skins = customSkinPath {
+            settings["StorageFolders"] = ["skin": skins]
+        }
+        return settings
+    }
 }
