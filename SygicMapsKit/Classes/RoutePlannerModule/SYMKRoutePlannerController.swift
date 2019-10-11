@@ -170,9 +170,27 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     }
     
     @objc private func optionsButtonTapped() {
+        let optionsAction = UIAlertAction(title: LS("routeCompute.options.title"), style: .default, handler: { [weak self] _ in
+            self?.showRouteOptions()
+        })
+        let waypointsAction = UIAlertAction(title: LS("detail.action.addVia"), style: .default, handler: { [weak self] _ in
+            self?.showWaypointsEditor()
+        })
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(optionsAction)
+        actionSheet.addAction(waypointsAction)
+        actionSheet.addAction(UIAlertAction(title: LS("Cancel"), style: .cancel, handler: nil))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func showRouteOptions() {
         let optionsController = SYMKRouteOptionsViewController(with: routingOptions, currentRoute: primaryRoute)
         optionsController.delegate = self
         present(UINavigationController(rootViewController: optionsController), animated: true, completion: nil)
+    }
+    
+    private func showWaypointsEditor() {
+        
     }
 }
 
