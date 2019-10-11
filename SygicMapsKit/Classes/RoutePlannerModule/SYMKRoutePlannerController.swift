@@ -53,15 +53,19 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     // MARK: - Public Properties
     
+    /// Waypoints define a route's stopovers, including its start point it's destination point and any points in between.
+    /// Changing waypoints array will trigger route computing
     public var waypoints = [SYWaypoint]() {
         didSet {
-            startRouting()
+            computeRoute()
         }
     }
     
+    /// All available options for route computing algorithm
+    /// Changing waypoints array will trigger route computing
     public var routingOptions: SYRoutingOptions? {
         didSet {
-            startRouting()
+            computeRoute()
         }
     }
     
@@ -70,19 +74,19 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     public weak var delegate: SYMKRoutePlannerControllerDelegate?
     
     public var primaryRoute: SYRoute? {
-        didSet {
-            updateMapObjects()
-        }
+        return routeSelectionManager?.primaryRoute
     }
-    public var alternativeRoutes = [SYRoute]() {
-        didSet {
-            updateMapObjects()
-        }
+    
+    public var alternativeRoutes: [SYRoute] {
+        return routeSelectionManager?.alternativeRoutes ?? []
     }
     
     public var units: SYUIDistanceUnits = .kilometers {
         didSet {
             routesController.units = units
+            if let routesSelectionManager = mapController?.selectionManager as? SYMKRouteSelectionManager {
+                routesSelectionManager.units = units
+            }
         }
     }
     
@@ -94,7 +98,7 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     
     private var mapController: SYMKMapController?
     private var routingManager: SYRouting?
-    private var mapObjects = [SYMapObject]()
+    private var routeSelectionManager: SYMKRouteSelectionManager?
     private var routesController = SYMKRoutesViewController()
     
     // MARK: - Public Methods
@@ -112,29 +116,31 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         mapState.updateMapCenter(isLandscape)
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
-        removeAllMapObjects()
-        super.viewWillDisappear(animated)
-    }
-    
-    @objc public func backButtonTapped() {
-        delegate?.routePlannerDidCancel(self)
-    }
-    
-    @objc public func optionsButtonTapped() {
-        let optionsController = SYMKRouteOptionsViewController(with: routingOptions, currentRoute: primaryRoute)
-        optionsController.delegate = self
-        present(UINavigationController(rootViewController: optionsController), animated: true, completion: nil)
-    }
-    
     override internal func sygicSDKInitialized() {
         setupMapController()
         mapState.updateMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         routingManager = SYRouting()
         routingManager?.delegate = self
-        startRouting()
+        computeRoute()
     }
     
+    /// Starts route computing.
+    /// Method is triggered automatically when waypoints or routingOptions have changed.
+    public func computeRoute() {
+        guard waypoints.count >= 2, let routing = routingManager else { return }
+        routing.cancelComputing()
+        let start = waypoints.first!
+        let destination = waypoints.last!
+        var actualWaypoints: [SYWaypoint]?
+        if waypoints.count > 2 {
+            actualWaypoints = Array(waypoints[1..<waypoints.count])
+        }
+        routeSelectionManager?.removeAllMapRoutes()
+        routing.computeRoute(start, to: destination, via: actualWaypoints, with: routingOptions)
+        zoomMap()
+    }
+    
+    /// Cances route computing
     public func cancelComputing() {
         routingManager?.cancelComputing()
     }
@@ -147,83 +153,25 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         let routeSelectionManager = SYMKRouteSelectionManager(with: .routeAndRouteLabel)
         routeSelectionManager.delegate = self
         mapController.selectionManager = routeSelectionManager
+        self.routeSelectionManager = routeSelectionManager
         (view as! SYMKRoutePlannerView).setupMapView(mapController.mapView)
         self.mapController = mapController
     }
     
-    private func startRouting() {
-        routingManager?.cancelComputing()
-        guard waypoints.count >= 2, let routing = routingManager else { return }
-        let start = waypoints.first!
-        let destination = waypoints.last!
-        var actualWaypoints: [SYWaypoint]?
-        if waypoints.count > 2 {
-            actualWaypoints = Array(waypoints[1..<waypoints.count])
-        }
-        primaryRoute = nil
-        alternativeRoutes.removeAll()
-        routing.computeRoute(start, to: destination, via: actualWaypoints, with: routingOptions)
-        zoomMap()
-    }
-    
-    private func updateMapObjects() {
-        removeAllMapObjects()
-        guard let primaryRoute = primaryRoute else { return }
-        addMapRoute(to: primaryRoute, primary: true)
-        for route in alternativeRoutes {
-            addMapRoute(to: route)
-        }
-        mapState.map?.add(mapObjects)
-        zoomMap()
-    }
-    
-    private func removeAllMapObjects() {
-        mapState.map?.remove(mapObjects)
-        mapObjects.removeAll()
-    }
-    
-    private func addMapRoute(to route: SYRoute, primary: Bool = false) {
-        let labelStyle: SYMapObjectTextStyle
-        if primary {
-            labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .bold, textColor: .action, borderSize: 0, borderColor: nil)
-        } else {
-            labelStyle = SYMapObjectTextStyle(fontSize: 17, fontStyle: .regular, textColor: .gray, borderSize: 0, borderColor: nil)
-        }
-        let mapRouteLabel = SYMapRouteLabel(text: "\(route.formattedDistance(units)) / \(route.formatedDuration())", textStyle: labelStyle, placeOn: route)
-        let mapRoute = SYMapRoute(route: route, type: primary ? .primary : .alternative)
-        mapObjects.append(mapRoute)
-        mapObjects.append(mapRouteLabel)
-    }
-    
     private func zoomMap() {
         view.layoutIfNeeded()
-        var boundingBox: SYGeoBoundingBox?
-        if let route = primaryRoute {
-            boundingBox = route.box
-            for alternative in alternativeRoutes {
-                if let newBox = boundingBox!.union(with: alternative.box) {
-                    boundingBox = newBox
-                }
-            }
-        } else if let startWP = waypoints.first, waypoints.count > 1 {
-            boundingBox = SYGeoBoundingBox(bottomLeft: startWP.originalPosition, topRight: startWP.originalPosition)
-            for wp in waypoints {
-                if let newBox = boundingBox!.union(with: SYGeoBoundingBox(bottomLeft: wp.originalPosition, topRight: wp.originalPosition)) {
-                    boundingBox = newBox
-                }
-            }
-        }
-        guard let box = boundingBox else { return }
+        guard let box = routeSelectionManager?.routesBoundingBox ?? waypoints.boundingBox else { return }
         mapState.setMapBoundingBox(box, edgeInsets: mapInsets, duration: 1, completion: nil)
     }
     
-    private func switchPrimaryRoute(_ newPrimaryRoute: SYRoute) {
-        guard let oldPrimaryRoute = primaryRoute, newPrimaryRoute != primaryRoute else { return }
-        alternativeRoutes.removeAll { $0 == newPrimaryRoute }
-        alternativeRoutes.append(oldPrimaryRoute)
-        primaryRoute = newPrimaryRoute
-        updateMapObjects()
-        delegate?.routePlanner(self, switch: newPrimaryRoute, alternativeRoutes: alternativeRoutes)
+    @objc private func backButtonTapped() {
+        delegate?.routePlannerDidCancel(self)
+    }
+    
+    @objc private func optionsButtonTapped() {
+        let optionsController = SYMKRouteOptionsViewController(with: routingOptions, currentRoute: primaryRoute)
+        optionsController.delegate = self
+        present(UINavigationController(rootViewController: optionsController), animated: true, completion: nil)
     }
 }
 
@@ -238,14 +186,14 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
     
     public func routing(_ routing: SYRouting, didComputePrimaryRoute route: SYRoute?) {
         guard let route = route else { return }
-        primaryRoute = route
+        routeSelectionManager?.addMapRoute(from: route, type: .primary)
         routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .primary)
     }
     
     public func routing(_ routing: SYRouting, didComputeAlternativeRoute route: SYRoute?) {
         guard let route = route else { return }
-        alternativeRoutes.append(route)
+        routeSelectionManager?.addMapRoute(from: route, type: .alternative)
         routesController.routes.append(route)
         delegate?.routePlanner(self, didCompute: route, type: .alternative)
     }
@@ -268,10 +216,13 @@ extension SYMKRoutePlannerController: SYRoutingDelegate {
 
 extension SYMKRoutePlannerController: SYMKRouteSelectionDelegate {
     
-    public func routeSelection(didSelect route: SYRoute) {
-        guard route != primaryRoute else { return }
+    public func routeSelection(_ manager: SYMKRouteSelectionManager, didSelect route: SYRoute) {
         routesController.switchCurrentRoute(route)
-        switchPrimaryRoute(route)
+        delegate?.routePlanner(self, switch: route, alternativeRoutes: alternativeRoutes)
+    }
+    
+    public func routeSelection(_ manager: SYMKRouteSelectionManager, didUpdate mapObjects: [SYMapObject]) {
+        zoomMap()
     }
 }
 
@@ -288,11 +239,13 @@ extension SYMKRoutePlannerController: SYMKRoutesViewControllerDelegate {
     }
     
     public func routesViewController(_ controller: SYMKRoutesViewController, switchRoute selectedRoute: SYRoute) {
-        switchPrimaryRoute(selectedRoute)
+        guard let routesManager = mapController?.selectionManager as? SYMKRouteSelectionManager else { return }
+        routesManager.switchPrimaryRoute(selectedRoute)
     }
 }
 
 extension SYMKRoutePlannerController: SYMKRouteOptionsViewControllerDelegate {
+    
     public func routeOptionsController(_ controller: SYMKRouteOptionsViewController, didUpdate options: SYRoutingOptions) {
         routingOptions = options
     }
