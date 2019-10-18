@@ -45,11 +45,14 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
     
     lazy var searchModule: SYMKSearchViewController = {
         let search = SYMKSearchViewController()
+        search.multipleResultsSelection = false
         search.delegate = self
         return search
     }()
     
     var placeDetail: SYMKPlaceDetailViewController?
+    
+    var addWaypointToRouteBlock: SYMKRouteWaypointsAddBlock?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,12 +76,12 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         
         // CUSTOM PLACE DETAIL WITH NAVIGATION BUTTON
         let placeController = SYMKPlaceDetailViewController(with: loading ? nil : data)
-        placeController.placeView.addActionButton(placeDetailActionButton(for: data, isEnabled: !loading))
+        placeController.placeView.addActionButton(placeDetailActionButton(isEnabled: !loading))
         placeController.presentPlaceDetailAsChildViewController(to: browseModule, landscapeLayout: UIApplication.shared.statusBarOrientation.isLandscape, animated: true, completion: nil)
         placeDetail = placeController
     }
     
-    func placeDetailActionButton(for data: SYMKPoiData, isEnabled: Bool) -> SYUIActionButton {
+    func placeDetailActionButton(isEnabled: Bool) -> SYUIActionButton {
         let button = SYUIActionButton()
         button.style = .primary13
         button.title = LS("Get direction")
@@ -86,7 +89,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         button.height = SYUIActionButtonSize.infobar.height
         button.isEnabled = isEnabled
         button.action = { [weak self] _ in
-            guard let weakSelf = self else { return }
+            guard let weakSelf = self, let data = weakSelf.placeDetail?.model as? SYMKPoiData else { return }
             weakSelf.computeRoute(to: data)
             weakSelf.hidePlaceDetail()
         }
@@ -100,13 +103,17 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
     }
     
     func computeRoute(to placeData: SYMKPoiData) {
-        guard let myPosition = SYPosition.lastKnownLocation(), let myLocation = myPosition.coordinate else { return }
-        let startWP = SYWaypoint(position: myLocation, type: .start, name: "Current location")
-        let endWP = SYWaypoint(position: placeData.location, type: .end, name: placeData.name)
+        var waypoints = [SYWaypoint]()
+        if let startWP = SYWaypoint.currentLocationWaypoint() {
+            waypoints.append(startWP)
+        }
+        waypoints.append(SYWaypoint(position: placeData.location, type: .end, name: placeData.poiDetailTitle))
         let routePlannerModule = SYMKRoutePlannerController()
         routePlannerModule.mapState = browseModule.mapState
+        routePlannerModule.useCancelButton = true
+        routePlannerModule.useOptionsButton = true
         routePlannerModule.delegate = self
-        routePlannerModule.waypoints = [startWP, endWP]
+        routePlannerModule.waypoints = waypoints
         presentModule(routePlannerModule)
     }
     
@@ -158,6 +165,14 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
         dismissModule()
         
         guard results.count == 1, let result = results.first, let coordinate = result.coordinate else { return }
+        
+        if let addWaypoint = addWaypointToRouteBlock {
+            let newWaypoint = SYWaypoint(position: coordinate, type: .end, name: result.title?.string)
+            addWaypoint(newWaypoint)
+            addWaypointToRouteBlock = nil
+            return
+        }
+        
         if let placeResult = result as? SYMapSearchResultPoi {
             showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false, zoom: true)
             SYPlacesManager.sharedPlaces().loadPlace(placeResult.link) { [weak self] (place, error) in
@@ -176,6 +191,7 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
     }
     
     func searchControllerDidCancel(_ searchController: SYMKSearchViewController) {
+        addWaypointToRouteBlock = nil
         searchController.prefillSearch(with: "")
         dismissModule()
     }
@@ -193,6 +209,11 @@ extension DemoViewController: SYMKRoutePlannerControllerDelegate {
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {
         browseModule.mapState.resetMapCenter()
         dismissModule()
+    }
+    
+    func routePlanner(_ planner: SYMKRoutePlannerController, wantsAddNewWaypoint newWaypointBlock: @escaping SYMKRouteWaypointsAddBlock) {
+        addWaypointToRouteBlock = newWaypointBlock
+        presentModule(searchModule)
     }
 }
 

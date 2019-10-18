@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */; };
 		43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43161C17230425FD00E00BDF /* fanfare.mp3 */; };
+		434F2E722355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F2E712355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift */; };
 		436475E0231FCF5C00587354 /* DemoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436475DF231FCF5C00587354 /* DemoExampleViewController.swift */; };
 		436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */; };
 		43696AC123509063007A3F46 /* customSkins in Resources */ = {isa = PBXBuildFile; fileRef = 43696AC023509063007A3F46 /* customSkins */; };
@@ -85,6 +86,7 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButtonsExampleViewController.swift; sourceTree = "<group>"; };
 		43161C17230425FD00E00BDF /* fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fanfare.mp3; sourceTree = "<group>"; };
+		434F2E712355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePlannerWithWaypointsExampleViewController.swift; sourceTree = "<group>"; };
 		436475DF231FCF5C00587354 /* DemoExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExampleViewController.swift; sourceTree = "<group>"; };
 		436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExamplesTableViewController.swift; sourceTree = "<group>"; };
 		43696AC023509063007A3F46 /* customSkins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = customSkins; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				438BCCD323338D20000FB511 /* RoutePlannerExampleViewController.swift */,
+				434F2E712355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift */,
 			);
 			path = "Route planner";
 			sourceTree = "<group>";
@@ -792,6 +795,7 @@
 				43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
+				434F2E722355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
 				5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,

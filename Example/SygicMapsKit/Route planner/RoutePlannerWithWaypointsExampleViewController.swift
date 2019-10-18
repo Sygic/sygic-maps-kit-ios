@@ -1,4 +1,4 @@
-//// RoutePlannerExampleViewController.swift
+//// RoutePlannerWithWaypointsExampleViewController.swift
 // 
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -25,7 +25,7 @@ import SygicMaps
 import SygicMapsKit
 
 
-class RoutePlannerExampleViewController: UIViewController, SYMKModulePresenter {
+class RoutePlannerWithWaypointsExampleViewController: UIViewController, SYMKModulePresenter {
     
     var presentedModules = [SYMKModuleViewController]()
     let routePlannerModule = SYMKRoutePlannerController()
@@ -34,28 +34,20 @@ class RoutePlannerExampleViewController: UIViewController, SYMKModulePresenter {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        let start = SYWaypoint(position: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788), type: .start, name: "Start waypoint")
+        let end = SYWaypoint(position: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420), type: .end, name: "End waypoint")
+        routePlannerModule.waypoints = [start, end]
+        routePlannerModule.useOptionsButton = true
+        routePlannerModule.useCancelButton = true
         routePlannerModule.delegate = self
         presentModule(routePlannerModule)
     }
 }
 
-extension RoutePlannerExampleViewController: SYMKRoutePlannerControllerDelegate {
-    func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool) {}
+extension RoutePlannerWithWaypointsExampleViewController: SYMKRoutePlannerControllerDelegate {
+    func routePlanner(_ planner: SYMKRoutePlannerController, didSelect route: SYRoute, preview: Bool) {
+    }
     
-    func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {}
-    
-    func routePlanner(_ planner: SYMKRoutePlannerController, wantsAddNewWaypoint newWaypointBlock: @escaping SYMKRouteWaypointsAddBlock) {
-        let search = SYMKSearchViewController()
-        search.multipleResultsSelection = false
-        search.searchBlock = { [weak self] results in
-            self?.dismissModule()
-            let result = results.first { $0.coordinate != nil }
-            guard let foundedResult = result else { return }
-            newWaypointBlock(SYWaypoint(position: foundedResult.coordinate!, type: .end, name: foundedResult.title?.string))
-        }
-        search.cancelBlock = { [weak self] in
-            self?.dismissModule()
-        }
-        presentModule(search)
+    func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {
     }
 }

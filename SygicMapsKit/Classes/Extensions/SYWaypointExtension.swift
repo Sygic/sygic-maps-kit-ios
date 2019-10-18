@@ -1,4 +1,4 @@
-//// SYViewObjectExtension.swift
+//// SYWaypointExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,34 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
 import SygicMaps
+import SygicUIKit
 
 
-public enum SYMKSelectionType {
-    case marker
-    case route
-    case routeLabel
-    case poi
-    case other
-}
-
-extension SYViewObject {
-    
-    var selectionType: SYMKSelectionType {
-        if let mapObject = self as? SYMapObject {
-            switch mapObject.mapObjectType {
-            case .marker: return .marker
-            case .route: return .route
-            case .routeLabel: return .routeLabel
-            default: return .other
-            }
-        } else if let proxyObject = self as? SYProxyObject {
-            switch proxyObject.type {
-            case .poi: return .poi
-            default: return .other
-            }
-        }
-        return .other
+public extension SYWaypoint {
+    static var currentLocationIdentifier: String {
+        LS("Current location")
     }
     
+    static func currentLocationWaypoint() -> SYWaypoint? {
+        guard let location = SYPosition.lastKnownLocation()?.coordinate else { return nil }
+        return SYWaypoint(position: location, type: .start, name: SYWaypoint.currentLocationIdentifier)
+    }
+    
+    var isCurrentLocationWaypoint: Bool {
+        return name == SYWaypoint.currentLocationIdentifier
+    }
 }

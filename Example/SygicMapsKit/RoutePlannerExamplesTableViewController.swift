@@ -27,7 +27,8 @@ import SygicMapsKit
 class RoutePlannerExamplesTableViewController: UITableViewController {
     
     let modulesData = [
-        ModuleData(title: "Route planner", subtitle: "Route planner with predefined waypoints", image: "preview-navigation-demo"),
+        ModuleData(title: "Route planner", subtitle: "Empty default route planner module", image: "preview-navigation-demo"),
+        ModuleData(title: "Routes preview", subtitle: "Route planner with predefined waypoints", image: "preview-navigation-demo"),
     ]
     
     private let cellHeight: CGFloat = 330
@@ -59,6 +60,8 @@ class RoutePlannerExamplesTableViewController: UITableViewController {
         switch indexPath.row {
         case 0:
             navigationController?.pushViewController(RoutePlannerExampleViewController(), animated: true)
+        case 1:
+            navigationController?.pushViewController(RoutePlannerWithWaypointsExampleViewController(), animated: true)
         default:
             break
         }

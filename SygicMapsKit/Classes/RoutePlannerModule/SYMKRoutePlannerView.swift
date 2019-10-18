@@ -26,7 +26,7 @@ import UIKit
 
 class SYMKRoutePlannerView: UIView {
     
-    private let sideMargin: CGFloat = 16
+    // MARK: - Public properties
     
     public private(set) weak var mapView: UIView?
     
@@ -45,6 +45,14 @@ class SYMKRoutePlannerView: UIView {
     }()
     
     public var routesView: SYUIBubbleView?
+    
+    public var waypointsView: SYUIBubbleView?
+    
+    // MARK: - Private properties
+    
+    private let sideMargin: CGFloat = 16
+    
+    // MARK: - Public methods
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,23 +81,29 @@ class SYMKRoutePlannerView: UIView {
         routesView = view
     }
     
-    private func setupUI() {
-        backgroundColor = UIColor.gray
-        setupBackButton()
-        setupOptionsButton()
+    public func setupWaypointsView(_ view: SYUIBubbleView) {
+        guard waypointsView == nil else { return }
+        view.addToView(self, landscapeLayout: SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection), animated: true, completion: nil)
+        waypointsView = view
     }
     
-    private func setupBackButton() {
+    public func setupBackButton() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backButton)
         backButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
         backButton.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
     }
     
-    private func setupOptionsButton() {
+    public func setupOptionsButton() {
         optionsButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(optionsButton)
         optionsButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
         optionsButton.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupUI() {
+        backgroundColor = UIColor.gray
     }
 }

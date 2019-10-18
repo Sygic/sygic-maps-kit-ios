@@ -31,17 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
-        let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
-        let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
-        
-        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
-
+        let appKey = ""
+        let appSecret = ""
+        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
         return true
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
         SYMKSdkManager.shared.terminate()
     }
-
 }

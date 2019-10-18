@@ -454,8 +454,8 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
         }
     }
     
-    public func navigation(_ observer: SYNavigationObserver, didUpdate route: SYRoute?) {
-        guard let newRoute = route else { return }
+    public func navigation(_ navigation: SYNavigationObserver, didUpdate route: SYRoute?, with status: SYRouteUpdateStatus) {
+        guard let newRoute = route, status == .success else { return }
         self.route = newRoute
         if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
             infobarController?.updateRouteProgress(progress)

@@ -74,6 +74,12 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     /// Delegate output for search controller.
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
+    /// Block called after search controller has searched and selected results
+    public var searchBlock: ((_ results: [SYSearchResult])->())?
+    
+    /// Block called after search has canceled
+    public var cancelBlock: (()->())?
+    
     /// Search find results around this location. If it is not set, user location is used.
     ///
     /// If search location is not set and user doesn't have valid location, search engine try to search whole world for most relevant results.
@@ -89,6 +95,9 @@ public class SYMKSearchViewController: SYMKModuleViewController {
             model?.maxResultsCount = maxResultsCount
         }
     }
+    
+    /// Allows multiple results to be returned by `delegate` or `searchBlock`
+    public var multipleResultsSelection: Bool = true
     
     // MARK: - Private properties
     
@@ -108,7 +117,9 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         }
         resultsViewController.selectionBlock = { [weak self] searchResult in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.searchController(strongSelf, didSearched: [searchResult])
+            let results = [searchResult]
+            strongSelf.delegate?.searchController(strongSelf, didSearched: results)
+            strongSelf.searchBlock?(results)
         }
     }
     
@@ -161,7 +172,6 @@ public class SYMKSearchViewController: SYMKModuleViewController {
             return error?.searchErrorMessage()
         }
     }
-    
 }
 
 extension SYMKSearchViewController: SYUISearchBarDelegate {
@@ -175,11 +185,14 @@ extension SYMKSearchViewController: SYUISearchBarDelegate {
     public func searchBarDidEndEditing() { }
     
     public func searchBarSearchButtonClicked() {
-        delegate?.searchController(self, didSearched: resultsViewController.data)
+        guard multipleResultsSelection else { return }
+        let results = resultsViewController.data
+        delegate?.searchController(self, didSearched: results)
+        searchBlock?(results)
     }
     
     public func searchBarCancelButtonClicked() {
         delegate?.searchControllerDidCancel(self)
+        cancelBlock?()
     }
-    
 }

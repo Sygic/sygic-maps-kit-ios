@@ -127,6 +127,8 @@ extension SYRoutingError {
             return "mapNotAvailable"
         case .selectionOutsideOfMap:
             return "selectionOutsideOfMap"
+        case .noLicense:
+            return "noLicence"
         }
     }
 }

@@ -77,19 +77,6 @@ public class SYMKRoutesViewController: UIViewController {
         return button
     }()
     
-    private lazy var previewButton: SYUIActionButton = {
-        let button = SYUIActionButton()
-        button.style = .secondary13
-        button.title = LS("routeActionMain.preview")
-        button.iconImage = SYUIIcon.play
-        button.height = SYUIActionButtonSize.infobar.rawValue
-        button.isEnabled = routes.count > 0
-        button.action = { _ in
-            self.delegate?.routesViewControllerPreviewPressed(self)
-        }
-        return button
-    }()
-    
     // MARK: - Public methods
     
     /// Default initializer with data model structure
@@ -110,7 +97,6 @@ public class SYMKRoutesViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        routesView.addActionButton(previewButton)
         routesView.addActionButton(navigateButton)
         updateViewData()
     }
@@ -125,6 +111,7 @@ public class SYMKRoutesViewController: UIViewController {
     
     private func updateViewData() {
         routesView.headerStackView.removeAll()
+        routesView.contentContainer.removeAll()
         if routes.count > 0 {
             for (i, route) in routes.enumerated() {
                 let header = SYUIBubbleHeader()
@@ -133,9 +120,14 @@ public class SYMKRoutesViewController: UIViewController {
                 routesView.addHeader(header)
             }
             navigateButton.isEnabled = routes.count > 0
-            previewButton.isEnabled = routes.count > 0
         } else {
             routesView.addHeader(SYUIBubbleLoadingHeader())
+        }
+        if let previewIcon = SYUIIcon.play {
+            routesView.addContent(with: previewIcon, title: LS("routeActionMain.preview"), subtitle: nil, action: { [weak self] _ in
+                guard let weakSelf = self else { return }
+                weakSelf.delegate?.routesViewControllerPreviewPressed(weakSelf)
+            })
         }
     }
     

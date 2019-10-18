@@ -37,6 +37,8 @@ public protocol SYMKRoutePlannerControllerDelegate: class {
     /// - Parameter planner: route planner controller
     /// - Parameter error: routing error
     func routePlanner(_ planner: SYMKRoutePlannerController, routingFinishedWith error: SYRoutingError) -> String?
+    
+    func routePlanner(_ planner: SYMKRoutePlannerController, wantsAddNewWaypoint newWaypointBlock: @escaping SYMKRouteWaypointsAddBlock)
 }
 
 public extension SYMKRoutePlannerControllerDelegate {
@@ -45,6 +47,7 @@ public extension SYMKRoutePlannerControllerDelegate {
     func routePlanner(_ planner: SYMKRoutePlannerController, routingFinishedWith error: SYRoutingError) -> String? {
         return error.errorMessage()
     }
+    func routePlanner(_ planner: SYMKRoutePlannerController, wantsAddNewWaypoint newWaypointBlock: @escaping SYMKRouteWaypointsAddBlock) {}
 }
 
 
@@ -69,7 +72,9 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         }
     }
     
-    public var useTraffic = true
+    public var useTraffic = true // TODO:
+    public var useCancelButton = false
+    public var useOptionsButton = false
     
     public weak var delegate: SYMKRoutePlannerControllerDelegate?
     
@@ -100,13 +105,20 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     private var routingManager: SYRouting?
     private var routeSelectionManager: SYMKRouteSelectionManager?
     private var routesController = SYMKRoutesViewController()
+    private var waypointsController: SYMKRouteWaypointsViewController?
     
     // MARK: - Public Methods
     
     public override func loadView() {
         let plannerView = SYMKRoutePlannerView()
-        plannerView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        plannerView.optionsButton.addTarget(self, action: #selector(optionsButtonTapped), for: .touchUpInside)
+        if useCancelButton {
+            plannerView.setupBackButton()
+            plannerView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        }
+        if useOptionsButton {
+            plannerView.setupOptionsButton()
+            plannerView.optionsButton.addTarget(self, action: #selector(optionsButtonTapped), for: .touchUpInside)
+        }
         view = plannerView
     }
     
@@ -122,7 +134,11 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         mapState.updateMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         routingManager = SYRouting()
         routingManager?.delegate = self
-        computeRoute()
+        if waypoints.count > 1 {
+            computeRoute()
+        } else {
+            showWaypointsEditor()
+        }
     }
     
     /// Starts route computing.
@@ -190,7 +206,22 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     }
     
     private func showWaypointsEditor() {
-        
+        guard let view = view as? SYMKRoutePlannerView else { return }
+        routesController.routesView.isHidden = true
+        let waypointsController = SYMKRouteWaypointsViewController(with: waypoints)
+        waypointsController.delegate = self
+        addChild(waypointsController)
+        view.setupWaypointsView(waypointsController.waypointsView)
+        view.waypointsView?.isHidden = false
+        self.waypointsController = waypointsController
+    }
+    
+    private func dismissWaypointsEditor() {
+        guard let controller = waypointsController else { return }
+        controller.view.removeFromSuperview()
+        controller.removeFromParent()
+        waypointsController = nil
+        routesController.routesView.isHidden = false
     }
 }
 
@@ -270,6 +301,20 @@ extension SYMKRoutePlannerController: SYMKRouteOptionsViewControllerDelegate {
     }
 }
 
+extension SYMKRoutePlannerController: SYMKRouteWaypointsViewControllerDelegate {
+    public func routeWaypointsController(_ controller: SYMKRouteWaypointsViewController, wantAddWaypoint block: @escaping SYMKRouteWaypointsAddBlock) {
+        delegate?.routePlanner(self, wantsAddNewWaypoint: block)
+    }
+    
+    public func routeWaypointsController(_ controller: SYMKRouteWaypointsViewController, didUpdate waypoints: [SYWaypoint]) {
+        self.waypoints = waypoints
+    }
+    
+    public func routeWaypointsControllerDidFinish(_ controller: SYMKRouteWaypointsViewController) {
+        dismissWaypointsEditor()
+    }
+}
+
 public extension SYRoutingError {
     
     func errorMessage() -> String? {
@@ -310,6 +355,8 @@ public extension SYRoutingError {
             return nil
         case .alternativeRejected:
             return LS("Alternative rejected")
+        case .noLicense:
+            return LS("No licence")
         }
     }
 }
