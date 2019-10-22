@@ -39,3 +39,19 @@ public extension SYWaypoint {
         return name == SYWaypoint.currentLocationIdentifier
     }
 }
+
+extension Array where Element == SYWaypoint {
+    func waypointsWithTypeCorrection() -> [SYWaypoint] {
+        var fixed = [SYWaypoint]()
+        for (index, wp) in enumerated() {
+            var type: SYWaypointType = .via
+            if index == 0 {
+                type = .start
+            } else if index == count-1 {
+                type = .end
+            }
+            fixed.append(SYWaypoint(position: wp.originalPosition, type: type, name: wp.name))
+        }
+        return fixed
+    }
+}

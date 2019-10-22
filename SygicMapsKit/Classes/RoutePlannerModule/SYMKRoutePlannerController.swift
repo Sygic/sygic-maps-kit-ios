@@ -146,30 +146,16 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
     public func computeRoute() {
         guard waypoints.count >= 2, let routing = routingManager else { return }
         routing.cancelComputing()
-        let navigatableWaypoints = fixedWaypoints()
-        let start = navigatableWaypoints.first!
-        let destination = navigatableWaypoints.last!
+        let waypoints = self.waypoints.waypointsWithTypeCorrection()
+        let start = waypoints.first!
+        let destination = waypoints.last!
         var actualWaypoints: [SYWaypoint]?
-        if navigatableWaypoints.count > 2 {
-            actualWaypoints = Array(navigatableWaypoints[1..<navigatableWaypoints.count-1])
+        if waypoints.count > 2 {
+            actualWaypoints = Array(waypoints[1..<waypoints.count-1])
         }
         routeSelectionManager?.removeAllMapRoutes()
         routing.computeRoute(start, to: destination, via: actualWaypoints, with: routingOptions)
         zoomMap()
-    }
-    
-    public func fixedWaypoints() -> [SYWaypoint] {
-        var fixed = [SYWaypoint]()
-        for (index, wp) in waypoints.enumerated() {
-            var type: SYWaypointType = .via
-            if index == 0 {
-                type = .start
-            } else if index == waypoints.count-1 {
-                type = .end
-            }
-            fixed.append(SYWaypoint(position: wp.originalPosition, type: type, name: wp.name))
-        }
-        return fixed
     }
     
     /// Cances route computing
@@ -188,7 +174,6 @@ public class SYMKRoutePlannerController: SYMKModuleViewController {
         self.routeSelectionManager = routeSelectionManager
         (view as! SYMKRoutePlannerView).setupMapView(mapController.mapView)
         self.mapController = mapController
-        
         zoomMap()
     }
     
