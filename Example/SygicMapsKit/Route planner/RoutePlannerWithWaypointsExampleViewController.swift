@@ -50,4 +50,8 @@ extension RoutePlannerWithWaypointsExampleViewController: SYMKRoutePlannerContro
     
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {
     }
+    
+    func routePlanner(_ planner: SYMKRoutePlannerController, wantsAddNewWaypoint newWaypointBlock: @escaping SYMKRouteWaypointsAddBlock) {
+        showSearchModuleForRoutePlannerWaypointsEditor(with: newWaypointBlock)
+    }
 }

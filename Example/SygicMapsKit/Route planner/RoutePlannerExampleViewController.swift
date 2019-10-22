@@ -45,13 +45,19 @@ extension RoutePlannerExampleViewController: SYMKRoutePlannerControllerDelegate 
     func routePlannerDidCancel(_ planner: SYMKRoutePlannerController) {}
     
     func routePlanner(_ planner: SYMKRoutePlannerController, wantsAddNewWaypoint newWaypointBlock: @escaping SYMKRouteWaypointsAddBlock) {
+        showSearchModuleForRoutePlannerWaypointsEditor(with: newWaypointBlock)
+    }
+}
+
+extension SYMKModulePresenter {
+    public func showSearchModuleForRoutePlannerWaypointsEditor(with block: @escaping SYMKRouteWaypointsAddBlock) {
         let search = SYMKSearchViewController()
         search.multipleResultsSelection = false
         search.searchBlock = { [weak self] results in
             self?.dismissModule()
             let result = results.first { $0.coordinate != nil }
             guard let foundedResult = result else { return }
-            newWaypointBlock(SYWaypoint(position: foundedResult.coordinate!, type: .end, name: foundedResult.title?.string))
+            block(SYWaypoint(position: foundedResult.coordinate!, type: .end, name: foundedResult.title?.string))
         }
         search.cancelBlock = { [weak self] in
             self?.dismissModule()

@@ -35,11 +35,15 @@ public protocol SYMKRouteWaypointsViewControllerDelegate: class {
 
 public class SYMKRouteWaypointsViewController: UIViewController {
     
+    //MARK: - Public Properties
+    
     public weak var delegate: SYMKRouteWaypointsViewControllerDelegate?
     
     public var waypointsView: SYUIBubbleView {
         return view as! SYUIBubbleView
     }
+    
+    //MARK: - Private Properties
     
     private lazy var addButton: SYUIActionButton = {
         let button = SYUIActionButton()
@@ -75,7 +79,9 @@ public class SYMKRouteWaypointsViewController: UIViewController {
     
     private var modified: Bool = false
     
-    private let tableHeader = TableHeader()
+    private let tableHeader = SYMKRouteWaypointsTable()
+    
+    //MARK: - Public Methods
     
     public init(with waypoints: [SYWaypoint]) {
         super.init(nibName: nil, bundle: nil)
@@ -110,6 +116,8 @@ public class SYMKRouteWaypointsViewController: UIViewController {
         modified = true
     }
     
+    //MARK: - Private Methods
+    
     private func removeWaypoint(at indexPath: IndexPath, table tableView: UITableView) {
         guard indexPath.row < waypoints.count else { return }
         tableView.beginUpdates()
@@ -120,7 +128,7 @@ public class SYMKRouteWaypointsViewController: UIViewController {
     }
     
     private func updateTableHeight() {
-        tableHeader.heightContraint.constant = WaypointCell.height * CGFloat(min(waypoints.count, 8))
+        tableHeader.heightContraint.constant = SYMKRouteWaypointCell.height * CGFloat(min(waypoints.count, 8))
     }
 }
 
@@ -132,8 +140,9 @@ extension SYMKRouteWaypointsViewController: UITableViewDataSource, UITableViewDe
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let waypoint = waypoints[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: WaypointCell.cellIdentifier) as! WaypointCell
-        cell.iconView.image = SYUIIcon.pinFull
+        let cell = tableView.dequeueReusableCell(withIdentifier: SYMKRouteWaypointCell.cellIdentifier) as! SYMKRouteWaypointCell
+        cell.iconView.image = waypoint.isCurrentLocationWaypoint ? SYUIIcon.locationEmpty : SYUIIcon.pinFull
+        cell.waypointLabel.text = waypoint.isCurrentLocationWaypoint ? "" : indexPath.row.waypointLetter()
         cell.titleLabel.text = waypoint.name
         cell.deleteButton.action = { [weak self] _ in
             self?.removeWaypoint(at: indexPath, table: tableView)
@@ -161,84 +170,5 @@ extension SYMKRouteWaypointsViewController: UITableViewDataSource, UITableViewDe
     
     public func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
-    }
-}
-
-class TableHeader: UIView {
-    
-    lazy var tableView: UITableView = {
-        let table = UITableView()
-        table.register(WaypointCell.self, forCellReuseIdentifier: WaypointCell.cellIdentifier)
-        table.estimatedRowHeight = WaypointCell.height
-        table.rowHeight = UITableView.automaticDimension
-        table.tableFooterView = UIView()
-        table.isEditing = true
-        table.separatorStyle = .none
-        return table
-    }()
-    
-    lazy var heightContraint: NSLayoutConstraint = {
-        let con = heightAnchor.constraint(equalToConstant: WaypointCell.height)
-        return con
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(tableView)
-        tableView.coverWholeSuperview()
-        heightContraint.isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class WaypointCell: UITableViewCell {
-    
-    static let cellIdentifier = "waypointCellIdentifier"
-    static let height: CGFloat = 56
-    
-    public var iconView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tintColor = .accentSecondary
-        return imageView
-    }()
-    
-    public var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .accentSecondary
-        label.font = SYUIFont.with(.regular, size: SYUIFontSize.headingOld)
-        return label
-    }()
-    
-    public var deleteButton: SYUIActionButton = {
-        let button = SYUIActionButton()
-        button.style = .plain
-        button.iconImage = SYUIIcon.binFilled
-        button.tintColor = .error
-        return button
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.alignment = .center
-        contentView.addSubview(stackView)
-        stackView.coverWholeSuperview()
-        
-        iconView.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        iconView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        
-        stackView.addArrangedSubview(iconView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(deleteButton)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
