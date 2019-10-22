@@ -79,11 +79,6 @@
             value = "$(SDK_APP_SECRET)"
             isEnabled = "YES">
          </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "SDK_APP_ROUTING"
-            value = "$(SDK_APP_ROUTING)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
