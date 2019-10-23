@@ -34,8 +34,7 @@ class SYMKSearchModelTest: QuickSpec {
             beforeEach {
                 let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
                 let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
-                let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
-                SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
+                SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
                 
                 var initializationResult: Bool?
                 SYMKSdkManager.shared.initializeIfNeeded({ (result) in

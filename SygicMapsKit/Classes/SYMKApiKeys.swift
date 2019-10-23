@@ -27,17 +27,15 @@ public class SYMKApiKeys {
 
     static private(set) var appKey = ""
     static private(set) var appSecret = ""
-    static private(set) var routingKey = ""
     
     /// Set application key and application secret obtained by Sygic SDK.
     ///
     /// - Parameters:
     ///   - appKey: Application key.
     ///   - appSecret: Application secret.
-    static public func set(appKey: String, appSecret: String, routingKey: String) {
+    static public func set(appKey: String, appSecret: String) {
         SYMKApiKeys.appKey = appKey
         SYMKApiKeys.appSecret = appSecret
-        SYMKApiKeys.routingKey = routingKey
     }
     
 }

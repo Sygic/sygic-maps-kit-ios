@@ -39,7 +39,7 @@ class NavigationButtonsExampleViewController: UIViewController, SYMKModulePresen
     var superCustomLockButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.style = .secondary
-        button.height = 48.0
+        button.height = SYUIActionButtonSize.infobar.height
         button.title = "🎺"
         button.addTarget(self, action: #selector(customLockButtonPressed(_:)), for: .touchUpInside)
         return button

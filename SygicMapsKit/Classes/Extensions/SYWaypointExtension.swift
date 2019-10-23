@@ -1,4 +1,4 @@
-//// SYMKRouteComputeController.swift
+//// SYWaypointExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,42 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
 import SygicMaps
+import SygicUIKit
 
 
-public protocol SYMKRouteComputeControllerProtocol: class {
-    func routeComputeControllerGoBack()
+public extension SYWaypoint {
+    static var currentLocationIdentifier: String {
+        LS("Current location")
+    }
+    
+    static func currentLocationWaypoint() -> SYWaypoint? {
+        guard let location = SYPosition.lastKnownLocation()?.coordinate else { return nil }
+        return SYWaypoint(position: location, type: .start, name: SYWaypoint.currentLocationIdentifier)
+    }
+    
+    var isCurrentLocationWaypoint: Bool {
+        return name == SYWaypoint.currentLocationIdentifier
+    }
 }
 
-public class SYMKRouteComputeController: SYMKModuleViewController {
-    
-    public var useTraffic = true
-    public var computeMultipleRoutes = true
-    
-    public weak var delegate: SYMKRouteComputeControllerProtocol?
-    
-    private var mapController: SYMKMapController?
-    
-    public override func loadView() {
-        let routeComputeView = SYMKRouteComputeView()
-        routeComputeView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        view = routeComputeView
+extension Array where Element == SYWaypoint {
+    func waypointsWithTypeCorrection() -> [SYWaypoint] {
+        var fixed = [SYWaypoint]()
+        for (index, wp) in enumerated() {
+            var type: SYWaypointType = .via
+            if index == 0 {
+                type = .start
+            } else if index == count-1 {
+                type = .end
+            }
+            fixed.append(SYWaypoint(position: wp.originalPosition, type: type, name: wp.name))
+        }
+        return fixed
     }
-    
-    @objc public func backButtonTapped() {
-        delegate?.routeComputeControllerGoBack()
-    }
-    
-    override internal func sygicSDKInitialized() {
-        triggerUserLocation(true)
-        setupMapController()
-    }
-    
-    private func setupMapController() {
-        let mapController = SYMKMapController(with: mapState)
-        mapController.selectionManager = SYMKMapSelectionManager(with: .none)
-        (view as! SYMKRouteComputeView).setupMapView(mapController.mapView)
-        self.mapController = mapController
-    }
-    
 }

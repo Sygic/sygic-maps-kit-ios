@@ -124,6 +124,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     public var useRecenterButton = false
     
     /// Enables bounce in animation on first appearance of default poi detail bottom sheet
+    @available(*, deprecated)
     public var bounceDefaultPoiDetailFirstTime = false
     
     /// Displays user's location on map. When set to true, permission to device GPS location dialog is presented and access is required.
@@ -142,7 +143,8 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     /// - if MapSelectionMode.markers option is set, only customPois markers will interact to user selection
     public var mapSelectionMode: SYMKMapSelectionManager.MapSelectionMode = .markers {
         didSet {
-            mapController?.selectionManager?.mapSelectionMode = mapSelectionMode
+            guard let selectionManager = mapController?.selectionManager as? SYMKMapSelectionManager else { return }
+            selectionManager.mapSelectionMode = mapSelectionMode
         }
     }
     
@@ -167,7 +169,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     private var mapController: SYMKMapController?
     private var compassController = SYMKCompassController(course: 0, autoHide: true)
     private var recenterController = SYMKMapRecenterController()
-    private var poiDetailViewController: SYMKPoiDetailViewController?
+    private var placeDetailViewController: SYMKPlaceDetailViewController?
     private var zoomController: SYMKZoomController = {
         let zoomController = SYMKZoomController()
         zoomController.expandableButtonsView.direction = .top
@@ -272,6 +274,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     }
     
     internal override func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         setupMapController()
         let applyLocationValue = showUserLocation
         showUserLocation = applyLocationValue
@@ -280,8 +283,9 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     private func setupMapController() {
         let mapController = SYMKMapController(with: mapState, mapFrame: view.bounds)
-        mapController.selectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
-        mapController.selectionManager?.delegate = self
+        let mapSelectionManager = SYMKMapSelectionManager(with: mapSelectionMode)
+        mapSelectionManager.delegate = self
+        mapController.selectionManager = mapSelectionManager
         (view as! SYMKBrowseMapView).setupMapView(mapController.mapView)
         self.mapController = mapController
         addCustomMarkersToMap(customMarkers)
@@ -311,22 +315,21 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     // MARK: PoiDetail
     
     private func updatePoiDetail(with data: SYMKPoiDetailModel) {
-        if let poiDetail = poiDetailViewController {
-            poiDetail.update(with: data)
+        if let poiDetail = placeDetailViewController {
+            poiDetail.model = data
         }
     }
     
     private func showPoiDetailWithLoading() {
-        poiDetailViewController = SYMKPoiDetailViewController()
-        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self, bounce: bounceDefaultPoiDetailFirstTime, completion: nil)
-        bounceDefaultPoiDetailFirstTime = false
+        placeDetailViewController = SYMKPlaceDetailViewController(with: nil)
+        placeDetailViewController?.presentPlaceDetailAsChildViewController(to: self, landscapeLayout: SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection), animated: true, completion: nil)
     }
     
     private func hidePoiDetail() {
-        guard let poiDetail = poiDetailViewController else { return }
+        guard let poiDetail = placeDetailViewController else { return }
         poiDetail.dismissPoiDetail(completion: { [weak self] _ in
-            guard poiDetail == self?.poiDetailViewController else { return }
-            self?.poiDetailViewController = nil
+            guard poiDetail == self?.placeDetailViewController else { return }
+            self?.placeDetailViewController = nil
         })
     }
 }
@@ -350,7 +353,7 @@ extension SYMKBrowseMapViewController: SYMKMapControllerDelegate {
 extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
     
     public func mapSelectionPoiDetailWasShown() -> Bool {
-        return poiDetailViewController != nil
+        return placeDetailViewController != nil
     }
     
     public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {

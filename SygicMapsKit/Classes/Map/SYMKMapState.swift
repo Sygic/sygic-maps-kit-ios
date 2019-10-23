@@ -223,23 +223,45 @@ public class SYMKMapState: NSCopying {
     ///   - duration: map transition animation duration
     ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
     public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
-        guard let properties = map?.camera.calculateProperties(for: boundingBox,
-                                                               transformCenter: CGPoint(x: 0.5, y: 0.5),
-                                                               rotation: 0,
-                                                               tilt: 0,
-                                                               maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
-                                                               edgeInsets: edgeInsets), properties.geoCenter.isValid() else { return }
-        geoCenter = properties.geoCenter
-        tilt = properties.tilt
-        rotation = properties.rotation
-        zoom = properties.zoom
+        guard let map = map, map.bounds != .zero else { return }
+        let properties = map.camera.calculateProperties(for: boundingBox,
+                                                        transformCenter: CGPoint(x: 0.5, y: 0.5),
+                                                        rotation: 0,
+                                                        tilt: 0,
+                                                        maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
+                                                        edgeInsets: edgeInsets)
+        guard properties.geoCenter.isValid() else { return }
+        if duration > 0 {
+            map.camera.animate({ [weak self] in
+                self?.applyMapProperties(properties)
+            }, withDuration: duration, curve: .accelerateDecelerate, completion: { (_, success) in
+                completion?(success)
+            })
+        } else {
+            applyMapProperties(properties)
+            completion?(true)
+        }
     }
     
     /// Updates map camera offset to optimize view for navigating
     /// - Parameter landscape: layout orientation
     public func updateNavigatingMapCenter(_ landscape: Bool) {
         guard let camera = map?.camera else { return }
-        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.4)
+        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.25)
+        let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
+                                                      animationCurveFree: .linear,
+                                                      animationDurationFree: 0,
+                                                      transformCenterFollowGps: point,
+                                                      animationCurveFollowGps: .linear,
+                                                      animationDurationFollowGps: 0)
+        camera.setTransformCenterSettings(offsetSetting, withDuration: 1, curve: .accelerateDecelerate)
+    }
+    
+    /// Updates map camera offset to optimize view for navigating
+    /// - Parameter landscape: layout orientation
+    public func updateMapCenter(_ landscape: Bool) {
+        guard let camera = map?.camera else { return }
+        let point = landscape ? CGPoint(x: 0.7, y: 0.5) : CGPoint(x: 0.5, y: 0.5)
         let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
                                                       animationCurveFree: .linear,
                                                       animationDurationFree: 0,
@@ -276,6 +298,14 @@ public class SYMKMapState: NSCopying {
         return copy
     }
 
+    // MARK: - Private methods
+    
+    private func applyMapProperties(_ properties: SYCameraProperties) {
+        geoCenter = properties.geoCenter
+        tilt = properties.tilt
+        rotation = properties.rotation
+        zoom = properties.zoom
+    }
 }
 
 extension SYMapView {

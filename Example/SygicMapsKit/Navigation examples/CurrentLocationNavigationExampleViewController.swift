@@ -68,8 +68,6 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
             }
         }
     }
-
-    
 }
 
 extension CurrentLocationNavigationExampleViewController: SYPositioningDelegate {

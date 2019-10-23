@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
+   LastUpgradeVersion = "1100"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -112,11 +112,6 @@
          <EnvironmentVariable
             key = "SDK_APP_SECRET"
             value = "$(SDK_APP_SECRET)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "SDK_APP_ROUTING"
-            value = "$(SDK_APP_ROUTING)"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

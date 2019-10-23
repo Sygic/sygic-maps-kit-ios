@@ -31,8 +31,8 @@ class RootTableViewController: UITableViewController {
     let mapsKitGithub = "https://github.com/Sygic/sygic-maps-kit-ios"
     let mapsKitWiki = "https://github.com/Sygic/sygic-maps-kit-ios/wiki"
     let sectionsData = [" ", "Modules", "Getting started!"]
-    let rowsData = [["DEMO"],
-                    ["Browse Map", "Search", "Navigation", "Double map", "Manage Maps"],
+    let rowsData = [["Complex demo"],
+                    ["Browse Map", "Search", "Route planner", "Navigation", "Double map", "Manage Maps"],
                     ["Source code", "Wiki"]]
     
     override func viewDidLoad() {
@@ -73,10 +73,12 @@ class RootTableViewController: UITableViewController {
             case 1:
                 navigationController?.pushViewController(SearchExamplesTableViewController(), animated: true)
             case 2:
-                navigationController?.pushViewController(NavigationExamplesTableViewController(), animated: true)
+                navigationController?.pushViewController(RoutePlannerExamplesTableViewController(), animated: true)
             case 3:
-                navigationController?.pushViewController(DoubleMapViewController(), animated: true)
+                navigationController?.pushViewController(NavigationExamplesTableViewController(), animated: true)
             case 4:
+                navigationController?.pushViewController(DoubleMapViewController(), animated: true)
+            case 5:
                 navigationController?.pushViewController(ManageMapsViewController(), animated: true)
             default:
                 break

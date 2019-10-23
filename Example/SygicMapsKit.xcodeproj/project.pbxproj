@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */; };
 		43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43161C17230425FD00E00BDF /* fanfare.mp3 */; };
+		434F2E722355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F2E712355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift */; };
 		436475E0231FCF5C00587354 /* DemoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436475DF231FCF5C00587354 /* DemoExampleViewController.swift */; };
 		436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */; };
+		43696AC123509063007A3F46 /* customSkins in Resources */ = {isa = PBXBuildFile; fileRef = 43696AC023509063007A3F46 /* customSkins */; };
 		43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAC22CB7034002C09C2 /* RoutingHelper.swift */; };
 		43854DAF22CB9D5D002C09C2 /* CurrentLocationNavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */; };
+		438BCCD423338D20000FB511 /* RoutePlannerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438BCCD323338D20000FB511 /* RoutePlannerExampleViewController.swift */; };
+		438BCCD623338DEB000FB511 /* RoutePlannerExamplesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438BCCD523338DEB000FB511 /* RoutePlannerExamplesTableViewController.swift */; };
 		438D181F22FAE4D6002DF224 /* MapPackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 438D181E22FAE4D6002DF224 /* MapPackageCell.xib */; };
 		43DF1C8322C3825600F930C2 /* NavigationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */; };
 		52E39B2FF2BC459EC27BE5B4 /* Pods_SygicMapsKit_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE3ED0FC48CD8CC76307CCA /* Pods_SygicMapsKit_UITests.framework */; };
@@ -39,7 +43,6 @@
 		5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */; };
 		5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */; };
 		5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */; };
-		5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */; };
 		5CFA3A6722E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* RootTableViewController.swift */; };
@@ -83,10 +86,14 @@
 		2929742DBDAE486790BF1833 /* SygicMapsKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicMapsKit.podspec; path = ../SygicMapsKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		43161C152301B58800E00BDF /* NavigationButtonsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButtonsExampleViewController.swift; sourceTree = "<group>"; };
 		43161C17230425FD00E00BDF /* fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fanfare.mp3; sourceTree = "<group>"; };
+		434F2E712355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePlannerWithWaypointsExampleViewController.swift; sourceTree = "<group>"; };
 		436475DF231FCF5C00587354 /* DemoExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExampleViewController.swift; sourceTree = "<group>"; };
 		436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExamplesTableViewController.swift; sourceTree = "<group>"; };
+		43696AC023509063007A3F46 /* customSkins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = customSkins; sourceTree = "<group>"; };
 		43854DAC22CB7034002C09C2 /* RoutingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingHelper.swift; sourceTree = "<group>"; };
 		43854DAE22CB9D5C002C09C2 /* CurrentLocationNavigationExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationNavigationExampleViewController.swift; sourceTree = "<group>"; };
+		438BCCD323338D20000FB511 /* RoutePlannerExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePlannerExampleViewController.swift; sourceTree = "<group>"; };
+		438BCCD523338DEB000FB511 /* RoutePlannerExamplesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePlannerExamplesTableViewController.swift; sourceTree = "<group>"; };
 		438D181E22FAE4D6002DF224 /* MapPackageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapPackageCell.xib; sourceTree = "<group>"; };
 		43DF1C8222C3825600F930C2 /* NavigationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationExampleViewController.swift; sourceTree = "<group>"; };
 		43DF1C8A22C3A5F200F930C2 /* SimulatorLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatorLocation.gpx; sourceTree = "<group>"; };
@@ -119,7 +126,6 @@
 		5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleExampleTableViewCell.swift; sourceTree = "<group>"; };
 		5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModuleExampleTableViewCell.xib; sourceTree = "<group>"; };
 		5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModes.swift; sourceTree = "<group>"; };
-		5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseModuleExampleViewController.swift; sourceTree = "<group>"; };
 		5CE66C9BA3342341A8EC63D3 /* Pods-SygicMapsKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicMapsKit_Example.release.xcconfig"; path = "Target Support Files/Pods-SygicMapsKit_Example/Pods-SygicMapsKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		5CFA3A6622E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSignpostsExampleViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicMapsKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicMapsKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +204,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		43696ABB23508F1F007A3F46 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43696AC023509063007A3F46 /* customSkins */,
+				43161C17230425FD00E00BDF /* fanfare.mp3 */,
+				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		438BCCD223338C8E000FB511 /* Route planner */ = {
+			isa = PBXGroup;
+			children = (
+				438BCCD323338D20000FB511 /* RoutePlannerExampleViewController.swift */,
+				434F2E712355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift */,
+			);
+			path = "Route planner";
+			sourceTree = "<group>";
+		};
 		438D181D22FAE49C002DF224 /* Manage maps */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +280,6 @@
 				5C3B212621FA05D300F21AD4 /* TapHandling.swift */,
 				5C3B212421FA05D200F21AD4 /* CustomAnnotation.swift */,
 				5C3B212521FA05D200F21AD4 /* DataAnnotation.swift */,
-				5CDC272221E38791006B2F9B /* BrowseModuleExampleViewController.swift */,
 				58D3D33721E7A65500E11D1D /* Markers.swift */,
 				589CB07B21EE16890082F7C4 /* Skins.swift */,
 				5C9B8264221C1E12002B9DA6 /* SelectionModes.swift */,
@@ -303,19 +327,20 @@
 			children = (
 				589CB07A21EE08C40082F7C4 /* Browse examples */,
 				583EE956224E5D8E00A7592A /* Navigation examples */,
+				438BCCD223338C8E000FB511 /* Route planner */,
 				5C9B71E922293C6D00896FCD /* Search examples */,
 				43DF1C8422C3826200F930C2 /* Other examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* RootTableViewController.swift */,
 				589CB07821EE06F60082F7C4 /* BrowseExamplesTableViewController.swift */,
 				5803EE1C222EB5B900A231C8 /* SearchExamplesTableViewController.swift */,
+				438BCCD523338DEB000FB511 /* RoutePlannerExamplesTableViewController.swift */,
 				436506A522CA0343007D80A2 /* NavigationExamplesTableViewController.swift */,
 				5C9B8260221AE199002B9DA6 /* ModuleExampleTableViewCell.swift */,
 				5C9B8261221AE199002B9DA6 /* ModuleExampleTableViewCell.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
-				43161C17230425FD00E00BDF /* fanfare.mp3 */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				43696ABB23508F1F007A3F46 /* Resources */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for SygicMapsKit";
@@ -475,7 +500,7 @@
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					5852282C22427F65000385ED = {
@@ -547,6 +572,7 @@
 				5C9B8263221AE199002B9DA6 /* ModuleExampleTableViewCell.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				43696AC123509063007A3F46 /* customSkins in Resources */,
 				438D181F22FAE4D6002DF224 /* MapPackageCell.xib in Resources */,
 				43161C18230425FD00E00BDF /* fanfare.mp3 in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
@@ -758,6 +784,7 @@
 				607FACD81AFB9204008FA782 /* RootTableViewController.swift in Sources */,
 				5C3B212721FA05D300F21AD4 /* CustomAnnotation.swift in Sources */,
 				582E343B22845E6F007E58CF /* PedestrianSwitching.swift in Sources */,
+				438BCCD423338D20000FB511 /* RoutePlannerExampleViewController.swift in Sources */,
 				436506A622CA0343007D80A2 /* NavigationExamplesTableViewController.swift in Sources */,
 				5803EE1D222EB5B900A231C8 /* SearchExamplesTableViewController.swift in Sources */,
 				5CFA3A6722E5FCF400E19264 /* NavigationSignpostsExampleViewController.swift in Sources */,
@@ -768,13 +795,14 @@
 				43161C162301B58800E00BDF /* NavigationButtonsExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5C9B8265221C1E12002B9DA6 /* SelectionModes.swift in Sources */,
+				434F2E722355DA38007C7C39 /* RoutePlannerWithWaypointsExampleViewController.swift in Sources */,
 				5C9B71E622292C9B00896FCD /* BrowseMapWithSearch.swift in Sources */,
 				5C74DD5B226F548100321EE7 /* BrowseMapWithSearchResults.swift in Sources */,
 				5C3B212921FA05D300F21AD4 /* DataAnnotation.swift in Sources */,
-				5CDC272321E38791006B2F9B /* BrowseModuleExampleViewController.swift in Sources */,
 				583EE958224E5D8F00A7592A /* DoubleMapViewController.swift in Sources */,
 				43DF1C8322C3825600F930C2 /* NavigationExampleViewController.swift in Sources */,
 				589CB07921EE06F60082F7C4 /* BrowseExamplesTableViewController.swift in Sources */,
+				438BCCD623338DEB000FB511 /* RoutePlannerExamplesTableViewController.swift in Sources */,
 				5C9B8262221AE199002B9DA6 /* ModuleExampleTableViewCell.swift in Sources */,
 				58D3D33821E7A65500E11D1D /* Markers.swift in Sources */,
 				43854DAD22CB7034002C09C2 /* RoutingHelper.swift in Sources */,
@@ -956,6 +984,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -964,12 +993,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1010,6 +1041,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1018,12 +1050,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

@@ -73,7 +73,6 @@ class DoubleMapViewController: UIViewController {
         browseMapVC.useZoomControl = true
         browseMapVC.useRecenterButton = true
         browseMapVC.mapSelectionMode = .all
-        browseMapVC.bounceDefaultPoiDetailFirstTime = true
         browseMapVC.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMapVC.mapState.zoom = 16
         return browseMapVC

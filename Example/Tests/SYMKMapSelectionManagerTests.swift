@@ -19,7 +19,7 @@ class SYMKMapSelectionManagerTests: QuickSpec {
                 
                 it("returns pois data") {
                     
-                    let mockData = SYMKPoiData(with: SYGeoCoordinate(latitude: 47, longitude: 52)!)
+                    let mockData = SYMKPoiData(with: SYGeoCoordinate(latitude: 47, longitude: 52))
                     
                     let marker = SYMapMarker(with: mockData)
                     self.selectionManager.addCustomMarker(marker)

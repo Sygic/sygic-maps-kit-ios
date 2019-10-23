@@ -25,6 +25,18 @@ import SygicMaps
 import SygicUIKit
 
 
+public protocol SYMKMapSelectionProtocol: class {
+    var mapView: SYMapView? { get set }
+    func selectMapObjects(_ objects: [SYViewObject])
+    func addCustomMarker(_ marker: SYMapMarker)
+    func removeCustomMarker(_ marker: SYMapMarker)
+}
+
+public extension SYMKMapSelectionProtocol {
+    func addCustomMarker(_ marker: SYMapMarker) {}
+    func removeCustomMarker(_ marker: SYMapMarker) {}
+}
+
 /// Delegate of map selection actions
 public protocol SYMKMapSelectionDelegate: class {
     
@@ -59,7 +71,7 @@ public protocol SYMKMapSelectionDelegate: class {
 /// Map selection manager.
 ///
 /// Defines selection behavior for provided mapView. Provides interface for managing custom pois. Defines
-public class SYMKMapSelectionManager {
+public class SYMKMapSelectionManager: SYMKMapSelectionProtocol {
     
     // MARK: - Public Properties
     

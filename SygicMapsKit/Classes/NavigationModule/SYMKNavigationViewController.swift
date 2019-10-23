@@ -181,6 +181,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Route preview controller provides interface to manage route playback without moving the device
+    public let routePreviewController = SYMKRoutePreviewController()
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -201,7 +204,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     private var mapController: SYMKMapController?
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
-    private let routePreviewController = SYMKRoutePreviewController()
+    private var idleTimerSetting: Bool = false
     private let laneAssistController = SYMKLaneAssistController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
@@ -240,7 +243,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let lockButton = SYUIActionButton()
         lockButton.style = .primary13
         lockButton.icon = SYUIIcon.positionIos
-        lockButton.height = 48
+        lockButton.height = SYUIActionButtonSize.infobar.height
         lockButton.accessibilityIdentifier = leftInfobarButtonDefaultIdentifier
         lockButton.addTarget(self, action: #selector(leftInfobarButtonPressed), for: .touchUpInside)
         leftInfobarButton = lockButton
@@ -248,7 +251,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let cancelRouteButton = SYUIActionButton()
         cancelRouteButton.style = .error13
         cancelRouteButton.icon = SYUIIcon.close
-        cancelRouteButton.height = 48
+        cancelRouteButton.height = SYUIActionButtonSize.infobar.height
         cancelRouteButton.addTarget(self, action: #selector(stopNavigation), for: .touchUpInside)
         rightInfobarButton = cancelRouteButton
     }
@@ -294,6 +297,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     public override func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         triggerUserLocation(true)
         setupMapController()
         if useCurrentSpeed {
@@ -322,6 +326,10 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// - Parameter preview: if true, navigation will simulate device position through route (default: false)
     public func startNavigation(with route: SYRoute, preview: Bool = false) {
         self.route = route
+        
+        idleTimerSetting = UIApplication.shared.isIdleTimerDisabled
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         navigationObserver = SYNavigationObserver(delegate: self)
         SYNavigationManager.sharedNavigation().startNavigation(with: route)
         self.preview = preview
@@ -336,6 +344,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         route = nil
         SYNavigationManager.sharedNavigation().stopNavigation()
         navigationObserver = nil
+        
+        UIApplication.shared.isIdleTimerDisabled = idleTimerSetting
+        
         delegate?.navigationControllerDidStopNavigating(self)
     }
     
@@ -443,8 +454,8 @@ extension SYMKNavigationViewController: SYNavigationDelegate {
         }
     }
     
-    public func navigation(_ observer: SYNavigationObserver, didUpdate route: SYRoute?) {
-        guard let newRoute = route else { return }
+    public func navigation(_ navigation: SYNavigationObserver, didUpdate route: SYRoute?, with status: SYRouteUpdateStatus) {
+        guard let newRoute = route, status == .success else { return }
         self.route = newRoute
         if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
             infobarController?.updateRouteProgress(progress)

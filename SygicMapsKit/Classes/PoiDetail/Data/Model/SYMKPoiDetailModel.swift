@@ -202,13 +202,6 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
             }
         }
         
-        if let postal = postal {
-            if !address.isEmpty {
-                address.append(", ")
-            }
-            address.append(postal)
-        }
-        
         if let city = city {
             if !address.isEmpty {
                 if postal == nil {
@@ -217,6 +210,13 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
                 address.append(" ")
             }
             address.append(city)
+        }
+        
+        if let postal = postal {
+            if !address.isEmpty {
+                address.append(", ")
+            }
+            address.append(postal)
         }
         
         if address.isEmpty {
@@ -241,12 +241,28 @@ extension SYMKPoiData: SYMKPoiDetailModel {
     }
     
     public var poiDetailSubtitle: String? {
-        if name != nil {
-            return formattedAddress(from: street, houseNumber: houseNumber, city: city, postal: postal)
-        } else if let postalAndCity = formattedAddress(city: city, postal: postal), postalAndCity != poiDetailTitle {
-            return postalAndCity
+        var distanceString: String? = nil
+        var addressString: String? = nil
+        if let userPosition = SYPosition.lastKnownLocation(), let userLocation = userPosition.coordinate {
+            let distance: UInt = location.distance(to: userLocation)
+            if distance > 1000 {
+                distanceString = "\(distance/1000)\(LS("km"))"
+            } else {
+                distanceString = "\(distance)\(LS("m"))"
+            }
         }
-        return nil
+        if name != nil {
+            addressString = formattedAddress(from: street, houseNumber: houseNumber, city: city, postal: postal)
+        } else if let postalAndCity = formattedAddress(city: city, postal: postal), postalAndCity != poiDetailTitle {
+            addressString = postalAndCity
+        }
+        if let distance = distanceString, let address = addressString {
+            return "\(distance)・\(address)"
+        }
+        if let address = addressString {
+            return address
+        }
+        return distanceString
     }
     
     public var poiDetailContacts: [SYMKPoiDetailContact] {
