@@ -31,8 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let appKey = ""
-        let appSecret = ""
+        let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
+        let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
         SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
         return true
     }
