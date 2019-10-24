@@ -63,8 +63,8 @@ class CustomMarkerInfoExampleViewController: UIViewController, SYMKModulePresent
 
 extension CustomMarkerInfoExampleViewController: SYMKBrowseMapViewControllerDelegate {
     
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
-        guard let data = data as? SYMKPoiData else { return }
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPlaceDataProtocol) {
+        guard let data = data as? SYMKPlaceData else { return }
         let customAnnotation = DataAnnotation(data: data)
         customAnnotations.append(customAnnotation)
         browseController.addAnnotation(customAnnotation)

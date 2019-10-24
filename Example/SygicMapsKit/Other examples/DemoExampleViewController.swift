@@ -60,7 +60,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         presentModule(browseModule)
     }
     
-    func showPlaceDetail(with data: SYMKPoiData, loading: Bool, zoom: Bool = false) {
+    func showPlaceDetail(with data: SYMKPlaceData, loading: Bool, zoom: Bool = false) {
         // MOVE MAP TO PLACE
         browseModule.mapState.cameraMovementMode = .free
         browseModule.mapState.geoCenter = data.location
@@ -89,7 +89,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         button.height = SYUIActionButtonSize.infobar.height
         button.isEnabled = isEnabled
         button.action = { [weak self] _ in
-            guard let weakSelf = self, let data = weakSelf.placeDetail?.model as? SYMKPoiData else { return }
+            guard let weakSelf = self, let data = weakSelf.placeDetail?.model as? SYMKPlaceData else { return }
             weakSelf.computeRoute(to: data)
             weakSelf.hidePlaceDetail()
         }
@@ -102,7 +102,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         browseModule.customMarkers = []
     }
     
-    func computeRoute(to placeData: SYMKPoiData) {
+    func computeRoute(to placeData: SYMKPlaceData) {
         var waypoints = [SYWaypoint]()
         if let startWP = SYWaypoint.currentLocationWaypoint() {
             waypoints.append(startWP)
@@ -136,7 +136,7 @@ extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
     
     func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
         if placeDetail == nil {
-            showPlaceDetail(with: SYMKPoiData(with: location), loading: true)
+            showPlaceDetail(with: SYMKPlaceData(with: location), loading: true)
             return true
         } else {
             hidePlaceDetail()
@@ -152,8 +152,8 @@ extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
         return false
     }
     
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol) {
-        guard let data = data as? SYMKPoiData else { return }
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPlaceDataProtocol) {
+        guard let data = data as? SYMKPlaceData else { return }
         placeDetail?.model = data
     }
 }
@@ -174,19 +174,19 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
         }
         
         if let placeResult = result as? SYMapSearchResultPoi {
-            showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false, zoom: true)
+            showPlaceDetail(with: SYMKPlaceData(with: coordinate), loading: false, zoom: true)
             SYPlacesManager.sharedPlaces().loadPlace(placeResult.link) { [weak self] (place, error) in
                 guard let place = place else {
                     self?.hidePlaceDetail()
                     return
                 }
-                self?.placeDetail?.model = SYMKPoiData(with: place)
+                self?.placeDetail?.model = SYMKPlaceData(with: place)
             }
         } else if let mapResult = result as? SYMapSearchResult {
-            guard let resultData = SYMKPoiData(with: mapResult) else { return }
+            guard let resultData = SYMKPlaceData(with: mapResult) else { return }
             showPlaceDetail(with: resultData, loading: false, zoom: true)
         } else {
-            showPlaceDetail(with: SYMKPoiData(with: coordinate), loading: false, zoom: true)
+            showPlaceDetail(with: SYMKPlaceData(with: coordinate), loading: false, zoom: true)
         }
     }
     

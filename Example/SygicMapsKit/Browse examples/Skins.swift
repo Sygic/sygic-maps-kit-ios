@@ -79,8 +79,8 @@ class CustomSkinExampleViewController: UIViewController, SYMKModulePresenter {
     }
     
     private func customMarkers() -> [SYMapMarker] {
-        let pin1 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)), color: .red)
-        let pin2 = SYMapMarker(with: SYMKPoiData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)), color: .red)
+        let pin1 = SYMapMarker(with: SYMKPlaceData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)), color: .red)
+        let pin2 = SYMapMarker(with: SYMKPlaceData(with: SYGeoCoordinate(latitude: 48.147128, longitude: 17.104651)), color: .red)
         return [pin1, pin2]
     }
 }

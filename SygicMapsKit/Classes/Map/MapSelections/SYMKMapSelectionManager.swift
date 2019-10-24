@@ -43,7 +43,7 @@ public protocol SYMKMapSelectionDelegate: class {
     /// Delegated method called when data are received.
     ///
     /// - Parameter poiData: poi data of selected place on map.
-    func mapSelection(didSelect poiData: SYMKPoiDataProtocol)
+    func mapSelection(didSelect poiData: SYMKPlaceDataProtocol)
     
     /// Informs delegate that map selection will select data in `mapSelection(didSelect poiData: SYMKPoiDataProtocol)` call.
     func mapSelectionWillSelectData(_ mapSelection: SYMKMapSelectionManager)
@@ -214,7 +214,7 @@ public class SYMKMapSelectionManager: SYMKMapSelectionProtocol {
             guard let link = link else { return }
             SYPlacesManager.sharedPlaces().loadPlace(link, withCompletion: { (place, _) in
                 guard let place = place else { return }
-                self?.selectPlace(with: SYMKPoiData(with: place), category: SYMKPlaceCategory.with(sdkPlaceCategory: place.category))
+                self?.selectPlace(with: SYMKPlaceData(with: place), category: SYMKPlaceCategory.with(sdkPlaceCategory: place.category))
             })
         }
     }
@@ -222,19 +222,19 @@ public class SYMKMapSelectionManager: SYMKMapSelectionProtocol {
     private func selectCoordinate(_ coordinate: SYGeoCoordinate) {
         reverseSearch.reverseSearch(with: coordinate, withFilter: []) { [weak self] results in
             guard let result = results.first else { return }
-            self?.selectPlace(with: SYMKPoiData(with: result))
+            self?.selectPlace(with: SYMKPlaceData(with: result))
         }
     }
     
-    private func selectPlace(with poiData: SYMKPoiData, category: SYMKPlaceCategory = SYMKPlaceCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
+    private func selectPlace(with poiData: SYMKPlaceData, category: SYMKPlaceCategory = SYMKPlaceCategory(icon: SYUIIcon.POIPoi, color: .action), highlighted: Bool = true) {
         delegate?.mapSelection(didSelect: poiData)
     }
     
     private func selectCustomMarker(_ mapMarker: SYMapMarker) {
-        if let dataPayload = mapMarker.payload as? SYMKPoiDataProtocol {
+        if let dataPayload = mapMarker.payload as? SYMKPlaceDataProtocol {
             delegate?.mapSelection(didSelect: dataPayload)
         } else if let location = mapMarker.coordinate {
-            let poiData = SYMKPoiData(with: location)
+            let poiData = SYMKPlaceData(with: location)
             poiData.customData = mapMarker.payload
             delegate?.mapSelection(didSelect: poiData)
         }

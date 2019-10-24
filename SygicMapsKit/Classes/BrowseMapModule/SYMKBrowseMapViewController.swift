@@ -51,7 +51,7 @@ public protocol SYMKBrowseMapViewControllerDelegate: class {
     /// - Parameters:
     ///   - browseController: Browse map module controller.
     ///   - data: Data about selected point of interest. Data will be nil if method was called by marker deselection.
-    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPoiDataProtocol)
+    func browseMapController(_ browseController: SYMKBrowseMapViewController, didSelect data: SYMKPlaceDataProtocol)
     
     /// Delegate method called after tap to the map.
     ///
@@ -70,7 +70,7 @@ public extension SYMKBrowseMapViewControllerDelegate {
     }
     
     func browseMapControllerShouldAddMarkerOnTap(_ browseController: SYMKBrowseMapViewController, location: SYGeoCoordinate) -> SYMapMarker? {
-        return SYMapMarker(with: SYMKPoiData(with: location))
+        return SYMapMarker(with: SYMKPlaceData(with: location))
     }
     
     func browseMapControllerDidTapOnMap(_ browseController: SYMKBrowseMapViewController, selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {
@@ -314,7 +314,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
     
     // MARK: PoiDetail
     
-    private func updatePoiDetail(with data: SYMKPoiDetailModel) {
+    private func updatePoiDetail(with data: SYMKPlaceDetailModel) {
         if let poiDetail = placeDetailViewController {
             poiDetail.model = data
         }
@@ -356,8 +356,8 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
         return placeDetailViewController != nil
     }
     
-    public func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
-        guard let poiData = poiData as? SYMKPoiData else { return }
+    public func mapSelection(didSelect poiData: SYMKPlaceDataProtocol) {
+        guard let poiData = poiData as? SYMKPlaceData else { return }
         updatePoiDetail(with: poiData)
         delegate?.browseMapController(self, didSelect: poiData)
     }
@@ -366,7 +366,7 @@ extension SYMKBrowseMapViewController: SYMKMapSelectionDelegate {
         if let delegate = delegate {
             return delegate.browseMapControllerShouldAddMarkerOnTap(self, location: location)
         }
-        return SYMapMarker(with: SYMKPoiData(with: location))
+        return SYMapMarker(with: SYMKPlaceData(with: location))
     }
     
     public func mapSelectionDidTapOnMap(selectionType: SYMKSelectionType, location: SYGeoCoordinate) -> Bool {

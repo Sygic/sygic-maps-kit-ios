@@ -28,9 +28,9 @@ import SygicMapsKit
 
 class DataAnnotation: SYAnnotation {
     
-    var data: SYMKPoiDataProtocol
+    var data: SYMKPlaceDataProtocol
     
-    init(data: SYMKPoiDataProtocol) {
+    init(data: SYMKPlaceDataProtocol) {
         self.data = data
         super.init()
         self.coordinate = data.location

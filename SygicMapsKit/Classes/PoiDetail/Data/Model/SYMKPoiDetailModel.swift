@@ -27,7 +27,7 @@ import SygicUIKit
 
 
 /// Protocol for poi data
-public protocol SYMKPoiDataProtocol {
+public protocol SYMKPlaceDataProtocol {
     /// POI geo coordinates (latitude, longitude)
     var location: SYGeoCoordinate { get }
     /// POI name (optional)
@@ -51,14 +51,14 @@ public protocol SYMKPoiDataProtocol {
 /// Protocol for poi detail model
 ///
 /// Extension of Poi data protocol. Provides data for Poi detail data source
-public protocol SYMKPoiDetailModel: SYMKPoiDataProtocol {
+public protocol SYMKPlaceDetailModel: SYMKPlaceDataProtocol {
     var poiDetailTitle: String { get }
     var poiDetailSubtitle: String? { get }
     var poiDetailContacts: [SYMKPoiDetailContact] { get }
 }
 
 /// Implementation of poi data protocol
-public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
+public class SYMKPlaceData: NSObject, SYMKPlaceDataProtocol, NSCoding {
     public var location: SYGeoCoordinate
     public var name: String? = nil
     public var street: String? = nil
@@ -227,7 +227,7 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
     }
 }
 
-extension SYMKPoiData: SYMKPoiDetailModel {
+extension SYMKPlaceData: SYMKPlaceDetailModel {
     
     public var poiDetailTitle: String {
         if let name = name {

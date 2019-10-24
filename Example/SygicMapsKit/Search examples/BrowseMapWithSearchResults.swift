@@ -104,7 +104,7 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     private func addMarker(from poiResult: SYMapSearchResultPoi) {
         poiResult.detail { resultDetail in
             guard let poiDetail = resultDetail as? SYSearchResultDetailPlace else { return }
-            let poiData = SYMKPoiData(with: poiDetail)
+            let poiData = SYMKPlaceData(with: poiDetail)
             let category = SYMKPlaceCategory.with(sdkPlaceCategory: poiDetail.place.category)
             let pin = SYMapMarker(with: poiData, icon: category.icon, color: category.color)
             self.addMarkers(markers: [pin])
@@ -112,7 +112,7 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     }
     
     private func addMarker(from result: SYMapSearchResult) {
-        guard let placeData = SYMKPoiData(with: result) else { return }
+        guard let placeData = SYMKPlaceData(with: result) else { return }
         let pin = SYMapMarker(with: placeData)
         addMarkers(markers: [pin])
     }
@@ -120,7 +120,7 @@ extension BrowseMapWithSearchResults: SYMKSearchViewControllerDelegate {
     private func addMultipleMarkers(from results: [SYMapSearchResult]) {
         var markers: [SYMapMarker] = []
         for result in results {
-            guard let poiData = SYMKPoiData(with: result) else { continue }
+            guard let poiData = SYMKPlaceData(with: result) else { continue }
             let marker: SYMapMarker
             if let poiResult = result as? SYMapSearchResultPoi {
                 let category = SYMKPlaceCategory.with(sdkPlaceCategory: poiResult.category)

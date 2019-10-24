@@ -31,7 +31,7 @@ public class SYMKMapPin: SYMKMapMarker {
     // MARK: - Public Properties
     
     public var pin: SYUIPinView
-    public var data: SYMKPoiDataProtocol?
+    public var data: SYMKPlaceDataProtocol?
     public private(set) var mapMarker: SYMapMarker
     
     public var coordinate: SYGeoCoordinate {
@@ -64,7 +64,7 @@ public class SYMKMapPin: SYMKMapMarker {
         updateMarkerImage(image)
     }
     
-    public convenience init?(data: SYMKPoiData, icon: String = SYUIIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
+    public convenience init?(data: SYMKPlaceData, icon: String = SYUIIcon.POIPoi, color: UIColor = .darkGray, highlighted: Bool = false) {
         self.init(coordinate: data.location, icon: icon, color: color, highlighted: highlighted)
         self.data = data
     }

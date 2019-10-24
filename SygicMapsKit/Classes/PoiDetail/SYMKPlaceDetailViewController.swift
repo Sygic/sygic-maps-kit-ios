@@ -29,7 +29,7 @@ public class SYMKPlaceDetailViewController: UIViewController {
     
     // MARK: - Public properties
     
-    public var model: SYMKPoiDetailModel? {
+    public var model: SYMKPlaceDetailModel? {
         didSet {
             updateViewData()
         }
@@ -47,7 +47,7 @@ public class SYMKPlaceDetailViewController: UIViewController {
     
     /// Default initializer with data model structure
     /// - Parameter dataModel: place data. If nil, loading indicator is shown
-    public required init(with dataModel: SYMKPoiDetailModel?) {
+    public required init(with dataModel: SYMKPlaceDetailModel?) {
         self.model = dataModel
         super.init(nibName: nil, bundle: nil)
     }
