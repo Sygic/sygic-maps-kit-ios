@@ -62,17 +62,35 @@ class SYMKSearchModel {
     ///   - response: Response closure callback
     ///   - results: Search results based on query.
     ///   - resultState: Result state from search.
-    public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ error: Error?) -> ()) {
+    public func quickSearch(with query: String, response: @escaping (_ results: [SYSearchAutocompleteResult]?, _ error: Error?) -> ()) {
         guard !query.isEmpty else {
-            response([], NSError(domain: NSRequestResultErrorDomain, code: NSRequestResultErrorSuccess, userInfo: nil))
+            response([], nil)
             return
         }
         let request = SYSearchRequest(query: query, atLocation: location)
         request.maxResultsCount = maxResultsCount
         
-        search?.start(request) { (results, error) in
+        search?.autocomplete(request, withCompletion: { (results, error) in
             response(results, error)
+        })
+    }
+    
+    public func search(autocompleteResult: SYSearchAutocompleteResult, response: @escaping (_ result: SYSearchGeocodingResult?, _ error: Error?) -> ()) {
+        search?.geocodeLocation(SYGeocodeLocationRequest(autocompleteResult: autocompleteResult), withCompletion: { (result, error) in
+            response(result, error)
+        })
+    }
+    
+    public func search(with query: String, response: @escaping (_ results: [SYSearchGeocodingResult]?, _ error: Error?) -> ()) {
+        guard !query.isEmpty else {
+            response([], nil)
+            return
         }
+        let request = SYSearchRequest(query: query, atLocation: location)
+        request.maxResultsCount = maxResultsCount
+        search?.geocode(request, withCompletion: { (results, error) in
+            response(results, error)
+        })
     }
     
 }

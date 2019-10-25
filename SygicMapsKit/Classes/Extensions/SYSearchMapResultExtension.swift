@@ -1,4 +1,4 @@
-//// SYMapSearchResultExtension.swift
+//// SYSearchMapResultExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,25 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
 import SygicMaps
 
-extension SYMapSearchResult {
+
+public extension SYSearchMapResult {
     
-    /// Detail result request for `SYSearchResult`. `SYSearchResultDetail` doesn't have more information.
-    /// You need to cast it to some subclass, to retrieve more information.
-    ///
-    /// - Parameters:
-    ///   - coordinates: Coordinates for search result. In most cases you need coordinates of result, but groups and categories doesn't have coordinates.
-    ///                  So coordinates must be set to retrieve point of interests around this location.
-    ///   - data: Result closure callback
-    ///   - result: Detail result of a `SYSearchResult`.
-    public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
-        let location = self.coordinate ?? coordinates ?? SYPosition.lastKnownLocation()?.coordinate ?? SYGeoCoordinate()
-        let search = SYSearch()
-        search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
-            _ = search // reference to search instance, so completion block is executed
-            data(detail)
-        }
+    var street: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.street.rawValue)]
     }
     
+    var houseNumber: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.houseNumber.rawValue)]
+    }
+    
+    var postalCode: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.postalCode.rawValue)]
+    }
+    
+    var city: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.adminLevel_8.rawValue)]
+    }
+    
+    var country: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.adminLevel_2.rawValue)]
+    }
 }

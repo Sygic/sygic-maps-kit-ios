@@ -130,36 +130,15 @@ public class SYMKPlaceData: NSObject, SYMKPlaceDataProtocol, NSCoding {
     /// Initailizer used with map search result. Extracts basic address info. Initializer will fail if search result location is nil (Group or Category result).
     ///
     /// - Parameter mapResult: SYMapSearchResult
-    public convenience init?(with mapResult: SYMapSearchResult) {
-        guard let location = mapResult.coordinate else { return nil }
+    public convenience init?(with geocodingResult: SYSearchGeocodingResult) {
+        guard let location = geocodingResult.location else { return nil }
         self.init(with: location)
-        if mapResult.mapResultType == .poi {
-            if let poi = mapResult.resultLabels.poi?.value {
-                name = poi
-            }
-        }
-        street = mapResult.resultLabels.street?.value
-        city = mapResult.resultLabels.city?.value
-        postal = mapResult.resultLabels.postal?.value
-        houseNumber = mapResult.resultLabels.addressPoint?.value
-    }
-    
-    /// Initializer used with search poi data
-    ///
-    /// - Parameter poiDetail: search result detail provided by SYSearch for detail request on SYMapSearchResult
-    public convenience init(with poiDetail: SYSearchResultDetailPlace) {
-        self.init(with: poiDetail.coordinate ?? SYGeoCoordinate())
+        guard let mapResult = geocodingResult as? SYSearchMapResult else { return }
         
-        name = poiDetail.place.name
-        
-        street = poiDetail.place.street
-        houseNumber = poiDetail.place.houseNumber
-        postal = poiDetail.place.postal
-        city = poiDetail.place.city
-        
-        phone = poiDetail.place.phone
-        email = poiDetail.place.email
-        website = poiDetail.place.website
+        street = mapResult.street
+        city = mapResult.city
+        postal = mapResult.postalCode
+        houseNumber = mapResult.houseNumber
     }
     
     public required init?(coder aDecoder: NSCoder) {

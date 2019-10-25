@@ -160,21 +160,21 @@ extension DemoViewController: SYMKBrowseMapViewControllerDelegate {
 
 extension DemoViewController: SYMKSearchViewControllerDelegate {
     
-    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
+    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchGeocodingResult]) {
         hidePlaceDetail()
         dismissModule()
         
-        guard results.count == 1, let result = results.first, let coordinate = result.coordinate else { return }
+        guard results.count == 1, let result = results.first, let location = result.location else { return }
         
         if let addWaypoint = addWaypointToRouteBlock {
-            let newWaypoint = SYWaypoint(position: coordinate, type: .end, name: result.title?.string)
+            let newWaypoint = SYWaypoint(position: location, type: .end, name: result.detailCellTitle?.string)
             addWaypoint(newWaypoint)
             addWaypointToRouteBlock = nil
             return
         }
         
-        if let placeResult = result as? SYMapSearchResultPoi {
-            showPlaceDetail(with: SYMKPlaceData(with: coordinate), loading: false, zoom: true)
+        if let placeResult = result as? SYSearchPlaceResult {
+            showPlaceDetail(with: SYMKPlaceData(with: location), loading: false, zoom: true)
             SYPlacesManager.sharedPlaces().loadPlace(placeResult.link) { [weak self] (place, error) in
                 guard let place = place else {
                     self?.hidePlaceDetail()
@@ -182,11 +182,8 @@ extension DemoViewController: SYMKSearchViewControllerDelegate {
                 }
                 self?.placeDetail?.model = SYMKPlaceData(with: place)
             }
-        } else if let mapResult = result as? SYMapSearchResult {
-            guard let resultData = SYMKPlaceData(with: mapResult) else { return }
-            showPlaceDetail(with: resultData, loading: false, zoom: true)
         } else {
-            showPlaceDetail(with: SYMKPlaceData(with: coordinate), loading: false, zoom: true)
+            showPlaceDetail(with: SYMKPlaceData(with: result)!, loading: false, zoom: true)
         }
     }
     
