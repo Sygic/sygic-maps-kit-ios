@@ -79,17 +79,17 @@ extension SYSearchResult: SYUIDetailCellDataSource {
     public var leftIcon: SYUIDetailCellIconDataSource? {
         var icon = SYUIIcon.pinPlace
         var color: UIColor = .textBody
-        
-        if let category = self as? SYMapSearchResultPoiCategory {
-            let poiCategory = SYMKPlaceCategory.with(sdkPlaceCategory: category.category)
+        var categoryTag: String?
+        if let autocomplete = self as? SYSearchAutocompleteResult, let category = autocomplete.categoryTags.first {
+            categoryTag = category
+        } else if let place = self as? SYSearchPlaceResult,  let category = place.categoryTags.first {
+            categoryTag = category
+        }
+        if let category = categoryTag {
+            let poiCategory = SYMKPlaceCategory.with(sdkPlaceCategory: category)
             icon = poiCategory.icon
             color = poiCategory.color
-        } else if let group = self as? SYMapSearchResultPoiGroup {
-            let poiGroup = SYMKPlaceGroup.with(sdkPlaceGroup: group.group)
-            icon = poiGroup.icon
-            color = poiGroup.color
         }
-        
         return SYUIDetailCellIconDataSource(icon: icon, color: .textInvert, backgroundColor: color)
     }
     

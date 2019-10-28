@@ -259,36 +259,3 @@ public class SYMKPlaceCategory {
     }
     
 }
-
-public class SYMKPlaceGroup {
-    public let name: String
-    public let icon: String
-    public let color: UIColor
-    public let searchId: String
-    
-    public init(name: String, icon: String, color: UIColor, searchId: String) {
-        self.name = name
-        self.icon = icon
-        self.color = color
-        self.searchId = searchId
-    }
-    
-    public class func with(sdkPlaceGroup: String) -> SYMKPlaceGroup {
-        if sdkPlaceGroup == SYPlaceGroupFoodandDrink { return SYMKPlaceGroup(name: LS("_grp.Food_and_Drink"), icon: SYUIIcon.food, color: .poiGroupFoodDrink, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupAccommodation { return SYMKPlaceGroup(name: LS("_grp.Accomodation"), icon: SYUIIcon.accomodation, color: .poiGroupAccomodation, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupShopping { return SYMKPlaceGroup(name: LS("_grp.Shopping"), icon: SYUIIcon.shopping, color: .poiGroupShopping, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupTransportation { return SYMKPlaceGroup(name: LS("_grp.Transportation"), icon: SYUIIcon.plane, color: .poiGroupTransportation, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupTourism { return SYMKPlaceGroup(name: LS("_grp.Tourism"), icon: SYUIIcon.attraction, color: .poiGroupTourism, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupSocialLife { return SYMKPlaceGroup(name: LS("_grp.Social_Life"), icon: SYUIIcon.theater, color: .poiGroupSocialLife, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupServicesandEducation { return SYMKPlaceGroup(name: LS("_grp.Services_and_Education"), icon: SYUIIcon.school, color: .poiGroupSvcEducation, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupSport { return SYMKPlaceGroup(name: LS("_grp.Sport"), icon: SYUIIcon.running, color: .poiGroupSport, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupVehicleServices { return SYMKPlaceGroup(name: LS("_grp.Vehicle_Services"), icon: SYUIIcon.vehicle, color: .poiGroupVehicleServices, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupEmergency { return SYMKPlaceGroup(name: LS("_grp.Emergency"), icon: SYUIIcon.hospital, color: .poiGroupEmergency, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupGuides { return SYMKPlaceGroup(name: LS("_grp.Guides"), icon: SYUIIcon.infoCenter, color: .poiGroupGuides, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupParking { return SYMKPlaceGroup(name: LS("_grp.Parking"), icon: SYUIIcon.parking, color: .poiGroupParking, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupPetrolStation { return SYMKPlaceGroup(name: LS("_grp.Petrol_Station"), icon: SYUIIcon.stationPetrol, color: .poiGroupPetrolStation, searchId: sdkPlaceGroup) }
-        if sdkPlaceGroup == SYPlaceGroupBankATM { return SYMKPlaceGroup(name: LS("_grp.BankATM"), icon: SYUIIcon.money, color: .poiGroupBank, searchId: sdkPlaceGroup) }
-        // unknown
-        return SYMKPlaceGroup(name: "", icon: SYUIIcon.contextMenuIos, color: .poiGroupGuides, searchId: sdkPlaceGroup)
-    }
-}
