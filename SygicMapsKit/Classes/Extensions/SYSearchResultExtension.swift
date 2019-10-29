@@ -31,7 +31,8 @@ extension SYSearchResult: SYUIDetailCellDataSource {
     }
     
     public var detailCellTitle: NSMutableAttributedString? {
-        var title = self.title?.value ?? "\(type)"
+        let title = self.title?.value ?? "\(type)"
+        let highlights = (self.title?.highlights ?? []).compactMap { $0.rangeValue }
         
 //        guard let mapResult = self as? SYMapSearchResult else {
 //            return NSMutableAttributedString(string: title, attributes: SYSearchResult.defaultTitleAttributes)
@@ -59,6 +60,15 @@ extension SYSearchResult: SYUIDetailCellDataSource {
 //                }
 //            }
 //        }
+        
+        if self is SYSearchAutocompleteResult {
+            let highlightedTitle = NSMutableAttributedString(string: title, attributes: SYSearchResult.defaultTitleAttributes)
+            for highlight in highlights {
+                highlightedTitle.addAttribute(.font, value: SYUIFont.with(.bold, size: SYUIFontSize.headingOld)!, range: highlight)
+            }
+            return highlightedTitle
+        }
+        
         return NSMutableAttributedString(string: title, attributes: SYSearchResult.defaultTitleAttributes)
     }
     

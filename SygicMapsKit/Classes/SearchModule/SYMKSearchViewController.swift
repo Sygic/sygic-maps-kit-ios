@@ -117,6 +117,10 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         }
         resultsViewController.selectionBlock = { [weak self] searchResult in
             guard let strongSelf = self, let autocompleteResult = searchResult as? SYSearchAutocompleteResult else { return }
+            
+            //TODO: https://jira.sygic.com/browse/MS-6783 support category result, SYPlacesManager with category filter
+            guard !autocompleteResult.locationId.isEmpty else { return }
+            
             strongSelf.model?.search(autocompleteResult: autocompleteResult, response: { [weak self] (result, error) in
                 guard let strongSelf = self, let result = result else { return }
                 let results = [result]
