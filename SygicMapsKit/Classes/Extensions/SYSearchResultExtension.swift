@@ -30,48 +30,48 @@ extension SYSearchResult: SYUIDetailCellDataSource {
         return 60
     }
     
-    public var title: NSMutableAttributedString? {
-        var title = "\(type)"
+    public var detailCellTitle: NSMutableAttributedString? {
+        var title = self.title?.value ?? "\(type)"
         
-        guard let mapResult = self as? SYMapSearchResult else {
-            return NSMutableAttributedString(string: title, attributes: SYSearchResult.defaultTitleAttributes)
-        }
-        
-        if mapResult.mapResultType == .poiCategory || mapResult.mapResultType == .poiCategoryGroup {
-            if let poiCategory = mapResult.resultLabels.poiCategory?.value, !poiCategory.isEmpty {
-                title = poiCategory
-            } else if let poiGroup = mapResult.resultLabels.poiCategoryGroup?.value, !poiGroup.isEmpty {
-                title = poiGroup
-            }
-        } else if mapResult.mapResultType == .poi {
-            if let poi = mapResult.resultLabels.poi?.value {
-                title = poi
-            }
-        } else {
-            if let street = mapResult.resultLabels.street?.value, !street.isEmpty {
-                title = street
-                if let addressPoint = mapResult.resultLabels.addressPoint?.value, addressPoint.count > 0 {
-                    title += " \(addressPoint)"
-                }
-            } else {
-                if let city = mapResult.resultLabels.city?.value {
-                    title = city
-                }
-            }
-        }
+//        guard let mapResult = self as? SYMapSearchResult else {
+//            return NSMutableAttributedString(string: title, attributes: SYSearchResult.defaultTitleAttributes)
+//        }
+//
+//        if mapResult.mapResultType == .poiCategory || mapResult.mapResultType == .poiCategoryGroup {
+//            if let poiCategory = mapResult.resultLabels.poiCategory?.value, !poiCategory.isEmpty {
+//                title = poiCategory
+//            } else if let poiGroup = mapResult.resultLabels.poiCategoryGroup?.value, !poiGroup.isEmpty {
+//                title = poiGroup
+//            }
+//        } else if mapResult.mapResultType == .poi {
+//            if let poi = mapResult.resultLabels.poi?.value {
+//                title = poi
+//            }
+//        } else {
+//            if let street = mapResult.resultLabels.street?.value, !street.isEmpty {
+//                title = street
+//                if let addressPoint = mapResult.resultLabels.addressPoint?.value, addressPoint.count > 0 {
+//                    title += " \(addressPoint)"
+//                }
+//            } else {
+//                if let city = mapResult.resultLabels.city?.value {
+//                    title = city
+//                }
+//            }
+//        }
         return NSMutableAttributedString(string: title, attributes: SYSearchResult.defaultTitleAttributes)
     }
     
-    public var subtitle: NSMutableAttributedString? {
-        var title: String? = nil
-        if let mapResult = self as? SYMapSearchResult {
-            if mapResult.mapResultType == .poiCategory || mapResult.mapResultType == .poiCategoryGroup {
-                return nil
-            }
-            if let city = mapResult.resultLabels.city?.value, let country = mapResult.resultLabels.country?.value {
-                title = "\(city), \(country)"
-            }
-        }
+    public var detailCellSubtitle: NSMutableAttributedString? {
+        var title: String? = subtitle
+//        if let mapResult = self as? SYMapSearchResult {
+//            if mapResult.mapResultType == .poiCategory || mapResult.mapResultType == .poiCategoryGroup {
+//                return nil
+//            }
+//            if let city = mapResult.resultLabels.city?.value, let country = mapResult.resultLabels.country?.value {
+//                title = "\(city), \(country)"
+//            }
+//        }
         guard let subtitle = title else { return nil }
         return NSMutableAttributedString(string: subtitle, attributes: SYSearchResult.defaultSubtitleAttributes)
     }

@@ -38,6 +38,7 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         browseMap.mapSelectionMode = .all
         browseMap.delegate = self
         browseMap.setupActionButton(with: nil, icon: SYUIIcon.search) { [unowned self] in
+            self.searchModule.searchLocation = browseMap.mapState.geoCenter
             self.presentModule(self.searchModule)
         }
         return browseMap
