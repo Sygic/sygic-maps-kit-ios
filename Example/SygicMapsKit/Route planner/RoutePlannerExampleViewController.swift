@@ -55,9 +55,9 @@ extension SYMKModulePresenter {
         search.multipleResultsSelection = false
         search.searchBlock = { [weak self] results in
             self?.dismissModule()
-            let result = results.first { $0.coordinate != nil }
+            let result = results.first { $0.location != nil }
             guard let foundedResult = result else { return }
-            block(SYWaypoint(position: foundedResult.coordinate!, type: .end, name: foundedResult.title?.string))
+            block(SYWaypoint(position: foundedResult.location!, type: .end, name: foundedResult.detailCellTitle?.string))
         }
         search.cancelBlock = { [weak self] in
             self?.dismissModule()

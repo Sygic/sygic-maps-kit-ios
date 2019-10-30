@@ -28,18 +28,24 @@ public extension Error {
         let error = self as NSError
         guard error.domain == NSRequestResultErrorDomain else { return nil }
         switch error.code {
-        case NSRequestResultErrorError:
+        case NSRequestResultErrorUnknown:
             return LS("Search error")
-        case NSRequestResultErrorNotAvailable:
+        case NSRequestResultErrorNetworkUnavailable:
             return LS("Search not available")
-        case NSRequestResultErrorCancelled:
+        case NSRequestResultErrorRequestCanceled:
             return LS("Search canceled")
-        case NSRequestResultErrorWrongResponse:
-            return LS("Wrong response from search")
-        case NSRequestResultErrorTimeout:
-            return LS("Search timeout")
+        case NSRequestResultErrorInvalidLocationId:
+            return LS("Invalid location Id for search")
+        case NSRequestResultErrorInvalidCategoryTag:
+            return LS("Invalid category tag for search")
+        case NSRequestResultErrorUnauthorized:
+            return LS("Search unauthorized")
+        case NSRequestResultErrorNetworkUnavailable:
+            return LS("Network unavailable")
+        case NSRequestResultErrorNetworkTimeout:
+            return LS("Network timeout")
         default:
-            return nil
+            return LS("Search error")
         }
     }
 }

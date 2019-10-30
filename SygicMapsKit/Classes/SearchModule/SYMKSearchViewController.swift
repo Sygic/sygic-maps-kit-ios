@@ -34,7 +34,7 @@ public protocol SYMKSearchViewControllerDelegate: class {
     /// - Parameters:
     ///   - searchController: Search module controller.
     ///   - results: Array of search results.
-    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult])
+    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchGeocodingResult])
     
     /// Delegate receives information, that user did cancel action.
     ///
@@ -75,7 +75,7 @@ public class SYMKSearchViewController: SYMKModuleViewController {
     public weak var delegate: SYMKSearchViewControllerDelegate?
     
     /// Block called after search controller has searched and selected results
-    public var searchBlock: ((_ results: [SYSearchResult])->())?
+    public var searchBlock: ((_ results: [SYSearchGeocodingResult])->())?
     
     /// Block called after search has canceled
     public var cancelBlock: (()->())?
@@ -116,10 +116,17 @@ public class SYMKSearchViewController: SYMKModuleViewController {
             _ = self?.searchBarController.resignFirstResponder()
         }
         resultsViewController.selectionBlock = { [weak self] searchResult in
-            guard let strongSelf = self else { return }
-            let results = [searchResult]
-            strongSelf.delegate?.searchController(strongSelf, didSearched: results)
-            strongSelf.searchBlock?(results)
+            guard let strongSelf = self, let autocompleteResult = searchResult as? SYSearchAutocompleteResult else { return }
+            
+            //TODO: https://jira.sygic.com/browse/MS-6783 support category result, SYPlacesManager with category filter
+            guard !autocompleteResult.locationId.isEmpty else { return }
+            
+            strongSelf.model?.search(autocompleteResult: autocompleteResult, response: { [weak self] (result, error) in
+                guard let strongSelf = self, let result = result else { return }
+                let results = [result]
+                strongSelf.delegate?.searchController(strongSelf, didSearched: results)
+                strongSelf.searchBlock?(results)
+            })
         }
     }
     
@@ -156,17 +163,17 @@ public class SYMKSearchViewController: SYMKModuleViewController {
         
         searchBarController.showLoadingIndicator(true)
         
-        model.search(with: query) { [weak self] (results, state) in
-            self?.resultsViewController.data = results
+        model.quickSearch(with: query) { [weak self] (results, state) in
+            self?.resultsViewController.data = results ?? []
             self?.resultsViewController.showErrorMessage(self?.errorMessage(for: results, state))
             self?.searchBarController.showLoadingIndicator(false)
         }
     }
     
-    private func errorMessage(for results: [SYSearchResult], _ error: Error?) -> String? {
-        guard results.count == 0 else { return nil }
+    private func errorMessage(for results: [SYSearchResult]?, _ error: Error?) -> String? {
+        guard results == nil || results!.count == 0 else { return nil }
         let error = error as NSError?
-        if (error == nil || error!.code == NSRequestResultErrorSuccess) && !searchBarController.searchText.isEmpty {
+        if error == nil && !searchBarController.searchText.isEmpty {
             return LS("No results found")
         } else {
             return error?.searchErrorMessage()
@@ -175,23 +182,26 @@ public class SYMKSearchViewController: SYMKModuleViewController {
 }
 
 extension SYMKSearchViewController: SYUISearchBarDelegate {
-    
-    public func searchBar(textDidChange searchedText: String) {
+
+    public func searchBar(_ searchBar: SYUISearchBarProtocol, textDidChange searchedText: String) {
         search(for: searchedText)
     }
     
-    public func searchBarDidBeginEditing() { }
+    public func searchBarDidBeginEditing(_ searchBar: SYUISearchBarProtocol) { }
     
-    public func searchBarDidEndEditing() { }
+    public func searchBarDidEndEditing(_ searchBar: SYUISearchBarProtocol) { }
     
-    public func searchBarSearchButtonClicked() {
+    public func searchBarSearchButtonClicked(_ searchBar: SYUISearchBarProtocol) {
         guard multipleResultsSelection else { return }
-        let results = resultsViewController.data
-        delegate?.searchController(self, didSearched: results)
-        searchBlock?(results)
+        
+        model?.search(with: searchBar.searchText, response: { [weak self] (results, error) in
+            guard let strongSelf = self, let results = results, error == nil else { return }
+            strongSelf.delegate?.searchController(strongSelf, didSearched: results)
+            strongSelf.searchBlock?(results)
+        })
     }
     
-    public func searchBarCancelButtonClicked() {
+    public func searchBarCancelButtonClicked(_ searchBar: SYUISearchBarProtocol) {
         delegate?.searchControllerDidCancel(self)
         cancelBlock?()
     }

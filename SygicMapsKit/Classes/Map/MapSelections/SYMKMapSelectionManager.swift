@@ -220,8 +220,8 @@ public class SYMKMapSelectionManager: SYMKMapSelectionProtocol {
     }
     
     private func selectCoordinate(_ coordinate: SYGeoCoordinate) {
-        reverseSearch.reverseSearch(with: coordinate, withFilter: []) { [weak self] results in
-            guard let result = results.first else { return }
+        reverseSearch.reverseSearch(with: coordinate, withFilter: nil) { [weak self] (results, _) in
+            guard let result = results?.first else { return }
             self?.selectPlace(with: SYMKPlaceData(with: result))
         }
     }

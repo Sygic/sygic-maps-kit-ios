@@ -25,6 +25,8 @@ import SygicMaps
 
 class SYMKSearchModel {
     
+    public typealias QuickSearchBlock = (_ results: [SYSearchAutocompleteResult]?, _ error: Error?) -> ()
+    
     // MARK: - Public Properties
     
     static let maxResultsDefault: UInt = 10
@@ -38,6 +40,7 @@ class SYMKSearchModel {
     // MARK: - Private Poperties
     
     private var search: SYSearch?
+    private var requestsTreshold: Double = 0.6
     
     // MARK: - Public Methods
 
@@ -52,6 +55,8 @@ class SYMKSearchModel {
         search = SYSearch()
     }
     
+    var quickSearchTask: DispatchWorkItem?
+    
     /// Search for results based on query. Searching around `coordinates` set in model.
     /// If `coordinates` are not set, user location coordinates are used.
     ///
@@ -62,17 +67,41 @@ class SYMKSearchModel {
     ///   - response: Response closure callback
     ///   - results: Search results based on query.
     ///   - resultState: Result state from search.
-    public func search(with query: String, response: @escaping (_ results: [SYSearchResult], _ error: Error?) -> ()) {
+    public func quickSearch(with query: String, response: @escaping QuickSearchBlock) {
         guard !query.isEmpty else {
-            response([], NSError(domain: NSRequestResultErrorDomain, code: NSRequestResultErrorSuccess, userInfo: nil))
+            response([], nil)
+            return
+        }
+        quickSearchTask?.cancel()
+        quickSearchTask = DispatchWorkItem { [weak self] in
+            self?.executeQuickSearch(with: query, response: response)
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + requestsTreshold, execute: quickSearchTask!)
+    }
+    
+    public func search(autocompleteResult: SYSearchAutocompleteResult, response: @escaping (_ result: SYSearchGeocodingResult?, _ error: Error?) -> ()) {
+        search?.geocodeLocation(SYGeocodeLocationRequest(autocompleteResult: autocompleteResult), withCompletion: { (result, error) in
+            response(result, error)
+        })
+    }
+    
+    public func search(with query: String, response: @escaping (_ results: [SYSearchGeocodingResult]?, _ error: Error?) -> ()) {
+        guard !query.isEmpty else {
+            response([], nil)
             return
         }
         let request = SYSearchRequest(query: query, atLocation: location)
         request.maxResultsCount = maxResultsCount
-        
-        search?.start(request) { (results, error) in
+        search?.geocode(request, withCompletion: { (results, error) in
             response(results, error)
-        }
+        })
     }
     
+    private func executeQuickSearch(with query: String, response: @escaping QuickSearchBlock) {
+        let request = SYSearchRequest(query: query, atLocation: location)
+        request.maxResultsCount = maxResultsCount
+        search?.autocomplete(request, withCompletion: { (results, error) in
+            response(results, error)
+        })
+    }
 }

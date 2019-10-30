@@ -57,7 +57,7 @@ class BrowseMapWithSearchViewController: UIViewController, SYMKModulePresenter {
 
 extension BrowseMapWithSearchViewController: SYMKSearchViewControllerDelegate {
     
-    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchResult]) {
+    func searchController(_ searchController: SYMKSearchViewController, didSearched results: [SYSearchGeocodingResult]) {
         dismissModule()
         let alert = UIAlertController(title: nil, message: "\(results)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
