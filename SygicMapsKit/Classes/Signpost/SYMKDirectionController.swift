@@ -74,13 +74,13 @@ public class SYMKDirectionController {
     /// Updates instructions view.
     ///
     /// - Parameter instruction: Instruction for update instruction view.
-    public func update(with instruction: SYInstruction) {
+    public func update(with instruction: SYDirectionInfo) {
         updateUI(with: instruction)
     }
     
     // MARK: - Private Methods
     
-    internal func updateUI(with instruction: SYInstruction) {
+    internal func updateUI(with instruction: SYDirectionInfo) {
         guard let primaryManeuver = instruction.primaryManeuver, primaryManeuver.type != .none else {
             clearDirectionInfo()
             return

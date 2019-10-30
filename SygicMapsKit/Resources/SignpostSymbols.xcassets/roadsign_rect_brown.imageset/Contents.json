@@ -2,7 +2,21 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "roadsign_rect_brown.pdf"
+      "filename" : "roadsign_rect_brown.pdf",
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 6,
+          "top" : 6,
+          "right" : 5,
+          "left" : 5
+        }
+      }
     }
   ],
   "info" : {

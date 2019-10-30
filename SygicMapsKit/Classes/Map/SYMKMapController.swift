@@ -56,7 +56,7 @@ public class SYMKMapController: NSObject {
     /// Map controller delegate.
     public weak var delegate: SYMKMapControllerDelegate?
     /// Selection manager for map.
-    public var selectionManager: SYMKMapSelectionManager? {
+    public var selectionManager: SYMKMapSelectionProtocol? {
         didSet {
             selectionManager?.mapView = mapView
         }

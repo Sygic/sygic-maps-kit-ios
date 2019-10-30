@@ -28,12 +28,12 @@ import MessageUI
 /// Provides implementation of SYUIPoiDetailDelegate
 public class SYMKPoiDetailDelegate: SYUIPoiDetailDelegate {
     
-    let model: SYMKPoiDetailModel
+    let model: SYMKPlaceDetailModel
     weak var controller: UIViewController?
     
     private var mailComposer: SYUIMailComposer?
     
-    init(with model: SYMKPoiDetailModel, controller: UIViewController) {
+    public init(with model: SYMKPlaceDetailModel, controller: UIViewController) {
         self.model = model
         self.controller = controller
     }

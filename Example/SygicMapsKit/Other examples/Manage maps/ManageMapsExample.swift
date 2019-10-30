@@ -91,7 +91,7 @@ class ManageMapsPackagesViewController: UITableViewController {
     
     @objc func shortcutToMap() {
         SYMKSdkManager.shared.onlineMapsEnabled = false
-        navigationController?.pushViewController(SYMKBrowseMapViewController(), animated: true)
+        navigationController?.pushViewController(DemoViewController(), animated: true)
     }
     
     func formattedSize(_ size: UInt) -> String {

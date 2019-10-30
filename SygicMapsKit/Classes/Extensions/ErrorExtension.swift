@@ -23,21 +23,29 @@
 import SygicMaps
 import SygicUIKit
 
-public extension SYRequestResultState {
-    func stringMessage() -> String? {
-        switch self {
-        case .error:
+public extension Error {
+    func searchErrorMessage() -> String? {
+        let error = self as NSError
+        guard error.domain == NSRequestResultErrorDomain else { return nil }
+        switch error.code {
+        case NSRequestResultErrorUnknown:
             return LS("Search error")
-        case .notAvailable:
+        case NSRequestResultErrorNetworkUnavailable:
             return LS("Search not available")
-        case .cancelled:
+        case NSRequestResultErrorRequestCanceled:
             return LS("Search canceled")
-        case .wrongResponse:
-            return LS("Wrong response from search")
-        case .timeout:
-            return LS("Search timeout")
+        case NSRequestResultErrorInvalidLocationId:
+            return LS("Invalid location Id for search")
+        case NSRequestResultErrorInvalidCategoryTag:
+            return LS("Invalid category tag for search")
+        case NSRequestResultErrorUnauthorized:
+            return LS("Search unauthorized")
+        case NSRequestResultErrorNetworkUnavailable:
+            return LS("Network unavailable")
+        case NSRequestResultErrorNetworkTimeout:
+            return LS("Network timeout")
         default:
-            return nil
+            return LS("Search error")
         }
     }
 }

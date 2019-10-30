@@ -30,8 +30,9 @@ class RootTableViewController: UITableViewController {
     
     let mapsKitGithub = "https://github.com/Sygic/sygic-maps-kit-ios"
     let mapsKitWiki = "https://github.com/Sygic/sygic-maps-kit-ios/wiki"
-    let sectionsData = ["Modules", "Getting started!"]
-    let rowsData = [["Browse Map", "Search", "Navigation", "Double map", "Manage Maps"],
+    let sectionsData = [" ", "Modules", "Getting started!"]
+    let rowsData = [["Complex demo"],
+                    ["Browse Map", "Search", "Route planner", "Navigation", "Double map", "Manage Maps"],
                     ["Source code", "Wiki"]]
     
     override func viewDidLoad() {
@@ -61,19 +62,28 @@ class RootTableViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                navigationController?.pushViewController(BrowseExamplesTableViewController(), animated: true)
-            case 1:
-                navigationController?.pushViewController(SearchExamplesTableViewController(), animated: true)
-            case 2:
-                navigationController?.pushViewController(NavigationExamplesTableViewController(), animated: true)
-            case 3:
-                navigationController?.pushViewController(DoubleMapViewController(), animated: true)
-            case 4:
-                navigationController?.pushViewController(ManageMapsViewController(), animated: true)
+                navigationController?.pushViewController(DemoViewController(), animated: true)
             default:
                 break
             }
         } else if indexPath.section == 1 {
+            switch indexPath.row {
+            case 0:
+                navigationController?.pushViewController(BrowseExamplesTableViewController(), animated: true)
+            case 1:
+                navigationController?.pushViewController(SearchExamplesTableViewController(), animated: true)
+            case 2:
+                navigationController?.pushViewController(RoutePlannerExamplesTableViewController(), animated: true)
+            case 3:
+                navigationController?.pushViewController(NavigationExamplesTableViewController(), animated: true)
+            case 4:
+                navigationController?.pushViewController(DoubleMapViewController(), animated: true)
+            case 5:
+                navigationController?.pushViewController(ManageMapsViewController(), animated: true)
+            default:
+                break
+            }
+        } else if indexPath.section == 2 {
             let url = indexPath.row == 0 ? mapsKitGithub : mapsKitWiki
             guard let safariUrl = URL(string: url) else { return }
             UIApplication.shared.open(safariUrl)

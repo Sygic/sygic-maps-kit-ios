@@ -2,7 +2,21 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "roadsign_rect_white_yellow_border.pdf"
+      "filename" : "roadsign_rect_white_yellow_border.pdf",
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 6,
+          "top" : 6,
+          "right" : 5,
+          "left" : 5
+        }
+      }
     }
   ],
   "info" : {

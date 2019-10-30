@@ -33,15 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
         let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
-        let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
-        
-        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
-
+        SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
         return true
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
         SYMKSdkManager.shared.terminate()
     }
-
 }

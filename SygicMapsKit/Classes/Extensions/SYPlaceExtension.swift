@@ -24,7 +24,13 @@ import Foundation
 import SygicMaps
 
 
-public extension SYLocationInfo {
+public extension SYPlace {
+    
+    // MARK: Basic Info
+    
+    var location: SYGeoCoordinate { return link.coordinate }
+    var name: String { return link.name }
+    var category: String { return link.category }
     
     /// Formatted string containing street and house number from place address
     var streetAndHouseNumber: String? {
@@ -69,24 +75,27 @@ public extension SYLocationInfo {
     ///
     /// - Parameter field: desired location info type
     /// - Returns: Location info value string. If empty, returns nil.
-    func unemptyLocationInfo(for field: SYLocationInfoField) -> String? {
-        if let info = values(for: field)?.first, !info.isEmpty {
-            return info
+    func unemptyLocationInfo(for key: String) -> String? {
+        let detail = details[key]
+        if let text = detail as? String {
+            return text
+        }
+        if let multiple: [String] = detail as? Array, let text = multiple.first {
+            return text
         }
         return nil
     }
     
     // MARK: Address
     
-    var street: String? { return unemptyLocationInfo(for: .street) }
-    var houseNumber: String? { return unemptyLocationInfo(for: .houseNum) }
-    var city: String? { return unemptyLocationInfo(for: .city) }
-    var postal: String? { return unemptyLocationInfo(for: .postal) }
+    var street: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeStreet) }
+    var houseNumber: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeHouseNum) }
+    var city: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeCity) }
+    var postal: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributePostal) }
     
     // MARK: Contacts
     
-    var phone: String? { return unemptyLocationInfo(for: .phone) }
-    var email: String? { return unemptyLocationInfo(for: .mail) }
-    var website: String? { return unemptyLocationInfo(for: .url) }
-    
+    var phone: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributePhone) }
+    var email: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeMail) }
+    var website: String? { return unemptyLocationInfo(for: SYPlaceDetailAttributeUrl) }
 }

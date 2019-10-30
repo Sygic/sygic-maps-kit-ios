@@ -45,11 +45,17 @@ public protocol SYMKNavigationViewControllerDelegate: class {
     /// - Parameter controller: Navigation module controller
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController)
     
+    /// Called when route is updated while navigation is running, e.g. wrong turn and recomputing takes action
+    ///
+    /// - Parameter controller: Navigation module controller
+    /// - Parameter route: SYRoute that replaced old route
+    func navigationController(_ controller: SYMKNavigationViewController, didUpdateRoute newRoute: SYRoute)
+    
     /// Called when better route is found while navigation is running
     ///
     /// - Parameter controller: Navigation module controller
     /// - Parameter route: SYRoute with additional information about route properties
-    func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYAlternativeRoute)
+    func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYBetterRoute)
     
     /// Called after waypoint on route is passed
     ///
@@ -68,7 +74,8 @@ public extension SYMKNavigationViewControllerDelegate {
     func navigationController(_ controller: SYMKNavigationViewController, didUpdate mapState: SYMKMapState) {}
     func navigationController(_ controller: SYMKNavigationViewController, didStartNavigatingWith mapRoute: SYMapRoute) {}
     func navigationControllerDidStopNavigating(_ controller: SYMKNavigationViewController) {}
-    func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYAlternativeRoute) {}
+    func navigationController(_ controller: SYMKNavigationViewController, didUpdateRoute newRoute: SYRoute) {}
+    func navigationController(_ controller: SYMKNavigationViewController, didFindBetterRoute route: SYBetterRoute) {}
     func navigationController(_ controller: SYMKNavigationViewController, didPassWaypoint: SYWaypoint, at index: UInt) {}
     func navigationControllerDidReachFinish(_ controller: SYMKNavigationViewController) {}
 }
@@ -94,18 +101,13 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// Delegate output for browse map controller.
     public weak var delegate: SYMKNavigationViewControllerDelegate?
     
-    /// Navigation route
+    /// Active navigation route
     public private(set) var route: SYRoute? {
         didSet {
-            guard route != oldValue, SYMKSdkManager.shared.isSdkInitialized else { return }
             if let newRoute = route {
                 mapRoute = SYMapRoute(route: newRoute, type: .primary)
-                SYNavigation.shared().start(with: route)
             } else {
                 mapRoute = nil
-                if SYNavigation.shared().isNavigating() {
-                    SYNavigation.shared().stop()
-                }
             }
         }
     }
@@ -179,6 +181,9 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    /// Route preview controller provides interface to manage route playback without moving the device
+    public let routePreviewController = SYMKRoutePreviewController()
+    
     // MARK: - Private Properties
     
     private var mapRoute: SYMapRoute? {
@@ -193,10 +198,13 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         }
     }
     
+    private var navigationObserver: SYNavigationObserver?
+    private var positioningObserver: SYPositioning?
+    private var navigationInfoTimer: Timer?
     private var mapController: SYMKMapController?
     private var infobarController: SYMKInfobarController?
     private var speedController: SYMKSpeedController?
-    private let routePreviewController = SYMKRoutePreviewController()
+    private var idleTimerSetting: Bool = false
     private let laneAssistController = SYMKLaneAssistController()
 
     private var instructionsController: SYMKDirectionController? = SYMKDirectionController() {
@@ -235,7 +243,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let lockButton = SYUIActionButton()
         lockButton.style = .primary13
         lockButton.icon = SYUIIcon.positionIos
-        lockButton.height = 48
+        lockButton.height = SYUIActionButtonSize.infobar.height
         lockButton.accessibilityIdentifier = leftInfobarButtonDefaultIdentifier
         lockButton.addTarget(self, action: #selector(leftInfobarButtonPressed), for: .touchUpInside)
         leftInfobarButton = lockButton
@@ -243,7 +251,7 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
         let cancelRouteButton = SYUIActionButton()
         cancelRouteButton.style = .error13
         cancelRouteButton.icon = SYUIIcon.close
-        cancelRouteButton.height = 48
+        cancelRouteButton.height = SYUIActionButtonSize.infobar.height
         cancelRouteButton.addTarget(self, action: #selector(stopNavigation), for: .touchUpInside)
         rightInfobarButton = cancelRouteButton
     }
@@ -289,25 +297,28 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     }
     
     public override func sygicSDKInitialized() {
+        super.sygicSDKInitialized()
         triggerUserLocation(true)
         setupMapController()
         if useCurrentSpeed {
             speedController?.setupSpeedUpdater()
         }
-        mapState.updateLandscapeMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
-        SYNavigation.shared().delegate = self
-        SYNavigation.shared().audioFeedbackDelegate = self
+        mapState.updateNavigatingMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
         
-        guard let route = route, let mapRoute = mapRoute, let map = mapState.map else { return }
-        map.remove(mapRoute)
-        map.add(mapRoute)
-        SYNavigation.shared().start(with: route)
-        delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
+        positioningObserver = SYPositioning()
+        positioningObserver?.delegate = self
+        positioningObserver?.startUpdatingPosition()
+        
+        SYNavigationManager.sharedNavigation().audioFeedbackDelegate = self
+        
+        guard let routeToStart = route else { return }
+        startNavigation(with: routeToStart, preview: preview)
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        mapState.updateLandscapeMapCenter(SYUIDeviceOrientationUtils.isLandscapeStatusBar())
+        let isLandscape = size.width > size.height
+        mapState.updateNavigatingMapCenter(isLandscape)
     }
     
     /// Start navigation
@@ -315,6 +326,12 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     /// - Parameter preview: if true, navigation will simulate device position through route (default: false)
     public func startNavigation(with route: SYRoute, preview: Bool = false) {
         self.route = route
+        
+        idleTimerSetting = UIApplication.shared.isIdleTimerDisabled
+        UIApplication.shared.isIdleTimerDisabled = true
+        
+        navigationObserver = SYNavigationObserver(delegate: self)
+        SYNavigationManager.sharedNavigation().startNavigation(with: route)
         self.preview = preview
         guard let mapRoute = mapRoute else { return }
         delegate?.navigationController(self, didStartNavigatingWith: mapRoute)
@@ -322,9 +339,14 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
     
     /// Stops current navigation and removes route
     @objc public func stopNavigation() {
-        guard route != nil, SYMKSdkManager.shared.isSdkInitialized, SYNavigation.shared().isNavigating() else { return }
+        guard route != nil, SYMKSdkManager.shared.isSdkInitialized, SYNavigationManager.sharedNavigation().isNavigating() else { return }
         preview = false
         route = nil
+        SYNavigationManager.sharedNavigation().stopNavigation()
+        navigationObserver = nil
+        
+        UIApplication.shared.isIdleTimerDisabled = idleTimerSetting
+        
         delegate?.navigationControllerDidStopNavigating(self)
     }
     
@@ -387,56 +409,59 @@ public class SYMKNavigationViewController: SYMKModuleViewController {
 
 extension SYMKNavigationViewController: SYNavigationDelegate {
     
-    public func navigation(_ navigation: SYNavigation, didPassWaypointWith index: UInt) {
-        guard let wps = navigation.waypoints else { return }
+    public func navigation(_ navigation: SYNavigationObserver, didPassWaypointWith index: UInt) {
+        guard let wps = SYNavigationManager.sharedNavigation().waypoints else { return }
         let waypointPassed = wps[Int(index)]
         delegate?.navigationController(self, didPassWaypoint: waypointPassed, at: index)
     }
     
-    public func navigation(_ navigation: SYNavigation, didFindBetterRoute alterRoute: SYAlternativeRoute?) {
+    public func navigation(_ observer: SYNavigationObserver, didFind alterRoute: SYBetterRoute?) {
         guard let alterRoute = alterRoute else { return }
         delegate?.navigationController(self, didFindBetterRoute: alterRoute)
     }
     
-    public func navigationManagerDidReachFinish(_ navigation: SYNavigation) {
+    public func navigationManagerDidReachFinish(_ navigation: SYNavigationObserver) {
         delegate?.navigationControllerDidReachFinish(self)
     }
     
-    public func navigation(_ navigation: SYNavigation, didUpdate positionInfo: SYPositionInfo?) {
-        guard let info = positionInfo else { return }
-        infobarController?.updatePositionInfo(info)
+    public func navigation(_ observer: SYNavigationObserver, didUpdateSpeedLimit limit: SYSpeedLimitInfo?) {
+        guard useSpeedLimit else { return }
+        speedController?.update(with: limit)
     }
     
-    public func navigation(_ navigation: SYNavigation, didUpdate limit: SYSpeedLimit?) {
-        if useSpeedLimit {
-            speedController?.update(with: limit)
-        }
-    }
-    
-    public func navigation(_ navigation: SYNavigation, didUpdateSignpost signpostInfo: [SYSignpost]?) {
+    public func navigation(_ observer: SYNavigationObserver, didUpdateSignpost signpostInfo: [SYSignpostInfo]?) {
         guard let signposts = signpostInfo, let signpostController = instructionsController as? SYMKSignpostController else { return }
         signpostController.update(with: signposts)
     }
     
-    public func navigation(_ navigation: SYNavigation, didUpdateDirection instruction: SYInstruction?) {
+    public func navigation(_ observer: SYNavigationObserver, didUpdateDirection instruction: SYDirectionInfo?) {
         guard let instruction = instruction, let instructionsController = instructionsController else { return }
         instructionsController.update(with: instruction)
     }
     
-    public func navigation(_ navigation: SYNavigation, didUpdate info: SYOnRouteInfo?) {
-        guard let info = info else { return }
-        infobarController?.updateRouteInfo(info)
-    }
-    
-    public func navigation(_ navigation: SYNavigation, didUpdate lanesInfo: SYLanesInformation?) {
+    public func navigation(_ observer: SYNavigationObserver, didUpdateLane lane: SYLaneInfo?) {
         guard useLaneAssist else { return }
         if let signpostInstructions = instructionsController as? SYMKSignpostController {
-            signpostInstructions.update(with: lanesInfo)
+            signpostInstructions.update(with: lane)
         } else {
-            laneAssistController.update(with: lanesInfo)
+            laneAssistController.update(with: lane)
         }
     }
     
+    public func navigation(_ observer: SYNavigationObserver, didUpdateTraffic trafficInfo: SYTrafficInfo?) {
+        if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
+            infobarController?.updateRouteProgress(progress)
+        }
+    }
+    
+    public func navigation(_ navigation: SYNavigationObserver, didUpdate route: SYRoute?, with status: SYRouteUpdateStatus) {
+        guard let newRoute = route, status == .success else { return }
+        self.route = newRoute
+        if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
+            infobarController?.updateRouteProgress(progress)
+        }
+        delegate?.navigationController(self, didUpdateRoute: newRoute)
+    }
 }
 
 extension SYMKNavigationViewController: SYMKRoutePreviewDelegate {
@@ -456,23 +481,40 @@ extension SYMKNavigationViewController: SYMKMapControllerDelegate {
 }
 
 extension SYMKNavigationViewController: SYNavigationAudioFeedbackDelegate {
-    public func navigation(_ navigation: SYNavigation, shouldPlayWarningAudioFeedback warning: SYWarning) -> Bool {
+    public func navigation(_ navigation: SYNavigationManager, shouldPlayRailwayAudioFeedback railway: SYRailwayCrossingInfo) -> Bool {
         return audioEnabled
     }
     
-    public func navigation(_ navigation: SYNavigation, shouldPlayTrafficAudioFeedback traffic: SYTrafficInfo) -> Bool {
+    public func navigation(_ navigation: SYNavigationManager, shouldPlaySharpCurveAudioFeedback turn: SYSharpCurveInfo) -> Bool {
         return audioEnabled
     }
     
-    public func navigation(_ navigation: SYNavigation, shouldPlaySpeedLimitAudioFeedback speedLimit: SYSpeedLimit) -> Bool {
+    public func navigation(_ navigation: SYNavigationManager, shouldPlayIncidentAudioFeedback incident: SYIncidentInfo) -> Bool {
         return audioEnabled
     }
     
-    public func navigation(_ navigation: SYNavigation, shouldPlayBetterRouteAudioFeedback route: SYAlternativeRoute) -> Bool {
+    public func navigation(_ navigation: SYNavigationManager, shouldPlayTrafficAudioFeedback traffic: SYTrafficInfo) -> Bool {
         return audioEnabled
     }
     
-    public func navigation(_ navigation: SYNavigation, shouldPlayInstructionAudioFeedback instruction: SYInstruction) -> Bool {
+    public func navigation(_ navigation: SYNavigationManager, shouldPlayBetterRouteAudioFeedback route: SYBetterRoute) -> Bool {
         return audioEnabled
+    }
+    
+    public func navigation(_ navigation: SYNavigationManager, shouldPlaySpeedLimitAudioFeedback speedLimit: SYSpeedLimitInfo) -> Bool {
+        return audioEnabled
+    }
+    
+    public func navigation(_ navigation: SYNavigationManager, shouldPlayInstructionAudioFeedback instruction: SYDirectionInfo) -> Bool {
+        return audioEnabled
+    }
+}
+
+extension SYMKNavigationViewController: SYPositioningDelegate {
+    public func positioning(_ positioning: SYPositioning, didUpdate position: SYPosition) {
+        infobarController?.updatePositionInfo(position)
+        if let progress = SYNavigationManager.sharedNavigation().getRouteProgress() {
+            infobarController?.updateRouteProgress(progress)
+        }
     }
 }

@@ -38,13 +38,14 @@ public class SYMKAltitudeInfobarItem: SYMKInfobarItem {
         case .altitude(let altitude, _):
             type = valueType
             guard let label = view as? SYUIInfobarLabel else { return }
-            label.text = formattedValue(altitude)
+            
+            let altitudeAttrString = NSMutableAttributedString(string: String(format: "%.0f ", altitude), attributes: [.font: label.font])
+            let iconString = NSAttributedString(string: SYUIIcon.mountines, attributes: [.font: SYUIFont.iconFontWith(size: SYUIFontSize.body)!, .baselineOffset : -3])
+            altitudeAttrString.append(iconString)
+            
+            label.attributedText = altitudeAttrString
         default:
             break
         }
-    }
-
-    private func formattedValue(_ altitude: Double) -> String {
-        return "\(altitude)\(LS("masl"))"
     }
 }

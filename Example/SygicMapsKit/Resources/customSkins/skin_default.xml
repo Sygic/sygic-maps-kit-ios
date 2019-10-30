@@ -1,0 +1,3843 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+    <map>
+        <areas>
+            <effects>
+                <object name="effect.area_with_blending" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_T_OCF_GNM_BBD"/>
+                    <uniforms value="u_tAmbient-t:CAreaColorsTextureLoader;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tGeoNormalmap-t:CEarthNormalmapTextureLoader;u_vGeoNormalmapInfo-s:CEarthNormalMap::ms_vInfo;u_vGeoNormalmapLight-s:CEarthNormalMap::ms_vLight;u_vBlendByDistanceFunction-i:map/terrain/functions/function.blend_by_distance;v_fBlendByDistanceCoef-i:map/terrain/functions/function.blend_by_distance_coef"/>
+                </object>
+                <object name="effect.area" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/effects/common/shader.common_T_OCF_GNM"/>
+                    <uniforms value="u_tAmbient-t:CAreaColorsTextureLoader;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tGeoNormalmap-t:CEarthNormalmapTextureLoader;u_vGeoNormalmapInfo-s:CEarthNormalMap::ms_vInfo;u_vGeoNormalmapLight-s:CEarthNormalMap::ms_vLight"/>
+                </object>
+                <object name="effect.area_flat_with_blending" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_T_OCF_BBD"/>
+                    <uniforms value="u_tAmbient-t:CAreaColorsTextureLoader;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_vBlendByDistanceFunction-i:map/terrain/functions/function.blend_by_distance;v_fBlendByDistanceCoef-i:map/terrain/functions/function.blend_by_distance_coef"/>
+                </object>
+                <object name="effect.area_flat" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/effects/common/shader.common_T_OCF"/>
+                    <uniforms value="u_tAmbient-t:CAreaColorsTextureLoader;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b"/>
+                </object>
+                <object name="effect.area_globe" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/effects/common/shader.common_T_OCF_GNM"/>
+                    <uniforms value="u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tAmbient-t:CAreaColorsTextureLoader;u_tGeoNormalmap-t:CEarthNormalmapTextureLoader;u_vGeoNormalmapInfo-s:CEarthNormalMap::ms_vInfo;u_vGeoNormalmapLight-s:CEarthNormalMap::ms_vLight"/>
+                </object>
+                <object name="effect.area_globe_flat" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_T_OCF_OAF"/>
+                    <uniforms value="u_tAmbient-t:CAreaColorsTextureLoader;u_vOutputColorCoef_a-i:map/areas/functions/function.alphaByGroundDistance;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b"/>
+                </object>
+                <object name="shader.globe_specular" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="globe_water.vsh"/>
+                        <pixel_shader_filename value="globe_water.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="effect.globe_specular" type="Library::CEffect">
+                    <flags value=""/>
+                    <shader value="map/areas/effects/shader.globe_specular"/>
+                    <uniforms value="u_tColors-t:CAreaColorsTextureLoader;u_vSpecularColor-i:map/globe/effects/specular_settings/color;u_fSpecularPower-i:map/globe/effects/specular_settings/power;u_fSpecularStrength-i:map/globe/effects/specular_settings/strength;u_vNormalizedLightDir-s:CGlobeGroup::ms_vNormalizedLightDir;u_fEffectsInterpolation-s:CGlobeGroup::ms_fGlobeLightingCoeficient"/>
+                </object>
+            </effects>
+            <functions>
+                <object name="function.alphaByGroundDistance" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="1.0"/>
+                            <y value="0.0"/>
+                            <z value="4800.0"/>
+                            <w value="6000.0"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundDistanceInKm"/>
+                </object>
+            </functions>
+        </areas>
+        <textures>
+            <object name="earth" type="Library::CTexture">
+                <texture_filepath value="textures/earth.mftc"/>
+            </object>
+            <object name="earth_specular" type="Library::CTexture">
+                <texture_filepath value="textures/earth_specular.mftc"/>
+            </object>
+            <object name="earth_lights" type="Library::CTexture">
+                <texture_filepath value="textures/earth_lights.mftc"/>
+                <render_settings>
+                    <filtering value="Library::C3DTypes::TfqTrilinear"/>
+                </render_settings>
+            </object>
+            <object name="sky" type="Library::CTexture">
+                <texture_filepath value="textures/sky.mftc"/>
+            </object>
+            <object name="space" type="Library::CTexture">
+                <texture_filepath value="textures/space.mftc"/>
+                <render_settings>
+                    <filtering value="Library::C3DTypes::TfqNone"/>
+                    <wrap_s value="Library::C3DTypes::TwmRepeat"/>
+                    <wrap_t value="Library::C3DTypes::TwmRepeat"/>
+                </render_settings>
+            </object>
+            <object name="car" type="Library::CTexture">
+                <texture_filepath value="textures/car.png.mftc"/>
+                <render_settings>
+                    <filtering value="Library::C3DTypes::TfqTrilinear"/>
+                </render_settings>
+            </object>
+            <object name="vehicle_background" type="Library::CTexture">
+                <texture_filepath value="textures/vehicle_background.png.mftc"/>
+                <render_settings>
+                    <filtering value="Library::C3DTypes::TfqTrilinear"/>
+                </render_settings>
+            </object>
+            <object name="laneassist" type="Library::CTexture">
+                <texture_filepath value="textures/laneassist.png"/>
+                <render_settings>
+                    <filtering value="Library::C3DTypes::TfqLinear"/>
+                </render_settings>
+            </object>
+        </textures>
+        <effects>
+            <common>
+                <object name="shader.common_T" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_OAF" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;OUTPUT_ALPHA_FUNCTION"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_VC" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="VERTEX_COLOR"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_VC_GNM" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="VERTEX_COLOR;GEONORMALMAP"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_GNM" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;GEONORMALMAP"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_OCF" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;OUTPUT_COLOR_FUNCTION"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_OCF_OAF" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;OUTPUT_COLOR_FUNCTION;OUTPUT_ALPHA_FUNCTION"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_CC_OCF" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="CONST_COLOR;OUTPUT_COLOR_FUNCTION"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_OCF_GNM" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;OUTPUT_COLOR_FUNCTION;GEONORMALMAP"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_OCF_BBD" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;OUTPUT_COLOR_FUNCTION;BLEND_BY_DISTANCE"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_OCF_GNM_BBD" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;OUTPUT_COLOR_FUNCTION;GEONORMALMAP;BLEND_BY_DISTANCE"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_CC_OCF_GNM" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="CONST_COLOR;OUTPUT_COLOR_FUNCTION;GEONORMALMAP"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_CC_OCF_GNM_BBD" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="CONST_COLOR;OUTPUT_COLOR_FUNCTION;GEONORMALMAP;BLEND_BY_DISTANCE"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_CC_OCF_BBD" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="CONST_COLOR;OUTPUT_COLOR_FUNCTION;BLEND_BY_DISTANCE"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_CTI_OCF" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="COLOR_TO_TEXTURE_INTERPOLATION;OUTPUT_COLOR_FUNCTION"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_CTI_OCF_GNM" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="COLOR_TO_TEXTURE_INTERPOLATION;OUTPUT_COLOR_FUNCTION;GEONORMALMAP"/>
+                    </shader_files>
+                </object>
+                <object name="shader.common_T_CC_AT" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="common.vsh"/>
+                        <pixel_shader_filename value="common.psh"/>
+                        <defines value="TEXTURE0;CONST_COLOR;ALPHA_TEST"/>
+                    </shader_files>
+                </object>
+            </common>
+            <object name="effect.sky" type="Library::CEffect">
+                <flags value="0"/>
+                <shader value="map/effects/common/shader.common_T"/>
+                <uniforms value="u_tAmbient-r:map/textures/sky"/>
+            </object>
+            <object name="effect.laneassist" type="Library::CEffect">
+                <flags value="Library::CEffect::EfAoBlend"/>
+                <shader value="map/effects/common/shader.common_T"/>
+                <uniforms value="u_tAmbient-r:map/textures/laneassist"/>
+            </object>
+            <object name="effect.vehicle" type="Library::CEffect">
+                <flags value="Library::CEffect::EfAoBlend"/>
+                <shader value="map/effects/common/shader.common_T"/>
+                <uniforms value="u_tAmbient-r:map/textures/car"/>
+            </object>
+            <object name="effect.shadow" type="Library::CEffect">
+                <flags value="Library::CEffect::EfAoBlend"/>
+                <shader value="map/effects/common/shader.common_T"/>
+                <uniforms value="u_tAmbient-r:map/textures/vehicle_background"/>
+            </object>
+            <object name="shader.route" type="Library::CShader">
+                <shader_files>
+                    <vertex_shader_filename value="route.vsh"/>
+                    <pixel_shader_filename value="route.psh"/>
+                    <defines value=""/>
+                </shader_files>
+            </object>
+            <object name="shader.polyline" type="Library::CShader">
+                <shader_files>
+                    <vertex_shader_filename value="polyline.vsh"/>
+                    <pixel_shader_filename value="polyline.psh"/>
+                    <defines value=""/>
+                </shader_files>
+            </object>
+            <object name="shader.grid" type="Library::CShader">
+                <shader_files>
+                    <vertex_shader_filename value="grid.vsh"/>
+                    <pixel_shader_filename value="grid.psh"/>
+                    <defines value=""/>
+                </shader_files>
+            </object>
+        </effects>
+        <colors>
+            <object name="color.black" type="Library::CColor">
+                <color value="0x000000ff"/>
+            </object>
+            <object name="color.white" type="Library::CColor">
+                <color value="0xffffffff"/>
+            </object>
+            <!-- areas -->
+            <object name="colors.area" type="CAreaColors">
+                <area_colors size="36">
+                    <data>
+                        <key value="EAreaColor::City"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Green"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Island"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Water"/>
+                        <value>
+                            <color value="0x8FB3ECFF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Ocean"/>
+                        <value>
+                            <color value="0x8FB3ECFF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Industrial"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Pedestrian"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::EnclosedTraffic"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Airport"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Cemetery"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Entertaiment"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Golf"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Hospital"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Library"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Museum"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Park"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Parking"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Paved"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Petrol"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Railway"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Sand"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Shopping"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Sport"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Swampland"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Swimming"/>
+                        <value>
+                            <color value="0x8FB3ECFF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::University"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Worship"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Aircraft_road"/>
+                        <value>
+                            <color value="0xB1B1B1FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Croopland"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Broadleaved"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Needleleaved"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Grassland"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Savana"/>
+                        <value>
+                            <color value="0xB4C6B9FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Bare"/>
+                        <value>
+                            <color value="0xD4D4D4FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Water_shp"/>
+                        <value>
+                            <color value="0x1c262dff"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="EAreaColor::Ice"/>
+                        <value>
+                            <color value="0xffffffff"/>
+                        </value>
+                    </data>
+                </area_colors>
+            </object>
+        </colors>
+        <fonts>
+            <object name="bold.40" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="40"/>
+            </object>
+            <object name="bold.26" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="26"/>
+            </object>
+            <object name="bold.24" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="24"/>
+            </object>
+            <object name="bold.22" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="22"/>
+            </object>
+            <object name="bold.20" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="20"/>
+            </object>
+            <object name="bold.18" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="18"/>
+            </object>
+            <object name="bold.16" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="16"/>
+            </object>
+            <object name="bold.14" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="14"/>
+            </object>
+            <object name="bold.12" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="12"/>
+            </object>
+            <object name="bold.10" type="Library::CFont">
+                <font_name value="bold"/>
+                <size value="10"/>
+            </object>
+            <object name="regular.40" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="40"/>
+            </object>
+            <object name="regular.26" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="26"/>
+            </object>
+            <object name="regular.24" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="24"/>
+            </object>
+            <object name="regular.22" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="22"/>
+            </object>
+            <object name="regular.20" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="20"/>
+            </object>
+            <object name="regular.18" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="18"/>
+            </object>
+            <object name="regular.16" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="16"/>
+            </object>
+            <object name="regular.15" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="15"/>
+            </object>
+            <object name="regular.14" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="14"/>
+            </object>
+            <object name="regular.13" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="13"/>
+            </object>
+            <object name="regular.12" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="12"/>
+            </object>
+            <object name="regular.10" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="10"/>
+            </object>
+            <object name="regular.8" type="Library::CFont">
+                <font_name value="regular"/>
+                <size value="8"/>
+            </object>
+            <object name="italic.14" type="Library::CFont">
+                <font_name value="italic"/>
+                <size value="14"/>
+            </object>
+				<object name="italic.12" type="Library::CFont">
+                <font_name value="italic"/>
+                <size value="12"/>
+            </object>
+			<object name="italic.10" type="Library::CFont">
+                <font_name value="italic"/>
+                <size value="10"/>
+            </object>
+            <object name="italic.20" type="Library::CFont">
+                <font_name value="italic"/>
+                <size value="20"/>
+            </object>
+            <object name="sygic.icons.50" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="50"/>
+                <hinting value="false"/>
+            </object>
+            <object name="sygic.icons.16" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="16"/>
+                <hinting value="false"/>
+            </object>
+            <object name="sygic.icons.14" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="14"/>
+                <hinting value="false"/>
+            </object>
+            <object name="sygic.icons.12" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="12"/>
+                <hinting value="false"/>
+            </object>
+            <object name="sygic.icons.10" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="10"/>
+                <hinting value="false"/>
+            </object>
+            <object name="sygic.icons.8" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="8"/>
+                <hinting value="false"/>
+            </object>
+            <object name="bold.distance.32" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="32"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.24" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="24"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.20" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="20"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.18" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="18"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.16" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="16"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.15" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="15"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.14" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="14"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.13" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="13"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.12" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="12"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="bold.distance.10" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="bold"/>
+                    <size value="10"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+			<object name="italic.distance.14" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="italic"/>
+                    <size value="14"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+			<object name="italic.distance.12" type="CFontDistance">
+				<parent type="Library::CFont">
+					<font_name value="italic"/>
+					<size value="12"/>
+				</parent>
+				<scale value="map/fonts/function.font.scale"/>
+			</object>
+            <object name="regular.distance.32" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="32"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.16" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="16"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.14" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="14"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.12" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="12"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.10" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="10"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.24" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="24"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.20" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="20"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.15" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="15"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="regular.distance.13" type="CFontDistance">
+                <parent type="Library::CFont">
+                    <font_name value="regular"/>
+                    <size value="13"/>
+                </parent>
+                <scale value="map/fonts/function.font.scale"/>
+            </object>
+            <object name="function.font.scale" type="Map::CStepFunction">
+                <definition>
+                    <object>
+                        <x value="0.0"/>
+                        <y value="1.5"/>
+                    </object>
+                    <object>
+                        <x value="3.0"/>
+                        <y value="1.3"/>
+                    </object>
+                    <object>
+                        <x value="5.0"/>
+                        <y value="1.1"/>
+                    </object>
+                   <object>
+                        <x value="15.0"/>
+                        <y value="1.0"/>
+                    </object>
+                    <object>
+                        <x value="50.0"/>
+                        <y value="0.9"/>
+                    </object>
+                    <object>
+                        <x value="250.0"/>
+                        <y value="0.8"/>
+                    </object>
+                    <object>
+                        <x value="500.0"/>
+                        <y value="0.6"/>
+                    </object>
+                </definition>
+            </object>
+        </fonts>
+        <textstyles>
+            <object name="textstyle.street_big" type="Library::CTextStyle">
+                <font value="map/fonts/bold.12"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="textstyle.street" type="Library::CTextStyle">
+                <font value="map/fonts/regular.12"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="textstyle.street_small" type="Library::CTextStyle">
+                <font value="map/fonts/regular.12"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="textstyle.street_x_small" type="Library::CTextStyle">
+                <font value="map/fonts/regular.10"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+          <object name="city.city6" type="Library::CTextStyle">
+            <font value="map/fonts/bold.distance.20"/>
+            <color value="0x505050ff"/>
+            <color_border value="0xffffff78"/>
+            <text_wrap value="Library::ETextWrap::Multiline"/>
+            <text_align value="Library::ETextAlign::AlignCenter"/>
+            <border_size value="3.000000"/>
+          </object>
+            <object name="city.city5" type="Library::CTextStyle">
+                <font value="map/fonts/bold.distance.24"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="4.000000"/>
+            </object>
+            <object name="city.city4" type="Library::CTextStyle">
+                <font value="map/fonts/bold.distance.18"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="city.city3" type="Library::CTextStyle">
+                <font value="map/fonts/bold.distance.14"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="city.city2" type="Library::CTextStyle">
+                <font value="map/fonts/regular.distance.12"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="city.city1" type="Library::CTextStyle">
+                <font value="map/fonts/regular.distance.12"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="city.city0" type="Library::CTextStyle">
+                <font value="map/fonts/regular.distance.10"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.000000"/>
+            </object>
+            <object name="city.water" type="Library::CTextStyle">
+                <font value="map/fonts/italic.12"/>
+                <color value="0x2d6c94ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="1.50000"/>
+            </object>
+            <object name="city.wood" type="Library::CTextStyle">
+                <font value="map/fonts/italic.12"/>
+                <color value="0x396d2bff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="1.50000"/>
+            </object>
+            <object name="city.other" type="Library::CTextStyle">
+                <font value="map/fonts/italic.10"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="1.50000"/>
+            </object>
+            <object name="city.part" type="Library::CTextStyle">
+                <font value="map/fonts/regular.distance.10"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="2.00000"/>
+            </object>
+            <object name="city.province" type="Library::CTextStyle">
+                <font value="map/fonts/regular.distance.20"/>
+                <border_size value="1.500000"/>
+                <color value="0x00000060"/>
+                <color_border value="0xf3f0e9ff"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+            </object>
+            <object name="city.country" type="Library::CTextStyle">
+                <font value="map/fonts/bold.distance.20"/>
+                <border_size value="3.0"/>
+                <color value="0x888888ff"/>
+                <color_border value="0xffffffcc"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+            </object>
+            <object name="city.ocean" type="Library::CTextStyle">
+                <font value="map/fonts/bold.distance.20"/>
+                <color value="0x2687baff"/>
+                <color_border value="0xffffff33"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="1.50000"/>
+            </object>
+            <object name="textstyle.addresspoints" type="Library::CTextStyle">
+                <font value="map/fonts/regular.12"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="1.00000"/>
+            </object>
+            <object name="textstyle.logisticInfo" type="Library::CTextStyle">
+                <font value="map/fonts/bold.14"/>
+                <color value="0x505050ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+                <border_size value="1.00000"/>
+            </object>
+        </textstyles>
+        <circles>
+            <effects>
+                <object name="shader.circle" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="circle.vsh"/>
+                        <pixel_shader_filename value="circle.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="effect.circle" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/circles/effects/shader.circle"/>
+                    <uniforms value="u_fLineWidth-m:Map::CCircleObject::lineWidth;u_vLineColor-m:Map::CCircleObject::lineColor;u_vFillColor-m:Map::CCircleObject::fillColor"/>
+                </object>
+            </effects>
+        </circles>
+        <markers>
+            <object name="textstyle.marker" type="Library::CTextStyle">
+                <font value="map/fonts/sygic.icons.50"/>
+                <border_size value="0"/>
+                <color value="0xffffffff"/>
+                <color_border value="0x000000ff"/>
+            </object>
+            <object name="textstyle.marker_label" type="Library::CTextStyle">
+                <font value="map/fonts/regular.15"/>
+                <border_size value="2.8"/>
+                <color value="0x000000ff"/>
+                <color_border value="0xf3f0e9ff"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+            </object>
+        </markers>
+        <pois>
+            <object name="config" type="Map::CPoiConfig">
+                <global_zoom_level value="11.000000"/>
+                <max_text_size>
+                    <x value="120"/>
+                    <y value="120"/>
+                </max_text_size>
+                <text_padding>
+                    <x value="0"/>
+                    <y value="3"/>
+                </text_padding>
+            </object>
+            <object name="icon.config" type="Map::CIconConfig">
+                <background value="U+E075"/>
+                <border value="U+E076"/>
+                <center>
+                    <x value="0.500000"/>
+                    <y value="0.500000"/>
+                </center>
+                <icon_offset>
+                    <x value="0.00"/>
+                    <y value="0.00"/>
+                </icon_offset>
+                <background_offset>
+                    <x value="0.00000"/>
+                    <y value="0.00000"/>
+                </background_offset>
+                <icon_padding>
+                    <x value="5"/>
+                    <y value="5"/>
+                </icon_padding>
+                <color_icon value="0xffffffff"/>
+                <color_border value="0x00000033"/>
+            </object>
+            <object name="font.icon" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="8"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.background" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="16"/>
+                <hinting value="false"/>
+            </object>
+            <object name="textstyle.name" type="Library::CTextStyle">
+                <font value="map/fonts/regular.10"/>
+                <border_size value="2.0"/>
+                <color value="0x000000ff"/>
+                <color_border value="0xffffff78"/>
+                <text_wrap value="Library::ETextWrap::Multiline"/>
+                <text_align value="Library::ETextAlign::AlignLeft"/>
+            </object>
+        </pois>
+        <borders>
+            <effects>
+                <object name="shader.borders" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="roads3.vsh"/>
+                        <pixel_shader_filename value="roads3.psh"/>
+                      <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shader.borders_globe" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="roads3.vsh"/>
+                        <pixel_shader_filename value="roads3.psh"/>
+                        <defines value="ON_GLOBE"/>
+                    </shader_files>
+                </object>
+                <object name="effect.borders" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/borders/effects/shader.borders"/>
+                    <uniformsList>
+						<value value="u_bRenderBorders - m:Map::CPathGeometryObject::render_borders"/>
+						<value value="u_fMaxDistance - m:CPathInstance::max_distance"/>
+						<value value="u_vWidthScales - m:CPathInstance::width_scales"/>
+                        <value value="u_vColor - m:CPathInstance::color"/>
+                        <value value="u_vBorderColor - m:CPathInstance::border_color"/>
+                        <value value="u_vMaskColor - m:CPathInstance::mask_color"/>
+						<value value="u_vMasksScales - m:CPathInstance::masks_scales"/>
+						<value value="u_tMask - m:CPathInstance::mask"/>
+						<value value="u_tMaskOneway - m:CPathInstance::mask_oneway"/>
+						<value value="u_tMaskClosed - m:CPathInstance::mask_closed"/>
+					</uniformsList>
+                </object>
+                <object name="effect.borders_globe" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/borders/effects/shader.borders_globe"/>
+                    <uniformsList>
+						<value value="u_bRenderBorders - m:Map::CPathGeometryObject::render_borders"/>
+						<value value="u_fMaxDistance - m:CPathInstance::max_distance"/>
+						<value value="u_vWidthScales - m:CPathInstance::width_scales"/>
+                        <value value="u_vColor - m:CPathInstance::color"/>
+                        <value value="u_vBorderColor - m:CPathInstance::border_color"/>
+						<value value="u_vMaskColor - m:CPathInstance::mask_color"/>
+						<value value="u_vMasksScales - m:CPathInstance::masks_scales"/>
+						<value value="u_tMask - m:CPathInstance::mask"/>
+						<value value="u_tMaskOneway - m:CPathInstance::mask_oneway"/>
+						<value value="u_tMaskClosed - m:CPathInstance::mask_closed"/>
+					</uniformsList>
+                </object>
+            </effects>
+            <functions>
+                <!-- road border width -->
+                <object name="function.border_width" type="CLinearSeqmentsFunction">
+                    <definition value = "6 ~ -2; 9 ~ -2; 12 ~ -2; 16 ~ -2; 22 ~ -2"/>
+                </object>
+                <!-- road width -->
+                <object name="function.width" type="CLinearSeqmentsFunction">
+                    <definition value = "3.5 ~ -1; 4 ~ -1; 9 ~ -1; 12 ~ 0; 14 ~ 0; 16 ~ 24; 18 ~ 48; 22 ~ 160"/>
+                </object>
+                <!-- road & border colors -->
+                <object name="function.colors" type="CLinearSegmentsThreeColorsFunction">
+                    <definition value = "4 ~ 0x777777ff, 0x777777ff, 0x777777ff; 9 ~ 0x777777ff, 0x777777ff, 0x777777ff; 10 ~ 0x777777ff, 0x777777ff, 0x777777ff"/>
+                </object>
+                <object name="function.max_distance_by_ground_distance" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="13.000"/>
+                            <y value="10000.000"/>
+                            <z value="0.000"/>
+                            <w value="5000.000"/>
+                        </definition>
+                    </parent>
+                </object>
+            </functions>
+            <object name="settings" type="Map::CBorderTypesSettings">
+                <type_settings size="2">
+                    <data>
+                        <key value="Map::EBorderType::Country"/>
+                        <value>
+							<width_by_zoom_level value="map/borders/functions/function.width"/>
+                            <scale_width value="1.0"/>
+							<border_width_by_zoom_level value="map/borders/functions/function.border_width"/>
+							<border_width_scale value="1.0"/>
+							<colors_by_zoom_level value="map/borders/functions/function.colors"/>
+                            <max_ground_distance value="5000.000000"/>
+                            <max_distance_by_ground_distance value="map/borders/functions/function.max_distance_by_ground_distance"/>
+                            <mask value="map/borders/textures/mask_country"/>
+                            <mask_scale value="15.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::EBorderType::State"/>
+                        <value>
+							<width_by_zoom_level value="map/borders/functions/function.width"/>
+                            <scale_width value="1.0"/>
+							<border_width_by_zoom_level value="map/borders/functions/function.border_width"/>
+							<border_width_scale value="1.0"/>
+							<colors_by_zoom_level value="map/borders/functions/function.colors"/>
+                            <max_ground_distance value="5000.000000"/>
+                            <max_distance_by_ground_distance value="map/borders/functions/function.max_distance_by_ground_distance"/>
+                            <mask value="map/borders/textures/mask_state"/>
+                            <mask_scale value="15.0"/>
+                        </value>
+                    </data>
+                </type_settings>
+            </object>
+            <textures>
+                <object name="mask_country" type="Library::CTexture">
+                    <texture_filepath value="textures/mask_border_country.mftc"/>
+                    <render_settings>
+                        <filtering value="Library::C3DTypes::TfqAnisotropic"/>
+                    </render_settings>
+                </object>
+                <object name="mask_state" type="Library::CTexture">
+                    <texture_filepath value="textures/mask_border_state.mftc"/>
+                    <render_settings>
+                        <filtering value="Library::C3DTypes::TfqAnisotropic"/>
+                    </render_settings>
+                </object>
+            </textures>
+        </borders>
+        <globe>
+            <effects>
+                <object name="effect.globe_detailed" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/effects/common/shader.common_CTI_OCF_GNM"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vColorToTextureInterpolation-i:map/globe/functions/function.colorToTextureInterpolation;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tAmbient-r:map/textures/earth;u_tGeoNormalmap-t:CEarthNormalmapTextureLoader;u_vGeoNormalmapInfo-s:CEarthNormalMap::ms_vInfo;u_vGeoNormalmapLight-s:CEarthNormalMap::ms_vLight"/>
+                </object>
+                <object name="effect.globe_detailed_flat" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/effects/common/shader.common_CTI_OCF"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vColorToTextureInterpolation-i:map/globe/functions/function.colorToTextureInterpolation;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tAmbient-r:map/textures/earth"/>
+                </object>
+                <object name="effect.globe_detailed_grid" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.grid"/>
+                    <uniforms value="u_vBlendByDistanceFunction-i:map/terrain/functions/function.blend_by_distance;u_fBorderSize-i:map/terrain/dimensions/grid.border.size;u_vColor-i:map/terrain/colors/color.grid;u_vBorderColor-i:map/terrain/colors/color.grid.border;u_vTiles-m:CTexCell::tiles"/>
+                </object>
+                <object name="shader.globe_specular_with_lights" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="globe_with_lights.vsh"/>
+                        <pixel_shader_filename value="globe_with_lights.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="effect.globe_specular_with_lights" type="Library::CEffect">
+                    <flags value=""/>
+                    <shader value="map/globe/effects/shader.globe_specular_with_lights"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vColorToTextureInterpolation-i:map/globe/functions/function.colorToTextureInterpolation;u_sTexture0-r:map/textures/earth;u_sTexture1-r:map/textures/earth_lights;u_sTexture2-r:map/textures/earth_specular;u_vSpecularColor-i:map/globe/effects/specular_settings/color;u_fSpecularPower-i:map/globe/effects/specular_settings/power;u_fSpecularStrength-i:map/globe/effects/specular_settings/strength;u_vNormalizedLightDir-s:CGlobeGroup::ms_vNormalizedLightDir;u_fEffectsInterpolation-s:CGlobeGroup::ms_fGlobeLightingCoeficient"/>
+                </object>
+                <object name="shader.atmosphere" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="globe_atmosphere2.vsh"/>
+                        <pixel_shader_filename value="globe_atmosphere2.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="effect.atmosphere" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/globe/effects/shader.atmosphere"/>
+                    <uniforms value="u_fGlobeRadius-s:C3DMapView::ms_fGlobeRadius;u_fAtmosphereRadius-s:CGlobeGroup::ms_fAtmosphereRadius;u_vNormalizedLightDir-s:CGlobeGroup::ms_vNormalizedLightDir;u_fEffectsInterpolation-s:CGlobeGroup::ms_fGlobeLightingCoeficient"/>
+                </object>
+                <object name="effect.space" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_T_OAF"/>
+                    <uniforms value="u_tAmbient-r:map/textures/space;u_vOutputColorCoef_a-i:map/globe/functions/function.space_appearance"/>
+                </object>
+                <specular_settings>
+                    <object name="color" type="Library::CColor">
+                        <color value="0xD9D9D9ff"/>
+                    </object>
+                    <object name="power" type="Library::CFloatResource">
+                        <float value="5.000000"/>
+                    </object>
+                    <object name="strength" type="Library::CFloatResource">
+                        <float value="0.800000"/>
+                    </object>
+                </specular_settings>
+            </effects>
+            <functions>
+                <object name="function.effects_transition" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.0"/>
+                            <y value="1.0"/>
+                            <z value="4800.0"/>
+                            <w value="8000.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.space_appearance" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.0"/>
+                            <y value="1.0"/>
+                            <z value="4800.0"/>
+                            <w value="8000.0"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundDistanceInKm"/>
+                </object>
+                <object name="function.colorToTextureInterpolation" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.0"/>
+                            <y value="1.0"/>
+                            <z value="4800.0"/>
+                            <w value="8000.0"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundDistanceInKm"/>
+                </object>
+            </functions>
+            <colors>
+                <object name="color.surface" type="Library::CColor">
+                    <color value="0xE2E2E2FF"/>
+                </object>
+            </colors>
+        </globe>
+        <polylines>
+            <effects>
+                <object name="effect.polylines" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.polyline"/>
+                    <uniforms value="u_vColor-m:CPathGeometry::color;u_vBorderColor-m:CPathGeometry::border_color;u_fBorderSize-m:CPathGeometry::border_size;u_fDashLength-m:CPathGeometry::dash_length;u_fDashSpaceLength-m:CPathGeometry::dash_space_length;u_fDashRadius-m:CPathGeometry::dash_radius"/>
+                </object>
+            </effects>
+        </polylines>
+        <roads>
+            <textures>
+                <object name="mask_none" type="Library::CTexture">
+                    <texture_filepath value="textures/mask_none.mftc"/>
+                    <render_settings>
+                        <filtering value="Library::C3DTypes::TfqNone"/>
+                    </render_settings>
+                </object>
+                <object name="mask_oneway" type="Library::CTexture">
+                    <texture_filepath value="textures/mask_oneway.mftc"/>
+                    <render_settings>
+                        <filtering value="Library::C3DTypes::TfqAnisotropic"/>
+                    </render_settings>
+                </object>
+                <object name="mask_closed" type="Library::CTexture">
+                    <texture_filepath value="textures/mask_closed.mftc"/>
+                    <render_settings>
+                        <filtering value="Library::C3DTypes::TfqAnisotropic"/>
+                    </render_settings>
+                </object>
+                <object name="mask_railway" type="Library::CTexture">
+                    <texture_filepath value="textures/mask_railway.mftc"/>
+                    <render_settings>
+                        <filtering value="Library::C3DTypes::TfqAnisotropic"/>
+                    </render_settings>
+                </object>
+            </textures>
+            <effects>
+                <object name="shader.roads3_multi" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="roads3.vsh"/>
+                        <pixel_shader_filename value="roads3.psh"/>
+                        <defines value="MAX_PATH_TYPES 12"/>
+                    </shader_files>
+                </object>
+                <object name="shader.roads3_multi_globe" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="roads3.vsh"/>
+                        <pixel_shader_filename value="roads3.psh"/>
+                        <defines value="MAX_PATH_TYPES 12;ON_GLOBE"/>
+                    </shader_files>
+                </object>
+                <object name="shader.roads3_multi_closed_override" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="roads3.vsh"/>
+                        <pixel_shader_filename value="roads3.psh"/>
+                        <defines value="MAX_PATH_TYPES 12;CLOSED_COLOR_OVERRIDE"/>
+                    </shader_files>
+                </object>
+                <object name="shader.roads3_multi_globe_closed_override" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="roads3.vsh"/>
+                        <pixel_shader_filename value="roads3.psh"/>
+                        <defines value="MAX_PATH_TYPES 12;ON_GLOBE;CLOSED_COLOR_OVERRIDE"/>
+                    </shader_files>
+                </object>
+                <object name="effect.roads3_multi" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/roads/effects/shader.roads3_multi"/>
+					<uniformsList>
+						<value value="u_bRenderBorders - m:Map::CPathGeometryObject::render_borders"/>
+                        <value value="u_vColor - m:CMultiPathInstance::color"/>
+                        <value value="u_vBorderColor - m:CMultiPathInstance::border_color"/>
+                        <value value="u_vMaskColor - m:CMultiPathInstance::mask_color"/>
+                        <value value="u_fMaxDistance - m:CMultiPathInstance::max_distance"/>
+						<value value="u_vWidthScales - m:CMultiPathInstance::width_scales"/>
+						<value value="u_vMasksScales - m:CMultiPathInstance::masks_scales"/>
+						<value value="u_tMask - m:CMultiPathInstance::mask"/>
+						<value value="u_tMaskOneway - m:CMultiPathInstance::mask_oneway"/>
+						<value value="u_tMaskClosed - m:CMultiPathInstance::mask_closed"/>
+					</uniformsList>
+                </object>
+                <object name="effect.roads3_multi_globe" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/roads/effects/shader.roads3_multi_globe"/>
+					<uniformsList>
+						<value value="u_bRenderBorders - m:Map::CPathGeometryObject::render_borders"/>
+                        <value value="u_vColor - m:CMultiPathInstance::color"/>
+                        <value value="u_vBorderColor - m:CMultiPathInstance::border_color"/>
+                        <value value="u_vMaskColor - m:CMultiPathInstance::mask_color"/>
+                        <value value="u_fMaxDistance - m:CMultiPathInstance::max_distance"/>
+						<value value="u_vWidthScales - m:CMultiPathInstance::width_scales"/>
+						<value value="u_vMasksScales - m:CMultiPathInstance::masks_scales"/>
+						<value value="u_tMask - m:CMultiPathInstance::mask"/>
+						<value value="u_tMaskOneway - m:CMultiPathInstance::mask_oneway"/>
+						<value value="u_tMaskClosed - m:CMultiPathInstance::mask_closed"/>
+					</uniformsList>
+                </object>
+                <object name="effect.roads3_multi_truck" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/roads/effects/shader.roads3_multi_closed_override"/>
+                    <uniformsList>
+                        <value value="u_bRenderBorders - m:Map::CPathGeometryObject::render_borders"/>
+                        <value value="u_vColor - m:CMultiPathInstance::color"/>
+                        <value value="u_vBorderColor - m:CMultiPathInstance::border_color"/>
+                        <value value="u_vMaskColor - m:CMultiPathInstance::mask_color"/>
+                        <value value="u_fMaxDistance - m:CMultiPathInstance::max_distance"/>
+                        <value value="u_vWidthScales - m:CMultiPathInstance::width_scales"/>
+                        <value value="u_vMasksScales - m:CMultiPathInstance::masks_scales"/>
+                        <value value="u_tMask - m:CMultiPathInstance::mask"/>
+                        <value value="u_tMaskOneway - m:CMultiPathInstance::mask_oneway"/>
+                        <value value="u_tMaskClosed - m:CMultiPathInstance::mask_closed"/>
+                        <value value="u_vClosedColor - i:map/roads/color.prohibited_road"/>
+                        <value value="u_vClosedBorderColor - i:map/roads/color.prohibited_road_border"/>
+                        <value value="u_vClosedMaskColor - i:map/roads/color.prohibited_road_mask"/>
+                    </uniformsList>
+                </object>
+                <object name="effect.roads3_multi_truck_globe" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/roads/effects/shader.roads3_multi_globe_closed_override"/>
+                    <uniformsList>
+                        <value value="u_bRenderBorders - m:Map::CPathGeometryObject::render_borders"/>
+                        <value value="u_vColor - m:CMultiPathInstance::color"/>
+                        <value value="u_vBorderColor - m:CMultiPathInstance::border_color"/>
+                        <value value="u_vMaskColor - m:CMultiPathInstance::mask_color"/>
+                        <value value="u_fMaxDistance - m:CMultiPathInstance::max_distance"/>
+                        <value value="u_vWidthScales - m:CMultiPathInstance::width_scales"/>
+                        <value value="u_vMasksScales - m:CMultiPathInstance::masks_scales"/>
+                        <value value="u_tMask - m:CMultiPathInstance::mask"/>
+                        <value value="u_tMaskOneway - m:CMultiPathInstance::mask_oneway"/>
+                        <value value="u_tMaskClosed - m:CMultiPathInstance::mask_closed"/>
+                        <value value="u_vClosedColor - i:map/roads/color.prohibited_road"/>
+                        <value value="u_vClosedBorderColor - i:map/roads/color.prohibited_road_border"/>
+                        <value value="u_vClosedMaskColor - i:map/roads/color.prohibited_road_mask"/>
+                    </uniformsList>
+                </object>
+            </effects>
+            <functions>
+                <object name="function.motorway" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="6.000000"/>
+                            <y value="4000.000000"/>
+                            <z value="0.000000"/>
+                            <w value="300.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.main" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="6.000000"/>
+                            <y value="3000.000000"/>
+                            <z value="0.000000"/>
+                            <w value="300.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.major" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="6.000000"/>
+                            <y value="1200.000000"/>
+                            <z value="0.000000"/>
+                            <w value="400.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.secondary" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="4.000000"/>
+                            <y value="320.000000"/>
+                            <z value="0.000000"/>
+                            <w value="100.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.local_connecting" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="6.000000"/>
+                            <y value="200.000000"/>
+                            <z value="0.000000"/>
+                            <w value="100.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.local_high_importance" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="2.000000"/>
+                            <y value="20.000000"/>
+                            <z value="0.000000"/>
+                            <w value="2.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.local" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="2.000000"/>
+                            <y value="20.000000"/>
+                            <z value="0.000000"/>
+                            <w value="2.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.local_minor_importance" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="2.000000"/>
+                            <y value="20.000000"/>
+                            <z value="0.400000"/>
+                            <w value="2.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.other" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="2.000000"/>
+                            <y value="20.000000"/>
+                            <z value="0.000000"/>
+                            <w value="10.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.ferry" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="2.000000"/>
+                            <y value="10.000000"/>
+                            <z value="0.000000"/>
+                            <w value="8.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.railway" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.000000"/>
+                            <y value="100.000000"/>
+                            <z value="0.00000"/>
+                            <w value="8.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <!-- road border width  -->
+                <object name="function.border_width_local_roads" type="CLinearSeqmentsFunction">
+					<definition value = "6 ~ -2; 9 ~ -2; 12 ~ -2; 16 ~ 0; 22 ~ 1.5"/>
+                </object>
+                <object name="function.border_width_motorways" type="CLinearSeqmentsFunction">
+					<definition value = "6 ~ 0.5; 9 ~ 0.5; 12 ~ 0.5; 16 ~ 0.5; 22 ~ 1.5"/>
+                </object>
+                <!-- road width  -->
+                <object name="function.width_in_pixels_motorways" type="CLinearSeqmentsFunction">
+					<definition value = "3.5 ~ -2; 4 ~ -2; 5 ~ -1; 6 ~ 0; 9 ~ 1; 12 ~ 2; 14 ~ 4; 16 ~ 8; 18 ~ 16; 20 ~ 48"/>
+                </object>
+                <object name="function.width_in_pixels_main" type="CLinearSeqmentsFunction">
+					<definition value = "3.5 ~ -2; 4 ~ -2; 5 ~ -2; 6 ~ 0; 9 ~ 1; 12 ~ 2; 14 ~ 4; 16 ~ 8; 18 ~ 16; 20 ~ 48"/>
+                </object>
+                <object name="function.width_in_pixels_major" type="CLinearSeqmentsFunction">
+					<definition value = "4 ~ -2; 5 ~ -2; 6 ~ -2; 9 ~ 1; 12 ~ 2; 14 ~ 4; 16 ~ 8; 18 ~ 16; 20 ~ 48"/>
+                </object>
+                <object name="function.width_in_pixels_secondary_roads" type="CLinearSeqmentsFunction">
+					<definition value = "7 ~ -2; 9 ~ -2; 10 ~ -2; 10.5 ~ -1; 11 ~ 0; 12 ~ 0; 14 ~ 2; 17 ~ 6; 18 ~ 12; 20 ~ 24"/>
+                </object>
+                <object name="function.width_in_pixels_connecting_roads" type="CLinearSeqmentsFunction">
+					<definition value = "9 ~ -2; 10 ~ -2; 10.5 ~ -1; 11 ~ 0; 12 ~ 0; 14 ~ 2; 17 ~ 6; 18 ~ 12; 20 ~ 24"/>
+                </object>
+                <object name="function.width_in_pixels_local_roads" type="CLinearSeqmentsFunction">
+					<definition value = "12 ~ -2; 12.5 ~ -2; 13 ~ -2; 14 ~ -2; 17 ~ 4; 18 ~ 8; 20 ~ 16"/>
+                </object>
+                <object name="function.width_in_pixels_pdestrian_roads" type="CLinearSeqmentsFunction">
+					<definition value = "12 ~ -2; 12.5 ~ -2; 13 ~ -2; 14 ~ -2; 17 ~ 2; 18 ~ 4; 20 ~ 12"/>
+                </object>
+                <object name="function.width_in_pixels_ferry" type="CLinearSeqmentsFunction">
+					<definition value = "12 ~ -1; 12.5 ~ -1; 13 ~ -1; 14 ~ -2; 17 ~ 2; 18 ~ 4; 20 ~ 12"/>
+                </object>
+                <!-- road & border colors  -->
+                <object name="function.colors_motorways" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "4 ~ 0xB1B1B1FF, 0xB1B1B1FF, 0xB1B1B1FF; 5 ~ 0xB1B1B1FF, 0x9B9B9BFF, 0x9B9B9BFF; 6 ~ 0xB1B1B1FF, 0x9B9B9BFF, 0x9B9B9BFF; 10 ~ 0xB1B1B1FF, 0x9B9B9BFF, 0x9B9B9BFF"/>
+                </object>
+                <object name="function.colors_main" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "5 ~ 0xB1B1B1FF, 0xB1B1B1FF, 0xB1B1B1FF; 6 ~ 0xB1B1B1FF, 0x9B9B9BFF, 0x9B9B9BFF; 10 ~ 0xB1B1B1FF, 0x9B9B9BFF, 0x9B9B9BFF"/>
+                </object>
+                <object name="function.colors_major" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "5 ~ 0xB1B1B1FF, 0xB1B1B1FF, 0xB1B1B1FF; 6 ~ 0xF5F5F5FF, 0xC7C7C7FF, 0xC7C7C7FF; 10 ~ 0xF5F5F5FF, 0xC7C7C7FF, 0xC7C7C7FF"/>
+                </object>
+                <object name="function.colors_secondary" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "8 ~ 0xB1B1B1FF, 0xB1B1B1FF, 0xB1B1B1FF; 10 ~ 0xF5F5F5FF, 0xC7C7C7FF, 0xC7C7C7FF; 11 ~ 0xF5F5F5FF, 0xC7C7C7FF, 0xC7C7C7FF; 15 ~ 0xF5F5F5FF, 0xC7C7C7FF, 0xC7C7C7FF"/>
+                </object>
+                <object name="function.colors_connecting" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "10 ~ 0xffffffff, 0xB1B1B1FF, 0xB1B1B1FF; 11 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF; 15 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF; 18 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF"/>
+                </object>
+                <object name="function.colors_high_importance" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "10 ~ 0xffffffff, 0xB1B1B1FF, 0xB1B1B1FF; 12 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF; 12.5 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF"/>
+                </object>
+                <object name="function.colors_local" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "10 ~ 0xffffffff, 0xB1B1B1FF, 0xB1B1B1FF; 15 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF; 18 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF"/>
+                </object>
+                <object name="function.colors_pedestrian" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "10 ~ 0xffffffff, 0xB1B1B1FF, 0xB1B1B1FF; 15 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF; 18 ~ 0xffffffff, 0xCCCCCCFF, 0xCCCCCCFF"/>
+                </object>
+                <object name="function.colors_ferry" type="CLinearSegmentsThreeColorsFunction">
+					<definition value = "10 ~ 0x6FBBE2ff, 0x6FBBE2ff, 0x6FBBE2ff; 15 ~ 0x6FBBE2ff, 0x6FBBE2ff, 0x6FBBE2ff; 18 ~ 0x6FBBE2ff, 0x6FBBE2ff, 0x6FBBE2ff"/>
+                </object>
+            </functions>
+            <object name="settings" type="CRoadTypesSettings">
+                <type_settings size="11">
+                    <data>
+                        <key value="Map::CRoadType::RtMotorway"/>
+                        <value>
+                            <max_ground_distance value="4000.000000"/>
+                            <max_sign_ground_distance value="600.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="5.000000"/>
+                            <max_street_radius value="1.500000"/>
+                            <blend_to_border value="true"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_motorways"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.motorway"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_motorways"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_motorways"/>
+                            <text_style value="map/textstyles/textstyle.street_big"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtMain"/>
+                        <value>
+                            <max_ground_distance value="3000.000000"/>
+                            <max_sign_ground_distance value="300.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="5.000000"/>
+                            <max_street_radius value="1.500000"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_main"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.main"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_main"/>
+                            <text_style value="map/textstyles/textstyle.street_big"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtMajor"/>
+                        <value>
+                            <max_ground_distance value="600.000000"/>
+                            <max_sign_ground_distance value="200.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="4.000000"/>
+                            <max_street_radius value="1.500000"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_major"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.major"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_major"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_major"/>
+                            <text_style value="map/textstyles/textstyle.street_big"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtSecondary"/>
+                        <value>
+                            <max_ground_distance value="320.000000"/>
+                            <max_sign_ground_distance value="60.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="4.00000"/>
+                            <max_street_radius value="1.500000"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_secondary"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.secondary"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_secondary_roads"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtLocalConnecting"/>
+                        <value>
+                            <max_ground_distance value="80.000000"/>
+                            <max_sign_ground_distance value="18.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="2.750000"/>
+                            <max_street_radius value="1.500000"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_connecting"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.local_connecting"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_connecting_roads"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtLocalHighImportance"/>
+                        <value>
+                            <max_ground_distance value="20.000000"/>
+                            <max_sign_ground_distance value="12.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="2.750000"/>
+                            <max_street_radius value="1.500000"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_high_importance"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.local_high_importance"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_connecting_roads"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtLocal"/>
+                        <value>
+                            <max_ground_distance value="12.000000"/>
+                            <max_sign_ground_distance value="4.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="1.000000"/>
+                            <max_street_radius value="1.000000"/>
+                            <mask_oneway value="map/roads/textures/mask_none"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_local"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.local"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_local_roads"/>
+ 							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                            <text_style value="map/textstyles/textstyle.street_small"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtLocalMinorImportance"/>
+                        <value>
+                            <max_ground_distance value="8.000000"/>
+                            <max_sign_ground_distance value="3.500000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="0.750000"/>
+                            <max_street_radius value="1.000000"/>
+                            <mask_oneway_scale value="20.000000"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_local"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.local_minor_importance"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_local_roads"/>
+							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                            <text_style value="map/textstyles/textstyle.street_small"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtOther"/>
+                        <value>
+                            <max_ground_distance value="4.000000"/>
+                            <max_sign_ground_distance value="2.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="0.750000"/>
+                            <max_street_radius value="1.000000"/>
+                            <mask_oneway_scale value="20.000000"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_local"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.other"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_pdestrian_roads"/>
+							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                            <text_style value="map/textstyles/textstyle.street_x_small"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtFerry"/>
+                        <value>
+                            <max_ground_distance value="4.000000"/>
+                            <max_sign_ground_distance value="0.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="1.500000"/>
+                            <max_street_radius value="1.000000"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_ferry"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.ferry"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_ferry"/>
+							<border_width_by_zoom_level value="map/roads/functions/function.border_width_local_roads"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadType::RtRailway"/>
+                        <value>
+                            <max_ground_distance value="10.000000"/>
+                            <max_sign_ground_distance value="10.000000"/>
+                            <scale value="1.0"/>
+                            <max_street_ground_distance value="1.500000"/>
+                            <max_street_radius value="1.000000"/>
+                            <mask_scale value="15.000000"/>
+                            <mask value="map/roads/textures/mask_railway"/>
+							<colors_by_zoom_level value="map/roads/functions/function.colors_local"/>
+                            <max_distance_by_ground_distance value="map/roads/functions/function.railway"/>
+							<width_by_zoom_level value="map/roads/functions/function.width_in_pixels_local_roads"/>
+                        </value>
+                    </data>
+                </type_settings>
+				<simple_roads_zoom_level value="8.5"/>
+                <major_roads_collection_delimiter value="Map::CRoadType::RtLocalHighImportance"/>
+            </object>
+            <object name="sign_padding" type="Library::CVec2Resource">
+                <vec2>
+                    <x value="32"/>
+                    <y value="32"/>
+                </vec2>
+            </object>
+            <object name="logisticSettings" type="LogisticStyleSettings">
+                <icon_padding>
+                    <x value="48"/>
+                    <y value="48"/>
+                </icon_padding>
+                <min_zoom_level value="14.0"/>
+                <text_style value="map/textstyles/textstyle.logisticInfo"/>
+                <show_icons value="true"/>
+            </object>
+            <object name="color.prohibited_road" type="Library::CColor">
+                <color value="0x878787ff"/>
+            </object>
+            <object name="color.prohibited_road_border" type="Library::CColor">
+                <color value="0x888888aa"/>
+            </object>
+            <object name="color.prohibited_road_mask" type="Library::CColor">
+                <color value="0x878787ff"/>
+            </object>
+        </roads>
+        <smartLabels>
+            <effects>
+                <object name="street" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend;Library::CEffect::EfCullFaceDisabled"/>
+                    <shader value="map/effects/common/shader.common_T_OAF"/>
+                    <uniforms value="u_vOutputColorCoef_a-m:Map::NinePatchObject::alpha;u_tAmbient-m:Map::NinePatchObject::texture"/>
+                </object>
+            </effects>
+            <object name="streetLabelSettings" type="Map::SmartLabelSettings">
+                <text_style value="map/smartLabels/textstyle.street"/>
+                <image_anchor>
+                    <x value="0.97"/>
+                    <y value="0.77"/>
+                </image_anchor>
+            </object>
+            <object name="textstyle.street" type="Library::CTextStyle">
+                <font value="map/fonts/bold.16"/>
+                <border_size value="0.0"/>
+                <color value="0x0080ffff"/>
+                <color_border value="0x000000ff"/>
+                <text_wrap value="Library::ETextWrap::Singleline"/>
+                <text_align value="Library::ETextAlign::AlignCenter"/>
+            </object>
+        </smartLabels>
+        <route>
+            <colors>
+                <object name="color.route" type="Library::CColor">
+                    <color value="0x2196F3F0"/>
+                </object>
+                <object name="color.route.border" type="Library::CColor">
+                    <color value="0x004187ff"/>
+                </object>
+                <object name="color.route.passed" type="Library::CColor">
+                    <color value="0x81C3F890"/>
+                </object>
+                <object name="color.route.passed.border" type="Library::CColor">
+                    <color value="0x3C5B7390"/>
+                </object>
+                <object name="color.route.alt" type="Library::CColor">
+                    <color value="0xa0a0a0ff"/>
+                </object>
+                <object name="color.route.alt.border" type="Library::CColor">
+                    <color value="0x646464ff"/>
+                </object>
+                <!--zelena-->
+                <object name="color.traffic.free" type="Library::CColor">
+                    <color value="0x3ABC00FF"/>
+                </object>
+                <object name="color.traffic.free.border" type="Library::CColor">
+                    <color value="0x004187ff"/>
+                </object>
+                <!--oranzova - light traffic-->
+                <object name="color.traffic.light" type="Library::CColor">
+                    <color value="0xff8d00ff"/>
+                </object>
+                <object name="color.traffic.light.border" type="Library::CColor">
+                    <color value="0x004187ff"/>
+                </object>
+                <!--cervena - pre hard traffic-->
+                <object name="color.traffic.hard" type="Library::CColor">
+                    <color value="0xeb1a20FF"/>
+                </object>
+                <object name="color.traffic.hard.border" type="Library::CColor">
+                    <color value="0x004187ff"/>
+                </object>
+                <!--cervena - pre closed roads-->
+                <object name="color.traffic.closed" type="Library::CColor">
+                    <color value="0xeb1a20FF"/>
+                </object>
+                <object name="color.traffic.closed.border" type="Library::CColor">
+                    <color value="0x004187ff"/>
+                </object>
+                <object name="color.traffic.alt.free" type="Library::CColor">
+                    <color value="0x4d86ffff"/>
+                </object>
+                <object name="color.traffic.alt.free.border" type="Library::CColor">
+                    <color value="0x4d86ffff"/>
+                </object>
+                <object name="color.traffic.alt.light" type="Library::CColor">
+                    <color value="0xd3c68cff"/>
+                </object>
+                <object name="color.traffic.alt.light.border" type="Library::CColor">
+                    <color value="0x646464ff"/>
+                </object>
+                <object name="color.traffic.alt.hard" type="Library::CColor">
+                    <color value="0xce8c8cff"/>
+                </object>
+                <object name="color.traffic.alt.hard.border" type="Library::CColor">
+                    <color value="0x646464ff"/>
+                </object>
+                <object name="color.traffic.alt.closed" type="Library::CColor">
+                    <color value="0xc86464ff"/>
+                </object>
+                <object name="color.traffic.alt.closed.border" type="Library::CColor">
+                    <color value="0x646464ff"/>
+                </object>
+                <object name="intensity.wave.route" type="Library::CFloatResource">
+                    <float value="0.000000"/>
+                </object>
+                <object name="intensity.wave.traffic" type="Library::CFloatResource">
+                    <float value="0.250000"/>
+                </object>
+            </colors>
+            <dimensions>
+                <object name="route.border.size" type="Library::CFloatResource">
+                    <float value="0.100000"/>
+                </object>
+                <object name="alt.border.size" type="Library::CFloatResource">
+                    <float value="0.100000"/>
+                </object>
+                <object name="traffic.border.size" type="Library::CFloatResource">
+                    <float value="0.100000"/>
+                </object>
+            </dimensions>
+            <effects>
+                <object name="effect.route" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.route;u_fBorderSize-i:map/route/dimensions/route.border.size;u_vColor-i:map/route/colors/color.route;u_vBorderColor-i:map/route/colors/color.route.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_alt" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.route;u_fBorderSize-i:map/route/dimensions/alt.border.size;u_vColor-i:map/route/colors/color.route.alt;u_vBorderColor-i:map/route/colors/color.route.alt.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_free" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.free;u_vBorderColor-i:map/route/colors/color.traffic.free.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_light" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.light;u_vBorderColor-i:map/route/colors/color.traffic.light.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_hard" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.hard;u_vBorderColor-i:map/route/colors/color.traffic.hard.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_closed" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.closed;u_vBorderColor-i:map/route/colors/color.traffic.closed.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_alt_free" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.alt.free;u_vBorderColor-i:map/route/colors/color.traffic.alt.free.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_alt_light" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.alt.light;u_vBorderColor-i:map/route/colors/color.traffic.alt.light.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_alt_hard" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.alt.hard;u_vBorderColor-i:map/route/colors/color.traffic.alt.hard.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.route_alt_closed" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/route/colors/intensity.wave.traffic;u_fBorderSize-i:map/route/dimensions/traffic.border.size;u_vColor-i:map/route/colors/color.traffic.alt.closed;u_vBorderColor-i:map/route/colors/color.traffic.alt.closed.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+            </effects>
+            <functions>
+                <object name="function.route_width_by_distance" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="5.000000"/>
+                            <y value="14000.000000"/>
+                            <z value="1.000000"/>
+                            <w value="1200000.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.route_alt_width_by_distance" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="5.000000"/>
+                            <y value="10000.000000"/>
+                            <z value="1.000000"/>
+                            <w value="1200000.000000"/>
+                        </definition>
+                    </parent>
+                </object>
+            </functions>
+            <object name="cut_distance_from_vehicle" type="Library::CFloatResource">
+                <float value="0.0"/>
+            </object>
+        </route>
+        <junction>
+            <object name="max_ground_distance" type="Library::CFloatResource">
+                <float value="750.0"/>
+            </object>
+            <object name="arrow.junction" type="Map::ArrowStyle">
+                <color_face value="0xF9F9F9FF"/>
+                <color_side value="0xCCCCCCFF"/>
+                <color_border value="0xFFFFFFFF"/>
+                <width value="3.0"/>
+                <left value="0.8"/>
+                <right value="0.8"/>
+                <forward value="2.2"/>
+                <elevate value="0.5"/>
+                <height value="0.5"/>
+                <border value="0.0"/>
+            </object>
+            <object name="shader.junction" type="Library::CShader">
+                <shader_files>
+                    <vertex_shader_filename value="common.vsh"/>
+                    <pixel_shader_filename value="common.psh"/>
+                    <defines value="VERTEX_COLOR;CONST_COLOR"/>
+                </shader_files>
+            </object>
+            <object name="effect.junction" type="Library::CEffect">
+                <flags value="Library::CEffect::EfAoBlend"/>
+                <shader value="map/junction/shader.junction"/>
+                <uniforms value="u_vColor-m:CJunctionGeometry::clrBlend"/>
+            </object>
+        </junction>
+        <speedcams>
+            <object name="max_ground_distance" type="Library::CFloatResource">
+                <float value="1500.0"/>
+            </object>
+            <object name="font.icon" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="16"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.background" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="24"/>
+                <hinting value="false"/>
+            </object>
+            <object name="icon.config" type="Map::CIconConfig">
+                <background value="U+E075"/>
+                <border value="U+E076"/>
+                <center>
+                    <x value="0.500000"/>
+                    <y value="0.500000"/>
+                </center>
+                <icon_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </icon_offset>
+                <background_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </background_offset>
+                <icon_padding>
+                    <x value="3"/>
+                    <y value="3"/>
+                </icon_padding>
+                <color_icon value="0x000000ff"/>
+                <color_border value="0x00000053"/>
+            </object>
+            <object name="config" type="Map::CSpeedCamConfig">
+                <speedcam_icons type="DtTemplate::std::map">
+                    <data>
+                        <key value="Map::ERadarType::RadarStaticSpeed"/>
+                        <value>
+                            <icon value="U+E24F"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarStaticRedLight"/>
+                        <value>
+                            <icon value="U+E252"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarSemiMobileSpeed"/>
+                        <value>
+                            <icon value="U+E24F"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarStaticAverageSpeed"/>
+                        <value>
+                            <icon value="U+E250"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::RadarStaticAverageSpeedMiddle"/>
+                        <value>
+                            <icon value="U+E250"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::RadarStaticAverageSpeedEnd"/>
+                        <value>
+                            <icon value="U+E250"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarMobileSpeed"/>
+                        <value>
+                            <icon value="U+E24F"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarStaticRedLightSpeed"/>
+                        <value>
+                            <icon value="U+E251"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarMobileRedLight"/>
+                        <value>
+                            <icon value="U+E252"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::RadarMobileAverageSpeed"/>
+                        <value>
+                            <icon value="U+E250"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::Police"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::RadarFake"/>
+                        <value>
+                            <icon value="U+E24F"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::InfoCamera"/>
+                        <value>
+                            <icon value="U+E24F"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::DangerousPlace"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::DangerousPlaceObjectOnRoad"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::DangerousPlaceRoadConstruction"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::DangerousPlaceBrokenTrafficLight"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::DangerousPlacePothole"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::DangerousPlaceVehicleStopped"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::DangerousPlaceAnimalAccident"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::Traffic"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::TrafficModerate"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::TrafficHeavy"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::ERadarType::TrafficStandstill"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::WeightCheck"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::DistanceCheck"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::Closure"/>
+                        <value>
+                            <icon value="U+E24E"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ERadarType::Schoolzone"/>
+                        <value>
+                            <icon value="U+E24C"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::Police"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::PolicePatrol"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::PoliceTripod"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::Crash"/>
+                        <value>
+                            <icon value="U+E24D"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::CrashMinor"/>
+                        <value>
+                            <icon value="U+E24D"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::CrashMajor"/>
+                        <value>
+                            <icon value="U+E24D"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::Weather"/>
+                        <value>
+                            <icon value="U+E24C"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::WeatherHeavyFog"/>
+                        <value>
+                            <icon value="U+E249"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::WeatherHail"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::WeatherFlood"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::WeatherIce"/>
+                        <value>
+                            <icon value="U+E247"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::Theft"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::TheftGoods"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::TheftFuel"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::TheftOther"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::Help"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::HelpPuncture"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::HelpPressure"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::HelpHealthIssue"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::HelpOther"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data> <data>
+                        <key value="Map::ERadarType::ZollOrBoarder"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::TransportInspection"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::OtherInspection"/>
+                        <value>
+                            <icon value="U+E254"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+					 <data>
+                        <key value="Map::ERadarType::Unspecified"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="0xFFF6D7FF"/>
+                        </value>
+                    </data>
+                </speedcam_icons>
+            </object>
+        </speedcams>
+        <addresspoints>
+            <object name="config" type="Map::CAddressPointConfig">
+                <text_style value="map/textstyles/textstyle.addresspoints"/>
+                <text_padding>
+                    <x value="0"/>
+                    <y value="0"/>
+                </text_padding>
+            </object>
+        </addresspoints>
+        <traffic>
+            <dimensions>
+                <object name="traffic.border.size" type="Library::CFloatResource">
+                    <float value="0.0"/>
+                </object>
+            </dimensions>
+            <effects>
+                <object name="effect.traffic_free" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/traffic/colors/intensity.wave;u_fBorderSize-i:map/traffic/dimensions/traffic.border.size;u_vColor-i:map/traffic/colors/color.traffic.free;u_vBorderColor-i:map/traffic/colors/color.traffic.free.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.traffic_light" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/traffic/colors/intensity.wave;u_fBorderSize-i:map/traffic/dimensions/traffic.border.size;u_vColor-i:map/traffic/colors/color.traffic.light;u_vBorderColor-i:map/traffic/colors/color.traffic.light.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.traffic_hard" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/traffic/colors/intensity.wave;u_fBorderSize-i:map/traffic/dimensions/traffic.border.size;u_vColor-i:map/traffic/colors/color.traffic.hard;u_vBorderColor-i:map/traffic/colors/color.traffic.hard.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+                <object name="effect.traffic_closed" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.route"/>
+                    <uniforms value="u_fWaveIntensity-i:map/traffic/colors/intensity.wave;u_fBorderSize-i:map/traffic/dimensions/traffic.border.size;u_vColor-i:map/traffic/colors/color.traffic.closed;u_vBorderColor-i:map/traffic/colors/color.traffic.closed.border;u_fCutDistance-m:CPathGeometry::cutDistance"/>
+                </object>
+            </effects>
+            <colors>
+                <object name="color.traffic.free" type="Library::CColor">
+                    <color value="0x3ABC00FF"/>
+                </object>
+                <object name="color.traffic.free.border" type="Library::CColor">
+                    <color value="0x288300FF"/>
+                </object>
+                <object name="color.traffic.light" type="Library::CColor">
+                    <color value="0xff6300ff"/>
+                </object>
+                <object name="color.traffic.light.border" type="Library::CColor">
+                    <color value="0xcd6805ff"/>
+                </object>
+                <object name="color.traffic.hard" type="Library::CColor">
+                    <color value="0xc11116FF"/>
+                </object>
+                <object name="color.traffic.hard.border" type="Library::CColor">
+                    <color value="0x004187FF"/>
+                </object>
+                <object name="color.traffic.closed" type="Library::CColor">
+                    <color value="0x888888FF"/>
+                </object>
+                <object name="color.traffic.closed.border" type="Library::CColor">
+                    <color value="0x666666FF"/>
+                </object>
+                <object name="color.traffic.icon.hard" type="Library::CColor">
+                    <color value="0xEB1A20FF"/>
+                </object>
+                <object name="color.traffic.icon.light" type="Library::CColor">
+                    <color value="0xff9a00ff"/>
+                </object>
+                <object name="color.traffic.icon.free" type="Library::CColor">
+                    <color value="0x00ff00ff"/>
+                </object>
+                <object name="color.traffic.icon.info" type="Library::CColor">
+                    <color value="0x0000ffff"/>
+                </object>
+                <object name="intensity.wave" type="Library::CFloatResource">
+                    <float value="0.250000"/>
+                </object>
+            </colors>
+            <object name="max_ground_distance" type="Library::CFloatResource">
+                <float value="90000.0"/>
+            </object>
+            <object name="max_ground_distance_icon_high" type="Library::CFloatResource">
+                <float value="12000.0"/>
+            </object>
+            <object name="max_ground_distance_icon_low" type="Library::CFloatResource">
+                <float value="1000.0"/>
+            </object>
+            <object name="font.icon" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="14"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.background" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="24"/>
+                <hinting value="false"/>
+            </object>
+            <object name="icon.config" type="Map::CIconConfig">
+                <background value="U+E075"/>
+                <border value="U+E076"/>
+                <center>
+                    <x value="0.500000"/>
+                    <y value="0.500000"/>
+                </center>
+                <icon_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </icon_offset>
+                <background_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </background_offset>
+                <icon_padding>
+                    <x value="5"/>
+                    <y value="5"/>
+                </icon_padding>
+                <color_icon value="0xffffffff"/>
+                <color_border value="0x00000066"/>
+            </object>
+            <object name="font.icon.high" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="8"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.background.high" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="16"/>
+                <hinting value="false"/>
+            </object>
+            <object name="icon.config.high" type="Map::CIconConfig">
+                <background value="U+E075"/>
+                <border value="U+E076"/>
+                <center>
+                    <x value="0.500000"/>
+                    <y value="0.500000"/>
+                </center>
+                <icon_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </icon_offset>
+                <background_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </background_offset>
+                <icon_padding>
+                    <x value="6"/>
+                    <y value="6"/>
+                </icon_padding>
+                <color_icon value="0xFFFFFFFF"/>
+                <color_border value="0x00000066"/>
+            </object>
+            <object name="config" type="Map::CTrafficConfig">
+                <traffic_icons type="DtTemplate::std::map">
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficProblem"/>
+                        <value>
+                            <icon value="U+E203"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCQueuingProblem"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCSlowTraffic"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCHeavyTraffic"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCStationaryTraffic"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion10"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion20"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion30"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion40"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion50"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion60"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.free"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCCongestion70"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.free"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCNormalTraffic"/>
+                        <value>
+                            <icon value="U+E203"/>
+                            <color value="map/traffic/colors/color.traffic.icon.free"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCNoProblems"/>
+                        <value>
+                            <icon value="U+E203"/>
+                            <color value="map/traffic/colors/color.traffic.icon.free"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCAccidentCleared"/>
+                        <value>
+                            <icon value="U+E24D"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCAccidentIncident"/>
+                        <value>
+                            <icon value="U+E24D"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCClosure"/>
+                        <value>
+                            <icon value="U+E24E"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCBridgeTunelBlocked"/>
+                        <value>
+                            <icon value="U+E24E"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCServiceClosed"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="map/traffic/colors/color.traffic.icon.info"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCServiceReopened"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="map/traffic/colors/color.traffic.icon.info"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCLaneClosure"/>
+                        <value>
+                            <icon value="U+E24A"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCRoadWorks"/>
+                        <value>
+                            <icon value="U+E24B"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCObstacle"/>
+                        <value>
+                            <icon value="U+E24B"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCRoadConditions"/>
+                        <value>
+                            <icon value="U+E24A"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCWeather"/>
+                        <value>
+                            <icon value="U+E247"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCWind"/>
+                        <value>
+                            <icon value="U+E246"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCVisibility"/>
+                        <value>
+                            <icon value="U+E249"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTemperature"/>
+                        <value>
+                            <icon value="U+E248"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCActivity"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="map/traffic/colors/color.traffic.icon.info"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCDelay"/>
+                        <value>
+                            <icon value="U+E054"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCDangerousVehicle"/>
+                        <value>
+                            <icon value="U+E206"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCExceptionalLoadsVehicles"/>
+                        <value>
+                            <icon value="U+E206"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficEquipment"/>
+                        <value>
+                            <icon value="U+E252"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCSizeAndWeightLimits"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.info"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCParkingRestrictions"/>
+                        <value>
+                            <icon value="U+E31E"/>
+                            <icon_high value="U+E05B"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="true"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCReferenceToAudioBroadcast"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="map/traffic/colors/color.traffic.icon.info"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCAdditionalInfo"/>
+                        <value>
+                            <icon value="U+E245"/>
+                            <color value="map/traffic/colors/color.traffic.icon.info"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficFlowClosed"/>
+                        <value>
+                            <icon value="U+E24E"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficFlowBlocked"/>
+                        <value>
+                            <icon value="U+E24E"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficFlowSlow"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.hard"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficFlowMedium1"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficFlowMedium2"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.light"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::ETMCTraffic::eTMCTrafficFlowFree"/>
+                        <value>
+                            <icon value="U+E253"/>
+                            <color value="map/traffic/colors/color.traffic.icon.free"/>
+                            <always_visible value="false"/>
+                        </value>
+                    </data>
+                </traffic_icons>
+            </object>
+        </traffic>
+        <city>
+            <object name="city_centers_config" type="Map::CCityCentersConfig">
+                <max_text_size>
+                    <x value="200"/>
+                    <y value="120"/>
+                </max_text_size>
+                <max_area_text_size>
+                    <x value="140"/>
+                    <y value="120"/>
+                </max_area_text_size>
+                <text_padding>
+                    <x value="5"/>
+                    <y value="10"/>
+                </text_padding>
+            </object>
+            <object name="icon.config.capital" type="Map::CIconConfig">
+                <background value="U+E075"/>
+                <border value=""/>
+                <center>
+                    <x value="0.500000"/>
+                    <y value="0.500000"/>
+                </center>
+                <icon_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </icon_offset>
+                <background_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </background_offset>
+                <icon_padding>
+                    <x value="5"/>
+                    <y value="5"/>
+                </icon_padding>
+                <color_icon value="0xffffffff"/>
+                <color_border_mask value="0x666666ff"/>
+                <color_border value="0xffffffff"/>
+            </object>
+            <object name="icon.config" type="Map::CIconConfig">
+                <background value="U+E075"/>
+                <border value=""/>
+                <center>
+                    <x value="0.500000"/>
+                    <y value="0.500000"/>
+                </center>
+                <icon_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </icon_offset>
+                <background_offset>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </background_offset>
+                <icon_padding>
+                    <x value="5"/>
+                    <y value="5"/>
+                </icon_padding>
+                <color_icon value="0xffffffff"/>
+                <color_border_mask value="0x666666ff"/>
+                <color_border value="0xffffffff"/>
+            </object>
+            <object name="font.icon" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="4"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.background" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="7"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.capital" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="6"/>
+                <hinting value="false"/>
+            </object>
+            <object name="font.icon.capital.background" type="Library::CFont">
+                <font_name value="SygicIcons"/>
+                <size value="11"/>
+                <hinting value="false"/>
+            </object>
+            <object name="aboveMilion-capitals" type="Map::CCityConfig">
+                <max_ground_distance value="1700.000000"/>
+                <priority value="0"/>
+                <text_style value="map/textstyles/city.city5"/>
+                <capitals value="true"/>
+                <multi_position value="true"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="aboveHalfMilion-capitals" type="Map::CCityConfig">
+                <max_ground_distance value="1600.000000"/>
+                <priority value="1"/>
+                <text_style value="map/textstyles/city.city6"/>
+                <capitals value="true"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="aboveMilion" type="Map::CCityConfig">
+                <max_ground_distance value="1600.0"/>
+                <priority value="2"/>
+                <capitals value="true"/>
+                <text_style value="map/textstyles/city.city5"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="aboveHalfMilion" type="Map::CCityConfig">
+                <max_ground_distance value="1600.0"/>
+                <priority value="3"/>
+                <text_style value="map/textstyles/city.city5"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="cityRegional" type="Map::CCityConfig">
+                <max_ground_distance value="1000.000000"/>
+                <priority value="6"/>
+                <text_style value="map/textstyles/city.city4"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="cityDistrict" type="Map::CCityConfig">
+                <max_ground_distance value="250.0"/>
+                <priority value="8"/>
+                <text_style value="map/textstyles/city.city3"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="aboveHundredThousand" type="Map::CCityConfig">
+                <max_ground_distance value="1500.0"/>
+                <priority value="4"/>
+                <text_style value="map/textstyles/city.city6"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="aboveFiftyThousand" type="Map::CCityConfig">
+                <max_ground_distance value="500.0"/>
+                <priority value="5"/>
+                <text_style value="map/textstyles/city.city6"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="belowFiftyThousand" type="Map::CCityConfig">
+                <max_ground_distance value="240.000000"/>
+                <priority value="7"/>
+                <text_style value="map/textstyles/city.city4"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="belowThirtyThousand" type="Map::CCityConfig">
+                <max_ground_distance value="80.0"/>
+                <priority value="9"/>
+                <text_style value="map/textstyles/city.city2"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="belowTwentyThousand" type="Map::CCityConfig">
+                <max_ground_distance value="60.000000"/>
+                <priority value="10"/>
+                <text_style value="map/textstyles/city.city2"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="belowTenThousand" type="Map::CCityConfig">
+                <max_ground_distance value="40.000000"/>
+                <priority value="12"/>
+                <text_style value="map/textstyles/city.city2"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+                <object name="belowFiveThousand" type="Map::CCityConfig">
+                    <max_ground_distance value="10.000000"/>
+                    <priority value="14"/>
+                    <text_style value="map/textstyles/city.city0"/>
+                    <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="cityPartOfTheTown" type="Map::CCityConfig">
+                <max_ground_distance value="20.000000"/>
+                <priority value="11"/>
+                <text_style value="map/textstyles/city.part"/>
+                <capitals value="true"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="cityBoroughOfTheTown" type="Map::CCityConfig">
+                <max_ground_distance value="7.000000"/>
+                <priority value="18"/>
+                <text_style value="map/textstyles/city.part"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="WaterCenter-higher" type="Map::CCityConfig">
+                <max_ground_distance value="80.000000"/>
+                <priority value="8"/>
+                <text_style value="map/textstyles/city.water"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="WaterCenter" type="Map::CCityConfig">
+                <max_ground_distance value="40.000000"/>
+                <priority value="12"/>
+                <text_style value="map/textstyles/city.water"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="WoodlandCenter-higher" type="Map::CCityConfig">
+                <max_ground_distance value="2.0"/>
+                <priority value="17"/>
+                <text_style value="map/textstyles/city.wood"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="WoodlandCenter" type="Map::CCityConfig">
+                <max_ground_distance value="2.0"/>
+                <priority value="18"/>
+                <text_style value="map/textstyles/city.wood"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="BuildingCenter" type="Map::CCityConfig">
+                <max_ground_distance value="2.000000"/>
+                <priority value="19"/>
+                <text_style value="map/textstyles/city.other"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="BrunnelCenter" type="Map::CCityConfig">
+                <max_ground_distance value="0.8"/>
+                <priority value="20"/>
+                <text_style value="map/textstyles/city.other"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="BridgeCenter" type="Map::CCityConfig">
+                <max_ground_distance value="0.8"/>
+                <priority value="21"/>
+                <text_style value="map/textstyles/city.other"/>
+                <capitals value="false"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="countryCenter" type="Map::CCityConfig">
+                <max_ground_distance value="5000.0"/>
+                <priority value="22"/>
+                <text_style value="map/textstyles/city.country"/>
+                <icon value="U+E075"/>
+            </object>
+            <object name="provinceCenter" type="Map::CCityConfig">
+                <max_ground_distance value="4300.0"/>
+                <priority value="23"/>
+                <text_style value="map/textstyles/city.province"/>
+                <icon value="U+E075"/>
+            </object>
+        </city>
+        <landmarks>
+            <object name="effect.landmark" type="Library::CEffect">
+                    <flags value="CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_T_CC_AT"/>
+                    <uniforms value="u_tAmbient-m:Map::CLandMarkGeometryObject::mResTexture;u_vColor-i:map/landmarks/color.tint"/>
+            </object>
+            <object name="color.tint" type="Library::CColor">
+                <color value="0xffffffff"/>
+            </object>
+        </landmarks>
+        <models>
+            <object name="vehicle" type="C3DMapFileModelObject">
+                <filename value="models/arrow.obj"/>
+                <settings value="map/settings/vehicle.main"/>
+            </object>
+        </models>
+        <settings>
+            <curves>
+                <object name="function.color_fall_off_r" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.9900000"/>
+                            <y value="1.000000"/>
+                            <z value="2.000000"/>
+                            <w value="4.000000"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundMpp"/>
+                </object>
+                <object name="function.color_fall_off_g" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.9900000"/>
+                            <y value="1.000000"/>
+                            <z value="2.000000"/>
+                            <w value="8.000000"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundMpp"/>
+                </object>
+                <object name="function.color_fall_off_b" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.9900000"/>
+                            <y value="1.000000"/>
+                            <z value="2.000000"/>
+                            <w value="8.000000"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundMpp"/>
+                </object>
+                <object name="vehicle.scaling.main" type="CRangeLNFunctionObject">
+                    <in value="25,170,2772,20907910"/>
+                    <out value="1,8,85,325540"/>
+                    <out_factor value="1.0"/>
+                </object>
+                <object name="fx.minspeedbympp" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="240.0"/>
+                            <y value="2000000.0"/>
+                            <z value="0.0"/>
+                            <w value="6000.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.group_default" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="8.0"/>
+                            <y value="350.0"/>
+                            <z value="0.0"/>
+                            <w value="400.0"/>
+                        </definition>
+                    </parent>
+                </object>
+            </curves>
+            <object name="vehicle.main" type="C3DMapMarkSettings">
+                <height_above_ground value="2.0"/>
+                <scale value="1.0"/>
+                <min_scale value="1.0"/>
+                <max_globe_scale value="1.0"/>
+                <scaling_curve value="map/settings/curves/vehicle.scaling.main"/>
+                <rotation>
+                    <x value="0.000000"/>
+                    <y value="0.000000"/>
+                </rotation>
+            </object>
+            <colors>
+                <object name="color.vehicleAccuracyIndicator" type="Library::CColor">
+                    <color value="0x0096ff10"/>
+                </object>
+            </colors>
+            <object name="vehicleIndicator" type="C3DMapPositionIndicatorSettings">
+                <accuracy_indicator_visible value="true"/>
+                <indicator_visible value="true"/>
+                <accuracy_indicator_color value="map/settings/colors/color.vehicleAccuracyIndicator"/>
+                <indicator_type value="Map::EIndicatorType::MapMatched"/>
+                <indicator_rotation value="Map::EIndicatorRotation::MapMatched"/>
+            </object>
+            <object name="view" type="C3DMapViewSettings">
+                <min_camera_distance value="1.0"/>
+                <max_camera_distance value="18000000.0"/>
+                <lods size="4">
+                    <data value="8.000000"/>
+                    <data value="80.000000"/>
+                    <data value="300.000000"/>
+                    <data value="12000.000000"/>
+                </lods>
+            </object>
+            <object name="zoomLevelRange" type="CZoomLevelRange">
+                <min value="0.0"/>
+                <max value="20.0"/>
+			</object>
+            <object name="autozoom" type="AutozoomSettings">
+                <autozoom_2D>
+                    <panorama value="3000.0"/>
+                    <near_junction value="400.0"/>
+                    <standard value="600.0"/>
+                </autozoom_2D>
+                <autozoom_3D>
+                    <panorama value="600.0"/>
+                    <near_junction value="300.0"/>
+                    <standard value="200.0"/>
+                </autozoom_3D>
+                <zoom_out>
+                    <start_delta_time value="0"/>
+                    <min_duration value="0"/>
+                    <max_duration value="1250"/>
+                </zoom_out>
+                <translate>
+                    <start_delta_time value="0"/>
+                    <min_duration value="500"/>
+                    <max_duration value="1250"/>
+                </translate>
+                <zoom_in>
+                    <start_delta_time value="1500"/>
+                    <min_duration value="1000"/>
+                    <max_duration value="1250"/>
+                </zoom_in>
+                <auto_zoom_in>
+                    <start_delta_time value="1000"/>
+                    <min_duration value="1000"/>
+                    <max_duration value="1000"/>
+                </auto_zoom_in>
+                <vehicle_lock_animation_max_dist value="100000.0"/>
+            </object>
+            <object name="fpscontrol" type="C3DMapViewFpsControl">
+                <min_camera_speed_for_unlimited_fps value="map/settings/curves/fx.minspeedbympp"/>
+                <min_camera_rotation_speed_for_unlimited_fps value="25"/>
+                <unlimited_fps_time value="3000"/>
+                <minimum_fps value="15"/>
+                <maximum_fps value="60"/>
+            </object>
+            <object name="visibility" type="CGroupsVisibility">
+                <visibility_data type="DtTemplate::std::map">
+                    <data>
+                        <key value="default"/>
+                        <value>
+							<max_distance value="5000.0"/>
+							<max_radius value="10.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CTerrainGroup"/>
+                        <value>
+							<max_distance value="100.0"/>
+							<max_radius value="40.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CAreaGroup"/>
+                        <value>
+							<max_distance value="5000.0"/>
+							<max_radius value="8.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CRoadsGroup"/>
+                        <value>
+							<max_distance value="5000.0"/>
+							<max_radius value="7.5"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CLandMarkGroup"/>
+                        <value>
+							<max_distance value="2.5"/>
+							<max_radius value="2.5"/>
+                        </value>
+                    </data>
+					<data>
+                        <key value="Map::CCity2DGroup"/>
+                        <value>
+							<max_distance value="2.0"/>
+							<max_radius value="2.5"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CPoisGroup"/>
+                        <value>
+							<max_distance value="40.0"/>
+							<max_radius value="3.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CTrafficGroup"/>
+                        <value>
+							<max_distance value="50.0"/>
+							<max_radius value="3.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CSpeedCamsGroup"/>
+                        <value>
+							<max_distance value="25.0"/>
+							<max_radius value="3.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CAddressPointGroup"/>
+                        <value>
+							<max_distance value="0.35"/>
+							<max_radius value="1.0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::CCollectionsGroup"/>
+                        <value>
+							<max_distance value="3000.0"/>
+							<max_radius value="1.5"/>
+                        </value>
+                    </data>
+                </visibility_data>
+            </object>
+            <object name="function.max_rotation_by_distance" type="CLinearFunction">
+                <parent type="CFunctionObject">
+                    <definition>
+                        <x value="181.0"/>
+                        <y value="0.0"/>
+                        <z value="1000000.0"/>
+                        <w value="3000000.0"/>
+                    </definition>
+                </parent>
+            </object>
+            <object name="function.max_tilt_by_distance" type="CLinearFunction">
+                <parent type="CFunctionObject">
+                    <definition>
+                        <x value="75.000000"/>
+                        <y value="15.000000"/>
+                        <z value="5.000000"/>
+                        <w value="6000.000000"/>
+                    </definition>
+                </parent>
+            </object>
+            <object name="function.max_screen_center_by_distance" type="CLinearFunction">
+                <parent type="CFunctionObject">
+                    <definition>
+                        <x value="0.500000"/>
+                        <y value="0.000000"/>
+                        <z value="1000000.0"/>
+                        <w value="3000000.0"/>
+                    </definition>
+                </parent>
+            </object>
+        </settings>
+        <terrain>
+            <effects>
+                <object name="effect.terrain_with_blending" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_CC_OCF_GNM_BBD"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tGeoNormalmap-t:CEarthNormalmapTextureLoader;u_vGeoNormalmapInfo-s:CEarthNormalMap::ms_vInfo;u_vGeoNormalmapLight-s:CEarthNormalMap::ms_vLight;u_vBlendByDistanceFunction-i:map/terrain/functions/function.blend_by_distance;v_fBlendByDistanceCoef-i:map/terrain/functions/function.blend_by_distance_coef"/>
+                </object>
+                <object name="effect.terrain" type="Library::CEffect">
+                    <flags value=""/>
+                    <shader value="map/effects/common/shader.common_CC_OCF_GNM"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_tGeoNormalmap-t:CEarthNormalmapTextureLoader;u_vGeoNormalmapInfo-s:CEarthNormalMap::ms_vInfo;u_vGeoNormalmapLight-s:CEarthNormalMap::ms_vLight"/>
+                </object>
+                <object name="effect.terrain_flat_with_blending" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/common/shader.common_CC_OCF_BBD"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b;u_vBlendByDistanceFunction-i:map/terrain/functions/function.blend_by_distance;v_fBlendByDistanceCoef-i:map/terrain/functions/function.blend_by_distance_coef"/>
+                </object>
+                <object name="effect.terrain_flat" type="Library::CEffect">
+                    <flags value=""/>
+                    <shader value="map/effects/common/shader.common_CC_OCF"/>
+                    <uniforms value="u_vColor-i:map/globe/colors/color.surface;u_vOutputColorCoef_r-i:map/settings/curves/function.color_fall_off_r;u_vOutputColorCoef_g-i:map/settings/curves/function.color_fall_off_g;u_vOutputColorCoef_b-i:map/settings/curves/function.color_fall_off_b"/>
+                </object>
+                <object name="effect.terrain_grid" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/effects/shader.grid"/>
+                    <uniforms value="u_vBlendByDistanceFunction-i:map/terrain/functions/function.blend_by_distance;u_fBorderSize-i:map/terrain/dimensions/grid.border.size;u_vColor-i:map/terrain/colors/color.grid;u_vBorderColor-i:map/terrain/colors/color.grid.border;u_vTiles-m:CTerrainCell::tiles"/>
+                </object>
+                <object name="function.shading" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.01"/>
+                            <y value="1.0"/>
+                            <z value="0.0"/>
+                            <w value="300.0"/>
+                        </definition>
+                    </parent>
+                </object>
+            </effects>
+            <colors>
+                <object name="color.grid" type="Library::CColor">
+                    <color value="0xECECECff"/>
+                </object>
+                <object name="color.grid.border" type="Library::CColor">
+                    <color value="0x6C7A89ff"/>
+                </object>
+            </colors>
+            <dimensions>
+                <object name="grid.border.size" type="Library::CFloatResource">
+                    <float value="0.02"/>
+                </object>
+            </dimensions>
+            <functions>
+                <object name="function.blend_by_distance" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="1.0000"/>
+                            <y value="0.000000"/>
+                            <z value="6.00000"/>
+                            <w value="12.00000"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.blend_by_distance_coef" type="C3DMapFunctionResult">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="1.000000"/>
+                            <y value="3.00000"/>
+                            <z value="1.00000"/>
+                            <w value="3.00000"/>
+                        </definition>
+                    </parent>
+                    <mapvalue value="E3DMapValue::GroundDistanceInKm"/>
+                </object>
+            </functions>
+        </terrain>
+        <cityBuildings>
+            <effects>
+                <object name="shader.frontNoPost" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="citymap2d.vsh"/>
+                        <pixel_shader_filename value="citymap2d.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shader.front" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="citymap2d_u2a.vsh"/>
+                        <pixel_shader_filename value="citymap2d_u2a.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shader.peel" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="citymap2d_u2a_depthpeeling.vsh"/>
+                        <pixel_shader_filename value="citymap2d_u2a_depthpeeling.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shader.push" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="citymap2d_pushdown_u2a.vsh"/>
+                        <pixel_shader_filename value="citymap2d_pushdown_u2a.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shader.pushNoPost" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="citymap2d_pushdown.vsh"/>
+                        <pixel_shader_filename value="citymap2d_pushdown.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shader.footprint" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="citymap2d_pushdown.vsh"/>
+                        <pixel_shader_filename value="citymap2d_pushdown.psh"/>
+                        <defines value="FOOTPRINT"/>
+                    </shader_files>
+                </object>
+                <object name="effect.front" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/cityBuildings/effects/shader.front"/>
+                    <uniforms value="u_tColors-t:CCity2DColorsTextureLoader"/>
+                </object>
+                <object name="effect.frontNoPost" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/cityBuildings/effects/shader.frontNoPost"/>
+                    <uniforms value="u_tColors-t:CCity2DColorsTextureLoader;u_vAlphaDistanceFunction-i:map/cityBuildings/effects/function.alpha"/>
+                </object>
+                <object name="effect.footprint" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/cityBuildings/effects/shader.footprint"/>
+                    <uniforms value="u_tColors-t:CCity2DColorsTextureLoader;u_fFootprintHeight-i:map/cityBuildings/city.footprint_height"/>
+                </object>
+                <object name="effect.peel" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/cityBuildings/effects/shader.peel"/>
+                    <uniforms value="u_tColors-t:CCity2DColorsTextureLoader;"/>
+                </object>
+                <object name="effect.push" type="Library::CEffect">
+                    <flags value="0"/>
+                    <shader value="map/cityBuildings/effects/shader.push"/>
+                    <uniforms value="u_tColors-t:CCity2DColorsTextureLoader;u_vFloatingHighDistanceFunction-i:map/cityBuildings/effects/function.pushdown"/>
+                </object>
+                <object name="effect.pushNoPost" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/cityBuildings/effects/shader.pushNoPost"/>
+                    <uniforms value="u_tColors-t:CCity2DColorsTextureLoader;u_vFloatingHighDistanceFunction-i:map/cityBuildings/effects/function.pushdown;u_vAlphaDistanceFunction-i:map/cityBuildings/effects/function.alpha"/>
+                </object>
+                <object name="function.pushdown" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="3.0"/>
+                            <y value="300.0"/>
+                            <z value="300.0"/>
+                            <w value="3000.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <!-- PostProcess -->
+                <object name="shader.post" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="postprocess/citymap2d_pass1.vsh"/>
+                        <pixel_shader_filename value="postprocess/citymap2d_pass1.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="shaderNoBlend.post" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="postprocess/citymap2d_pass1.vsh"/>
+                        <pixel_shader_filename value="postprocess/citymap2d_pass1_noblend.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="effect.post" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/cityBuildings/effects/shader.post"/>
+                    <uniforms value="u_vAlphaDistanceFunction-i:map/cityBuildings/effects/function.alpha;u_vAlphaDistanceFunctionOutline-i:map/cityBuildings/effects/function.outlineAlpha;u_vOutlineColor-i:map/cityBuildings/effects/color.outline;u_fMaxDistance-s:Map::CCity2DGroup::msMaxVisibleDistance"/>
+                </object>
+                <object name="effectNoBlend.post" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/cityBuildings/effects/shaderNoBlend.post"/>
+                    <uniforms value="u_vOutlineColor-i:map/cityBuildings/effects/color.outline;u_fCityAlpha-i:map/cityBuildings/city.alpha"/>
+                </object>
+                <object name="shader.postpeel" type="Library::CShader">
+                    <shader_files>
+                        <vertex_shader_filename value="postprocess/citymap2d_pass2.vsh"/>
+                        <pixel_shader_filename value="postprocess/citymap2d_pass2.psh"/>
+                        <defines value=""/>
+                    </shader_files>
+                </object>
+                <object name="effect.postpeel" type="Library::CEffect">
+                    <flags value="Library::CEffect::EfAoBlend"/>
+                    <shader value="map/cityBuildings/effects/shader.postpeel"/>
+                    <uniforms value="u_vAlphaDistanceFunction-i:map/cityBuildings/effects/function.alphaPeel;u_vAlphaDistanceFunctionOutline-i:map/cityBuildings/effects/function.outlineAlphaPeel;u_vOutlineColor-i:map/cityBuildings/effects/color.outlinePeel;u_fMaxDistance-s:Map::CCity2DGroup::msMaxVisibleDistance"/>
+                </object>
+                <object name="function.alpha" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.4"/>
+                            <y value="0.8"/>
+                            <z value="100.0"/>
+                            <w value="800.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.alphaPeel" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.1"/>
+                            <y value="0.6"/>
+                            <z value="100.0"/>
+                            <w value="800.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.outlineAlpha" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.6"/>
+                            <y value="0.8"/>
+                            <z value="100.0"/>
+                            <w value="800.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="function.outlineAlphaPeel" type="CLinearFunction">
+                    <parent type="CFunctionObject">
+                        <definition>
+                            <x value="0.6"/>
+                            <y value="0.6"/>
+                            <z value="100.0"/>
+                            <w value="800.0"/>
+                        </definition>
+                    </parent>
+                </object>
+                <object name="color.outline" type="Library::CColor">
+                    <color value="0x8a8a89ff"/>
+                </object>
+                <object name="color.outlinePeel" type="Library::CColor">
+                    <color value="0x8a8a82ff"/>
+                </object>
+            </effects>
+            <object name="city.alpha" type="Library::CFloatResource">
+                <float value="0.5"/>
+            </object>
+						<object name="city.footprint_height" type="Library::CFloatResource">
+							<float value="2.0"/>
+						</object>
+            <!-- 2DCity -->
+            <object name="colors.city2d" type="Map::C2DCityColors">
+                <city_2d_colors>
+                    <data>
+                        <key value="Map::E2DCityColor::Building"/>
+                        <value>
+                            <color value="0xffffffff"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::BuildingNoWalls"/>
+                        <value>
+                            <color value="0xfbfbfbff"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::BuildingOutlinePass1"/>
+                        <value>
+                            <color value="0xfbfbfbff"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::BuildingOutlinePass2"/>
+                        <value>
+                            <color value="0xfbfbfbff"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Commercial"/>
+                        <value>
+                            <color value="0xf6e79db0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Cultural"/>
+                        <value>
+                            <color value="0xddafa1b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Factory"/>
+                        <value>
+                            <color value="0xb4967eb0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Government"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Hospital"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Hotel"/>
+                        <value>
+                            <color value="0xdadec2b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::MultiStorey"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::MultiStoreyParking"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::OtherFacility"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Garage"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Pedestrian"/>
+                        <value>
+                            <color value="0xe4e6d7b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Worship"/>
+                        <value>
+                            <color value="0xcdbc81b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::RailwayPlatform"/>
+                        <value>
+                            <color value="0x909090b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::RailwayStation"/>
+                        <value>
+                            <color value="0x767676b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::School"/>
+                        <value>
+                            <color value="0xefe78bb0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::SubwayPlatform"/>
+                        <value>
+                            <color value="0xb08080b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::SubwayStation"/>
+                        <value>
+                            <color value="0x767676b0"/>
+                        </value>
+                    </data>
+                    <data>
+                        <key value="Map::E2DCityColor::Tower"/>
+                        <value>
+                            <color value="0xbbb164b0"/>
+                        </value>
+                    </data>
+                </city_2d_colors>
+            </object>
+        </cityBuildings>
+    </map>
+</skin>

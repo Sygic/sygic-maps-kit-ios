@@ -86,17 +86,16 @@ public class SYMKInfobarController {
     
     /// Updates infobar items with route info data
     /// - Parameter info: route info
-    public func updateRouteInfo(_ info: SYOnRouteInfo) {
-        updateItemView(of: .remainingTime(info.timeToEndWithSpeedProfileAndTraffic))
-        updateItemView(of: .estimatedTimeOfArrival(Date(timeIntervalSinceNow: info.timeToEndWithSpeedProfileAndTraffic)))
-        updateItemView(of: .remainingDistance(info.distanceToEnd, units: units))
+    public func updateRouteProgress(_ routeProgress: SYRouteProgress) {
+        updateItemView(of: .remainingTime(routeProgress.timeToEndWithSpeedProfileAndTraffic))
+        updateItemView(of: .estimatedTimeOfArrival(Date(timeIntervalSinceNow: routeProgress.timeToEndWithSpeedProfileAndTraffic)))
+        updateItemView(of: .remainingDistance(routeProgress.distanceToEnd, units: units))
         infobarView.setNeedsLayout()
     }
     
     /// Updates infobar items with position data
     /// - Parameter info: position info
-    public func updatePositionInfo(_ info: SYPositionInfo) {
-        guard let position = SYPositioning.shared().lastKnownLocation else { return }
+    public func updatePositionInfo(_ position: SYPosition) {
         if let altitude = position.coordinate?.altitude {
             updateItemView(of: .altitude(altitude, units: units))
         }

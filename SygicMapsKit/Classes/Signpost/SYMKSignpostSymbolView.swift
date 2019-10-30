@@ -55,7 +55,7 @@ class SYMKSignpostSymbolView: UIView {
     
     /// Updates road sign symbol.
     /// - Parameter format: Format for road sign.
-    public func update(with format: SYRouteNumberFormat?) {
+    public func update(with format: SYMapRoadNumberFormat?) {
         guard let format = format else {
             clearRoadSign()
             return

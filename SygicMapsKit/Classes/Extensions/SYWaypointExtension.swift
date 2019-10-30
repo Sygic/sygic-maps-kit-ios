@@ -1,4 +1,4 @@
-//// SYMapSearchResultExtension.swift
+//// SYWaypointExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,25 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
 import SygicMaps
+import SygicUIKit
 
-extension SYMapSearchResult {
-    
-    /// Detail result request for `SYSearchResult`. `SYSearchResultDetail` doesn't have more information.
-    /// You need to cast it to some subclass, to retrieve more information.
-    ///
-    /// - Parameters:
-    ///   - coordinates: Coordinates for search result. In most cases you need coordinates of result, but groups and categories doesn't have coordinates.
-    ///                  So coordinates must be set to retrieve point of interests around this location.
-    ///   - data: Result closure callback
-    ///   - result: Detail result of a `SYSearchResult`.
-    public func detail(for coordinates: SYGeoCoordinate? = nil, data: @escaping (_ result: SYSearchResultDetail?) -> ()) {
-        let location = self.coordinate ?? coordinates ?? SYPositioning.shared().lastKnownLocation?.coordinate ?? SYGeoCoordinate()
-        let search = SYSearch()
-        search.start(SYSearchResultDetailRequest(result: self, atLocation: location)) { detail, state in
-            _ = search // reference to search instance, so completion block is executed
-            data(detail)
-        }
+
+public extension SYWaypoint {
+    static var currentLocationIdentifier: String {
+        LS("Current location")
     }
     
+    static func currentLocationWaypoint() -> SYWaypoint? {
+        guard let location = SYPosition.lastKnownLocation()?.coordinate else { return nil }
+        return SYWaypoint(position: location, type: .start, name: SYWaypoint.currentLocationIdentifier)
+    }
+    
+    var isCurrentLocationWaypoint: Bool {
+        return name == SYWaypoint.currentLocationIdentifier
+    }
+}
+
+extension Array where Element == SYWaypoint {
+    func waypointsWithTypeCorrection() -> [SYWaypoint] {
+        var fixed = [SYWaypoint]()
+        for (index, wp) in enumerated() {
+            var type: SYWaypointType = .via
+            if index == 0 {
+                type = .start
+            } else if index == count-1 {
+                type = .end
+            }
+            fixed.append(SYWaypoint(position: wp.originalPosition, type: type, name: wp.name))
+        }
+        return fixed
+    }
 }

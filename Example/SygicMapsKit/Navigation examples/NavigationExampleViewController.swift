@@ -37,7 +37,7 @@ class NavigationExampleViewController: UIViewController, SYMKModulePresenter {
         navigationModule.delegate = self
         presentModule(navigationModule)
         
-        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788)!, to: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420)!) { [weak self] (result) in
+        RoutingHelper.shared.computeRoute(from: SYGeoCoordinate(latitude: 41.891192, longitude: 12.491788), to: SYGeoCoordinate(latitude: 41.799047, longitude: 12.590420)) { [weak self] (result) in
             
             switch result {
             case .success(route: let testRoute):

@@ -34,8 +34,7 @@ class SYMKSearchModelTest: QuickSpec {
             beforeEach {
                 let appKey = ProcessInfo.processInfo.environment["SDK_APP_KEY"] ?? ""
                 let appSecret = ProcessInfo.processInfo.environment["SDK_APP_SECRET"] ?? ""
-                let appRouting = ProcessInfo.processInfo.environment["SDK_APP_ROUTING"] ?? ""
-                SYMKApiKeys.set(appKey: appKey, appSecret: appSecret, routingKey: appRouting)
+                SYMKApiKeys.set(appKey: appKey, appSecret: appSecret)
                 
                 var initializationResult: Bool?
                 SYMKSdkManager.shared.initializeIfNeeded({ (result) in
@@ -46,12 +45,15 @@ class SYMKSearchModelTest: QuickSpec {
             
             context("Searching") {
                 it("shouldReturnSuccess") {
-                    var searchState: SYRequestResultState?
+                    var searchError: NSError?
+                    var searchResults = [SYSearchResult]()
                     let searchModel = SYMKSearchModel(maxResultsCount: 10, location: nil)
-                    searchModel.search(with: "Eurovea", response: { (results: [SYSearchResult], state: SYRequestResultState) in
-                        searchState = state
-                    })
-                    expect(searchState).toEventually(equal(.success), timeout: 5)
+                    searchModel.search(with: "Eurovea") { (results, error) in
+                        searchError = error as NSError?
+                        searchResults.append(contentsOf: results)
+                    }
+                    expect(searchError?.code).toEventually(equal(NSRequestResultErrorSuccess), timeout: 5)
+                    expect(searchResults.count).toEventually(beGreaterThan(0))
                 }
                 
 //                it("shouldReturnOneResults") {
