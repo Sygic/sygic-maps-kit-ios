@@ -119,7 +119,6 @@ public class SYMKSdkManager {
         var settings: SYMKSdkSettings = [:]
         settings["Authentication"] = ["app_key": SYMKApiKeys.appKey,
                                       "app_secret": SYMKApiKeys.appSecret]
-        settings["Online"] = ["Search": ["url": "https://search.api.sygic.com"]]
         if let skins = customSkinPath {
             settings["StorageFolders"] = ["skin": skins]
         }
