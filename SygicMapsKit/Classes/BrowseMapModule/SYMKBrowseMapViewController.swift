@@ -278,6 +278,7 @@ public class SYMKBrowseMapViewController: SYMKModuleViewController {
         setupMapController()
         let applyLocationValue = showUserLocation
         showUserLocation = applyLocationValue
+        SYTraffic.shared().trafficServiceEnabled = true
         setupViewDelegates()
     }
     

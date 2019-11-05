@@ -34,7 +34,6 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         browseMap.useCompass = true
         browseMap.useZoomControl = true
         browseMap.useRecenterButton = true
-        browseMap.showUserLocation = true
         browseMap.mapSelectionMode = .all
         browseMap.delegate = self
         browseMap.setupActionButton(with: nil, icon: SYUIIcon.search) { [unowned self] in
@@ -59,6 +58,10 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         super.viewDidLoad()
         title = "DEMO"
         presentModule(browseModule)
+        
+        DispatchQueue.main.asyncAfter(deadline: (DispatchTime.now() + .seconds(3))) { [weak self] in
+            self?.browseModule.showUserLocation = true
+        }
     }
     
     func showPlaceDetail(with data: SYMKPlaceData, loading: Bool, zoom: Bool = false) {
