@@ -50,9 +50,11 @@ class SYMKSearchModelTest: QuickSpec {
                     let searchModel = SYMKSearchModel(maxResultsCount: 10, location: nil)
                     searchModel.search(with: "Eurovea") { (results, error) in
                         searchError = error as NSError?
-                        searchResults.append(contentsOf: results)
+                        if let results = results {
+                            searchResults.append(contentsOf: results)
+                        }
                     }
-                    expect(searchError?.code).toEventually(equal(NSRequestResultErrorSuccess), timeout: 5)
+                    expect(searchError?.code).toEventually(equal(Int(NSRequestResultErrorDomain)), timeout: 5)
                     expect(searchResults.count).toEventually(beGreaterThan(0))
                 }
                 
