@@ -1,4 +1,4 @@
-//// SYMKRouteComputeView.swift
+//// SYMKRoutePlannerView.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -24,14 +24,35 @@ import SygicUIKit
 import UIKit
 
 
-class SYMKRouteComputeView: UIView {
+class SYMKRoutePlannerView: UIView {
     
-    private let sideMargin: CGFloat = 16
+    // MARK: - Public properties
     
     public private(set) weak var mapView: UIView?
     
-    public var nextBrowseMapButton = SYUIActionButton(frame: .zero)
-    public var backButton = SYUIActionButton(frame: .zero)
+    public var optionsButton: SYUIActionButton = {
+        let button = SYUIActionButton()
+        button.iconImage = SYUIIcon.options
+        button.style = .primary13
+        return button
+    }()
+    
+    public var backButton: SYUIActionButton = {
+        let button = SYUIActionButton()
+        button.style = .secondary13
+        button.icon = SYUIIcon.close
+        return button
+    }()
+    
+    public var routesView: SYUIBubbleView?
+    
+    public var waypointsView: SYUIBubbleView?
+    
+    // MARK: - Private properties
+    
+    private let sideMargin: CGFloat = 16
+    
+    // MARK: - Public methods
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,20 +75,35 @@ class SYMKRouteComputeView: UIView {
         mapView.coverWholeSuperview()
     }
     
+    public func setupRoutesView(_ view: SYUIBubbleView) {
+        guard routesView == nil else { return }
+        view.addToView(self, landscapeLayout: SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection), animated: true, completion: nil)
+        routesView = view
+    }
+    
+    public func setupWaypointsView(_ view: SYUIBubbleView) {
+        guard waypointsView == nil else { return }
+        view.addToView(self, landscapeLayout: SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection), animated: true, completion: nil)
+        waypointsView = view
+    }
+    
     public func setupBackButton() {
-        backButton.title = "Back"
-        backButton.style = .primary
-        backButton.isEnabled = true
         backButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backButton)
-        backButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -sideMargin).isActive = true
+        backButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
         backButton.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: sideMargin).isActive = true
-        backButton.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
     }
+    
+    public func setupOptionsButton() {
+        optionsButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(optionsButton)
+        optionsButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: sideMargin).isActive = true
+        optionsButton.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -sideMargin).isActive = true
+    }
+    
+    // MARK: - Private methods
     
     private func setupUI() {
-        setupBackButton()
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.gray
     }
-    
 }

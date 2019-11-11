@@ -1,4 +1,4 @@
-//// SYMKRouteComputeController.swift
+//// SYSearchMapResultExtension.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -20,43 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
 import SygicMaps
 
 
-public protocol SYMKRouteComputeControllerProtocol: class {
-    func routeComputeControllerGoBack()
-}
-
-public class SYMKRouteComputeController: SYMKModuleViewController {
+public extension SYSearchMapResult {
     
-    public var useTraffic = true
-    public var computeMultipleRoutes = true
-    
-    public weak var delegate: SYMKRouteComputeControllerProtocol?
-    
-    private var mapController: SYMKMapController?
-    
-    public override func loadView() {
-        let routeComputeView = SYMKRouteComputeView()
-        routeComputeView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        view = routeComputeView
+    var street: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.street.rawValue)]
     }
     
-    @objc public func backButtonTapped() {
-        delegate?.routeComputeControllerGoBack()
+    var houseNumber: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.houseNumber.rawValue)]
     }
     
-    override internal func sygicSDKInitialized() {
-        SYPositioning.shared().startUpdatingPosition()
-        
-        setupMapController()
+    var postalCode: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.postalCode.rawValue)]
     }
     
-    private func setupMapController() {
-        let mapController = SYMKMapController(with: mapState)
-        mapController.selectionManager = SYMKMapSelectionManager(with: .none)
-        (view as! SYMKRouteComputeView).setupMapView(mapController.mapView)
-        self.mapController = mapController
+    var city: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.adminLevel_8.rawValue)]
     }
     
+    var country: String? {
+        guard let address = addressComponents else { return nil }
+        return address[NSNumber(value: SYSearchMapResultComponent.adminLevel_2.rawValue)]
+    }
 }

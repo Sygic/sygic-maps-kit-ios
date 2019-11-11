@@ -1,4 +1,4 @@
-//// SYMKPoiCategory.swift
+//// SYMKPlaceCategory.swift
 //
 // Copyright (c) 2019 - Sygic a.s.
 //
@@ -24,9 +24,8 @@ import Foundation
 import SygicUIKit
 import SygicMaps
 
-
 /// Helper class responsible for mapping SYPoiCategory to icon and color identical to icons and colors used in SYMapView engine.
-public class SYMKPoiCategory {
+public class SYMKPlaceCategory {
 
     // MARK: - Public Properties
     
@@ -45,240 +44,218 @@ public class SYMKPoiCategory {
     /// Returns specific category icon and color for `SYPoiCategory`.
     ///
     /// - Parameter syPoiCategory: Point of interest category defined by SDK.
-    /// - Returns: `SYMKPoiCategory` object with specific icon and color for a `SYPoiCategory`.
-    public class func with(syPoiCategory: SYPoiCategory) -> SYMKPoiCategory {
-        switch syPoiCategory {
-        case .unknown: return SYMKPoiCategory(icon: SYUIIcon.pinPlace, color: .textBody)
-            
+    /// - Returns: `SYMKPlaceCategory` object with specific icon and color for a `SYPoiCategory`.
+    public class func with(sdkPlaceCategory: String) -> SYMKPlaceCategory {
         //Tourism
-        case .tourist_Information_Office: return SYMKPoiCategory(icon: SYUIIcon.infoCenter, color: .poiGroupTourism)
-        case .museum: return SYMKPoiCategory(icon: SYUIIcon.museum, color: .poiGroupTourism)
-        case .zoo: return SYMKPoiCategory(icon: SYUIIcon.zoo, color: .poiGroupTourism)
-        case .scenic_Panoramic_View: return SYMKPoiCategory(icon: SYUIIcon.mountines, color: .poiGroupTourism)
-        case .camping_Ground: return SYMKPoiCategory(icon: SYUIIcon.camp, color: .poiGroupTourism)
-        case .caravan_Site: return SYMKPoiCategory(icon: SYUIIcon.caravan, color: .poiGroupTourism)
-        case .recreation_Facility: return SYMKPoiCategory(icon: SYUIIcon.spa, color: .poiGroupTourism)
-        case .beach: return SYMKPoiCategory(icon: SYUIIcon.beach, color: .poiGroupTourism)
-        case .mountain_Peak: return SYMKPoiCategory(icon: SYUIIcon.peak, color: .poiGroupTourism)
-        case .castle: return SYMKPoiCategory(icon: SYUIIcon.chateau, color: .poiGroupTourism)
-        case .fortress: return SYMKPoiCategory(icon: SYUIIcon.stronghold, color: .poiGroupTourism)
-        case .holiday_Area: return SYMKPoiCategory(icon: SYUIIcon.beach, color: .poiGroupTourism)
-        case .monument: return SYMKPoiCategory(icon: SYUIIcon.monument, color: .poiGroupTourism)
-        case .natural_Reserve: return SYMKPoiCategory(icon: SYUIIcon.forest, color: .poiGroupTourism)
-        case .mountain_Pass: return SYMKPoiCategory(icon: SYUIIcon.peak, color: .poiGroupTourism)
-        case .park_and_Recreation_Area: return SYMKPoiCategory(icon: SYUIIcon.park, color: .poiGroupTourism)
-        case .forest_Area: return SYMKPoiCategory(icon: SYUIIcon.forest, color: .poiGroupTourism)
-        case .natives_Reservation, .building_Footprint, .travel_Agency, .lighthouse, .rocks, .walking_Area, .water_Mill, .windmill, .archeology, .important_Tourist_Attraction:
-            return SYMKPoiCategory(icon: SYUIIcon.attraction, color: .poiGroupTourism)
-            
+        if sdkPlaceCategory == SYPlaceCategoryTouristInformationOffice  { return SYMKPlaceCategory(icon: SYUIIcon.infoCenter, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryMuseum                    { return SYMKPlaceCategory(icon: SYUIIcon.museum, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryZoo                       { return SYMKPlaceCategory(icon: SYUIIcon.zoo, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryScenicPanoramicView       { return SYMKPlaceCategory(icon: SYUIIcon.mountines, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryCampingGround             { return SYMKPlaceCategory(icon: SYUIIcon.camp, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryCaravanSite               { return SYMKPlaceCategory(icon: SYUIIcon.caravan, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryRecreationFacility        { return SYMKPlaceCategory(icon: SYUIIcon.spa, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryBeach                     { return SYMKPlaceCategory(icon: SYUIIcon.beach, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryMountainPeak              { return SYMKPlaceCategory(icon: SYUIIcon.peak, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryCastle                    { return SYMKPlaceCategory(icon: SYUIIcon.chateau, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryFortressv                 { return SYMKPlaceCategory(icon: SYUIIcon.stronghold, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryHolidayArea               { return SYMKPlaceCategory(icon: SYUIIcon.beach, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryMonument                  { return SYMKPlaceCategory(icon: SYUIIcon.monument, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryNaturalReserve            { return SYMKPlaceCategory(icon: SYUIIcon.forest, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryMountainPass              { return SYMKPlaceCategory(icon: SYUIIcon.peak, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryParkAndRecreationArea     { return SYMKPlaceCategory(icon: SYUIIcon.park, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryForestArea                { return SYMKPlaceCategory(icon: SYUIIcon.forest, color: .poiGroupTourism) }
+        if sdkPlaceCategory == SYPlaceCategoryNativesReservation ||
+            sdkPlaceCategory == SYPlaceCategoryBuildingFootprint ||
+            sdkPlaceCategory == SYPlaceCategoryTravelAgency ||
+            sdkPlaceCategory == SYPlaceCategoryLighthouse ||
+            sdkPlaceCategory == SYPlaceCategoryRocks ||
+            sdkPlaceCategory == SYPlaceCategoryWalkingArea ||
+            sdkPlaceCategory == SYPlaceCategoryWaterMill ||
+            sdkPlaceCategory == SYPlaceCategoryWindmill ||
+            sdkPlaceCategory == SYPlaceCategoryArcheology ||
+            sdkPlaceCategory == SYPlaceCategoryImportantTouristAttraction { return SYMKPlaceCategory(icon: SYUIIcon.attraction, color: .poiGroupTourism) }
+        
         //Food and Drink
-        case .winery: return SYMKPoiCategory(icon: SYUIIcon.wine, color: .poiGroupFoodDrink)
-        case .road_Side_Diner: return SYMKPoiCategory(icon: SYUIIcon.food, color: .poiGroupFoodDrink)
-        case .restaurant_Area: return SYMKPoiCategory(icon: SYUIIcon.restaurant, color: .poiGroupFoodDrink)
-        case .cafe_Pub: return SYMKPoiCategory(icon: SYUIIcon.cafe, color: .poiGroupFoodDrink)
-        case .pastry_and_Sweets: return SYMKPoiCategory(icon: SYUIIcon.patisserie, color: .poiGroupFoodDrink)
-        case .restaurant: return SYMKPoiCategory(icon: SYUIIcon.restaurant, color: .poiGroupFoodDrink)
-        case .food: return SYMKPoiCategory(icon: SYUIIcon.food, color: .poiGroupFoodDrink)
-            
-        //Accomodation
-        case .hotel_or_Motel: return SYMKPoiCategory(icon: SYUIIcon.accomodation, color: .poiGroupAccomodation)
-            
-        //Parking
-        case .rent_a_Car_Parking: return SYMKPoiCategory(icon: SYUIIcon.carRental, color: .poiGroupParking)
-        case .parking_Garage: return SYMKPoiCategory(icon: SYUIIcon.parkingHouse, color: .poiGroupParking)
-        case .coach_and_Lorry_Parking, .open_Parking_Area:
-            return SYMKPoiCategory(icon: SYUIIcon.parking, color: .poiGroupParking)
-            
-        //Petrol station
-        case .petrol_Station: return SYMKPoiCategory(icon: SYUIIcon.stationPetrol, color: .poiGroupPetrolStation)
-            
-        //Transportation
-        case .ski_Lift_Station: return SYMKPoiCategory(icon: SYUIIcon.cableway, color: .poiGroupTransportation)
-        case .car_Shipping_Terminal: return SYMKPoiCategory(icon: SYUIIcon.carCarrier, color: .poiGroupTransportation)
-        case .airport: return SYMKPoiCategory(icon: SYUIIcon.plane, color: .poiGroupTransportation)
-        case .bus_Station: return SYMKPoiCategory(icon: SYUIIcon.bus, color: .poiGroupTransportation)
-        case .port: return SYMKPoiCategory(icon: SYUIIcon.harbor, color: .poiGroupTransportation)
-        case .ferry_Terminal: return SYMKPoiCategory(icon: SYUIIcon.boat, color: .poiGroupTransportation)
-        case .airline_Access: return SYMKPoiCategory(icon: SYUIIcon.terminal, color: .poiGroupTransportation)
-        case .railway_Station: return SYMKPoiCategory(icon: SYUIIcon.train, color: .poiGroupTransportation)
-        case .public_Transport_Stop: return SYMKPoiCategory(icon: SYUIIcon.publicTransportStop, color: .poiGroupTransportation)
-        case .metro: return SYMKPoiCategory(icon: SYUIIcon.subway, color: .poiGroupTransportation)
-            
-        //Bank
-        case .bank: return SYMKPoiCategory(icon: SYUIIcon.bank, color: .poiGroupBank)
-        case .ATM: return SYMKPoiCategory(icon: SYUIIcon.ATM, color: .poiGroupBank)
-            
-        //Shopping
-        case .department_Store: return SYMKPoiCategory(icon: SYUIIcon.supermarket, color: .poiGroupShopping)
-        case .warehouse: return SYMKPoiCategory(icon: SYUIIcon.warehouse, color: .poiGroupShopping)
-        case .groceries: return SYMKPoiCategory(icon: SYUIIcon.groceryStore, color: .poiGroupShopping)
-        case .supermarket: return SYMKPoiCategory(icon: SYUIIcon.supermarket, color: .poiGroupShopping)
-        case .accessories_Furniture: return SYMKPoiCategory(icon: SYUIIcon.furniture, color: .poiGroupShopping)
-        case .books_Cards: return SYMKPoiCategory(icon: SYUIIcon.bookShop, color: .poiGroupShopping)
-        case .children_Toys: return SYMKPoiCategory(icon: SYUIIcon.toyStore, color: .poiGroupShopping)
-        case .cosmetics_Perfumes: return SYMKPoiCategory(icon: SYUIIcon.parfumes, color: .poiGroupShopping)
-        case .gifts_Antiques: return SYMKPoiCategory(icon: SYUIIcon.presents, color: .poiGroupShopping)
-        case .jewellery_Watches: return SYMKPoiCategory(icon: SYUIIcon.jewelery, color: .poiGroupShopping)
-        case .lifestyle_Fitness: return SYMKPoiCategory(icon: SYUIIcon.fitness, color: .poiGroupShopping)
-        case .shoes_Bags: return SYMKPoiCategory(icon: SYUIIcon.shoeStore, color: .poiGroupShopping)
-        case .sports: return SYMKPoiCategory(icon: SYUIIcon.running, color: .poiGroupShopping)
-            
-        case .childrens_Fashion, .fashion_Mixed, .fashion_Accessories, .traditional_Fashion, .ladies_Fashion, .men_s_Fashion:
-            return SYMKPoiCategory(icon: SYUIIcon.fashion, color: .poiGroupShopping)
-            
-        case .mobile_Shop, .electronics_Mobiles:
-            return SYMKPoiCategory(icon: SYUIIcon.deviceIphone, color: .poiGroupShopping)
-            
-        case .shopping_Centre, .hair_And_Beauty, .shop, .opticians_Sunglasses:
-            return SYMKPoiCategory(icon: SYUIIcon.shopping, color: .poiGroupShopping)
-            
-        //Vehicle services
-        case .trafficLights: return SYMKPoiCategory(icon: SYUIIcon.trafficLights, color: .poiGroupVehicleServices)
-        case .rent_a_Car_Facility: return SYMKPoiCategory(icon: SYUIIcon.carRental, color: .poiGroupVehicleServices)
-        case .bovag_Garage: return SYMKPoiCategory(icon: SYUIIcon.parkingHouse, color: .poiGroupVehicleServices)
-        case .rest_Area: return SYMKPoiCategory(icon: SYUIIcon.restingArea, color: .poiGroupVehicleServices)
-        case .park_And_Ride: return SYMKPoiCategory(icon: SYUIIcon.parking, color: .poiGroupVehicleServices)
-        case .speed_Cameras: return SYMKPoiCategory(icon: SYUIIcon.speedcam, color: .poiGroupVehicleServices)
-            
-        case .vehicle_Equipment_Provider, .car_Repair_Facility, .chevrolet_Car_Repair:
-            return SYMKPoiCategory(icon: SYUIIcon.serviceStation, color: .poiGroupVehicleServices)
-            
-        case .motoring_Organization_Office, .car_Dealer, .car_Services, .chevrolet_Car_Dealer:
-            return SYMKPoiCategory(icon: SYUIIcon.vehicle, color: .poiGroupVehicleServices)
-            
-        //Social life
-        case .casino: return SYMKPoiCategory(icon: SYUIIcon.casino, color: .poiGroupSocialLife)
-        case .cinema: return SYMKPoiCategory(icon: SYUIIcon.cinema, color: .poiGroupSocialLife)
-        case .opera: return SYMKPoiCategory(icon: SYUIIcon.opera, color: .poiGroupSocialLife)
-        case .leisure_Centre: return SYMKPoiCategory(icon: SYUIIcon.spa, color: .poiGroupSocialLife)
-        case .nightlife: return SYMKPoiCategory(icon: SYUIIcon.bar, color: .poiGroupSocialLife)
-        case .general: return SYMKPoiCategory(icon: SYUIIcon.pinPlace, color: .poiGroupSocialLife)
-        case .amusement_Park: return SYMKPoiCategory(icon: SYUIIcon.amusementPark, color: .poiGroupSocialLife)
-        case .arts_Centre: return SYMKPoiCategory(icon: SYUIIcon.gallery, color: .poiGroupSocialLife)
-        case .library: return SYMKPoiCategory(icon: SYUIIcon.library, color: .poiGroupSocialLife)
-        case .ecotourism_Sites: return SYMKPoiCategory(icon: SYUIIcon.forest, color: .poiGroupSocialLife)
-        case .hunting_Shop: return SYMKPoiCategory(icon: SYUIIcon.supermarket, color: .poiGroupSocialLife)
-        case .kids_Place: return SYMKPoiCategory(icon: SYUIIcon.playGround, color: .poiGroupSocialLife)
-        case .mosque: return SYMKPoiCategory(icon: SYUIIcon.mosque, color: .poiGroupSocialLife)
-        case .place_of_Worship: return SYMKPoiCategory(icon: SYUIIcon.pray, color: .poiGroupSocialLife)
-            
-        case .abbey, .church, .monastery:
-            return SYMKPoiCategory(icon: SYUIIcon.church, color: .poiGroupSocialLife)
-            
-        case .concert_Hall, .music_Centre:
-            return SYMKPoiCategory(icon: SYUIIcon.philharmonic, color: .poiGroupSocialLife)
-            
-        case .theatre, .cultural_Centre, .entertainment:
-            return SYMKPoiCategory(icon: SYUIIcon.theater, color: .poiGroupSocialLife)
-            
-        //Services and education
-        case .post_Office: return SYMKPoiCategory(icon: SYUIIcon.postOffice, color: .poiGroupSvcEducation)
-        case .public_Phone: return SYMKPoiCategory(icon: SYUIIcon.call, color: .poiGroupSvcEducation)
-        case .transport_Company: return SYMKPoiCategory(icon: SYUIIcon.truck, color: .poiGroupSvcEducation)
-        case .cargo_Centre: return SYMKPoiCategory(icon: SYUIIcon.warehouse, color: .poiGroupSvcEducation)
-        case .school: return SYMKPoiCategory(icon: SYUIIcon.schoolZone, color: .poiGroupSvcEducation)
-        case .toll: return SYMKPoiCategory(icon: SYUIIcon.avoidTollRoads, color: .poiGroupSvcEducation)
-        case .college_University: return SYMKPoiCategory(icon: SYUIIcon.school, color: .poiGroupSvcEducation)
-        case .kindergarten: return SYMKPoiCategory(icon: SYUIIcon.kindergarten, color: .poiGroupSvcEducation)
-        case .courthouse: return SYMKPoiCategory(icon: SYUIIcon.court, color: .poiGroupSvcEducation)
-        case .convention_Centre: return SYMKPoiCategory(icon: SYUIIcon.conferenceHall, color: .poiGroupSvcEducation)
-        case .prison: return SYMKPoiCategory(icon: SYUIIcon.jail, color: .poiGroupSvcEducation)
-        case .state_Police_Office: return SYMKPoiCategory(icon: SYUIIcon.police, color: .poiGroupSvcEducation)
-        case .agricultural_Industry: return SYMKPoiCategory(icon: SYUIIcon.farm, color: .poiGroupSvcEducation)
-        case .medical_Material: return SYMKPoiCategory(icon: SYUIIcon.drugStore, color: .poiGroupSvcEducation)
-        case .personal_Services: return SYMKPoiCategory(icon: SYUIIcon.profile, color: .poiGroupSvcEducation)
-        case .military_Installation: return SYMKPoiCategory(icon: SYUIIcon.army, color: .poiGroupSvcEducation)
-        case .cash_Dispenser: return SYMKPoiCategory(icon: SYUIIcon.money, color: .poiGroupSvcEducation)
-            
-        case .exchange, .money_Transfer:
-            return SYMKPoiCategory(icon: SYUIIcon.moneyExchange, color: .poiGroupSvcEducation)
-            
-        case .cemetery, .military_Cemetery:
-            return SYMKPoiCategory(icon: SYUIIcon.cemetery, color: .poiGroupSvcEducation)
-            
-        case .industrial_Building, .factories, .factory_Ground_Philips:
-            return SYMKPoiCategory(icon: SYUIIcon.factory, color: .poiGroupSvcEducation)
-            
-        case .condominium, .commercial_Building, .real_Estate:
-            return SYMKPoiCategory(icon: SYUIIcon.city, color: .poiGroupSvcEducation)
-            
-        case .freeport, .company, .construction, .media, .professionals, .services, .squares, .local_Names:
-            return SYMKPoiCategory(icon: SYUIIcon.pinPlace, color: .poiGroupSvcEducation)
-            
-        case .customs, .frontier_Crossing, .border_Point:
-            return SYMKPoiCategory(icon: SYUIIcon.borderCrossing, color: .poiGroupSvcEducation)
-            
-        case .community_Centre, .business_Facility, .exhibition_Centre, .government_Office:
-            return SYMKPoiCategory(icon: SYUIIcon.office, color: .poiGroupSvcEducation)
-            
-        case .city_Hall, .embassy:
-            return SYMKPoiCategory(icon: SYUIIcon.church, color: .poiGroupSvcEducation)
-            
-        //Sport
-        case .tennis_Court: return SYMKPoiCategory(icon: SYUIIcon.tennis, color: .poiGroupSport)
-        case .yacht_Basin: return SYMKPoiCategory(icon: SYUIIcon.harbor, color: .poiGroupSport)
-        case .golf_Course: return SYMKPoiCategory(icon: SYUIIcon.golf, color: .poiGroupSport)
-            
-        case .ice_Skating_Rink, .skating_Rink:
-            return SYMKPoiCategory(icon: SYUIIcon.running, color: .poiGroupSport)
-            
-        case .water_Sport, .swimming_Pool:
-            return SYMKPoiCategory(icon: SYUIIcon.swimming, color: .poiGroupSport)
-            
-        case .sports_Centre, .stadium, .hippodrome, .sports_Hall, .car_Racetrack:
-            return SYMKPoiCategory(icon: SYUIIcon.stadium, color: .poiGroupSport)
-            
-        //Guides
-        case .wikipedia: return SYMKPoiCategory(icon: SYUIIcon.infoCenter, color: .poiGroupGuides)
-            
-        //Emergency
-        case .police_Station: return SYMKPoiCategory(icon: SYUIIcon.police, color: .poiGroupEmergency)
-        case .pharmacy: return SYMKPoiCategory(icon: SYUIIcon.drugStore, color: .poiGroupEmergency)
-        case .emergency_Call_Station: return SYMKPoiCategory(icon: SYUIIcon.emergencyPhone, color: .poiGroupEmergency)
-        case .fire_Brigade: return SYMKPoiCategory(icon: SYUIIcon.firefighters, color: .poiGroupEmergency)
-        case .dentist: return SYMKPoiCategory(icon: SYUIIcon.dentist, color: .poiGroupEmergency)
-        case .veterinarian: return SYMKPoiCategory(icon: SYUIIcon.vet, color: .poiGroupEmergency)
-        case .breakdown_Service: return SYMKPoiCategory(icon: SYUIIcon.serviceStation, color: .poiGroupEmergency)
-            
-        case .first_Aid_Post, .emergency_Medical_Service:
-            return SYMKPoiCategory(icon: SYUIIcon.ambulance, color: .poiGroupEmergency)
-        case .hospital_Polyclinic, .doctor:
-            return SYMKPoiCategory(icon: SYUIIcon.hospital, color: .poiGroupEmergency)
-        }
-    }
-    
-}
+        if sdkPlaceCategory == SYPlaceCategoryWinery            { return SYMKPlaceCategory(icon: SYUIIcon.wine, color: .poiGroupFoodDrink) }
+        if sdkPlaceCategory == SYPlaceCategoryRoadSideDiner     { return SYMKPlaceCategory(icon: SYUIIcon.food, color: .poiGroupFoodDrink) }
+        if sdkPlaceCategory == SYPlaceCategoryRestaurantArea    { return SYMKPlaceCategory(icon: SYUIIcon.restaurant, color: .poiGroupFoodDrink) }
+        if sdkPlaceCategory == SYPlaceCategoryCafePub           { return SYMKPlaceCategory(icon: SYUIIcon.cafe, color: .poiGroupFoodDrink) }
+        if sdkPlaceCategory == SYPlaceCategoryPastryAndSweets   { return SYMKPlaceCategory(icon: SYUIIcon.patisserie, color: .poiGroupFoodDrink) }
+        if sdkPlaceCategory == SYPlaceCategoryRestaurant        { return SYMKPlaceCategory(icon: SYUIIcon.restaurant, color: .poiGroupFoodDrink) }
+        if sdkPlaceCategory == SYPlaceCategoryFood              { return SYMKPlaceCategory(icon: SYUIIcon.food, color: .poiGroupFoodDrink) }
 
-public class SYMKPoiGroup {
-    public let name: String
-    public let icon: String
-    public let color: UIColor
-    public let searchId: SYPoiGroup
-    
-    public init(name: String, icon: String, color: UIColor, searchId: SYPoiGroup) {
-        self.name = name
-        self.icon = icon
-        self.color = color
-        self.searchId = searchId
+        //Accomodation
+        if sdkPlaceCategory == SYPlaceCategoryHotelOrMotel  { return SYMKPlaceCategory(icon: SYUIIcon.accomodation, color: .poiGroupAccomodation) }
+
+        //Parking
+        if sdkPlaceCategory == SYPlaceCategoryRentACarParking   { return SYMKPlaceCategory(icon: SYUIIcon.carRental, color: .poiGroupParking) }
+        if sdkPlaceCategory == SYPlaceCategoryParkingGarage     { return SYMKPlaceCategory(icon: SYUIIcon.parkingHouse, color: .poiGroupParking) }
+        if sdkPlaceCategory == SYPlaceCategoryCoachAndLorryParking ||
+            sdkPlaceCategory == SYPlaceCategoryOpenParkingArea  { return SYMKPlaceCategory(icon: SYUIIcon.parking, color: .poiGroupParking) }
+
+        //Petrol station
+        if sdkPlaceCategory == SYPlaceCategoryPetrolStation     { return SYMKPlaceCategory(icon: SYUIIcon.stationPetrol, color: .poiGroupPetrolStation) }
+
+        //Transportation
+        if sdkPlaceCategory == SYPlaceCategorySkiLiftStation        { return SYMKPlaceCategory(icon: SYUIIcon.cableway, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryCarShippingTerminal   { return SYMKPlaceCategory(icon: SYUIIcon.carCarrier, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryAirport               { return SYMKPlaceCategory(icon: SYUIIcon.plane, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryBusStation            { return SYMKPlaceCategory(icon: SYUIIcon.bus, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryPort                  { return SYMKPlaceCategory(icon: SYUIIcon.harbor, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryFerryTerminal         { return SYMKPlaceCategory(icon: SYUIIcon.boat, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryAirlineAccess         { return SYMKPlaceCategory(icon: SYUIIcon.terminal, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryRailwayStation        { return SYMKPlaceCategory(icon: SYUIIcon.train, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryPublicTransportStop   { return SYMKPlaceCategory(icon: SYUIIcon.publicTransportStop, color: .poiGroupTransportation) }
+        if sdkPlaceCategory == SYPlaceCategoryMetro                 { return SYMKPlaceCategory(icon: SYUIIcon.subway, color: .poiGroupTransportation) }
+
+        //Bank
+        if sdkPlaceCategory == SYPlaceCategoryBank          { return SYMKPlaceCategory(icon: SYUIIcon.bank, color: .poiGroupBank) }
+        if sdkPlaceCategory == SYPlaceCategoryATM           { return SYMKPlaceCategory(icon: SYUIIcon.ATM, color: .poiGroupBank) }
+
+        //Shopping
+        if sdkPlaceCategory == SYPlaceCategoryDepartmentStore       { return SYMKPlaceCategory(icon: SYUIIcon.supermarket, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryWarehouse             { return SYMKPlaceCategory(icon: SYUIIcon.warehouse, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryGroceries             { return SYMKPlaceCategory(icon: SYUIIcon.groceryStore, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategorySupermarket           { return SYMKPlaceCategory(icon: SYUIIcon.supermarket, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryAccessoriesFurniture  { return SYMKPlaceCategory(icon: SYUIIcon.furniture, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryBooksCards            { return SYMKPlaceCategory(icon: SYUIIcon.bookShop, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryChildrenToys          { return SYMKPlaceCategory(icon: SYUIIcon.toyStore, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryCosmeticsPerfumes     { return SYMKPlaceCategory(icon: SYUIIcon.parfumes, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryGiftsAntiques         { return SYMKPlaceCategory(icon: SYUIIcon.presents, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryJewelleryWatches      { return SYMKPlaceCategory(icon: SYUIIcon.jewelery, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryLifestyleFitness      { return SYMKPlaceCategory(icon: SYUIIcon.fitness, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryShoesBags             { return SYMKPlaceCategory(icon: SYUIIcon.shoeStore, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategorySports                { return SYMKPlaceCategory(icon: SYUIIcon.running, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryChildrensFashion ||
+            sdkPlaceCategory == SYPlaceCategoryFashionMixed ||
+            sdkPlaceCategory == SYPlaceCategoryFashionAccessories ||
+            sdkPlaceCategory == SYPlaceCategoryTraditionalFashion ||
+            sdkPlaceCategory == SYPlaceCategoryLadiesFashion ||
+            sdkPlaceCategory == SYPlaceCategoryMenSFashion          { return SYMKPlaceCategory(icon: SYUIIcon.fashion, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryMobileShop ||
+            sdkPlaceCategory == SYPlaceCategoryElectronicsMobiles   { return SYMKPlaceCategory(icon: SYUIIcon.deviceIphone, color: .poiGroupShopping) }
+        if sdkPlaceCategory == SYPlaceCategoryShoppingCentre ||
+            sdkPlaceCategory == SYPlaceCategoryHairAndBeauty ||
+            sdkPlaceCategory == SYPlaceCategoryShop ||
+            sdkPlaceCategory == SYPlaceCategoryOpticiansSunglasses  { return SYMKPlaceCategory(icon: SYUIIcon.shopping, color: .poiGroupShopping) }
+        
+        //Vehicle services
+        if sdkPlaceCategory == SYPlaceCategoryTrafficLights     { return SYMKPlaceCategory(icon: SYUIIcon.trafficLights, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategoryRentACarFacility  { return SYMKPlaceCategory(icon: SYUIIcon.carRental, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategoryBovagGarage       { return SYMKPlaceCategory(icon: SYUIIcon.parkingHouse, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategoryRestArea          { return SYMKPlaceCategory(icon: SYUIIcon.restingArea, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategoryParkAndRide       { return SYMKPlaceCategory(icon: SYUIIcon.parking, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategorySpeedCameras      { return SYMKPlaceCategory(icon: SYUIIcon.speedcam, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategoryVehicleEquipmentProvider ||
+            sdkPlaceCategory == SYPlaceCategoryCarRepairFacility ||
+            sdkPlaceCategory == SYPlaceCategoryChevroletCarRepair { return SYMKPlaceCategory(icon: SYUIIcon.serviceStation, color: .poiGroupVehicleServices) }
+        if sdkPlaceCategory == SYPlaceCategoryMotoringOrganizationOffice ||
+            sdkPlaceCategory == SYPlaceCategoryCarDealer ||
+            sdkPlaceCategory == SYPlaceCategoryCarServices ||
+            sdkPlaceCategory == SYPlaceCategoryChevroletCarDealer { return SYMKPlaceCategory(icon: SYUIIcon.vehicle, color: .poiGroupVehicleServices) }
+
+        //Social life
+        if sdkPlaceCategory == SYPlaceCategoryCasino            { return SYMKPlaceCategory(icon: SYUIIcon.casino, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryCinema            { return SYMKPlaceCategory(icon: SYUIIcon.cinema, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryOpera             { return SYMKPlaceCategory(icon: SYUIIcon.opera, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryLeisureCentre     { return SYMKPlaceCategory(icon: SYUIIcon.spa, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryNightlife         { return SYMKPlaceCategory(icon: SYUIIcon.bar, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryGeneral           { return SYMKPlaceCategory(icon: SYUIIcon.pinPlace, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryAmusementPark     { return SYMKPlaceCategory(icon: SYUIIcon.amusementPark, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryArtsCentre        { return SYMKPlaceCategory(icon: SYUIIcon.gallery, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryLibrary           { return SYMKPlaceCategory(icon: SYUIIcon.library, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryEcotourismSites   { return SYMKPlaceCategory(icon: SYUIIcon.forest, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryHuntingShop       { return SYMKPlaceCategory(icon: SYUIIcon.supermarket, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryKidsPlace         { return SYMKPlaceCategory(icon: SYUIIcon.playGround, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryMosque            { return SYMKPlaceCategory(icon: SYUIIcon.mosque, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryPlaceOfWorship    { return SYMKPlaceCategory(icon: SYUIIcon.pray, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryAbbey ||
+            sdkPlaceCategory == SYPlaceCategoryChurch ||
+            sdkPlaceCategory == SYPlaceCategoryMonastery        { return SYMKPlaceCategory(icon: SYUIIcon.church, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryConcertHall ||
+            sdkPlaceCategory == SYPlaceCategoryMusicCentre      { return SYMKPlaceCategory(icon: SYUIIcon.philharmonic, color: .poiGroupSocialLife) }
+        if sdkPlaceCategory == SYPlaceCategoryTheatre ||
+            sdkPlaceCategory == SYPlaceCategoryCulturalCentre ||
+            sdkPlaceCategory == SYPlaceCategoryEntertainment    { return SYMKPlaceCategory(icon: SYUIIcon.theater, color: .poiGroupSocialLife) }
+
+        //Services and education
+        if sdkPlaceCategory == SYPlaceCategoryPostOffice        { return SYMKPlaceCategory(icon: SYUIIcon.postOffice, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryPublicPhone       { return SYMKPlaceCategory(icon: SYUIIcon.call, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryTransportCompany  { return SYMKPlaceCategory(icon: SYUIIcon.truck, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCargoCentre       { return SYMKPlaceCategory(icon: SYUIIcon.warehouse, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategorySchool            { return SYMKPlaceCategory(icon: SYUIIcon.schoolZone, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryToll              { return SYMKPlaceCategory(icon: SYUIIcon.avoidTollRoads, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCollegeUniversity { return SYMKPlaceCategory(icon: SYUIIcon.school, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryKindergarten      { return SYMKPlaceCategory(icon: SYUIIcon.kindergarten, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCourthouse        { return SYMKPlaceCategory(icon: SYUIIcon.court, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryConventionCentre  { return SYMKPlaceCategory(icon: SYUIIcon.conferenceHall, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryPrison            { return SYMKPlaceCategory(icon: SYUIIcon.jail, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryStatePoliceOffice { return SYMKPlaceCategory(icon: SYUIIcon.police, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryAgriculturalIndustry  { return SYMKPlaceCategory(icon: SYUIIcon.farm, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryMedicalMaterial   { return SYMKPlaceCategory(icon: SYUIIcon.drugStore, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryPersonalServices  { return SYMKPlaceCategory(icon: SYUIIcon.profile, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryMilitaryInstallation { return SYMKPlaceCategory(icon: SYUIIcon.army, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCashDispenser     { return SYMKPlaceCategory(icon: SYUIIcon.money, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryExchange ||
+            sdkPlaceCategory == SYPlaceCategoryMoneyTransfer    { return SYMKPlaceCategory(icon: SYUIIcon.moneyExchange, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCemetery ||
+            sdkPlaceCategory == SYPlaceCategoryMilitaryCemetery { return SYMKPlaceCategory(icon: SYUIIcon.cemetery, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryIndustrialBuilding ||
+            sdkPlaceCategory == SYPlaceCategoryFactories ||
+            sdkPlaceCategory == SYPlaceCategoryFactoryGroundPhilips { return SYMKPlaceCategory(icon: SYUIIcon.factory, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCondominium ||
+            sdkPlaceCategory == SYPlaceCategoryCommercialBuilding ||
+            sdkPlaceCategory == SYPlaceCategoryRealEstate       { return SYMKPlaceCategory(icon: SYUIIcon.city, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryFreeport ||
+            sdkPlaceCategory == SYPlaceCategoryCompany ||
+            sdkPlaceCategory == SYPlaceCategoryConstruction ||
+            sdkPlaceCategory == SYPlaceCategoryMedia ||
+            sdkPlaceCategory == SYPlaceCategoryProfessionals ||
+            sdkPlaceCategory == SYPlaceCategoryServices ||
+            sdkPlaceCategory == SYPlaceCategorySquares ||
+            sdkPlaceCategory == SYPlaceCategoryLocalNames       { return SYMKPlaceCategory(icon: SYUIIcon.pinPlace, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCustoms ||
+            sdkPlaceCategory == SYPlaceCategoryFrontierCrossing ||
+            sdkPlaceCategory == SYPlaceCategoryBorderPoint      { return SYMKPlaceCategory(icon: SYUIIcon.borderCrossing, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCommunityCentre ||
+            sdkPlaceCategory == SYPlaceCategoryBusinessFacility ||
+            sdkPlaceCategory == SYPlaceCategoryExhibitionCentre ||
+            sdkPlaceCategory == SYPlaceCategoryGovernmentOffice { return SYMKPlaceCategory(icon: SYUIIcon.office, color: .poiGroupSvcEducation) }
+        if sdkPlaceCategory == SYPlaceCategoryCityHall ||
+            sdkPlaceCategory == SYPlaceCategoryEmbassy          { return SYMKPlaceCategory(icon: SYUIIcon.church, color: .poiGroupSvcEducation) }
+
+        //Sport
+        if sdkPlaceCategory == SYPlaceCategoryTennisCourt   { return SYMKPlaceCategory(icon: SYUIIcon.tennis, color: .poiGroupSport) }
+        if sdkPlaceCategory == SYPlaceCategoryYachtBasin    { return SYMKPlaceCategory(icon: SYUIIcon.harbor, color: .poiGroupSport) }
+        if sdkPlaceCategory == SYPlaceCategoryGolfCourse    { return SYMKPlaceCategory(icon: SYUIIcon.golf, color: .poiGroupSport) }
+        if sdkPlaceCategory == SYPlaceCategoryIceSkatingRink ||
+            sdkPlaceCategory == SYPlaceCategorySkatingRink  { return SYMKPlaceCategory(icon: SYUIIcon.running, color: .poiGroupSport) }
+        if sdkPlaceCategory == SYPlaceCategoryWaterSport ||
+            sdkPlaceCategory == SYPlaceCategorySwimmingPool { return SYMKPlaceCategory(icon: SYUIIcon.swimming, color: .poiGroupSport) }
+        if sdkPlaceCategory == SYPlaceCategorySportsCentre ||
+            sdkPlaceCategory == SYPlaceCategoryHippodrome ||
+            sdkPlaceCategory == SYPlaceCategorySportsHall ||
+            sdkPlaceCategory == SYPlaceCategoryCarRacetrack ||
+            sdkPlaceCategory == SYPlaceCategoryStadium { return SYMKPlaceCategory(icon: SYUIIcon.stadium, color: .poiGroupSport) }
+
+        //Guides
+        if sdkPlaceCategory == SYPlaceCategoryWikipedia { return SYMKPlaceCategory(icon: SYUIIcon.infoCenter, color: .poiGroupGuides) }
+
+        //Emergency
+        if sdkPlaceCategory == SYPlaceCategoryPoliceStation     { return SYMKPlaceCategory(icon: SYUIIcon.police, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryPharmacy          { return SYMKPlaceCategory(icon: SYUIIcon.drugStore, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryEmergencyCallStation { return SYMKPlaceCategory(icon: SYUIIcon.emergencyPhone, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryFireBrigade       { return SYMKPlaceCategory(icon: SYUIIcon.firefighters, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryDentist           { return SYMKPlaceCategory(icon: SYUIIcon.dentist, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryVeterinarian      { return SYMKPlaceCategory(icon: SYUIIcon.vet, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryBreakdownService  { return SYMKPlaceCategory(icon: SYUIIcon.serviceStation, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryFirstAidPost ||
+            sdkPlaceCategory == SYPlaceCategoryEmergencyMedicalService { return SYMKPlaceCategory(icon: SYUIIcon.ambulance, color: .poiGroupEmergency) }
+        if sdkPlaceCategory == SYPlaceCategoryHospitalPolyclinic ||
+            sdkPlaceCategory == SYPlaceCategoryDoctor { return SYMKPlaceCategory(icon: SYUIIcon.hospital, color: .poiGroupEmergency) }
+        
+        //Unknown
+        return SYMKPlaceCategory(icon: SYUIIcon.pinPlace, color: .textBody)
     }
     
-    public class func with(syPoiGroup: SYPoiGroup) -> SYMKPoiGroup {
-        switch syPoiGroup {
-        case .unknown: return SYMKPoiGroup(name: "", icon: SYUIIcon.contextMenuIos, color: .poiGroupGuides, searchId: .unknown)
-        case .food_and_Drink: return SYMKPoiGroup(name: LS("_grp.Food_and_Drink"), icon: SYUIIcon.food, color: .poiGroupFoodDrink, searchId: .food_and_Drink)
-        case .accommodation: return SYMKPoiGroup(name: LS("_grp.Accomodation"), icon: SYUIIcon.accomodation, color: .poiGroupAccomodation, searchId: .accommodation)
-        case .shopping: return SYMKPoiGroup(name: LS("_grp.Shopping"), icon: SYUIIcon.shopping, color: .poiGroupShopping, searchId: .shopping)
-        case .transportation: return SYMKPoiGroup(name: LS("_grp.Transportation"), icon: SYUIIcon.plane, color: .poiGroupTransportation, searchId: .transportation)
-        case .tourism: return SYMKPoiGroup(name: LS("_grp.Tourism"), icon: SYUIIcon.attraction, color: .poiGroupTourism, searchId: .tourism)
-        case .social_Life: return SYMKPoiGroup(name: LS("_grp.Social_Life"), icon: SYUIIcon.theater, color: .poiGroupSocialLife, searchId: .social_Life)
-        case .services_and_Education: return SYMKPoiGroup(name: LS("_grp.Services_and_Education"), icon: SYUIIcon.school, color: .poiGroupSvcEducation, searchId: .services_and_Education)
-        case .sport: return SYMKPoiGroup(name: LS("_grp.Sport"), icon: SYUIIcon.running, color: .poiGroupSport, searchId: .sport)
-        case .vehicle_Services: return SYMKPoiGroup(name: LS("_grp.Vehicle_Services"), icon: SYUIIcon.vehicle, color: .poiGroupVehicleServices, searchId: .vehicle_Services)
-        case .emergency: return SYMKPoiGroup(name: LS("_grp.Emergency"), icon: SYUIIcon.hospital, color: .poiGroupEmergency, searchId: .emergency)
-        case .guides: return SYMKPoiGroup(name: LS("_grp.Guides"), icon: SYUIIcon.infoCenter, color: .poiGroupGuides, searchId: .guides)
-        case .parking: return SYMKPoiGroup(name: LS("_grp.Parking"), icon: SYUIIcon.parking, color: .poiGroupParking, searchId: .parking)
-        case .petrol_Station: return SYMKPoiGroup(name: LS("_grp.Petrol_Station"), icon: SYUIIcon.stationPetrol, color: .poiGroupPetrolStation, searchId: .petrol_Station)
-        case .bankATM: return SYMKPoiGroup(name: LS("_grp.BankATM"), icon: SYUIIcon.money, color: .poiGroupBank, searchId: .bankATM)
-        }
-    }
 }

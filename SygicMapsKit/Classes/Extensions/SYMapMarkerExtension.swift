@@ -32,7 +32,7 @@ public extension SYMapMarker {
     ///   - payload: serializable SYMKPoiData object that will be set as SYMapMarker payload
     ///   - icon: icon that will be displayed inside marker image
     ///   - color: color of marker image
-    convenience init(with payload: SYMKPoiData, icon: String = SYUIIcon.POIPoi, color: UIColor = .action) {
+    convenience init(with payload: SYMKPlaceData, icon: String = SYUIIcon.POIPoi, color: UIColor = .action) {
         let pinView = SYUIPinView(icon: icon, color: color, highlighted: true)
         let pinImage = pinView.imageFromView()! 
         self.init(coordinate: payload.location, image: pinImage, payload: payload)

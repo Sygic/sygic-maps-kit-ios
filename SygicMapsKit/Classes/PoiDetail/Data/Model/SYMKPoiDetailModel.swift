@@ -27,7 +27,7 @@ import SygicUIKit
 
 
 /// Protocol for poi data
-public protocol SYMKPoiDataProtocol {
+public protocol SYMKPlaceDataProtocol {
     /// POI geo coordinates (latitude, longitude)
     var location: SYGeoCoordinate { get }
     /// POI name (optional)
@@ -51,14 +51,14 @@ public protocol SYMKPoiDataProtocol {
 /// Protocol for poi detail model
 ///
 /// Extension of Poi data protocol. Provides data for Poi detail data source
-public protocol SYMKPoiDetailModel: SYMKPoiDataProtocol {
+public protocol SYMKPlaceDetailModel: SYMKPlaceDataProtocol {
     var poiDetailTitle: String { get }
     var poiDetailSubtitle: String? { get }
     var poiDetailContacts: [SYMKPoiDetailContact] { get }
 }
 
 /// Implementation of poi data protocol
-public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
+public class SYMKPlaceData: NSObject, SYMKPlaceDataProtocol, NSCoding {
     public var location: SYGeoCoordinate
     public var name: String? = nil
     public var street: String? = nil
@@ -94,16 +94,16 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
     ///
     /// - Parameter place: map place provided by SYMapView
     public convenience init(with place: SYPlace) {
-        self.init(with: place.coordinate)
+        self.init(with: place.location)
         
-        street = place.locationInfo?.street
-        houseNumber = place.locationInfo?.houseNumber
-        postal = place.locationInfo?.postal
-        city = place.locationInfo?.city
+        street = place.street
+        houseNumber = place.houseNumber
+        postal = place.postal
+        city = place.city
         
-        phone = place.locationInfo?.phone
-        email = place.locationInfo?.email
-        website = place.locationInfo?.website
+        phone = place.phone
+        email = place.email
+        website = place.website
         
         if !place.name.isEmpty {
             name = place.name
@@ -130,36 +130,15 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
     /// Initailizer used with map search result. Extracts basic address info. Initializer will fail if search result location is nil (Group or Category result).
     ///
     /// - Parameter mapResult: SYMapSearchResult
-    public convenience init?(with mapResult: SYMapSearchResult) {
-        guard let location = mapResult.coordinate else { return nil }
+    public convenience init?(with geocodingResult: SYSearchGeocodingResult) {
+        guard let location = geocodingResult.location else { return nil }
         self.init(with: location)
-        if mapResult.mapResultType == .poi {
-            if let poi = mapResult.resultLabels.poi?.value {
-                name = poi
-            }
-        }
-        street = mapResult.resultLabels.street?.value
-        city = mapResult.resultLabels.city?.value
-        postal = mapResult.resultLabels.postal?.value
-        houseNumber = mapResult.resultLabels.addressPoint?.value
-    }
-    
-    /// Initializer used with search poi data
-    ///
-    /// - Parameter poiDetail: search result detail provided by SYSearch for detail request on SYMapSearchResult
-    public convenience init(with poiDetail: SYSearchResultDetailPoi) {
-        self.init(with: poiDetail.coordinate ?? SYGeoCoordinate())
+        guard let mapResult = geocodingResult as? SYSearchMapResult else { return }
         
-        name = poiDetail.name
-        
-        street = poiDetail.locationInfo.street
-        houseNumber = poiDetail.locationInfo.houseNumber
-        postal = poiDetail.locationInfo.postal
-        city = poiDetail.locationInfo.city
-        
-        phone = poiDetail.locationInfo.phone
-        email = poiDetail.locationInfo.email
-        website = poiDetail.locationInfo.website
+        street = mapResult.street
+        city = mapResult.city
+        postal = mapResult.postalCode
+        houseNumber = mapResult.houseNumber
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -202,13 +181,6 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
             }
         }
         
-        if let postal = postal {
-            if !address.isEmpty {
-                address.append(", ")
-            }
-            address.append(postal)
-        }
-        
         if let city = city {
             if !address.isEmpty {
                 if postal == nil {
@@ -219,6 +191,13 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
             address.append(city)
         }
         
+        if let postal = postal {
+            if !address.isEmpty {
+                address.append(", ")
+            }
+            address.append(postal)
+        }
+        
         if address.isEmpty {
             return nil
         }
@@ -227,7 +206,7 @@ public class SYMKPoiData: NSObject, SYMKPoiDataProtocol, NSCoding {
     }
 }
 
-extension SYMKPoiData: SYMKPoiDetailModel {
+extension SYMKPlaceData: SYMKPlaceDetailModel {
     
     public var poiDetailTitle: String {
         if let name = name {
@@ -241,12 +220,28 @@ extension SYMKPoiData: SYMKPoiDetailModel {
     }
     
     public var poiDetailSubtitle: String? {
-        if name != nil {
-            return formattedAddress(from: street, houseNumber: houseNumber, city: city, postal: postal)
-        } else if let postalAndCity = formattedAddress(city: city, postal: postal), postalAndCity != poiDetailTitle {
-            return postalAndCity
+        var distanceString: String? = nil
+        var addressString: String? = nil
+        if let userPosition = SYPosition.lastKnownLocation(), let userLocation = userPosition.coordinate {
+            let distance: UInt = location.distance(to: userLocation)
+            if distance > 1000 {
+                distanceString = "\(distance/1000)\(LS("km"))"
+            } else {
+                distanceString = "\(distance)\(LS("m"))"
+            }
         }
-        return nil
+        if name != nil {
+            addressString = formattedAddress(from: street, houseNumber: houseNumber, city: city, postal: postal)
+        } else if let postalAndCity = formattedAddress(city: city, postal: postal), postalAndCity != poiDetailTitle {
+            addressString = postalAndCity
+        }
+        if let distance = distanceString, let address = addressString {
+            return "\(distance)・\(address)"
+        }
+        if let address = addressString {
+            return address
+        }
+        return distanceString
     }
     
     public var poiDetailContacts: [SYMKPoiDetailContact] {

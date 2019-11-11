@@ -31,7 +31,7 @@ public class SYMKLaneAssistController {
     /// Update lanes assistance information.
     ///
     /// - Parameter lanesInfo: SDK lanes information.
-    public func update(with lanesInfo: SYLanesInformation?) {
+    public func update(with lanesInfo: SYLaneInfo?) {
         guard let lanesInfo = lanesInfo, lanesInfo.isActive, !lanesInfo.simpleLaneInformation.isEmpty else {
             view.updateLaneArrows([])
             view.isHidden = true

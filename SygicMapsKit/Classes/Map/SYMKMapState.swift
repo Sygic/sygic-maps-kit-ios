@@ -23,6 +23,44 @@
 import Foundation
 import SygicMaps
 
+/// Map zoom constants
+public enum SYMKMapZoomLevels: CGFloat {
+    /// Earth level
+    case level0 = 0
+    case level1 = 1
+    case level2 = 2
+    case level3 = 3
+    case level4 = 4
+    case level5 = 5
+    case level6 = 6
+    case level7 = 7
+    case level8 = 8
+    case level9 = 9
+    /// City
+    case level10 = 10
+    case level11 = 11
+    case level12 = 12
+    case level13 = 13
+    case level14 = 14
+    case level15 = 15
+    case level16 = 16
+    /// Street level
+    case level17 = 17
+    case level18 = 18
+    case level19 = 19
+    case level20 = 20
+    case level21 = 21
+    case level22 = 22
+    
+    /// Default initial zoom level
+    public static var cityZoom: CGFloat {
+        return SYMKMapZoomLevels.level10.rawValue
+    }
+    
+    public static var streetsZoom: CGFloat {
+        return SYMKMapZoomLevels.level17.rawValue
+    }
+}
 
 /// Implement MapControl protocol for update components with new state based on map changes.
 internal protocol MapControl {
@@ -42,7 +80,7 @@ public class SYMKMapState: NSCopying {
     public var map: SYMapView?
     
     /// Center of a map
-    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0)! {
+    public var geoCenter: SYGeoCoordinate = SYGeoCoordinate(latitude: 0, longitude: 0) {
         didSet {
             if map?.camera.geoCenter != geoCenter {
                 map?.camera.geoCenter = geoCenter
@@ -150,8 +188,6 @@ public class SYMKMapState: NSCopying {
         return skins
     }
     
-    var boundingBoxSetting: SYGeoBoundingBox?
-    
     // MARK: - Public methods
     
     /// Returns SYMKMapState instance with default values for navigation map module
@@ -173,6 +209,7 @@ public class SYMKMapState: NSCopying {
         } else {
             map = SYMapView(frame: frame, geoCenter: geoCenter, rotation: rotation, zoom: zoom, tilt: tilt)
             map?.accessibilityLabel = "Map"
+            resetMapCenter(duration: 0)
             map?.setup(with: self)
             return map!
         }
@@ -186,18 +223,31 @@ public class SYMKMapState: NSCopying {
     ///   - duration: map transition animation duration
     ///   - completion: completion block pass false when bounding box cannot be set or animation was canceled. True otherwise after animation was completed.
     public func setMapBoundingBox(_ boundingBox: SYGeoBoundingBox, edgeInsets: UIEdgeInsets, duration: TimeInterval = 0, completion: ((_ success: Bool)->())? = nil) {
-        self.boundingBoxSetting = boundingBox
-        if map?.camera.boundingBox != boundingBox {
-            map?.camera.setViewBoundingBox(boundingBox, with: edgeInsets, duration: duration, curve: .accelerateDecelerate) { [weak self] (animId, success) in
-                self?.boundingBoxSetting = nil
+        guard let map = map, map.bounds != .zero else { return }
+        let properties = map.camera.calculateProperties(for: boundingBox,
+                                                        transformCenter: CGPoint(x: 0.5, y: 0.5),
+                                                        rotation: 0,
+                                                        tilt: 0,
+                                                        maxZoomLevel: SYMKMapZoomLevels.streetsZoom,
+                                                        edgeInsets: edgeInsets)
+        guard properties.geoCenter.isValid() else { return }
+        if duration > 0 {
+            map.camera.animate({ [weak self] in
+                self?.applyMapProperties(properties)
+            }, withDuration: duration, curve: .accelerateDecelerate, completion: { (_, success) in
                 completion?(success)
-            }
+            })
+        } else {
+            applyMapProperties(properties)
+            completion?(true)
         }
     }
     
-    public func updateLandscapeMapCenter(_ landscape: Bool) {
+    /// Updates map camera offset to optimize view for navigating
+    /// - Parameter landscape: layout orientation
+    public func updateNavigatingMapCenter(_ landscape: Bool) {
         guard let camera = map?.camera else { return }
-        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.4)
+        let point = landscape ? CGPoint(x: 0.7, y: 0.2) : CGPoint(x: 0.5, y: 0.25)
         let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
                                                       animationCurveFree: .linear,
                                                       animationDurationFree: 0,
@@ -205,6 +255,33 @@ public class SYMKMapState: NSCopying {
                                                       animationCurveFollowGps: .linear,
                                                       animationDurationFollowGps: 0)
         camera.setTransformCenterSettings(offsetSetting, withDuration: 1, curve: .accelerateDecelerate)
+    }
+    
+    /// Updates map camera offset to optimize view for navigating
+    /// - Parameter landscape: layout orientation
+    public func updateMapCenter(_ landscape: Bool) {
+        guard let camera = map?.camera else { return }
+        let point = landscape ? CGPoint(x: 0.7, y: 0.5) : CGPoint(x: 0.5, y: 0.5)
+        let offsetSetting = SYTransformCenterSettings(transformCenterFree: point,
+                                                      animationCurveFree: .linear,
+                                                      animationDurationFree: 0,
+                                                      transformCenterFollowGps: point,
+                                                      animationCurveFollowGps: .linear,
+                                                      animationDurationFollowGps: 0)
+        camera.setTransformCenterSettings(offsetSetting, withDuration: 1, curve: .accelerateDecelerate)
+    }
+    
+    /// Resets map camera offset to standard map center in the middle of SYMapView
+    public func resetMapCenter(duration: TimeInterval = 1) {
+        guard let camera = map?.camera else { return }
+        let defaultOffset = CGPoint(x: 0.5, y: 0.5)
+        let offsetSetting = SYTransformCenterSettings(transformCenterFree: defaultOffset,
+                                                      animationCurveFree: .linear,
+                                                      animationDurationFree: 0,
+                                                      transformCenterFollowGps: defaultOffset,
+                                                      animationCurveFollowGps: .linear,
+                                                      animationDurationFollowGps: 0)
+        camera.setTransformCenterSettings(offsetSetting, withDuration: duration, curve: .accelerateDecelerate)
     }
     
     public func copy(with zone: NSZone? = nil) -> Any {
@@ -221,6 +298,14 @@ public class SYMKMapState: NSCopying {
         return copy
     }
 
+    // MARK: - Private methods
+    
+    private func applyMapProperties(_ properties: SYCameraProperties) {
+        geoCenter = properties.geoCenter
+        tilt = properties.tilt
+        rotation = properties.rotation
+        zoom = properties.zoom
+    }
 }
 
 extension SYMapView {
@@ -229,7 +314,6 @@ extension SYMapView {
     ///
     /// - Parameter mapState: State for map.
     public func setup(with mapState: SYMKMapState) {
-        guard mapState.boundingBoxSetting == nil else { return }
         camera.geoCenter = mapState.geoCenter
         camera.zoom = mapState.zoom
         camera.rotation = mapState.rotation

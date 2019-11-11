@@ -30,6 +30,8 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
     var currentLocation: SYGeoCoordinate?
     var presentedModules = [SYMKModuleViewController]()
     
+    var positioning: SYPositioning?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -46,13 +48,15 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
                 return
             }
             
-            SYPositioning.shared().delegate = self
-            SYPositioning.shared().startUpdatingPosition()
+            let positioning = SYPositioning()
+            positioning.delegate = self
+            positioning.startUpdatingPosition()
+            self?.positioning = positioning
         }
     }
     
     func computeRoute(from location: SYGeoCoordinate) {
-        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.8899, longitude: 12.49489)!) { [weak self] (result) in
+        RoutingHelper.shared.computeRoute(from: location, to: SYGeoCoordinate(latitude: 41.8899, longitude: 12.49489)) { [weak self] (result) in
             
             guard let navigationModule = self?.presentedModules.first as? SYMKNavigationViewController else { return }
             
@@ -64,8 +68,6 @@ class CurrentLocationNavigationExampleViewController: UIViewController, SYMKModu
             }
         }
     }
-
-    
 }
 
 extension CurrentLocationNavigationExampleViewController: SYPositioningDelegate {

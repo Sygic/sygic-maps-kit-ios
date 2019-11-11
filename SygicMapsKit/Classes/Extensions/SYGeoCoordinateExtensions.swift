@@ -24,7 +24,7 @@ import Foundation
 import SygicMaps
 
 
-extension SYGeoCoordinate {
+public extension SYGeoCoordinate {
     
     /// Formatted string representation of SYGeoCoordinate
     var string: String {

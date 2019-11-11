@@ -42,7 +42,7 @@ class BrowseMapPedestrianExampleViewController: UIViewController, SYMKModulePres
         browseMapModule.useRecenterButton = true
         browseMapModule.useCompass = true
         browseMapModule.mapSelectionMode = .all
-        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)!
+        browseMapModule.mapState.geoCenter = SYGeoCoordinate(latitude: 48.147128, longitude: 17.103641)
         browseMapModule.mapState.zoom = 16
         browseMap = browseMapModule
         

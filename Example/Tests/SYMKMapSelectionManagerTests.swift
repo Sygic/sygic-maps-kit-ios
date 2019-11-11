@@ -6,7 +6,7 @@ import SygicMapsKit
 class SYMKMapSelectionManagerTests: QuickSpec {
     
     var selectionManager = SYMKMapSelectionManager(with: .markers)
-    var selectedData: SYMKPoiDataProtocol?
+    var selectedData: SYMKPlaceDataProtocol?
 
     override func spec() {
 
@@ -19,14 +19,14 @@ class SYMKMapSelectionManagerTests: QuickSpec {
                 
                 it("returns pois data") {
                     
-                    let mockData = SYMKPoiData(with: SYGeoCoordinate(latitude: 47, longitude: 52)!)
+                    let mockData = SYMKPlaceData(with: SYGeoCoordinate(latitude: 47, longitude: 52))
                     
                     let marker = SYMapMarker(with: mockData)
                     self.selectionManager.addCustomMarker(marker)
                     
                     self.selectionManager.selectMapObjects([marker])
                     
-                    expect(self.selectedData).to(beAKindOf(SYMKPoiData.self))
+                    expect(self.selectedData).to(beAKindOf(SYMKPlaceData.self))
                     expect(self.selectedData?.location).to(beIdenticalTo(mockData.location))
                 }
             }
@@ -38,12 +38,12 @@ class SYMKMapSelectionManagerTests: QuickSpec {
 extension SYMKMapSelectionManagerTests: SYMKMapSelectionDelegate {
     
     func mapSelectionShouldAddMarkerToMap(location: SYGeoCoordinate) -> SYMapMarker? {
-        return SYMapMarker(with: SYMKPoiData(with: location))
+        return SYMapMarker(with: SYMKPlaceData(with: location))
     }
     
     func mapSelectionWillSelectData(_ mapSelection: SYMKMapSelectionManager) { }
     
-    func mapSelection(didSelect poiData: SYMKPoiDataProtocol) {
+    func mapSelection(didSelect poiData: SYMKPlaceDataProtocol) {
         selectedData = poiData
     }
     
