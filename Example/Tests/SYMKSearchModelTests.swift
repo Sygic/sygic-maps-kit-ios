@@ -54,7 +54,7 @@ class SYMKSearchModelTest: QuickSpec {
                             searchResults.append(contentsOf: results)
                         }
                     }
-                    expect(searchError?.code).toEventually(equal(Int(NSRequestResultErrorDomain)), timeout: 5)
+                    expect(searchError).toEventually(beNil(), timeout: 5)
                     expect(searchResults.count).toEventually(beGreaterThan(0))
                 }
                 
