@@ -62,6 +62,10 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         DispatchQueue.main.asyncAfter(deadline: (DispatchTime.now() + .seconds(3))) { [weak self] in
             self?.browseModule.showUserLocation = true
         }
+        
+        SYMKSdkManager.shared.initializeIfNeeded { [weak self] _ in
+            self?.updateLoggingButton()
+        }
     }
     
     func showPlaceDetail(with data: SYMKPlaceData, loading: Bool, zoom: Bool = false) {
@@ -133,6 +137,25 @@ class DemoViewController: UIViewController, SYMKModulePresenter {
         presentModule(navigationModule)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    @objc func switchNMEALogging() {
+        guard SYMKSdkManager.shared.isSdkInitialized else { return }
+        if SYPositioningManager.shared().logType == .none {
+            SYPositioningManager.shared().logType = .NMEA
+        } else {
+            SYPositioningManager.shared().logType = .none
+        }
+        updateLoggingButton()
+    }
+    
+    func updateLoggingButton() {
+        guard SYMKSdkManager.shared.isSdkInitialized else {
+            navigationItem.rightBarButtonItem = nil
+            return
+        }
+        let title: String = SYPositioningManager.shared().logType == .none ? "Logs Off" : "Logs ON"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(switchNMEALogging))
     }
 }
 
